@@ -1,0 +1,1064 @@
+/**
+添加方案页面
+*/
+<template>
+  <div style="height: 100%">
+    <div class="wrapper">
+      <a-steps :current="current" :labelPlacement="vertical">
+        <a-step :labelPlacement="vertical" v-for="item in steps" :key="item.title" :title="item.title"/>
+      </a-steps>
+      <!--基本信息-->
+      <div v-show="current === 0">
+        <div class="title-wrapper">
+          <div class="icon"></div>
+          <span class="title-text">基本信息</span>
+        </div>
+        <div class="detail-wrapper">
+          <a-row>
+            <a-col :span="11">
+              <div class="search-input-wrapper">
+                <span class="search-title">方案名称</span>
+                <a-input v-model="projectName" placeholder="Basic usage" class="search-input"/>
+              </div>
+            </a-col>
+            <a-col :span="11" :offset="2">
+              <div class="search-input-wrapper">
+                <span class="search-title">产品品类</span>
+                <a-select class="detail-input" placeholder="请选择" style="width: 100%"
+                          @change="categoryChange">
+                  <a-icon slot="suffixIcon" type="smile"/>
+                  <a-select-option v-for="(item,index) in productCategoryList" :key="item.value">{{item.label}}
+                  </a-select-option>
+                </a-select>
+              </div>
+            </a-col>
+            <a-col :span="11">
+              <div class="search-input-wrapper">
+                <span class="search-title">产品品种</span>
+                <a-select class="detail-input" placeholder="请选择" style="width: 100%"
+                          @change="breedChange">
+                  <a-icon slot="suffixIcon" type="smile"/>
+                  <a-select-option v-for="(item,index) in productVarietyList" :key="item.value">{{item.label}}
+                  </a-select-option>
+                </a-select>
+              </div>
+            </a-col>
+          </a-row>
+        </div>
+      </div>
+      <!--产品周期-->
+      <div v-show="current === 1">
+        <div class="title-wrapper">
+          <div class="icon"></div>
+          <span class="title-text">产品周期</span>
+        </div>
+        <div class="detail-wrapper">
+          <a-row class="lineCtr">
+            <a-col :span="2">
+              <div class="search-input-wrapper overHidden">
+                <span class="step2-title">时间单位：</span>
+              </div>
+            </a-col>
+            <a-col :span="20">
+              <a-radio-group name="radioGroup" @change="checkRadio" :defaultValue="dateType">
+                <div :class="dateType === 'week' ? 'checkDateTpyeRadio' : 'dateTpyeRadio'">
+                  <a-radio value="week">周</a-radio>
+                </div>
+                <div :class="dateType === 'day' ? 'checkDateTpyeRadio' : 'dateTpyeRadio'">
+                  <a-radio value="day">天</a-radio>
+                </div>
+              </a-radio-group>
+            </a-col>
+          </a-row>
+          <a-row class="lineCtr">
+            <a-col :span="2">
+              <div class="search-input-wrapper overHidden">
+                <span class="step2-title">生长周期：</span>
+              </div>
+            </a-col>
+            <a-col :span="20">
+              <div class="growthCycle" v-for="(item,index) in cycleList">
+                <a-button type="primary">{{item.label}}</a-button>
+              </div>
+              <span @click="editCycle">
+                <a-button type="primary"><a-icon type="setting"/>编辑周期</a-button>
+              </span>
+            </a-col>
+          </a-row>
+          <a-row class="lineCtr">
+            <a-col :span="2">
+              <div class="search-input-wrapper overHidden">
+                <span class="step2-title">周期时长：</span>
+              </div>
+            </a-col>
+            <a-col :span="20">
+              <div v-for="(item,index) in cycleList" class="growthCycle">
+                <a-input v-model="item.duration" placeholder="Basic usage" class="search-input"/>
+              </div>
+            </a-col>
+          </a-row>
+        </div>
+      </div>
+      <!--任务列表-->
+      <div style="padding-bottom: 50px" v-show="current === 2">
+        <div class="title-wrapper">
+          <div class="icon"></div>
+          <span class="title-text">任务列表</span>
+        </div>
+        <div @click="addTask">
+          <a-button
+            type="primary"
+            class="add-button"
+          >
+            新增任务
+          </a-button>
+        </div>
+
+        <a-table
+          :scroll="{ x: 1200 }"
+          :columns="columns"
+          :dataSource="list"
+          :style="{marginTop: '50px'}"
+        >
+          <div slot="expandedRowRender" slot-scope="record" style="margin: 0" class="expendLine">
+<!--            <div class="expendHead">-->
+<!--              <div>任务操作</div>-->
+<!--              <div>所属周期</div>-->
+<!--              <div>农事类型</div>-->
+<!--              <div>执行周期</div>-->
+<!--              <div>用途</div>-->
+<!--              <div>农事描述</div>-->
+<!--              <div>农资名称</div>-->
+<!--              <div>用量</div>-->
+<!--              <div>单位</div>-->
+<!--            </div>-->
+              <div class="expendContent" v-for="(item, index) in record.tableNongZi">
+                <div class="tableCtrol1"></div>
+                <div class="tableCtrol1">{{record.taskAction}}</div>
+                <div class="tableCtrol1">{{record.cycle}}</div>
+                <div class="tableCtrol1">{{record.type}}</div>
+                <div class="tableCtrol2">
+                  <div>{{item.name}} - {{item.consumption}}{{item.unit}}</div>
+                </div>
+                <div>{{record.executionCycle}}</div>
+
+                <div :title="record.purpose" class="textOverCtr">{{record.purpose}}</div>
+                <div :title="record.cycleDescription" class="tableCtrol1 textOverCtr">{{record.cycleDescription}}</div>
+                <div></div>
+
+              </div>
+
+          </div>
+          <div
+            class="action"
+            slot="operation"
+            slot-scope="record"
+          >
+            <span @click="taskAction(1,record)">删除</span>
+          </div>
+          <div class="textOverCtr" slot="purpose" slot-scope="text, record, index" :title="record.purpose">{{record.purpose}}</div>
+          <div class="textOverCtr" slot="cycleDescription" slot-scope="text, record, index" :title="record.cycleDescription">{{record.cycleDescription}}</div>
+        </a-table>
+      </div>
+
+    </div>
+    <div class="steps-action">
+      <a-button
+        v-if="current < steps.length - 2"
+        type="primary" @click="next"
+      >
+        下一步
+      </a-button>
+      <a-button
+        v-if="current == steps.length - 2"
+        type="primary"
+        @click="commitTaskData"
+      >
+        提交方案
+      </a-button>
+      <a-button
+        v-if="current>0"
+        style="margin-left: 8px"
+        @click="prev"
+      >
+        上一步
+      </a-button>
+    </div>
+    <!--    编辑周期排序-->
+    <div v-if="visible">
+      <a-modal
+        title="编辑周期"
+        :width="1150"
+        :maskClosable="false"
+        :keyboard="false"
+        okText="确定"
+        cancelText='取消'
+        :visible="visible"
+        @ok="handleOk(1)"
+        :confirmLoading="confirmLoading"
+        @cancel="handleCancel(1)"
+      >
+        <a-row class="lineCtr">
+          <a-col :span="2">
+            <div class="search-input-wrapper overHidden">
+              <span class="step2-title">周期时长：</span>
+            </div>
+          </a-col>
+          <a-col :span="19">
+            <div class="growthCycle" v-for="(item,index) in arrList">
+              <a-button type="primary">{{item.label}}</a-button>
+              <div class="moneLabel" v-for="(item,moveIndex) in moveList" @click="moveLabel(index,moveIndex)">
+                {{item.label}}
+              </div>
+            </div>
+          </a-col>
+          <a-col :span="3">
+            <a-select placeholder="请选择" :disabled="selectList.length === 0 ? true : false" style="width: 120px"
+                      @select="handleChange">
+              <a-icon slot="suffixIcon" type="smile"/>
+              <a-select-option v-for="(item,index) in selectList" :key="JSON.stringify(item)">{{item.label}}
+              </a-select-option>
+            </a-select>
+          </a-col>
+        </a-row>
+      </a-modal>
+    </div>
+    <!--    添加周期任务-->
+    <div v-if="isAddTask">
+      <a-modal
+        title="新增任务"
+        :width="1150"
+        :maskClosable="false"
+        :keyboard="false"
+        okText="确定"
+        cancelText='取消'
+        :visible="isAddTask"
+        @ok="handleOk(2)"
+        :confirmLoading="confirmLoading"
+        @cancel="handleCancel(2)"
+      >
+        <a-row>
+          <a-col :span="11">
+            <div class="search-input-wrapper">
+              <span class="search-title">所属周期</span>
+              <a-select placeholder="请选择" style="width: 100%"
+                        @change="cycleChange">
+                <a-icon slot="suffixIcon" type="smile"/>
+                <a-select-option v-for="(item,index) in cycleList" :key="JSON.stringify(item)">{{item.label}}
+                </a-select-option>
+              </a-select>
+            </div>
+          </a-col>
+
+          <a-col :span="11" :offset="2">
+            <div class="search-input-wrapper">
+              <span class="search-title">农事类型</span>
+              <a-select placeholder="请选择" style="width: 100%"
+                        @change="frameChange">
+                <a-icon slot="suffixIcon" type="smile"/>
+                <a-select-option v-for="(item,index) in frameType" :key="JSON.stringify(item)">{{item.label}}
+                </a-select-option>
+              </a-select>
+            </div>
+          </a-col>
+          <a-col :span="11">
+            <div class="search-input-wrapper">
+              <span class="search-title">任务操作</span>
+              <a-select placeholder="请选择" style="width: 100%"
+                        @change="actionChange">
+                <a-icon slot="suffixIcon" type="smile"/>
+                <a-select-option v-for="(item,index) in actionType" :key="JSON.stringify(item)">{{item.label}}
+                </a-select-option>
+              </a-select>
+            </div>
+          </a-col>
+          <a-col :span="11" :offset="2">
+            <div class="search-input-wrapper">
+              <span class="search-title">执行周期（天）</span>
+              <a-row>
+                <a-col :span="11">
+                  <a-input
+                    placeholder="Basic usage"
+                    class="search-input"
+                    v-model="minActionType"
+                  />
+                </a-col>
+                <a-col :span="2" class="splitLine">
+                  一
+                </a-col>
+                <a-col :span="11">
+                  <a-input
+                    placeholder="Basic usage"
+                    class="search-input"
+                    v-model="maxActionType"
+                  />
+                </a-col>
+              </a-row>
+            </div>
+          </a-col>
+          <a-col :span="11">
+            <div class="search-input-wrapper">
+              <span class="search-title">用途</span>
+              <a-input
+                placeholder="Basic usage"
+                class="search-input"
+                v-model="purpose"
+              />
+            </div>
+          </a-col>
+          <a-col :span="11" :offset="2">
+            <div class="search-input-wrapper">
+              <span class="search-title">农事描述</span>
+              <a-input
+                placeholder="Basic usage"
+                class="search-input"
+                v-model="cycleDesc"
+              />
+            </div>
+          </a-col>
+
+        </a-row>
+        <a-row>
+          <div class="tableHead">
+            <li v-for="(item,index) in tableHead">{{item.label}}</li>
+          </div>
+          <div>
+            <a-select placeholder="请选择" class="tableSelect"
+                      @change="nameChange">
+              <a-icon slot="suffixIcon" type="smile"/>
+              <a-select-option v-for="(item,index) in name" :key="JSON.stringify(item)">{{item.label}}
+              </a-select-option>
+            </a-select>
+            <a-input
+              placeholder="Basic usage"
+              class="tableSelect"
+              v-model="consumption"
+            />
+            <a-input
+              placeholder="Basic usage"
+              class="tableSelect"
+              v-model="unit"
+            />
+            <div class="tableAction">
+              <span @click="confirmTable(1)">确定</span>
+              <span @click="confirmTable(2)">取消</span>
+            </div>
+          </div>
+          <div>
+            <li v-for="(item,index) in tableList" class="tableLine">
+              <span>{{item.name}}</span>
+              <span>{{item.consumption}}</span>
+              <span>{{item.unit}}</span>
+              <span style="color: #3C8CFF;cursor: pointer" @click="delTableLine(index)">删除</span>
+            </li>
+          </div>
+        </a-row>
+      </a-modal>
+    </div>
+
+
+  </div>
+</template>
+<script>
+    const tableHead = [
+        {label: '农资名称'},
+        {label: '用量'},
+        {label: '用量单位'},
+        {label: '操作'}
+    ]
+    import Vue from 'vue'
+    import domUtil from "../../../utils/domUtil";
+    import {
+        getCategoryList,
+        getBreedList,
+        getLifeCycleList,
+        getfarmingTypeList,
+        getActionList,
+        getMaterialList,
+        addNewTask,
+    } from '@/api/projectCenter.js'
+    import {Table, Row, Col, Steps, Radio, icon, Modal, Button, Input, Select} from 'ant-design-vue'
+
+    Vue.use(Row)
+    Vue.use(Col)
+    Vue.use(Steps)
+    Vue.use(Radio)
+    Vue.use(icon)
+    Vue.use(Modal)
+    Vue.use(Button)
+    Vue.use(Input)
+    Vue.use(Select)
+    Vue.use(Table)
+    export default {
+        data() {
+            return {
+                list: [],
+                columns:[
+                    {title: '#', dataIndex: 'productId', key: 'productId', width: 160,columnTitle: 'productId'},
+                    {title: '任务操作', dataIndex: 'taskAction', key: 'taskAction',width: 160,columnTitle: 'taskAction'},
+                    {title: '所属周期', dataIndex: 'cycle', key: 'cycle',width: 160,},
+                    {title: '农事类型', dataIndex: 'type', key: 'type',width: 160,},
+                    {
+                        title: '使用农资及用量', dataIndex: 'tableNongZi', key: 'tableNongZi',
+                        width: 160,
+                        customRender: (text) => {
+                            if(text[0]){
+                                let lineText = text[0].name + '-' + text[0].consumption + text[0].unit;
+                                if (text.length > 1) {
+                                    return lineText + '...'
+                                }
+                                return lineText
+                            }
+                            return ''
+                        },
+                        render: h => h('div','123123')
+                    },
+                    {title: '执行周期', dataIndex: 'executionCycle', key: 'executionCycle',width: 160,},
+                    {title: '用途', dataIndex: 'purpose', key: 'purpose',width: 160,columnTitle: 'purpose',scopedSlots: {customRender: 'purpose'},},
+                    {title: '农事描述', dataIndex: 'cycleDescription', key: 'cycleDescription',width: 160,columnTitle: 'cycleDescription',scopedSlots: {customRender: 'cycleDescription'},},
+                    {
+                        title: '操作',
+                        key: 'operation',
+                        scopedSlots: {customRender: 'operation'},
+                        width: 160,
+                    }
+                ],
+                tableHead,
+                detail: this.$route.params,
+                steps: [{
+                    title: '基本信息',
+                    content: '基本信息',
+                    labelPlacement: 'vertical'
+                }, {
+                    title: '产品周期',
+                    content: '产品周期',
+                }, {
+                    title: '任务列表',
+                    content: '任务列表',
+                }, {
+                    title: '已完成',
+                    content: '已完成',
+                }],
+                current: 0,
+                vertical: 'vertical',
+                projectName: '',
+                productVarietyList: [],
+                productCategoryList: [],
+                productCategory: '',
+                productVariety: '',
+                solutionPlan: {},
+                dateType: 'week',
+                cycleList: [],
+                cycleData: [],
+                lifeCycleId: '',
+                visible: false,
+                confirmLoading: false,
+                ModalText: 'Content of the modal',
+                moveList: [
+                    {label: '前移', index: 1, type: '准备期'},
+                    {label: '后移', index: 2, type: '准备期'},
+                    {label: '删除', index: 3, type: '准备期'},
+                ],
+                arrList: [],
+                dateList: ['cycleDate0', 'cycleDate1', 'cycleDate2'],
+                selectList: [],
+                formatList: [],
+                isAddTask: false,
+                frameType: [],
+                actionType: [],
+                actionId: '',
+                farmingTypeId: '',
+                cycleType: [
+                    {label: '所属周期', type: 1, duration: ''},
+                ],
+                minActionType: 0,
+                maxActionType: 0,
+                useType: [
+                    {label: '用途', type: 1, duration: ''},
+                ],
+                cycleDesc: '',
+                taskCacheList: {},
+                name: [],
+                consumption: '',
+                unit: '',
+                tableProduction: {},
+                tableList: [],
+                taskList: [],
+                purpose: '',
+            }
+        },
+        mounted() {
+            for (let i = 0; i < this.list.length; i++) {
+                this.list[i].index = i
+            }
+            this.getCategoryArr();
+            //this.getLifeCycleArr();
+            this.getFrameTypeArr();
+            //this.getActionTypeArr();
+            //this.getMaterialArr();
+        },
+        methods: {
+            formatDialogData(){
+                this.tableList = [];
+                this.tableProduction = {};
+                this.consumption = '';
+                this.unit = '';
+                this.minActionType = '';
+                this.maxActionType = '';
+                this.cycleDesc = '';
+            },
+            selectLabel(item) {
+                console.log(item)
+            },
+            getLifeCycleArr(code) {
+                let self = this;
+                self.cycleList = [];
+                getLifeCycleList(code).then((res) => {
+                    for (let i = 0; i < res.data.length; i++) {
+                        self.cycleList.push({
+                            value: res.data[i].lifeCycleId,
+                            label: res.data[i].lifeCycleName,
+                            duration: ''
+                        })
+                    }
+                })
+            },
+            getCategoryArr() {
+                let self = this;
+                getCategoryList().then((res) => {
+                    for (let i = 0; i < res.data.length; i++) {
+                        self.$nextTick();
+                        self.productCategoryList.push({value: res.data[i].categoryId, label: res.data[i].categoryName})
+                    }
+                })
+            },
+            getBreedArr(type) {
+                let self = this;
+                self.productVarietyList = [];
+                getBreedList(type).then((res) => {
+                    for (let i = 0; i < res.data.length; i++) {
+                        self.productVarietyList.push({value: res.data[i].breedId, label: res.data[i].breedName})
+                    }
+                })
+            },
+            getFrameTypeArr() {
+                let self = this;
+                getfarmingTypeList().then((res) => {
+                    for (let i = 0; i < res.data.length; i++) {
+                        self.frameType.push({value: res.data[i].farmingTypeId, label: res.data[i].farmingName})
+                    }
+                })
+            },
+            getActionTypeArr(code) {
+                let self = this;
+                self.actionType = [];
+                getActionList(code).then((res) => {
+                    for (let i = 0; i < res.data.length; i++) {
+                        self.actionType.push({value: res.data[i].optionId, label: res.data[i].optionName})
+                    }
+                })
+            },
+            getMaterialArr(code) {
+                let self = this;
+                self.name = [];
+                getMaterialList(this.productVariety, code).then((res) => {
+                    for (let i = 0; i < res.data.length; i++) {
+                        self.name.push({
+                            value: res.data[i].materialId,
+                            label: res.data[i].materialName,
+                            unit: res.data[i].dosageUnitName,
+                            materialId: res.data[i].materialId
+                        })
+                    }
+                })
+            },
+            categoryChange(value) {
+                this.productCategory = value;
+                this.getBreedArr(value.toString());
+                console.log(value)
+            },
+            breedChange(value) {
+                console.log(value)
+                this.getLifeCycleArr(value);
+                this.productVariety = value;
+
+            },
+            frameChange(data) {
+                let changeData = JSON.parse(data)
+                this.taskCacheList.type = changeData.label;
+                this.farmingTypeId = changeData.value;
+                this.getActionTypeArr(changeData.value);
+                this.getMaterialArr(changeData.value);
+                console.log(changeData)
+            },
+            actionChange(data) {
+                let changeData = JSON.parse(data)
+                this.taskCacheList.taskAction = changeData.label
+                this.actionId = changeData.value;
+                console.log(changeData)
+            },
+            cycleChange(data) {
+                let changeData = JSON.parse(data)
+                this.taskCacheList.cycle = changeData.label;
+                this.lifeCycleId = changeData.value;
+                console.log(changeData)
+            },
+            // useChange(data) {
+            //     let changeData = JSON.parse(data)
+            //     this.purpose = '';
+            //     this.taskCacheList.purpose = changeData.label
+            //     console.log(changeData)
+            // },
+            nameChange(data) {
+                let changeData = JSON.parse(data)
+                this.tableProduction.name = changeData.label;
+                this.tableProduction.materialId = changeData.materialId;
+                this.unit = changeData.unit
+                this.tableProduction.unit = changeData.unit;
+                console.log(changeData)
+            },
+            confirmTable(type) {
+                if (type === 1) {
+                    //this.tableProduction.consumption = this.consumption;
+                    //debugger
+                    this.$set(this.tableProduction, 'consumption', this.consumption);
+                    let lineData = JSON.parse(JSON.stringify(this.tableProduction));
+                    console.log(this.tableList)
+                    this.tableList.push(lineData);
+                }
+            },
+            delTableLine(index) {
+                debugger
+                this.tableList.splice(index, 1);
+            },
+            /**
+             * description：任务列表操作栏
+             * params 0：删除
+             *        1：上移
+             *        2：下移
+             * */
+            taskAction(type, data) {
+                console.log(data)
+                if (type === 1) {
+                    this.list.map((key,index) => {
+                        debugger
+                        if(key.index === data.index){
+                            this.list.splice(index, 1)
+                            this.taskList.splice(index, 1);
+                        }
+                    })
+
+                    console.log('删除')
+                } else if (type === 2) {
+                    console.log('上移')
+                } else if (type === 3) {
+                    console.log('下移')
+                }
+            },
+            next() {
+                this.solutionPlan = {
+                    solutionName: this.projectName,
+                    breedId: this.productVariety,
+                    categoryId: this.productCategory,
+                }
+                let stepCycleList = [];
+                for (let i = 0; i < this.cycleList.length; i++) {
+                    stepCycleList.push({
+                        cycleLength: Number(this.cycleList[i].duration),
+                        cycleSort: i,
+                        cycleUnit: this.dateType,
+                        lifeCycleId: this.cycleList[i].value
+                    })
+                    this.cycleList[i].direction = i;
+                }
+                this.formatList = JSON.parse(JSON.stringify(this.cycleList))
+                this.cycleData = stepCycleList;
+                console.log(stepCycleList)
+                console.log(this.solutionPlan)
+                this.current++
+            },
+            handleChange(selectData) {
+                let data = JSON.parse(selectData)
+                let self = this
+                self.formatList.forEach((item) => {
+                    if (item.value === data.value) {
+                        self.selectList.forEach((selectItem, index) => {
+                            if (item.value === selectItem.value) {
+                                self.selectList.splice(index, 1)
+                                console.log(selectItem)
+                            }
+                        })
+                        self.arrList.push(item)
+                    }
+                })
+                console.log(value)
+            },
+            prev() {
+                this.current--
+            },
+            checkRadio(data) {
+                this.dateType = data.target.value;
+                console.log(data.target.value);
+            },
+            editCycle() {
+                this.selectList = domUtil.compareArr(this.formatList, this.cycleList);
+                debugger
+                console.log(this.selectList)
+                this.arrList = JSON.parse(JSON.stringify(this.cycleList))
+                this.visible = true;
+            },
+            handleOk(type) {
+                if (type === 1) {
+                    this.cycleList = this.arrList;
+                    this.ModalText = 'The modal will be closed after two seconds';
+                    this.visible = false
+                } else if (type === 2) {
+                    let nongzi = []
+                    for(let i = 0;i<this.tableList.length;i++){
+                        nongzi.push({
+                            materialDosage: this.tableList[i].consumption,
+                            materialId: this.tableList[i].materialId,
+                        })
+                    }
+                    this.taskList.push({
+                        actionId: this.actionId,
+                        farmingTypeId: this.farmingTypeId,
+                        lifeCycleId: this.lifeCycleId,
+                        taskDescription: this.cycleDesc,
+                        taskEndDay: Number(this.maxActionType),
+                        taskStartDay: Number(this.minActionType),
+                        taskMaterial: nongzi,
+                        taskUse: this.purpose,
+
+                    })
+                    this.taskCacheList.purpose = this.purpose;
+                    this.taskCacheList.executionCycle = '第'+this.minActionType+'天'+'-'+'第'+this.maxActionType+'天'
+                    this.taskCacheList.cycleDescription = this.cycleDesc;
+                    console.log(this.taskCacheList)
+                    let lineData = JSON.parse(JSON.stringify(this.taskCacheList))
+                    lineData.tableNongZi = this.tableList;
+                    this.list.push(lineData);
+                    for (let i = 0; i < this.list.length; i++) {
+                        this.list[i].index = i
+                    }
+                    console.log(this.list)
+                    console.log(this.tableList)
+                    console.log(this.taskList)
+                    this.isAddTask = false;
+                    this.formatDialogData();
+                    this.taskCacheList = {};
+                }
+
+                // this.confirmLoading = true;
+            },
+            handleCancel(type) {
+                console.log('Clicked cancel button');
+                if (type === 1) {
+                    this.visible = false
+                } else if (type === 2) {
+                    this.isAddTask = false
+                    this.formatDialogData();
+                }
+            },
+            moveLabel(index, moveIndex) {
+                console.log(index);
+                console.log(moveIndex);
+                if (moveIndex === 0) {
+                    if((index+1) === this.arrList.length){
+                        return
+                    }
+                    domUtil.swapItems(this.arrList, index, index + 1);
+                } else if (moveIndex === 1) {
+                    if(index === 0){
+                        return
+                    }
+                    domUtil.swapItems(this.arrList, index, index - 1);
+                } else if (moveIndex === 2) {
+                    this.selectList.push(this.arrList.splice(index, 1)[0])
+                    console.log(this.selectList)
+                }
+            },
+            addTask() {
+                this.isAddTask = true;
+                this.purpose = '';
+                console.log('新增任务')
+            },
+            commitTaskData() {
+                const taskData = {
+                    taskList: this.taskList,
+                    solutionPlan: this.solutionPlan,
+                    cycleList: this.cycleData,
+                }
+                addNewTask(taskData).then((res) => {
+                    if(res.code === 200){
+                        this.list = [];
+                        this.taskCacheList = {}
+                        this.$router.push({ path: '/projectCenter/projectCenter'})
+                    }
+                    console.log(res)
+                })
+                console.log(taskData);
+            },
+        }
+    }
+</script>
+<style lang="less" scoped>
+  .textOverCtr{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 128px;
+  }
+  .splitLine {
+    text-align: center;
+    line-height: 35px;
+  }
+  .expendHead{
+    /*display: flex;*/
+    /*justify-content: start;*/
+  }
+
+  .expendHead>div{
+    height: 20px;
+    width: 160px;
+    padding: 16px 16px;
+    text-align: right;
+    display: inline-block;
+  }
+  .expendContent{
+    display: flex;
+    /*justify-content: space-around;*/
+    height: 52px;
+  }
+  /*.tableCtrol1{*/
+  /*  !*height: 20px;*!*/
+  /*  line-height: 36px;*/
+  /*  width: 145px;*/
+  /*  !*display: inline-block;*!*/
+  /*  text-align: left;*/
+  /*}*/
+  /*.tableCtrol2{*/
+  /*  width: 217px;*/
+  /*}*/
+  .expendContent>div{
+    /*height: 20px;*/
+    width: 160px;
+    padding: 16px 16px;
+    /*text-align: right;*/
+    display: inline-block;
+  }
+
+  .tableLine span {
+    display: inline-block;
+    width: 100px;
+    text-align: center;
+    line-height: 35px;
+
+  }
+
+  .tableSelect {
+    width: 80px;
+    margin-right: 20px;
+  }
+
+  .tableAction {
+    display: inline-block;
+    margin: 15px 0;
+  }
+
+  .tableAction span {
+    cursor: pointer;
+    color: #3C8CFF;
+    margin-left: 13px;
+  }
+
+  .tableHead {
+    display: flex;
+  }
+
+  .tableHead li {
+    width: 100px;
+    height: 52px;
+    text-align: center;
+    line-height: 52px;
+    background-color: #FAFAFA;
+  }
+
+  .steps-content {
+    margin-top: 16px;
+    border: 1px dashed #e9e9e9;
+    border-radius: 6px;
+    background-color: #fafafa;
+    min-height: 200px;
+    text-align: center;
+    padding-top: 80px;
+  }
+
+  .lineCtr {
+    margin-bottom: 24px;
+  }
+
+  .add-button {
+    position: absolute;
+    right: 24px;
+  }
+
+  .action span {
+    width: 36px;
+    display: inline-block;
+    cursor: pointer;
+    color: #3C8CFF;
+  }
+
+  .growthCycle {
+    display: inline-block;
+    margin: 10px 24px;
+    width: 100px;
+
+    .moneLabel {
+      color: #3C8CFF;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    /deep/ .ant-btn-primary {
+      height: 24px;
+      width: 100px;
+    }
+
+    /*/deep/.ant-input{*/
+    /*  width: 54px;*/
+    /*}*/
+  }
+
+  .dateTpyeRadio {
+    height: 28px;
+    width: 64px;
+    border-radius: 14px;
+    text-align: center;
+    line-height: 28px;
+    display: inline-block;
+    margin-right: 12px;
+    background-color: #F5F6FA;
+  }
+
+  .checkDateTpyeRadio {
+    height: 28px;
+    width: 64px;
+    border-radius: 14px;
+    text-align: center;
+    line-height: 28px;
+    display: inline-block;
+    margin-right: 12px;
+    background-color: #3C8CFF;
+    color: #fff;
+  }
+
+  .step2-title {
+    line-height: 30px;
+  }
+
+  .overHidden {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .steps-action {
+    text-align: right;
+    margin: 16px;
+  }
+
+  .search-input-wrapper {
+    position: relative;
+    margin-bottom: 24px;
+
+    .search-title {
+      color: #333;
+      font-size: 14px;
+      margin-bottom: 24px;
+      display: inline-block;
+    }
+
+  }
+
+  .wrapper {
+    position: relative;
+    padding: 24px 24px 0 24px;
+    height: calc(100% - 80px);
+    background: #fff;
+    margin: 16px;
+    border-radius: 4px;
+
+    /deep/ .ant-steps-item-icon {
+      margin-left: 10px;
+    }
+
+    /deep/ .ant-steps-item-content {
+      width: 100%;
+    }
+
+    /deep/ .ant-steps-item-tail {
+      top: 40px;
+    }
+    /deep/ .ant-steps-item:nth-last-of-type(1){
+      display: none;
+    }
+    /deep/ .ant-steps-item-tail{
+      margin-left: 0;
+    }
+
+    .title-wrapper {
+      text-align: left;
+
+      .title-text {
+        font-size: 16px;
+        color: #333;
+        line-height: 22px;
+        margin-left: 8px;
+      }
+
+      .icon {
+        width: 2px;
+        height: 14px;
+        background: rgba(60, 140, 255, 1);
+        border-radius: 1px;
+        display: inline-block;
+      }
+    }
+
+    /deep/ .ant-table-pagination {
+      display: none;
+    }
+
+    /deep/ .ant-table-wrapper {
+      overflow-y: scroll;
+      max-height: 500px;
+    }
+
+    .detail-wrapper {
+      margin-top: 25px;
+      text-align: left;
+
+
+      .detail-item {
+        margin-bottom: 32px;
+
+        .item-key {
+          font-size: 14px;
+          font-weight: 400;
+          color: #999;
+        }
+
+        .item-value {
+          color: #000;
+          font-size: 14px;
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+
+
+</style>
+
