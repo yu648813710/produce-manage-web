@@ -18,18 +18,16 @@ requireAll(requireContext).sort((a, b) => {
 })
 
 Vue.use(Router)
-
 const router = new Router({
   mode: 'history',
   scrollBehavior: () => ({ y: 0 }),
   routes: ConstantRoute
 })
-
 router.beforeEach((to, form, next) => {
   NProgress.start()
   to.meta && (typeof to.meta.name !== 'undefined' && setDocumentTitle(`${to.meta.name} - ${domTitle}`))
   if (store.getters.userToken) {
-    if (to.path != '/login') {
+    if (to.path != '/Producemng/login') {
       /* 已有token */
       if (store.getters.routes) {
         /* 已获取菜单权限 */
@@ -40,6 +38,7 @@ router.beforeEach((to, form, next) => {
           return store.dispatch('GenerateRoutes', { ChildRoutes, authList })
         }).then(routes => {
           let MainRoute = DynamicRoute.find(v => v.path === '/')
+          debugger
           MainRoute.children.push(...routes)
           router.addRoutes(DynamicRoute)
           next({ path: to.path })
@@ -50,26 +49,14 @@ router.beforeEach((to, form, next) => {
     }
   } else {
     /* 没有token */
-    if (to.path === '/login') {
+    if (to.path === '/Producemng/login') {
       next()
     } else {
-      next({ path: '/login' })
+      next({ path: '/Producemng/login' })
     }
 
   }
 })
-// router.beforeEach((to, from, next) => {
-//   let user = sessionStorage.getItem("user")
-//   if (user){
-//     next()
-//   }else {
-//     if (to.path === 'login'){
-//       next()
-//     }else {
-//       next('/login')
-//     }
-//   }
-// })
 router.afterEach(() => {
   NProgress.done() // finish progress bar
 })

@@ -5,7 +5,6 @@ export const setDocumentTitle = function (title) {
   const regex = /\bMicroMessenger\/([\d\.]+)/
   if (regex.test(ua) && /ip(hone|od|ad)/i.test(ua)) {
     const i = document.createElement('iframe')
-    i.src = '/favicon.ico'
     i.style.display = 'none'
     i.onload = function () {
       setTimeout(function () {
@@ -22,7 +21,7 @@ export const setDocumentTitle = function (title) {
  *         array1 子数组
  * */
 export default {
-  compareArr(array2, array1) {
+  compareArr (array2, array1) {
     let result = [];
     debugger
     for (let i = 0; i < array2.length; i++) {
@@ -50,7 +49,7 @@ export default {
    *         index1 移动前位置
    *         index2 移动后位置
    * */
-  swapItems(arr, index1, index2, direction) {
+  swapItems (arr, index1, index2, direction) {
     debugger
     arr[index1] = arr.splice(index2, 1, arr[index1])[0];
     return arr;
@@ -60,7 +59,7 @@ export default {
    * description: 毫秒转为标准格式时分秒
    * params: date 时间戳
    * */
-  formDate(date) {
+  formDate (date) {
     let split = ['-', ':']
     let thisDate = new Date(date);
     let year = thisDate.getFullYear();
@@ -73,7 +72,7 @@ export default {
     console.log(newDate)
     return newDate;
   },
-  addZero(data) {
+  addZero (data) {
     if (data < 10) {
       return '0' + data
     }
@@ -85,7 +84,7 @@ export default {
    * params: array 需要排序的数组
    *         key: 排序依据
    * */
-  sortByKey(array, key) {
+  sortByKey (array, key) {
     return array.sort(function (a, b) {
       let x = a[key];
       let y = b[key];

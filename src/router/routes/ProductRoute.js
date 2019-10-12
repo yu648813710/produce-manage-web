@@ -6,7 +6,14 @@ export default {
   sort: 2,
   routes: [
     {
-      path: 'Check',
+      path: '/Producemng',
+      name: 'Home',
+      hidden: true,
+      component: () => import('@/views/Home.vue'),
+      meta: { name: '首页' }
+    },
+    {
+      path: '/Producemng/Check',
       name: 'Check',
       hidden: true,
       component: () => import('@/views/Production/Check.vue'),
@@ -14,113 +21,113 @@ export default {
     },
 
     {
-      path: 'BaseList',
+      path: '/Producemng/BaseList',
       name: 'BaseList',
       hidden: true,
       component: () => import('@/views/Production/BaseList.vue'),
       meta: { name: '基地列表', icon: '' }
     },
     {
-      path: 'GreenHouseList',
+      path: '/Producemng/GreenHouseList',
       name: 'GreenHouseList',
       hidden: true,
       component: () => import('@/views/Production/GreenHouseList.vue'),
       meta: { name: '大棚列表', icon: '' }
     },
     {
-      path: 'ProductMaintainList',
+      path: '/Producemng/ProductMaintainList',
       name: 'ProductMaintainList',
       hidden: true,
       component: () => import('@/views/Production/ProductMaintainList.vue'),
       meta: { name: '产品维护列表', icon: '' }
     },
     {
-      path: 'Fungusbag',
+      path: '/Producemng/Fungusbag',
       name: 'Fungusbag',
       hidden: true,
       component: () => import('@/views/Production/Fungusbag.vue'),
       meta: { name: '菌包列表', icon: '' }
     },
     {
-      path: 'GrowthMonitoringList',
+      path: '/Producemng/GrowthMonitoringList',
       name: 'GrowthMonitoringList',
       hidden: true,
       component: () => import('@/views/Production/growthMonitoring/earlyWarning/growthMonitoringList.vue'),
       meta: { name: '地块监控列表', icon: '' }
     },
     {
-      path: 'RuleMonitoringList',
+      path: '/Producemng/RuleMonitoringList',
       name: 'RuleMonitoringList',
       component: () => import('@/views/Production/growthMonitoring/ruleEarlyWarning/ruleList.vue'),
       meta: { name: '地块预警规则列表', icon: '' }
     },
     {
-      path: 'taskManage',
+      path: '/Producemng/taskManage',
       name: 'taskManage',
       component: () => import('@/views/Production/taskManageList.vue'),
       meta: { name: '任务管理', icon: '' }
     },
     {
-      path: 'growthMonitore',
+      path: '/Producemng/growthMonitore',
       name: 'growthMonitore',
       component: () => import('@/views/Production/growthMonitore/growthMonitore.vue'),
       meta: { name: '生长监控', icon: '' }
     },
     {
-      path: 'warringList/:type',
+      path: '/Producemng/warringList/:type',
       name: 'warringList',
       hidden: true,
       component: () => import('@/views/Production/growthMonitore/warringList.vue'),
       meta: { name: '生长监控预警', icon: '' }
     },
     {
-      path: 'marketStatic',
+      path: '/Producemng/marketStatic',
       name: 'marketStatic',
       component: () => import('@/views/marketStatic/marketStatic/marketStatic.vue'),
       meta: { name: '销售市场分析', icon: '' }
     },
     {
-      path: 'farmPlan',
+      path: '/Producemng/farmPlan',
       name: 'farmPlan',
       component: () => import('@/views/farmPlan/farmPlan.vue'),
       meta: { name: '农事计划', icon: '' }
     },
     {
-      path: 'farmPlanDetail',
+      path: '/Producemng/farmPlanDetail',
       name: 'farmPlanDetail',
       hidden: true,
       component: () => import('@/views/farmPlan/farmPlanDetail.vue'),
       meta: { name: '农事计划详情', icon: '' }
     },
     {
-      path: 'addNewFarmPlan',
+      path: '/Producemng/addNewFarmPlan',
       name: 'addNewFarmPlan',
       hidden: true,
       component: () => import('@/views/farmPlan/addNewFarmPlan.vue'),
       meta: { name: '新增农事计划', icon: '' }
     },
     {
-      path: 'addOtherFarmPlan',
+      path: '/Producemng/addOtherFarmPlan',
       name: 'addOtherFarmPlan',
       hidden: true,
       component: () => import('@/views/farmPlan/addOtherFarmPlan.vue'),
       meta: { name: '新增临时任务', icon: '' }
     },
     {
-      path: 'projectCenter',
+      path: '/Producemng/projectCenter',
       name: 'projectCenter',
       component: () => import('@/views/project/projectCenter/project.vue'),
       meta: { name: '方案中心', icon: '' }
     },
     {
-      path: 'projectDetail',
+      path: '/Producemng/projectDetail',
       name: 'projectDetail',
       hidden: true,
       component: () => import('@/views/project/projectCenter/projectDetail.vue'),
       meta: { name: '方案详情', icon: '' }
     },
     {
-      path: 'addNewProject',
+      path: '/Producemng/addNewProject',
       name: 'addNewProject',
       hidden: true,
       component: () => import('@/views/project/projectCenter/addNewProject.vue'),
