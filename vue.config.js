@@ -6,7 +6,7 @@ function resolve (dir) {
 }
 
 module.exports = {
-  publicPath: process.env.VUE_APP_EXCUTION === 'fn' ? '/' : './',
+  publicPath: process.env.VUE_APP_EXCUTION === 'fn' ? '/' : '/',
   configureWebpack: (config) => {
     let plugins = [
       // Ignore all locale files of moment.js
