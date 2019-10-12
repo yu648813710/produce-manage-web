@@ -6,21 +6,13 @@ function resolve (dir) {
 }
 
 module.exports = {
+  publicPath: process.env.VUE_APP_EXCUTION === 'fn' ? '/' : './',
   configureWebpack: (config) => {
     let plugins = [
       // Ignore all locale files of moment.js
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
     ]
     config.plugins = [...config.plugins, ...plugins]
-    if (process.env.VUE_APP_EXCUTION !== 'dev') {
-      // 需要配合使用CDN加速
-      config.externals = {
-        'vue': 'Vue',
-        'vue-router': 'VueRouter',
-        'vuex': 'Vuex',
-        'axios': 'axios'
-      }
-    }
   },
   chainWebpack: (config) => {
     config.resolve.alias
