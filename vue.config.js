@@ -6,7 +6,7 @@ function resolve (dir) {
 }
 
 module.exports = {
-  publicPath: process.env.VUE_APP_EXCUTION === 'fn' ? '/' : '/',
+  publicPath: process.env.VUE_APP_EXCUTION === 'fn' ? '/' : './',
   configureWebpack: (config) => {
     let plugins = [
       // Ignore all locale files of moment.js
@@ -52,6 +52,7 @@ module.exports = {
   },
   devServer: {
     // development server port 8000
+    open: true,
     port: 8081,
     proxy: {
       '/api': {
@@ -60,7 +61,7 @@ module.exports = {
         target: 'http://172.16.1.120',
         changeOrigin: true // 需要虚拟托管站点
       },
-      '/produce': {
+      '/producemanage': {
         target: 'http://172.16.1.112',
         // target: 'http://172.16.1.120:9090',
         ws: false,

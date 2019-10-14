@@ -20,7 +20,7 @@ export default {
 <style lang="less" scoped>
 .home {
   background: #fff;
-  margin-left: 24px;
+  margin: 16px 0 0 16px;
   min-height: 100vh;
   overflow: hidden;
 }

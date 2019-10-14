@@ -3,7 +3,7 @@ export const DynamicRoute = [
     path: '/',
     name: 'index',
     component: () => import('@/views/Root.vue'),
-    redirect: '/Producemng',
+    redirect: '/Home',
     children: [
 
     ]
@@ -11,13 +11,13 @@ export const DynamicRoute = [
 ]
 export const ConstantRoute = [
   {
-    path: '/Producemng/Login',
+    path: '/Login',
     name: 'Login',
     component: () => import('@/views/Login.vue'),
     meta: { name: '登录' }
   },
   {
-    path: '/Producemng/404',
+    path: '/404',
     name: '404',
     component: () => import('@/views/404.vue'),
     meta: { name: '404' }

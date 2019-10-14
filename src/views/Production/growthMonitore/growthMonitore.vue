@@ -220,9 +220,9 @@ export default {
     },
     warringDetailList(index) {
       if (index === 1) {
-        this.$router.push({ path: `/producemng/warringList/${index}` })
+        this.$router.push({ path: `/warringList/${index}` })
       } else if (index === 2) {
-        this.$router.push({ path: `/producemng/warringList/${index}` })
+        this.$router.push({ path: `warringList/${index}` })
       }
     }
   }

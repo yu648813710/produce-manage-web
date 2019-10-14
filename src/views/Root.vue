@@ -22,7 +22,7 @@ export default {
   height: 100%;
   overflow: hidden;
   .sider {
-    width: 200px;
+    width: 240px;
     height: 100%;
     overflow: auto;
     text-align: left;

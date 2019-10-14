@@ -20,6 +20,7 @@ requireAll(requireContext).sort((a, b) => {
 Vue.use(Router)
 const router = new Router({
   mode: 'history',
+  base: '/producemng/',
   scrollBehavior: () => ({ y: 0 }),
   routes: ConstantRoute
 })
@@ -27,7 +28,7 @@ router.beforeEach((to, form, next) => {
   NProgress.start()
   to.meta && (typeof to.meta.name !== 'undefined' && setDocumentTitle(`${to.meta.name} - ${domTitle}`))
   if (store.getters.userToken) {
-    if (to.path != '/Producemng/login') {
+    if (to.path != '/login') {
       /* 已有token */
       if (store.getters.routes) {
         /* 已获取菜单权限 */
@@ -49,10 +50,10 @@ router.beforeEach((to, form, next) => {
     }
   } else {
     /* 没有token */
-    if (to.path === '/Producemng/login') {
+    if (to.path === '/login') {
       next()
     } else {
-      next({ path: '/Producemng/login' })
+      next({ path: '/login' })
     }
 
   }
