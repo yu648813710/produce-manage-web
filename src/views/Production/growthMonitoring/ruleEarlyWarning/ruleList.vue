@@ -332,6 +332,12 @@ export default {
     },
     // 点击显示新增弹窗
     addShowModal() {
+      this.ruleForm.setFieldsValue({
+        基地名称: false
+      })
+      this.ruleForm.setFieldsValue({
+        地块名称: false
+      })
       this.formInputVal = {
         user: '', // 负责人
         temperatureInf: '', // 起始温度
@@ -494,8 +500,8 @@ export default {
         formDataInput.temperatureInf === '' ||
         formDataInput.temperatureSup === '' ||
         formDataInput.temperatureSup < formDataInput.temperatureInf ||
-        typeof formDataInput.temperatureSup !== 'number' ||
-        typeof formDataInput.temperatureInf !== 'number'
+        typeof +formDataInput.temperatureSup !== 'number' ||
+        typeof +formDataInput.temperatureInf !== 'number'
       ) {
         this.formValidataStatus.temperature = 'error'
       } else {
@@ -505,8 +511,8 @@ export default {
         formDataInput.dampnessInf === '' ||
         formDataInput.dampnessSup === '' ||
         formDataInput.dampnessSup < formDataInput.dampnessInf ||
-        typeof formDataInput.dampnessSup !== 'number' ||
-        typeof formDataInput.dampnessInf !== 'number'
+        typeof +formDataInput.dampnessSup !== 'number' ||
+        typeof +formDataInput.dampnessInf !== 'number'
       ) {
         this.formValidataStatus.dampness = 'error'
       } else {
