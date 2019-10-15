@@ -87,7 +87,7 @@ module.exports = {
       },
       '/report': {
         // target: 'https://mock.ihx.me/mock/5baf3052f7da7e07e04a5116/antd-pro',
-        target: 'http://172.16.1.120:9070',
+        target: 'http://106.38.53.203:12825',
         ws: false,
         changeOrigin: true,
         pathRewrite: {

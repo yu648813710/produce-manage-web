@@ -16,7 +16,7 @@ import echarts from 'echarts'
 Vue.prototype.$echarts = echarts
 
 // base library
-import { message, Icon, LocaleProvider } from 'ant-design-vue'
+import { message, Icon, LocaleProvider, InputNumber } from 'ant-design-vue'
 import './utils/filter' // global filter
 
 // 全局样式
@@ -39,6 +39,7 @@ import 'echarts/lib/chart/pie'
 // import './mock/mock'
 
 Vue.use(Icon)
+Vue.use(InputNumber)
 Vue.use(LocaleProvider)
 Vue.use(VueAxios)
 Vue.use(zhCN)

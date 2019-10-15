@@ -6,43 +6,107 @@
     <a-layout>
       <a-layout-content style="margin: 16px">
         <div class="search-wrapper">
-          <a-row :gutter="40">
-            <a-col :span="8">
-              <div class="search-input-wrapper">
-                <span class="search-title">地块名称</span>
-                <a-input
-                  placeholder="Basic usage"
-                  class="search-input"
-                />
-              </div>
-            </a-col>
-            <a-col :span="8">
-              <div class="search-input-wrapper">
-                <span class="search-title">所属基地</span>
-                <a-cascader
-                  style="width: 100%"
-                  placeholder="Select Address"
-                  class="search-input"
-                />
-              </div>
-            </a-col>
-            <a-col :span="8">
-              <div class="search-input-wrapper">
-                <span class="search-title">负责人</span>
-                <a-cascader
-                  style="width: 100%"
-                  placeholder="Select Address"
-                  class="search-input"
-                />
-              </div>
-            </a-col>
-          </a-row>
+          <div
+            class="search-input-box"
+            :style="downUpSearch?'height:86px':''"
+          >
+            <a-row :gutter="40">
+              <a-col :span="8">
+                <div class="search-input-wrapper">
+                  <span class="search-title">农事计划编号</span>
+                  <a-input
+                    placeholder="输入农事计划编号"
+                    class="search-input"
+                    v-model="searchInputVal.farmingNum"
+                  />
+                </div>
+              </a-col>
+              <a-col :span="8">
+                <div class="search-input-wrapper">
+                  <span class="search-title">产品名称</span>
+                  <a-input
+                    style="width: 100%"
+                    placeholder="输入产品名称"
+                    class="search-input"
+                    v-model="searchInputVal.productName"
+                  />
+                </div>
+              </a-col>
+              <a-col :span="8">
+                <div class="search-input-wrapper">
+                  <span class="search-title">所属基地</span>
+                  <a-input
+                    style="width: 100%"
+                    placeholder="输入所属基地"
+                    class="search-input"
+                    v-model="searchInputVal.baseLandName"
+                  />
+                </div>
+              </a-col>
+            </a-row>
+            <a-row :gutter="20">
+              <a-col :span="6">
+                <div class="search-input-wrapper">
+                  <span class="search-title">所属地块</span>
+                  <a-input
+                    placeholder="输入所属地块"
+                    class="search-input"
+                    v-model="searchInputVal.blockLandName"
+                  />
+                </div>
+              </a-col>
+              <a-col :span="6">
+                <div class="search-input-wrapper">
+                  <span class="search-title">生长周期</span>
+                  <a-input
+                    style="width: 100%"
+                    placeholder="输入生长周期"
+                    class="search-input"
+                    v-model="searchInputVal.cycleName"
+                  />
+                </div>
+              </a-col>
+              <a-col :span="6">
+                <div class="search-input-wrapper">
+                  <span class="search-title">创建人</span>
+                  <a-input
+                    style="width: 100%"
+                    placeholder="输入创建人"
+                    class="search-input"
+                    v-model="searchInputVal.createUserName"
+                  />
+                </div>
+              </a-col>
+              <a-col :span="6">
+                <div class="search-input-wrapper">
+                  <span class="search-title">种植方案</span>
+                  <a-input
+                    style="width: 100%"
+                    placeholder="输入种植方案"
+                    class="search-input"
+                    v-model="searchInputVal.solutionPlanName"
+                  />
+                </div>
+              </a-col>
+            </a-row>
+          </div>
           <div>
-            <a-button class="button">重置</a-button>
+            <a-button
+              class="button"
+              @click="clearInputVal"
+            >重置</a-button>
             <a-button
               type="primary"
               class="button"
+              @click="searchFarmPlanList"
             >查询</a-button>
+            <a-button
+              :style="{ marginLeft: '8px', fontSize: '12px' }"
+              @click="downUpSearch=!downUpSearch"
+            >
+              <a-icon :type="downUpSearch ? 'down' : 'up'" />
+              {{downUpSearch?'展开':'收起'}}
+            </a-button>
           </div>
         </div>
         <div class="table-wrapper">
@@ -58,7 +122,8 @@
             :style="{marginTop: '50px'}"
             :loading="loading"
             :pagination="pagination"
-            rowKey="farmingNum"
+            @change="setPageList"
+            :rowKey=" record => record.farmingPlanId "
           >
             <span
               slot="id"
@@ -100,11 +165,8 @@ Vue.use(Cascader)
 Vue.use(Button)
 Vue.use(Table)
 export default {
-  component: {
-    // 'a-button': Button
-  },
   created() {
-    this.getFarmPlanList()
+    this.getFarmPlanList(this.pagination.current, this.pagination.pageSize)
   },
   data() {
     return {
@@ -161,19 +223,59 @@ export default {
         showSizeChanger: true,
         total: 0,
         showTotal: total => `共 ${total} 条`
-      }
+      },
+      searchInputVal: {
+        baseLandName: '', // 基地名称
+        blockLandName: '', // 地块名称
+        createUserName: '', // 创建人姓名
+        cycleName: '', // 周期名称
+        farmingNum: '', // 农事计划编号
+        productName: '', // 产品名称
+        solutionPlanName: '' // 方案名称
+      },
+      downUpSearch: true
     }
   },
   methods: {
-    getFarmPlanList() {
+    getFarmPlanList(current, pageSize) {
       let postData = {
-        pageNo: this.pagination.current,
-        pageSize: this.pagination.pageSize
+        pageNo: current,
+        pageSize: pageSize
       }
+      postData = Object.assign(postData, this.searchInputVal)
       farmPlanList(postData).then(res => {
-        this.list = res.data.records
+        if (res.code === 200) {
+          this.list = res.data.records
+          this.pagination.pageNo = current
+          this.pagination.pageSize = pageSize
+        }
         console.log(this.list)
       })
+    },
+    // 页码设置
+    setPageList(e) {
+      console.log(e)
+      let current = e.current
+      let pageSize = e.pageSize
+
+      this.getFarmPlanList(current, pageSize)
+    },
+    // 重置搜索条件
+    clearInputVal() {
+      this.searchInputVal = {
+        baseLandName: '', // 基地名称
+        blockLandName: '', // 地块名称
+        createUserName: '', // 创建人姓名
+        cycleName: '', // 周期名称
+        farmingNum: '', // 农事计划编号
+        productName: '', // 产品名称
+        solutionPlanName: '' // 方案名称
+      }
+      this.getFarmPlanList(this.pagination.current, this.pagination.pageSize)
+    },
+    // 搜索开始
+    searchFarmPlanList() {
+      this.getFarmPlanList(this.pagination.current, this.pagination.pageSize)
     }
   }
 }
@@ -183,13 +285,16 @@ export default {
   padding: 24px;
   background: #fff;
   margin-bottom: 10px;
-  height: 168px;
+  height: auto;
+  overflow: hidden;
   border-radius: 4px;
-
+  .search-input-box {
+    height: auto;
+    overflow: hidden;
+  }
   .search-input-wrapper {
     position: relative;
     margin-bottom: 24px;
-
     .search-title {
       position: absolute;
       left: 0;

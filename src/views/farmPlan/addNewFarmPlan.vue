@@ -273,6 +273,8 @@ Vue.use(Select)
 Vue.use(Table)
 Vue.use(DatePicker)
 Vue.use(Checkbox)
+const readyValue = []
+const checkValue = []
 export default {
   name: 'baseDetail',
   watch: {},
@@ -293,8 +295,8 @@ export default {
       massifType: null,
       startDate: '',
       bagVal: '',
-      readyValue: [],
-      checkValue: [],
+      readyValue,
+      checkValue,
       checkAllBlank: false,
       indeterminateBlank: true,
       checkAllBlankCanle: false,
@@ -489,18 +491,20 @@ export default {
       })
     },
     onCheckAllChangeBlank(e) {
+      let self_ = this
       Object.assign(this, {
         readyValue: e.target.checked
-          ? readyOptions.map(item => item.blockLandId)
+          ? self_.readyOptions.map(item => item.blockLandId)
           : [],
         indeterminateBlank: false,
         checkAllBlank: e.target.checked
       })
     },
     onCheckAllChangeBlankCanle(e) {
+      let self_ = this
       Object.assign(this, {
         checkValue: e.target.checked
-          ? readyOptions.map(item => item.blockLandId)
+          ? self_.readyOptions.map(item => item.blockLandId)
           : [],
         indeterminateBlankCanle: false,
         checkAllBlankCanle: e.target.checked

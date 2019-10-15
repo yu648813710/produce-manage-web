@@ -89,6 +89,11 @@
             slot="instId"
             slot-scope="text, record, index"
           >{{index+1}}</span>
+          <div
+            class="text-overflow"
+            slot="useMatetial"
+            slot-scope="text, record, index"
+          >{{text}}</div>
           <a
             slot="toDetail"
             slot-scope="text, record, index"
@@ -111,8 +116,8 @@ const columns = [
   {
     title: '使用农资',
     dataIndex: 'useMatetial',
-    key: 'useMatetial',
-    width: '200px'
+    width: '200px',
+    scopedSlots: { customRender: 'useMatetial' }
   },
   { title: '状态', dataIndex: 'taskStatusName', key: 'taskStatusName' },
   { title: '执行周期', dataIndex: 'executeCycle', key: 'executeCycle' },
@@ -180,7 +185,7 @@ export default {
       console.log(e)
       let current = e.current
       let pageSize = e.pageSize
-      getDetailListInfo(this.planId, current, pageSize)
+      this.getDetailListInfo(this.planId, current, pageSize)
     }
   }
 }
@@ -243,6 +248,12 @@ export default {
       }
     }
   }
+}
+.text-overflow {
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>
 

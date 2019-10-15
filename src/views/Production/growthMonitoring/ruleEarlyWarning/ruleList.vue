@@ -7,7 +7,7 @@
       <a-breadcrumb-item>当前位置：</a-breadcrumb-item>
       <a-breadcrumb-item>生产管理</a-breadcrumb-item>
       <a-breadcrumb-item>生长监测</a-breadcrumb-item>
-      <a-breadcrumb-item>实时监测</a-breadcrumb-item>
+      <a-breadcrumb-item>地块预警规则</a-breadcrumb-item>
     </a-breadcrumb>
     <div class="form">
       <!-- 搜索条件 -->
@@ -120,6 +120,7 @@
           '基地名称',
           {rules: [{ required: true, message: '请选择基地名称!' }]}
         ]"
+            :disabled="infoAddOrEditType==='edit'?true:false"
           >
             <a-select-option
               v-for="(item,index) in baseLandData"
@@ -140,6 +141,7 @@
           '地块名称',
           {rules: [{ required: true, message: '请选择地块名称!' }]}
         ]"
+            :disabled="infoAddOrEditType==='edit'?true:false"
           >
             <a-select-option
               v-for="(item,index) in blockLandData"
@@ -156,14 +158,16 @@
           :validate-status="formValidataStatus.temperature"
           :help="formValidataStatus.temperature===''?'':'请输入正确温度区间'"
         >
-          <a-input
+          <a-input-number
             style="width:42%;"
             v-model="formInputVal.temperatureInf"
+            :min="0"
           />
           <span style="padding:0 2%;">-</span>
-          <a-input
+          <a-input-number
             style="width:42%;"
             v-model="formInputVal.temperatureSup"
+            :min="0"
           />
           <span style="padding:0 1%;">℃</span>
         </a-form-item>
@@ -175,14 +179,16 @@
           :validate-status="formValidataStatus.dampness"
           :help="formValidataStatus.dampness===''?'':'请输入正确湿度区间'"
         >
-          <a-input
+          <a-input-number
             style="width:42%;"
             v-model="formInputVal.dampnessInf"
+            :min="0"
           />
           <span style="padding:0 2%;">-</span>
-          <a-input
+          <a-input-number
             style="width:42%;"
             v-model="formInputVal.dampnessSup"
+            :min="0"
           />
           <span style="padding:0 1%;">%</span>
         </a-form-item>
@@ -237,6 +243,7 @@ import {
   Modal,
   LocaleProvider
 } from 'ant-design-vue'
+import { async } from 'q'
 Vue.use(Form)
 Vue.use(Button)
 Vue.use(Icon)
@@ -332,12 +339,7 @@ export default {
     },
     // 点击显示新增弹窗
     addShowModal() {
-      this.ruleForm.setFieldsValue({
-        基地名称: false
-      })
-      this.ruleForm.setFieldsValue({
-        地块名称: false
-      })
+      this.showModal()
       this.formInputVal = {
         user: '', // 负责人
         temperatureInf: '', // 起始温度
@@ -346,11 +348,10 @@ export default {
         dampnessSup: '' // 结束湿度
       }
       this.formSelectVal = {
-        baseLandId: '', // 选择基地id
-        blockLandId: '' // 选择地块id
+        baseLandId: null, // 选择基地id
+        blockLandId: null // 选择地块id
       }
       this.infoAddOrEditType = 'add'
-      this.showModal()
     },
     // 点击新增弹窗确定
     handleOk() {
@@ -382,6 +383,15 @@ export default {
     // 点击新增弹窗取消
     handleCancel() {
       this.visible = false
+      this.blockLandData = []
+      this.formValidataStatus.dampness = ''
+      this.formValidataStatus.temperature = ''
+      this.ruleForm.setFieldsValue({
+        基地名称: ''
+      })
+      this.ruleForm.setFieldsValue({
+        地块名称: ''
+      })
     },
     searchRuleList(page, current) {
       this.pagination.current = page.current
@@ -408,13 +418,11 @@ export default {
             '℃' +
             '、湿度' +
             res.data.records[i].dampnessInf +
-            '%' +
+            '%-' +
             res.data.records[i].dampnessSup +
             '%'
         }
         this.equipmentList = res.data.records
-
-        console.log(this.equipmentList)
       })
     },
     // 基地选项事件
@@ -439,14 +447,32 @@ export default {
     },
     // 编辑事件
     editRuleEvent(data) {
+      this.showModal()
       this.formInputVal.temperatureInf = data.temperatureInf
       this.formInputVal.temperatureSup = data.temperatureSup
       this.formInputVal.dampnessInf = data.dampnessInf
       this.formInputVal.dampnessSup = data.dampnessSup
-      this.baseLandChange(data.baseLandId)
-      this.blockLandChange(data.blockLandId)
+
+      this.formSelectVal.baseLandId = data.baseLandId
+
+      this.formSelectVal.blockLandId = data.blockLandId
+
+      this.$nextTick(async () => {
+        await this.getSelectBlockBland(data.baseLandId)
+        this.ruleForm.setFieldsValue({
+          基地名称: data.baseLandId
+        })
+        this.ruleForm.setFieldsValue({
+          地块名称: data.blockLandId
+        })
+        this.formInputVal.user = this.blockLandData.filter(res => {
+          if (res.blockLandId === data.blockLandId) {
+            return res
+          }
+        })[0].principalUser
+      })
+
       this.infoAddOrEditType = 'edit'
-      this.showModal()
     },
     // 删除事件
     deteleHandleOk() {
@@ -466,8 +492,8 @@ export default {
       })
     },
     // 获取地块信息
-    getSelectBlockBland(id) {
-      listBlockLandByBaseLandIdSelect(id).then(res => {
+    async getSelectBlockBland(id) {
+      await listBlockLandByBaseLandIdSelect(id).then(res => {
         if (res.code === 200) {
           this.blockLandData = res.data
         }
@@ -476,7 +502,6 @@ export default {
     // 编辑提交
     editRuleSubmit(data) {
       setRule(data).then(res => {
-        console.log(res)
         if (res.code === 200) {
           this.handleCancel()
           this.getRuleList()
@@ -497,22 +522,20 @@ export default {
     validataForm() {
       let formDataInput = this.formInputVal
       if (
-        formDataInput.temperatureInf === '' ||
-        formDataInput.temperatureSup === '' ||
-        formDataInput.temperatureSup < formDataInput.temperatureInf ||
-        typeof +formDataInput.temperatureSup !== 'number' ||
-        typeof +formDataInput.temperatureInf !== 'number'
+        (!formDataInput.temperatureInf && !formDataInput.temperatureSup) ||
+        (formDataInput.temperatureSup !== '' &&
+          +formDataInput.temperatureSup <= +formDataInput.temperatureInf) ||
+        formDataInput.temperatureSup > 100
       ) {
         this.formValidataStatus.temperature = 'error'
       } else {
         this.formValidataStatus.temperature = ''
       }
       if (
-        formDataInput.dampnessInf === '' ||
-        formDataInput.dampnessSup === '' ||
-        formDataInput.dampnessSup < formDataInput.dampnessInf ||
-        typeof +formDataInput.dampnessSup !== 'number' ||
-        typeof +formDataInput.dampnessInf !== 'number'
+        (!formDataInput.dampnessInf && !formDataInput.dampnessSup) ||
+        (formDataInput.dampnessSup !== '' &&
+          +formDataInput.dampnessSup <= +formDataInput.dampnessInf) ||
+        formDataInput.dampnessSup > 100
       ) {
         this.formValidataStatus.dampness = 'error'
       } else {
