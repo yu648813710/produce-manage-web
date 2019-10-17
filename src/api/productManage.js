@@ -13,7 +13,7 @@ export function warningList (data) {
 // 获取任务管理列表
 export function taskManageList (data) {
   return axios({
-    url: 'getTaskList',
+    url: '/farmPlan/task/page',
     method: 'POST',
     data: data,
   })
@@ -80,6 +80,30 @@ export function setRule (data) {
 export function deleteRule (id) {
   return axios({
     url: `/produce/monitor/rule/removeWarning?blockLandId=${id}`,
+    method: 'GET',
+  })
+}
+
+// 获取木耳任务的状态
+export function getTaskState () {
+  return axios({
+    url: `/farmPlan/task/status`,
+    method: 'GET',
+  })
+}
+
+// 删除木耳任务
+export function deleteTask (taskInstId) {
+  return axios({
+    url: `/farmPlan/task/${taskInstId}`,
+    method: 'DELETE',
+  })
+}
+
+// 木耳任务详情
+export function getTaskDetail (taskInstId) {
+  return axios({
+    url: `/farmPlan/task/${taskInstId}`,
     method: 'GET',
   })
 }

@@ -64,7 +64,7 @@ export default {
     {
       path: '/taskManage',
       name: 'taskManage',
-      component: () => import('@/views/Production/taskManageList.vue'),
+      component: () => import('@/views/taskManageList/taskManageList.vue'),
       meta: { name: '任务管理', icon: '' }
     },
     {
