@@ -69,7 +69,7 @@
               :dataSource="equipmentList"
               :pagination="pagination"
               :loading="loading"
-              @change="searchRuleList"
+              @change="paginationChange"
               :rowKey=" record => record.blockLandId "
             >
               <span
@@ -394,15 +394,18 @@ export default {
       })
     },
     searchRuleList(page, current) {
-      this.pagination.current = page.current
-      this.pagination.pageSize = page.pageSize
       this.getRuleList()
     },
+      paginationChange(page, current){
+          this.pagination.current = page.current
+          this.pagination.pageSize = page.pageSize
+      },
     getRuleList() {
       let postData = {
         pageNo: this.pagination.current,
         pageSize: this.pagination.pageSize,
-        value: this.searchForm.baseName
+        inputContent: this.searchForm.baseName,
+        alarmType: '',
       }
       let type = 'gh'
       ruleList(type, postData).then(res => {

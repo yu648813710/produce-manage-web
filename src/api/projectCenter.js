@@ -2,7 +2,15 @@ import { axios } from '@/utils/ProduceRequest';
 // 获取方案中心列表
 export function projectList(data) {
   return axios({
-    url: '/plan',
+    url: '/plan/pc/solution',
+    method: 'POST',
+    data: data,
+  })
+}
+//获取方案参与人
+export function projectUser() {
+  return axios({
+    url: '/user',
     method: 'GET',
   })
 }
@@ -59,7 +67,7 @@ export function getMaterialList(breedID,code) {
 export function addNewTask(putData) {
   return axios({
     url: '/plan',
-    method: 'PUT',
+    method: 'POST',
     data: putData
   })
 }

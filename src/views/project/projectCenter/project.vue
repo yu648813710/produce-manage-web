@@ -174,11 +174,13 @@ export default {
   methods: {
     getProjectList() {
       let postData = {
+        materialName: '',
+        farmingTypeId: '',
         pageNo: this.pagination.current,
         pageSize: this.pagination.pageSize
       }
       this.loading = true
-      projectList().then(res => {
+      projectList(postData).then(res => {
         this.loading = false
         for (let i = 0; i < res.data.records.length; i++) {
           res.data.records[i].cycleTotalLength =
