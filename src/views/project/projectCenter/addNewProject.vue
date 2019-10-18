@@ -227,6 +227,7 @@
             slot="operation"
             slot-scope="record"
           >
+            <span @click="editAction(record)">编辑</span>
             <span @click="taskAction(1,record)">删除</span>
           </div>
           <div class="textOverCtr" slot="purpose" slot-scope="text, record, index" :title="record.purpose">
@@ -401,7 +402,7 @@
             <a-col :span="11">
                 <a-form-item :label="`用途`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
                   <a-input
-                    v-decorator="msgForm.purposeRule"
+                    v-decorator="taskForm.purposeRule"
                     placeholder="请输入用途"
                     class="search-input"
                   />
@@ -410,7 +411,7 @@
             <a-col :span="11">
               <a-form-item :label="`农事描述`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
                 <a-input
-                  v-decorator="msgForm.cycleDescRule"
+                  v-decorator="taskForm.cycleDescRule"
                   placeholder="请输入农事描述"
                   class="search-input"
                 />
@@ -566,8 +567,6 @@
                     productVarietyRule,
                     projectPowerRule,
                     participantUserRule,
-                    purposeRule,
-                    cycleDescRule,
                     form: this.$form.createForm(this),
                     isCategory: false,
                 },
@@ -577,10 +576,11 @@
                     cycleRule,
                     frameRule,
                     actionRule,
+                    purposeRule,
+                    cycleDescRule,
                     minActionRule,
                     maxActionRule,
                     actionInputRule,
-
                 },
                 nongziName: '',
                 cycleForm: {
@@ -786,7 +786,23 @@
                         console.log(self.taskList)
                         self.taskCacheList.cycleDescription = values.cycleDesc;
                         self.taskCacheList.purpose = values.purpose;
+                        self.taskCacheList.taskCycle = JSON.parse(values.taskCycle).value;
+                        self.taskCacheList.frameType = JSON.parse(values.frameType).value;
+                        self.taskCacheList.actionType = JSON.parse(values.actionType).value;
+                        self.taskCacheList.minActionType = values.minActionType;
+                        self.taskCacheList.maxActionType = values.maxActionType;
                         self.taskCacheList.executionCycle = '第' + values.minActionType + '天' + '-' + '第' + values.maxActionType + '天'
+                        let lineData = JSON.parse(JSON.stringify(this.taskCacheList))
+                        lineData.tableNongZi = this.tableList;
+                        this.list.push(lineData);
+                        for (let i = 0; i < this.list.length; i++) {
+                            this.list[i].index = i
+                        }
+                        console.log(this.list)
+                        console.log(this.tableList)
+                        console.log(this.taskList)
+                        this.formatDialogData();
+                        this.taskCacheList = {};
                         self.isAddTask = false;
                         console.log(values)
                     }
@@ -861,9 +877,9 @@
                 getActionList(code).then((res) => {
                     for (let i = 0; i < res.data.length; i++) {
                         self.actionType.push({value: res.data[i].optionId, label: res.data[i].optionName})
-                        self.taskForm.form.setFieldsValue({
-                            actionType: self.actionType[0].label,
-                        });
+                        // self.taskForm.form.setFieldsValue({
+                        //     actionType: self.actionType[0].value,
+                        // });
                     }
                 })
             },
@@ -881,6 +897,9 @@
                     }
                     this.nongziName = self.name[0].label
                     this.unit = self.name[0].unit
+                    this.tableProduction.name = self.name[0].label;
+                    this.tableProduction.unit = self.name[0].unit;
+                    this.tableProduction.materialId = self.name[0].materialId;
                 })
             },
             categoryChange(value) {
@@ -953,6 +972,41 @@
             delTableLine(index) {
                 debugger
                 this.tableList.splice(index, 1);
+            },
+            editAction(record){
+                this.taskForm.form = this.$form.createForm(this,{
+                    mapPropsToFields: () => {
+                        return {
+                            taskCycle: this.$form.createFormField({
+                                value: record.taskCycle,
+                            }),
+                            frameType: this.$form.createFormField({
+                                value: record.frameType,
+                            }),
+                            actionType: this.$form.createFormField({
+                                value: record.actionType,
+                            }),
+                            minActionType: this.$form.createFormField({
+                                value: record.minActionType,
+                            }),
+                            maxActionType: this.$form.createFormField({
+                                value: record.maxActionType,
+                            }),
+                            purpose: this.$form.createFormField({
+                                value: record.purpose,
+                            }),
+                            cycleDesc: this.$form.createFormField({
+                                value: record.cycleDesc,
+                            }),
+                            actionInput: this.$form.createFormField({
+                                value: 'record.actionInput',
+                            }),
+                        }
+
+                    }
+                })
+                this.isAddTask = true;
+                console.log(record)
             },
             /**
              * description：任务列表操作栏
@@ -1050,17 +1104,7 @@
                     //     taskUse: this.purpose,
                     // })
                     console.log(this.taskCacheList)
-                    let lineData = JSON.parse(JSON.stringify(this.taskCacheList))
-                    lineData.tableNongZi = this.tableList;
-                    this.list.push(lineData);
-                    for (let i = 0; i < this.list.length; i++) {
-                        this.list[i].index = i
-                    }
-                    console.log(this.list)
-                    console.log(this.tableList)
-                    console.log(this.taskList)
-                    this.formatDialogData();
-                    this.taskCacheList = {};
+
                 }
 
                 // this.confirmLoading = true;
