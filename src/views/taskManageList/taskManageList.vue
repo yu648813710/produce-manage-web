@@ -62,7 +62,14 @@
     </a-modal>
     <!-- 删除弹框 -->
     <!-- 详情弹框 -->
+    <task-detail
+      :detail-show="detailTaskShow"
+      :detail-data="detailTaskData"
+      @hiddenDetailTask="hiddenDetailTask"
+    />
     <!-- 详情弹框 -->
+    <!-- 编辑弹框 -->
+    <!-- 编辑弹框 -->
   </div>
 </template>
 
@@ -92,6 +99,7 @@ import {
 } from '@/api/productManage.js'
 import { tableColumns, crumbsArr } from './config'
 import SearchForm from './components/SearchForm'
+import TaskDetail from './components/TaskDetail'
 import CrumbsNav from '@/components/crumbsNav/CrumbsNav'
 // const confirm = Modal.confirm
 Vue.use(Form)
@@ -111,7 +119,8 @@ export default {
   name: 'GreenHouseList',
   components: {
     SearchForm,
-    CrumbsNav
+    CrumbsNav,
+    TaskDetail
   },
   data() {
     return {
@@ -131,7 +140,9 @@ export default {
       columns: tableColumns,
       equipmentList: [],
       selectStateData: [],
-      taskID: ''
+      taskID: '',
+      detailTaskShow: false,
+      detailTaskData: {}
     }
   },
   methods: {
@@ -182,10 +193,7 @@ export default {
           return false
         }
         this.hiddenDeleteModal()
-        if (res.success === 'N') {
-          this.$message.warning(res.message)
-          return false
-        }
+        this.tipMessage(res.success, res.message)
         this.getTaskManageList(
           this.pagination.current,
           this.pagination.pageSize
@@ -213,9 +221,24 @@ export default {
     },
     // 请求详情数据
     getTaskDetailData(id) {
+      this.detailTaskShow = true
       getTaskDetail(id).then(res => {
+        if (res.code === 200) {
+          this.detailTaskData = res.data
+        }
         console.log(res)
       })
+    },
+    hiddenDetailTask() {
+      this.detailTaskShow = false
+    },
+    // 提示信息
+    tipMessage(type, message) {
+      if (type === 'Y') {
+        this.$message.success(message)
+        return false
+      }
+      this.$message.error(message)
     }
   },
   created() {
