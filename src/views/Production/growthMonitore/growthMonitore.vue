@@ -34,14 +34,14 @@
                 @click="warringDetailList(2)"
               >
                 <router-link :to="{name: 'massifDetail'}"></router-link>
-                <div>新增{{warring1}}条预警</div>
+                <div :title="'新增' + warring1 + '条预警'">新增{{warring1}}条预警</div>
                 <div>温度预警</div>
               </div>
               <div
                 class="warring2"
                 @click="warringDetailList(1)"
               >
-                <div>新增{{warring2}}条预警</div>
+                <div :title="'新增' + warring2 + '条预警'">新增{{warring2}}条预警</div>
                 <div>湿度预警</div>
               </div>
               <div class="pointLine1"></div>
@@ -234,6 +234,7 @@ export default {
   background-size: 100% 100%;
   overflow: auto;
   min-width: 1080px;
+  height: 100%;
 }
 
 .marketTitle {
@@ -367,6 +368,18 @@ export default {
           left: -94px;
           cursor: pointer;
           padding: 12px;
+        }
+        .warring1 div:nth-of-type(1){
+          width: 88px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+        .warring2 div:nth-of-type(1){
+          width: 88px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
         }
         .warring2 {
           height: 60px;

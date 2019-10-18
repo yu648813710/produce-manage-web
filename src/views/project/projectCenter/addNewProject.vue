@@ -14,36 +14,90 @@
           <span class="title-text">基本信息</span>
         </div>
         <div class="detail-wrapper">
-          <a-row>
-            <a-col :span="11">
-              <div class="search-input-wrapper">
-                <span class="search-title">方案名称</span>
-                <a-input v-model="projectName" placeholder="Basic usage" class="search-input"/>
-              </div>
-            </a-col>
-            <a-col :span="11" :offset="2">
-              <div class="search-input-wrapper">
-                <span class="search-title">产品品类</span>
-                <a-select class="detail-input" placeholder="请选择" style="width: 100%"
-                          @change="categoryChange">
-                  <a-icon slot="suffixIcon" type="smile"/>
-                  <a-select-option v-for="(item,index) in productCategoryList" :key="item.value">{{item.label}}
-                  </a-select-option>
-                </a-select>
-              </div>
-            </a-col>
-            <a-col :span="11">
-              <div class="search-input-wrapper">
-                <span class="search-title">产品品种</span>
-                <a-select class="detail-input" placeholder="请选择" style="width: 100%"
-                          @change="breedChange">
-                  <a-icon slot="suffixIcon" type="smile"/>
-                  <a-select-option v-for="(item,index) in productVarietyList" :key="item.value">{{item.label}}
-                  </a-select-option>
-                </a-select>
-              </div>
-            </a-col>
-          </a-row>
+          <a-form
+            :form="msgForm.form"
+            @submit="handleMsgSubmit"
+          >
+            <a-row>
+              <a-col :span="11">
+                <div class="search-input-wrapper">
+                  <a-form-item :label="`方案名称`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
+                    <a-input
+                      v-decorator="msgForm.projectNameRule"
+                      placeholder="请输入方案名称"
+                      class="search-input"
+                    />
+                  </a-form-item>
+                </div>
+              </a-col>
+              <a-col :span="11">
+                <div class="search-input-wrapper">
+                  <a-form-item :label="`产品品类`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
+                    <a-select class="detail-input" placeholder="请选择产品品类" style="width: 100%"
+                              @change="categoryChange"
+                              v-decorator="msgForm.productCategoryRule"
+                    >
+                      <a-select-option v-for="(item,index) in productCategoryList"
+                                       :key="item.value"
+                      >
+                        {{item.label}}
+                      </a-select-option>
+                    </a-select>
+                  </a-form-item>
+                </div>
+              </a-col>
+              <a-col :span="11">
+                <div class="search-input-wrapper">
+                  <a-form-item :label="`产品品种`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
+                    <a-select class="detail-input" placeholder="请选择产品品种" style="width: 100%"
+                              :disabled="!msgForm.isCategory"
+                              @change="breedChange"
+                              v-decorator="msgForm.productVarietyRule"
+                    >
+                      <a-select-option v-for="(item,index) in productVarietyList"
+                                       :key="item.value"
+                      >
+                        {{item.label}}
+                      </a-select-option>
+                    </a-select>
+                  </a-form-item>
+                </div>
+              </a-col>
+              <a-col :span="11">
+                <div class="search-input-wrapper">
+                  <a-form-item :label="`方案权限`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
+                    <a-select class="detail-input" placeholder="请选择方案权限" style="width: 100%"
+                              @change="projectPowerChange"
+                              v-decorator="msgForm.projectPowerRule"
+                    >
+                      <a-select-option v-for="(item,index) in projectPowerArr"
+                                       :key="item.value"
+                      >
+                        {{item.label}}
+                      </a-select-option>
+                    </a-select>
+                  </a-form-item>
+                </div>
+              </a-col>
+              <a-col :span="11">
+                <div class="search-input-wrapper">
+                  <a-form-item :label="`参与人`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
+                    <a-select class="detail-input" placeholder="请选择参与人" style="width: 100%"
+                              mode="multiple"
+                              @change="participantUserChange"
+                              v-decorator="msgForm.participantUserRule"
+                    >
+                      <a-select-option v-for="(item,index) in participantUserIdArr"
+                                       :key="item.value"
+                      >
+                        {{item.label}}
+                      </a-select-option>
+                    </a-select>
+                  </a-form-item>
+                </div>
+              </a-col>
+            </a-row>
+          </a-form>
         </div>
       </div>
       <!--产品周期-->
@@ -61,10 +115,10 @@
             </a-col>
             <a-col :span="20">
               <a-radio-group name="radioGroup" @change="checkRadio" :defaultValue="dateType">
-                <div :class="dateType === 'week' ? 'checkDateTpyeRadio' : 'dateTpyeRadio'">
+                <div :class="dateType === '3' ? 'checkDateTpyeRadio' : 'dateTpyeRadio'">
                   <a-radio value="week">周</a-radio>
                 </div>
-                <div :class="dateType === 'day' ? 'checkDateTpyeRadio' : 'dateTpyeRadio'">
+                <div :class="dateType === '5' ? 'checkDateTpyeRadio' : 'dateTpyeRadio'">
                   <a-radio value="day">天</a-radio>
                 </div>
               </a-radio-group>
@@ -91,11 +145,41 @@
                 <span class="step2-title">周期时长：</span>
               </div>
             </a-col>
-            <a-col :span="20">
-              <div v-for="(item,index) in cycleList" class="growthCycle">
-                <a-input v-model="item.duration" placeholder="Basic usage" class="search-input"/>
+            <a-col :span="21">
+              <div class="cycleForm">
+                <a-form :form="cycleForm.form" @submit="cycleSubmit" :label-col="{ span: 0 }" :wrapper-col="{ span: 3 }">
+                  <a-form-item
+                    v-for="(k, index) in cycleList"
+                    :key="k.duration"
+                    :required="false"
+                  >
+                    <div class="growthCycle">
+                      <a-input-number
+                        :min="1"
+                        class="search-input"
+                        v-decorator="[
+          `${index}`,
+          {
+          validateTrigger: ['change', 'blur'],
+            rules: [
+              {
+                required: true,
+                whitespace: true,
+                message: '请输入周期时长',
+              },
+            ],
+          },
+        ]"
+                        placeholder="passenger name"
+                      />
+                    </div>
+
+                  </a-form-item>
+                </a-form>
               </div>
+
             </a-col>
+
           </a-row>
         </div>
       </div>
@@ -121,32 +205,21 @@
           :style="{marginTop: '50px'}"
         >
           <div slot="expandedRowRender" slot-scope="record" style="margin: 0" class="expendLine">
-<!--            <div class="expendHead">-->
-<!--              <div>任务操作</div>-->
-<!--              <div>所属周期</div>-->
-<!--              <div>农事类型</div>-->
-<!--              <div>执行周期</div>-->
-<!--              <div>用途</div>-->
-<!--              <div>农事描述</div>-->
-<!--              <div>农资名称</div>-->
-<!--              <div>用量</div>-->
-<!--              <div>单位</div>-->
-<!--            </div>-->
-              <div class="expendContent" v-for="(item, index) in record.tableNongZi">
-                <div class="tableCtrol1"></div>
-                <div class="tableCtrol1">{{record.taskAction}}</div>
-                <div class="tableCtrol1">{{record.cycle}}</div>
-                <div class="tableCtrol1">{{record.type}}</div>
-                <div class="tableCtrol2">
-                  <div>{{item.name}} - {{item.consumption}}{{item.unit}}</div>
-                </div>
-                <div>{{record.executionCycle}}</div>
-
-                <div :title="record.purpose" class="textOverCtr">{{record.purpose}}</div>
-                <div :title="record.cycleDescription" class="tableCtrol1 textOverCtr">{{record.cycleDescription}}</div>
-                <div></div>
-
+            <div class="expendContent" v-for="(item, index) in record.tableNongZi">
+              <div class="tableCtrol1"></div>
+              <div class="tableCtrol1">{{record.taskAction}}</div>
+              <div class="tableCtrol1">{{record.cycle}}</div>
+              <div class="tableCtrol1">{{record.type}}</div>
+              <div class="tableCtrol2">
+                <div>{{item.name}} - {{item.consumption}}{{item.unit}}</div>
               </div>
+              <div>{{record.executionCycle}}</div>
+
+              <div :title="record.purpose" class="textOverCtr">{{record.purpose}}</div>
+              <div :title="record.cycleDescription" class="tableCtrol1 textOverCtr">{{record.cycleDescription}}</div>
+              <div></div>
+
+            </div>
 
           </div>
           <div
@@ -154,10 +227,15 @@
             slot="operation"
             slot-scope="record"
           >
+            <span @click="editAction(record)">编辑</span>
             <span @click="taskAction(1,record)">删除</span>
           </div>
-          <div class="textOverCtr" slot="purpose" slot-scope="text, record, index" :title="record.purpose">{{record.purpose}}</div>
-          <div class="textOverCtr" slot="cycleDescription" slot-scope="text, record, index" :title="record.cycleDescription">{{record.cycleDescription}}</div>
+          <div class="textOverCtr" slot="purpose" slot-scope="text, record, index" :title="record.purpose">
+            {{record.purpose}}
+          </div>
+          <div class="textOverCtr" slot="cycleDescription" slot-scope="text, record, index"
+               :title="record.cycleDescription">{{record.cycleDescription}}
+          </div>
         </a-table>
       </div>
 
@@ -238,84 +316,118 @@
         @cancel="handleCancel(2)"
       >
         <a-row>
-          <a-col :span="11">
-            <div class="search-input-wrapper">
-              <span class="search-title">所属周期</span>
-              <a-select placeholder="请选择" style="width: 100%"
-                        @change="cycleChange">
-                <a-icon slot="suffixIcon" type="smile"/>
-                <a-select-option v-for="(item,index) in cycleList" :key="JSON.stringify(item)">{{item.label}}
-                </a-select-option>
-              </a-select>
-            </div>
-          </a-col>
-
-          <a-col :span="11" :offset="2">
-            <div class="search-input-wrapper">
-              <span class="search-title">农事类型</span>
-              <a-select placeholder="请选择" style="width: 100%"
-                        @change="frameChange">
-                <a-icon slot="suffixIcon" type="smile"/>
-                <a-select-option v-for="(item,index) in frameType" :key="JSON.stringify(item)">{{item.label}}
-                </a-select-option>
-              </a-select>
-            </div>
-          </a-col>
-          <a-col :span="11">
-            <div class="search-input-wrapper">
-              <span class="search-title">任务操作</span>
-              <a-select placeholder="请选择" style="width: 100%"
-                        @change="actionChange">
-                <a-icon slot="suffixIcon" type="smile"/>
-                <a-select-option v-for="(item,index) in actionType" :key="JSON.stringify(item)">{{item.label}}
-                </a-select-option>
-              </a-select>
-            </div>
-          </a-col>
-          <a-col :span="11" :offset="2">
-            <div class="search-input-wrapper">
-              <span class="search-title">执行周期（天）</span>
+          <a-form
+            :form="taskForm.form"
+            @submit="taskSubmit"
+          >
+            <a-col :span="11">
+              <a-form-item :label="`所属周期`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
+                <a-select class="detail-input" placeholder="请选择周期" style="width: 100%"
+                          @change="cycleChange"
+                          v-decorator="taskForm.cycleRule"
+                >
+                  <a-select-option v-for="(item,index) in cycleList"
+                                   :key="JSON.stringify(item)"
+                  >
+                    {{item.label}}
+                  </a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+            <a-col :span="11">
+              <a-form-item :label="`农事类型`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
+                <a-select class="detail-input" placeholder="请选择农事类型" style="width: 100%"
+                          @change="frameChange"
+                          v-decorator="taskForm.frameRule"
+                >
+                  <a-select-option v-for="(item,index) in frameType"
+                                   :key="JSON.stringify(item)"
+                  >
+                    {{item.label}}
+                  </a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+            <a-col :span="11">
+              <a-form-item :label="`任务操作`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
+                <a-select class="detail-input" placeholder="请选择任务操作" style="width: 100%"
+                          :disabled="!isFrameType"
+                          @change="actionChange"
+                          v-decorator="taskForm.actionRule"
+                >
+                  <a-select-option v-for="(item,index) in actionType"
+                                   :key="JSON.stringify(item)"
+                  >
+                    {{item.label}}
+                  </a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+            <a-col :span="1"></a-col>
+            <a-col :span="11">
               <a-row>
-                <a-col :span="11">
-                  <a-input
-                    placeholder="Basic usage"
-                    class="search-input"
-                    v-model="minActionType"
-                  />
+                <a-col :span="6">
+                  <a-form-item style="text-align: right" :label="`执行周期(天):`" :label-col="{ span: 23 }" :wrapper-col="{ span: 1 }">
+                    <a-input
+                      style="display: none"
+                      v-decorator="taskForm.actionInputRule"
+                      placeholder="请输入开始周期"
+                      class="search-input"
+                    />
+                  </a-form-item>
                 </a-col>
-                <a-col :span="2" class="splitLine">
+                <a-col :span="7">
+                  <a-form-item :label-col="{ span: 0 }" :wrapper-col="{ span: 24 }">
+                    <a-input-number
+                      v-decorator="taskForm.minActionRule"
+                      placeholder="请输入开始周期"
+                      class="search-input"
+                    />
+                  </a-form-item>
+                </a-col>
+                <a-col :span="1" class="splitLine">
                   一
                 </a-col>
-                <a-col :span="11">
-                  <a-input
-                    placeholder="Basic usage"
-                    class="search-input"
-                    v-model="maxActionType"
-                  />
+                <a-col :span="7">
+                  <a-form-item :label-col="{ span: 0 }" :wrapper-col="{ span: 24 }">
+                    <a-input
+                      v-decorator="taskForm.maxActionRule"
+                      placeholder="请输入结束周期"
+                      class="search-input"
+                    />
+                  </a-form-item>
                 </a-col>
               </a-row>
-            </div>
-          </a-col>
-          <a-col :span="11">
-            <div class="search-input-wrapper">
-              <span class="search-title">用途</span>
-              <a-input
-                placeholder="Basic usage"
-                class="search-input"
-                v-model="purpose"
-              />
-            </div>
-          </a-col>
-          <a-col :span="11" :offset="2">
-            <div class="search-input-wrapper">
-              <span class="search-title">农事描述</span>
-              <a-input
-                placeholder="Basic usage"
-                class="search-input"
-                v-model="cycleDesc"
-              />
-            </div>
-          </a-col>
+            </a-col>
+            <a-col :span="11">
+                <a-form-item :label="`用途`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
+                  <a-input
+                    v-decorator="taskForm.purposeRule"
+                    placeholder="请输入用途"
+                    class="search-input"
+                  />
+                </a-form-item>
+            </a-col>
+            <a-col :span="11">
+              <a-form-item :label="`农事描述`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
+                <a-input
+                  v-decorator="taskForm.cycleDescRule"
+                  placeholder="请输入农事描述"
+                  class="search-input"
+                />
+              </a-form-item>
+            </a-col>
+          </a-form>
+<!--          <a-col :span="11" :offset="2">-->
+<!--            <div class="search-input-wrapper">-->
+<!--              <span class="search-title">农事描述</span>-->
+<!--              <a-input-->
+<!--                placeholder="Basic usage"-->
+<!--                class="search-input"-->
+<!--                v-model="cycleDesc"-->
+<!--              />-->
+<!--            </div>-->
+<!--          </a-col>-->
 
         </a-row>
         <a-row>
@@ -324,12 +436,14 @@
           </div>
           <div>
             <a-select placeholder="请选择" class="tableSelect"
+                      :disabled="!isFrameType"
+                      v-model="nongziName"
                       @change="nameChange">
               <a-icon slot="suffixIcon" type="smile"/>
-              <a-select-option v-for="(item,index) in name" :key="JSON.stringify(item)">{{item.label}}
+              <a-select-option  v-for="(item,index) in name" :key="JSON.stringify(item)">{{item.label}}
               </a-select-option>
             </a-select>
-            <a-input
+            <a-input-number
               placeholder="Basic usage"
               class="tableSelect"
               v-model="consumption"
@@ -366,6 +480,58 @@
         {label: '用量单位'},
         {label: '操作'}
     ]
+    const projectNameRule = [
+        'projectName',
+        {rules: [{required: true, message: '请输入基地名称'}]}
+    ];
+    const productCategoryRule = [
+        'productCategory',
+        {rules: [{required: true, message: '请选择产品品类'}]}
+    ]
+    const productVarietyRule = [
+        'productVariety',
+        {rules: [{required: true, message: '请选择产品品种'}]}
+    ]
+    const projectPowerRule = [
+        'projectPower',
+        {rules: [{required: true, message: '请选择产品权限'}]}
+    ]
+    const participantUserRule = [
+        'participantUser',
+        {rules: [{required: false,}]}
+    ]
+    const cycleRule = [
+        'taskCycle',
+        {rules: [{required: true, message: '请选择周期'}]}
+    ]
+    const frameRule = [
+        'frameType',
+        {rules: [{required: true, message: '请选择农事类型'}]}
+    ]
+    const actionRule = [
+        'actionType',
+        {rules: [{required: true, message: '请选择任务操作'}]}
+    ]
+    const minActionRule = [
+        'minActionType',
+        {rules: [{required: true, message: '请输入开始周期'}]}
+    ]
+    const maxActionRule = [
+        'maxActionType',
+        {rules: [{required: true, message: '请输入结束周期'}]}
+    ]
+    const actionInputRule = [
+        'actionInput',
+        {rules: [{required: true, message: ''}]}
+    ]
+    const purposeRule = [
+        'purpose',
+        {rules: [{required: true, message: '请输入用途'}]}
+    ]
+    const cycleDescRule = [
+        'cycleDesc',
+        {rules: [{required: false, message: '请输入农事描述'}]}
+    ]
     import Vue from 'vue'
     import domUtil from "../../../utils/domUtil";
     import {
@@ -376,11 +542,13 @@
         getActionList,
         getMaterialList,
         addNewTask,
+        projectUser,
     } from '@/api/projectCenter.js'
-    import {Table, Row, Col, Steps, Radio, icon, Modal, Button, Input, Select} from 'ant-design-vue'
+    import {Form, Table, Row, Col, Steps, Radio, icon, Modal, Button, Input, Select} from 'ant-design-vue'
 
     Vue.use(Row)
     Vue.use(Col)
+    Vue.use(Form)
     Vue.use(Steps)
     Vue.use(Radio)
     Vue.use(icon)
@@ -393,16 +561,41 @@
         data() {
             return {
                 list: [],
-                columns:[
-                    {title: '#', dataIndex: 'productId', key: 'productId', width: 160,columnTitle: 'productId'},
-                    {title: '任务操作', dataIndex: 'taskAction', key: 'taskAction',width: 160,columnTitle: 'taskAction'},
-                    {title: '所属周期', dataIndex: 'cycle', key: 'cycle',width: 160,},
-                    {title: '农事类型', dataIndex: 'type', key: 'type',width: 160,},
+                msgForm: {
+                    projectNameRule,
+                    productCategoryRule,
+                    productVarietyRule,
+                    projectPowerRule,
+                    participantUserRule,
+                    form: this.$form.createForm(this),
+                    isCategory: false,
+                },
+                isFrameType: false,
+                taskForm: {
+                    form: this.$form.createForm(this),
+                    cycleRule,
+                    frameRule,
+                    actionRule,
+                    purposeRule,
+                    cycleDescRule,
+                    minActionRule,
+                    maxActionRule,
+                    actionInputRule,
+                },
+                nongziName: '',
+                cycleForm: {
+                    form: this.$form.createForm(this),
+                },
+                columns: [
+                    {title: '#', dataIndex: 'productId', key: 'productId', width: 160, columnTitle: 'productId'},
+                    {title: '任务操作', dataIndex: 'taskAction', key: 'taskAction', width: 160, columnTitle: 'taskAction'},
+                    {title: '所属周期', dataIndex: 'cycle', key: 'cycle', width: 160,},
+                    {title: '农事类型', dataIndex: 'type', key: 'type', width: 160,},
                     {
                         title: '使用农资及用量', dataIndex: 'tableNongZi', key: 'tableNongZi',
                         width: 160,
                         customRender: (text) => {
-                            if(text[0]){
+                            if (text[0]) {
                                 let lineText = text[0].name + '-' + text[0].consumption + text[0].unit;
                                 if (text.length > 1) {
                                     return lineText + '...'
@@ -411,11 +604,25 @@
                             }
                             return ''
                         },
-                        render: h => h('div','123123')
+                        render: h => h('div', '123123')
                     },
-                    {title: '执行周期', dataIndex: 'executionCycle', key: 'executionCycle',width: 160,},
-                    {title: '用途', dataIndex: 'purpose', key: 'purpose',width: 160,columnTitle: 'purpose',scopedSlots: {customRender: 'purpose'},},
-                    {title: '农事描述', dataIndex: 'cycleDescription', key: 'cycleDescription',width: 160,columnTitle: 'cycleDescription',scopedSlots: {customRender: 'cycleDescription'},},
+                    {title: '执行周期', dataIndex: 'executionCycle', key: 'executionCycle', width: 160,},
+                    {
+                        title: '用途',
+                        dataIndex: 'purpose',
+                        key: 'purpose',
+                        width: 160,
+                        columnTitle: 'purpose',
+                        scopedSlots: {customRender: 'purpose'},
+                    },
+                    {
+                        title: '农事描述',
+                        dataIndex: 'cycleDescription',
+                        key: 'cycleDescription',
+                        width: 160,
+                        columnTitle: 'cycleDescription',
+                        scopedSlots: {customRender: 'cycleDescription'},
+                    },
                     {
                         title: '操作',
                         key: 'operation',
@@ -439,6 +646,13 @@
                     title: '已完成',
                     content: '已完成',
                 }],
+                projectPowerArr: [
+                    {label: '公开市场', value: 'market'},
+                    {label: '公司私有', value: 'company'},
+                ],
+                participantUserIdArr: [],
+                projectPower: '', //权限
+                participantUser: [], //参与人
                 current: 0,
                 vertical: 'vertical',
                 projectName: '',
@@ -447,7 +661,7 @@
                 productCategory: '',
                 productVariety: '',
                 solutionPlan: {},
-                dateType: 'week',
+                dateType: '3',
                 cycleList: [],
                 cycleData: [],
                 lifeCycleId: '',
@@ -491,6 +705,7 @@
             for (let i = 0; i < this.list.length; i++) {
                 this.list[i].index = i
             }
+            this._getprojectUser();
             this.getCategoryArr();
             //this.getLifeCycleArr();
             this.getFrameTypeArr();
@@ -498,7 +713,114 @@
             //this.getMaterialArr();
         },
         methods: {
-            formatDialogData(){
+            //校验基础信息
+            handleMsgSubmit() {
+                let self = this
+                this.msgForm.form.validateFields((err, values) => {
+                    console.log(values)
+                    if (!err) {
+                        self.solutionPlan = {
+                            solutionName: values.projectName,
+                            breedId: values.productVariety,
+                            categoryId: values.productCategory,
+                            projectPower: values.projectPower,
+                            participantUserIdList: values.participantUser,
+                        }
+                        self.current++
+                        return true
+                        console.log(values)
+                    } else if (err) {
+                        return false
+                    }
+                })
+            },
+            //校验周期
+            cycleSubmit(){
+                let self = this;
+                this.cycleForm.form.validateFields((err, values) => {
+                    if (!err) {
+                        let stepCycleList = [];
+                        for (let i = 0; i < this.cycleList.length; i++) {
+                            stepCycleList.push({
+                                cycleLength: Number(values[i]),
+                                cycleSort: i,
+                                cycleUnit: this.dateType,
+                                lifeCycleId: this.cycleList[i].value
+                            })
+                            this.cycleList[i].direction = i;
+                        }
+                        console.log(stepCycleList);
+                        this.formatList = JSON.parse(JSON.stringify(this.cycleList))
+                        this.cycleData = stepCycleList;
+                        console.log(stepCycleList)
+                        self.current++
+                        console.log(values)
+                    }
+                })
+            },
+            //校验任务新增
+            taskSubmit(){
+                let self = this;
+                debugger
+                this.taskForm.form.validateFields((err, values) => {
+                    debugger
+                    console.log(values)
+                    if (!err) {
+                        let nongzi = []
+                        for (let i = 0; i < this.tableList.length; i++) {
+                            nongzi.push({
+                                materialDosage: this.tableList[i].consumption,
+                                materialId: this.tableList[i].materialId,
+                            })
+                        }
+                        self.taskList.push({
+                            actionId: self.actionId,
+                            farmingTypeId: self.farmingTypeId,
+                            lifeCycleId: self.lifeCycleId,
+                            taskDescription: values.cycleDesc,
+                            taskEndDay: Number(values.maxActionType),
+                            taskStartDay: Number(values.minActionType),
+                            taskMaterial: nongzi,
+                            taskUse: values.purpose,
+                        })
+                        console.log(self.taskList)
+                        self.taskCacheList.cycleDescription = values.cycleDesc;
+                        self.taskCacheList.purpose = values.purpose;
+                        self.taskCacheList.taskCycle = JSON.parse(values.taskCycle).value;
+                        self.taskCacheList.frameType = JSON.parse(values.frameType).value;
+                        self.taskCacheList.actionType = JSON.parse(values.actionType).value;
+                        self.taskCacheList.minActionType = values.minActionType;
+                        self.taskCacheList.maxActionType = values.maxActionType;
+                        self.taskCacheList.executionCycle = '第' + values.minActionType + '天' + '-' + '第' + values.maxActionType + '天'
+                        let lineData = JSON.parse(JSON.stringify(this.taskCacheList))
+                        lineData.tableNongZi = this.tableList;
+                        this.list.push(lineData);
+                        for (let i = 0; i < this.list.length; i++) {
+                            this.list[i].index = i
+                        }
+                        console.log(this.list)
+                        console.log(this.tableList)
+                        console.log(this.taskList)
+                        this.formatDialogData();
+                        this.taskCacheList = {};
+                        self.isAddTask = false;
+                        console.log(values)
+                    }
+                })
+            },
+            //获取方案参与人
+            _getprojectUser() {
+                this.participantUserIdArr = [];
+                projectUser().then((res) => {
+                    for (let i = 0; i < res.data.length; i++) {
+                        this.participantUserIdArr.push(
+                            {label: res.data[i].userName, value: res.data[i].userId}
+                        )
+                    }
+                    console.log(res);
+                })
+            },
+            formatDialogData() {
                 this.tableList = [];
                 this.tableProduction = {};
                 this.consumption = '';
@@ -555,6 +877,9 @@
                 getActionList(code).then((res) => {
                     for (let i = 0; i < res.data.length; i++) {
                         self.actionType.push({value: res.data[i].optionId, label: res.data[i].optionName})
+                        // self.taskForm.form.setFieldsValue({
+                        //     actionType: self.actionType[0].value,
+                        // });
                     }
                 })
             },
@@ -566,13 +891,19 @@
                         self.name.push({
                             value: res.data[i].materialId,
                             label: res.data[i].materialName,
-                            unit: res.data[i].dosageUnitName,
+                            unit: res.data[i].unitName,
                             materialId: res.data[i].materialId
                         })
                     }
+                    this.nongziName = self.name[0].label
+                    this.unit = self.name[0].unit
+                    this.tableProduction.name = self.name[0].label;
+                    this.tableProduction.unit = self.name[0].unit;
+                    this.tableProduction.materialId = self.name[0].materialId;
                 })
             },
             categoryChange(value) {
+                this.msgForm.isCategory = true;
                 this.productCategory = value;
                 this.getBreedArr(value.toString());
                 console.log(value)
@@ -583,7 +914,17 @@
                 this.productVariety = value;
 
             },
+            //权限下拉框改变
+            projectPowerChange(value) {
+                this.projectPower = value;
+            },
+            //参与人改变
+            participantUserChange(value) {
+                this.participantUser = value;
+            },
             frameChange(data) {
+                this.isFrameType = true;
+                this.tableList = [];
                 let changeData = JSON.parse(data)
                 this.taskCacheList.type = changeData.label;
                 this.farmingTypeId = changeData.value;
@@ -610,6 +951,7 @@
             //     console.log(changeData)
             // },
             nameChange(data) {
+                debugger
                 let changeData = JSON.parse(data)
                 this.tableProduction.name = changeData.label;
                 this.tableProduction.materialId = changeData.materialId;
@@ -631,6 +973,41 @@
                 debugger
                 this.tableList.splice(index, 1);
             },
+            editAction(record){
+                this.taskForm.form = this.$form.createForm(this,{
+                    mapPropsToFields: () => {
+                        return {
+                            taskCycle: this.$form.createFormField({
+                                value: record.taskCycle,
+                            }),
+                            frameType: this.$form.createFormField({
+                                value: record.frameType,
+                            }),
+                            actionType: this.$form.createFormField({
+                                value: record.actionType,
+                            }),
+                            minActionType: this.$form.createFormField({
+                                value: record.minActionType,
+                            }),
+                            maxActionType: this.$form.createFormField({
+                                value: record.maxActionType,
+                            }),
+                            purpose: this.$form.createFormField({
+                                value: record.purpose,
+                            }),
+                            cycleDesc: this.$form.createFormField({
+                                value: record.cycleDesc,
+                            }),
+                            actionInput: this.$form.createFormField({
+                                value: 'record.actionInput',
+                            }),
+                        }
+
+                    }
+                })
+                this.isAddTask = true;
+                console.log(record)
+            },
             /**
              * description：任务列表操作栏
              * params 0：删除
@@ -640,9 +1017,9 @@
             taskAction(type, data) {
                 console.log(data)
                 if (type === 1) {
-                    this.list.map((key,index) => {
+                    this.list.map((key, index) => {
                         debugger
-                        if(key.index === data.index){
+                        if (key.index === data.index) {
                             this.list.splice(index, 1)
                             this.taskList.splice(index, 1);
                         }
@@ -660,22 +1037,17 @@
                     solutionName: this.projectName,
                     breedId: this.productVariety,
                     categoryId: this.productCategory,
+                    solutionScope: this.projectPower,
+                    participantUserIdList: this.participantUser,
                 }
-                let stepCycleList = [];
-                for (let i = 0; i < this.cycleList.length; i++) {
-                    stepCycleList.push({
-                        cycleLength: Number(this.cycleList[i].duration),
-                        cycleSort: i,
-                        cycleUnit: this.dateType,
-                        lifeCycleId: this.cycleList[i].value
-                    })
-                    this.cycleList[i].direction = i;
-                }
-                this.formatList = JSON.parse(JSON.stringify(this.cycleList))
-                this.cycleData = stepCycleList;
-                console.log(stepCycleList)
+
                 console.log(this.solutionPlan)
-                this.current++
+                if (this.current === 0) {
+                    this.handleMsgSubmit();
+                }
+                if(this.current === 1){
+                    this.cycleSubmit();
+                }
             },
             handleChange(selectData) {
                 let data = JSON.parse(selectData)
@@ -713,40 +1085,26 @@
                     this.ModalText = 'The modal will be closed after two seconds';
                     this.visible = false
                 } else if (type === 2) {
-                    let nongzi = []
-                    for(let i = 0;i<this.tableList.length;i++){
-                        nongzi.push({
-                            materialDosage: this.tableList[i].consumption,
-                            materialId: this.tableList[i].materialId,
-                        })
-                    }
-                    this.taskList.push({
-                        actionId: this.actionId,
-                        farmingTypeId: this.farmingTypeId,
-                        lifeCycleId: this.lifeCycleId,
-                        taskDescription: this.cycleDesc,
-                        taskEndDay: Number(this.maxActionType),
-                        taskStartDay: Number(this.minActionType),
-                        taskMaterial: nongzi,
-                        taskUse: this.purpose,
-
-                    })
-                    this.taskCacheList.purpose = this.purpose;
-                    this.taskCacheList.executionCycle = '第'+this.minActionType+'天'+'-'+'第'+this.maxActionType+'天'
-                    this.taskCacheList.cycleDescription = this.cycleDesc;
+                    this.taskSubmit();
+                    // let nongzi = []
+                    // for (let i = 0; i < this.tableList.length; i++) {
+                    //     nongzi.push({
+                    //         materialDosage: this.tableList[i].consumption,
+                    //         materialId: this.tableList[i].materialId,
+                    //     })
+                    // }
+                    // this.taskList.push({
+                    //     actionId: this.actionId,
+                    //     farmingTypeId: this.farmingTypeId,
+                    //     lifeCycleId: this.lifeCycleId,
+                    //     taskDescription: this.cycleDesc,
+                    //     taskEndDay: Number(this.maxActionType),
+                    //     taskStartDay: Number(this.minActionType),
+                    //     taskMaterial: nongzi,
+                    //     taskUse: this.purpose,
+                    // })
                     console.log(this.taskCacheList)
-                    let lineData = JSON.parse(JSON.stringify(this.taskCacheList))
-                    lineData.tableNongZi = this.tableList;
-                    this.list.push(lineData);
-                    for (let i = 0; i < this.list.length; i++) {
-                        this.list[i].index = i
-                    }
-                    console.log(this.list)
-                    console.log(this.tableList)
-                    console.log(this.taskList)
-                    this.isAddTask = false;
-                    this.formatDialogData();
-                    this.taskCacheList = {};
+
                 }
 
                 // this.confirmLoading = true;
@@ -764,12 +1122,12 @@
                 console.log(index);
                 console.log(moveIndex);
                 if (moveIndex === 0) {
-                    if((index+1) === this.arrList.length){
+                    if ((index + 1) === this.arrList.length) {
                         return
                     }
                     domUtil.swapItems(this.arrList, index, index + 1);
                 } else if (moveIndex === 1) {
-                    if(index === 0){
+                    if (index === 0) {
                         return
                     }
                     domUtil.swapItems(this.arrList, index, index - 1);
@@ -781,6 +1139,15 @@
             addTask() {
                 this.isAddTask = true;
                 this.purpose = '';
+                this.taskForm.form = this.$form.createForm(this,{
+                    mapPropsToFields: () => {
+                        return {
+                            actionInput: this.$form.createFormField({
+                                value: 'actionInput',
+                            }),
+                        }
+                    }
+                })
                 console.log('新增任务')
             },
             commitTaskData() {
@@ -790,10 +1157,10 @@
                     cycleList: this.cycleData,
                 }
                 addNewTask(taskData).then((res) => {
-                    if(res.code === 200){
+                    if (res.code === 200) {
                         this.list = [];
                         this.taskCacheList = {}
-                        this.$router.push({ path: '/projectCenter/projectCenter'})
+                        this.$router.push({path: '/projectCenter/projectCenter'})
                     }
                     console.log(res)
                 })
@@ -803,33 +1170,43 @@
     }
 </script>
 <style lang="less" scoped>
-  .textOverCtr{
+  .textOverCtr {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 128px;
   }
+  .cycleForm{
+    /deep/.ant-form-horizontal{
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+
   .splitLine {
     text-align: center;
     line-height: 35px;
   }
-  .expendHead{
+
+  .expendHead {
     /*display: flex;*/
     /*justify-content: start;*/
   }
 
-  .expendHead>div{
+  .expendHead > div {
     height: 20px;
     width: 160px;
     padding: 16px 16px;
     text-align: right;
     display: inline-block;
   }
-  .expendContent{
+
+  .expendContent {
     display: flex;
     /*justify-content: space-around;*/
     height: 52px;
   }
+
   /*.tableCtrol1{*/
   /*  !*height: 20px;*!*/
   /*  line-height: 36px;*/
@@ -840,7 +1217,7 @@
   /*.tableCtrol2{*/
   /*  width: 217px;*/
   /*}*/
-  .expendContent>div{
+  .expendContent > div {
     /*height: 20px;*/
     width: 160px;
     padding: 16px 16px;
@@ -970,8 +1347,8 @@
   }
 
   .search-input-wrapper {
-    position: relative;
-    margin-bottom: 24px;
+    /*position: relative;*/
+    /*margin-bottom: 24px;*/
 
     .search-title {
       color: #333;
@@ -1001,10 +1378,12 @@
     /deep/ .ant-steps-item-tail {
       top: 40px;
     }
-    /deep/ .ant-steps-item:nth-last-of-type(1){
+
+    /deep/ .ant-steps-item:nth-last-of-type(1) {
       display: none;
     }
-    /deep/ .ant-steps-item-tail{
+
+    /deep/ .ant-steps-item-tail {
       margin-left: 0;
     }
 
