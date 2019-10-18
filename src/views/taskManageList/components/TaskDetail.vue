@@ -14,51 +14,51 @@
       <div class="item">
         <p>
           <span>农事计划编号：</span>
-          {{detailData.farmingNum}}
+          {{detailData.farmingNum?detailData.farmingNum:'--'}}
         </p>
         <p>
           <span>农事操作：</span>
-          {{detailData.actionName}}
+          {{detailData.actionName?detailData.actionName:'--'}}
         </p>
       </div>
       <div class="item">
         <p>
           <span>农事类型：</span>
-          {{detailData.farmingTypeName}}
+          {{detailData.farmingTypeName?detailData.farmingTypeName:'--'}}
         </p>
         <p>
           <span>所属地块：</span>
-          {{detailData.blockLandName}}
+          {{detailData.blockLandName?detailData.blockLandName:'--'}}
         </p>
       </div>
       <div class="item">
         <p>
           <span>产品周期：</span>
-          {{detailData.cycleName}}
+          {{detailData.cycleName?detailData.cycleName:'--'}}
         </p>
         <p>
           <span>使用农资：</span>
-          {{detailData.useMaterial}}
+          {{detailData.useMaterial?detailData.useMaterial:'--'}}
         </p>
       </div>
       <div class="item">
         <p>
           <span>状态：</span>
-          {{detailData.startTime}}
+          {{detailData.taskStatusName?detailData.taskStatusName:'--'}}
         </p>
         <p>
           <span>任务开始时间：</span>
-          {{detailData.startTime}}
+          {{detailData.startTime?detailData.startTime:'--'}}
         </p>
       </div>
       <div class="item">
         <p>
           <span>任务结束时间：</span>
-          {{detailData.endTime}}
+          {{detailData.endTime?detailData.endTime:'--'}}
         </p>
         <p>
           <span>负责人：</span>
-          {{detailData.assigner}}
+          {{detailData.assigner?detailData.assigner:'--'}}
         </p>
       </div>
     </a-modal>

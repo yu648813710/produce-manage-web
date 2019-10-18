@@ -39,7 +39,7 @@
               >查看</span>
               <span
                 slot="title"
-                @click="showModal(record)"
+                @click="editTaskShow(record.instId)"
               >编辑</span>
               <span
                 slot="title"
@@ -69,6 +69,14 @@
     />
     <!-- 详情弹框 -->
     <!-- 编辑弹框 -->
+    <edit-task
+      :edit-show="editTaskShowState"
+      :detail-page-data="detailTaskData"
+      :material-data="materialData"
+      :util-data="utilData"
+      @hiddenEditTask="editTaskHidden"
+      @editSbumit="editSbumit"
+    />
     <!-- 编辑弹框 -->
   </div>
 </template>
@@ -89,17 +97,22 @@ import {
   Select,
   message,
   Modal,
-  LocaleProvider
+  LocaleProvider,
+  DatePicker
 } from 'ant-design-vue'
 import {
   taskManageList,
   getTaskState,
   deleteTask,
-  getTaskDetail
+  getTaskDetail,
+  getMaterial,
+  getUtil,
+  editTask
 } from '@/api/productManage.js'
 import { tableColumns, crumbsArr } from './config'
 import SearchForm from './components/SearchForm'
 import TaskDetail from './components/TaskDetail'
+import EditTask from './components/EditTask'
 import CrumbsNav from '@/components/crumbsNav/CrumbsNav'
 // const confirm = Modal.confirm
 Vue.use(Form)
@@ -114,13 +127,15 @@ Vue.use(Tooltip)
 Vue.use(Modal)
 Vue.use(Breadcrumb)
 Vue.use(LocaleProvider)
+Vue.use(DatePicker)
 Vue.prototype.$message = message
 export default {
   name: 'GreenHouseList',
   components: {
     SearchForm,
     CrumbsNav,
-    TaskDetail
+    TaskDetail,
+    EditTask
   },
   data() {
     return {
@@ -142,7 +157,10 @@ export default {
       selectStateData: [],
       taskID: '',
       detailTaskShow: false,
-      detailTaskData: {}
+      detailTaskData: {},
+      editTaskShowState: false,
+      materialData: [],
+      utilData: []
     }
   },
   methods: {
@@ -220,14 +238,18 @@ export default {
       this.getTaskManageList(this.pagination.current, this.pagination.pageSize)
     },
     // 请求详情数据
-    getTaskDetailData(id) {
-      this.detailTaskShow = true
+    getTaskDetailData(id, type) {
+      if (!type) {
+        this.showDetailTask()
+      }
       getTaskDetail(id).then(res => {
         if (res.code === 200) {
           this.detailTaskData = res.data
         }
-        console.log(res)
       })
+    },
+    showDetailTask() {
+      this.detailTaskShow = true
     },
     hiddenDetailTask() {
       this.detailTaskShow = false
@@ -239,6 +261,55 @@ export default {
         return false
       }
       this.$message.error(message)
+    },
+    // 点击修改
+    editTaskShow(id) {
+      this.editTaskShowState = true
+      getTaskDetail(id).then(res => {
+        console.log(res)
+        if (res.code === 200) {
+          this.detailTaskData = res.data
+        }
+      })
+    },
+    // 隐藏编辑
+    editTaskHidden() {
+      this.editTaskShowState = false
+    },
+    // 请求单位
+    getUtilData() {
+      getUtil().then(res => {
+        if (res.code !== 200) {
+          return false
+        }
+        this.utilData = res.data
+      })
+    },
+    // 请求农资
+    getMaterialData() {
+      getMaterial().then(res => {
+        if (res.code !== 200) {
+          return false
+        }
+        this.materialData = res.data
+      })
+    },
+    // 提交编辑
+    editSbumit(e) {
+      console.log(e)
+      editTask(e).then(res => {
+        if (res.code !== 200) {
+          return false
+        }
+        this.tipMessage(res.success, res.message)
+        if (res.success === 'Y') {
+          this.getTaskManageList(
+            this.pagination.current,
+            this.pagination.pageSize
+          )
+          this.getTaskDetailData(e.instId, true)
+        }
+      })
     }
   },
   created() {
@@ -246,6 +317,8 @@ export default {
     this.loading = false
     this.getTaskManageList(this.pagination.current, this.pagination.pageSize)
     this.getTaskStateData()
+    this.getUtilData()
+    this.getMaterialData()
   }
 }
 </script>

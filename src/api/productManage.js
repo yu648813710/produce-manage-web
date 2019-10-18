@@ -107,3 +107,28 @@ export function getTaskDetail (taskInstId) {
     method: 'GET',
   })
 }
+
+// 请求农资
+export function getMaterial () {
+  return axios({
+    url: `/material/`,
+    method: 'GET',
+  })
+}
+
+// 请求度量单位
+export function getUtil () {
+  return axios({
+    url: `/unit/`,
+    method: 'GET',
+  })
+}
+
+// 木耳任务编辑
+export function editTask (data) {
+  return axios({
+    url: `/farmPlan/task/`,
+    method: 'patch',
+    data
+  })
+}

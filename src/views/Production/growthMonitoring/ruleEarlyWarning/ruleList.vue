@@ -396,16 +396,17 @@ export default {
     searchRuleList(page, current) {
       this.getRuleList()
     },
-      paginationChange(page, current){
-          this.pagination.current = page.current
-          this.pagination.pageSize = page.pageSize
-      },
+    paginationChange(page, current) {
+      this.pagination.current = page.current
+      this.pagination.pageSize = page.pageSize
+      this.getRuleList()
+    },
     getRuleList() {
       let postData = {
         pageNo: this.pagination.current,
         pageSize: this.pagination.pageSize,
         inputContent: this.searchForm.baseName,
-        alarmType: '',
+        alarmType: ''
       }
       let type = 'gh'
       ruleList(type, postData).then(res => {
