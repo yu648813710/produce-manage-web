@@ -107,3 +107,21 @@ export function getTaskDetail (taskInstId) {
     method: 'GET',
   })
 }
+
+// 方案市场列表
+export function planMarketList(params) {
+  return axios({
+    url: '/plan/pc/list',
+    method: 'POST',
+    data: params
+  })
+}
+
+// 方案详情
+export function planMarketDetail(solutionId) {
+  return axios({
+    url: `/plan/${solutionId}`,
+    method: 'GET'
+  })
+}
+
