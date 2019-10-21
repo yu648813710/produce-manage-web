@@ -40,11 +40,11 @@
           <a-col :span="24" class="detail-item">
             <span class="item-key">时间单位：</span>
             <a-radio-group name="radioGroup" :value="cycleUnit">
-              <div :class="cycleUnit === 'week' ? 'checkDateTpyeRadio' : 'dateTpyeRadio'">
-                <a-radio value="week">周</a-radio>
+              <div :class="cycleUnit === '3' ? 'checkDateTpyeRadio' : 'dateTpyeRadio'">
+                <a-radio value="3">周</a-radio>
               </div>
-              <div :class="cycleUnit === 'day' ? 'checkDateTpyeRadio' : 'dateTpyeRadio'">
-                <a-radio value="day">天</a-radio>
+              <div :class="cycleUnit === '5' ? 'checkDateTpyeRadio' : 'dateTpyeRadio'">
+                <a-radio value="5">天</a-radio>
               </div>
             </a-radio-group>
           </a-col>
@@ -143,14 +143,6 @@
                         scopedSlots: { customRender: 'taskDescription' },
 
                     },
-                    // {
-                    //     title: '操作',
-                    //     key: 'operation',
-                    //     scopedSlots: { customRender: 'operation' },
-                    //     width: 160,
-                    //     align: 'center',
-                    //     fixed: 'right'
-                    // }
                 ],
                 cycleUnit: '',
                 solutionPlan: '',
@@ -240,7 +232,12 @@
     background: #fff;
     margin: 16px;
     border-radius: 4px;
-
+    /deep/ .ant-table-tbody > tr > td {
+      padding: 16px 0 !important;
+    }
+    /deep/ .ant-table-thead > tr > th {
+      padding: 16px 0 !important;
+    }
     .title-wrapper{
       position: absolute;
       left: 24px;

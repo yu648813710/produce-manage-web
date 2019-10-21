@@ -45,6 +45,7 @@ const err = (error) => {
 
 // request interceptor
 service.interceptors.request.use(config => {
+  store.commit( 'UPDATE_LOADING', true)
   const token = store.getters.userToken
   if (token) {
     config.headers['Access-Token'] = token // 让每个请求携带自定义 token 请根据实际情况自行修改
@@ -54,6 +55,7 @@ service.interceptors.request.use(config => {
 
 // response interceptor
 service.interceptors.response.use((response) => {
+  store.commit( 'UPDATE_LOADING', false)
   return response.data
 }, err)
 

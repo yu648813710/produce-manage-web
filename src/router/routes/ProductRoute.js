@@ -133,5 +133,12 @@ export default {
       component: () => import('@/views/project/projectCenter/addNewProject.vue'),
       meta: { name: '新增方案', icon: '' }
     },
+    {
+      path: '/editProject',
+      name: 'editProject',
+      hidden: true,
+      component: () => import('@/views/project/projectCenter/editProject.vue'),
+      meta: { name: '修改方案', icon: '' }
+    },
   ]
 }

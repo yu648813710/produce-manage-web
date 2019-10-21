@@ -14,13 +14,18 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   modules: modules,
   state: {
-
+    loading: true,
   },
   mutations: {
+    UPDATE_LOADING(state, val){
+      state.loading = val
+    },
 
   },
   actions: {
-
+    updateLoading({commit}, val) {
+      commit('UPDATE_LOADING', val)
+    },
   },
   getters
 })
