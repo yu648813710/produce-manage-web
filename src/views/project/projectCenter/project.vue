@@ -42,6 +42,7 @@
                 </a-col>
                 <a-col :span="18">
                   <a-select class="detail-input" placeholder="请选择状态" style="width: 100%"
+                            :value="searchParams.status"
                             @change="searchStatusChange"
                   >
                     <a-select-option value="">全部</a-select-option>
@@ -61,6 +62,7 @@
                 </a-col>
                 <a-col :span="18">
                   <a-select class="detail-input" placeholder="请选择方案权限" style="width: 100%"
+                            :value="searchParams.solutionScope"
                             @change="powerChange"
                   >
                     <a-select-option value="">全部</a-select-option>
@@ -75,7 +77,7 @@
             </a-col>
           </a-row>
           <div>
-            <a-button class="button">重置</a-button>
+            <a-button class="button" @click="rest">重置</a-button>
             <a-button
               type="primary"
               class="button"
@@ -221,7 +223,7 @@
                     {title: '序号', scopedSlots: {customRender: 'id'}, align: 'center'},
                     {title: '方案名称', dataIndex: 'solutionName', key: 'projectName'},
                     {title: '产品品种', dataIndex: 'categoryName', key: 'categoryName'},
-                    {title: '专家姓名', dataIndex: 'expertName', key: 'expertName'},
+                    {title: '专家姓名', dataIndex: 'solutionExpertName', key: 'solutionExpertName'},
                     {title: '方案提供公司', dataIndex: 'companyName', key: 'companyName'},
                     {
                         title: '创建时间',
@@ -291,8 +293,6 @@
             searchProjectList(){
                 this.pagination.current = 1;
                 this.getProjectList();
-
-                console.log(postData)
             },
             //拷贝方案
             _copyProject(record){
@@ -301,6 +301,12 @@
                         this.getProjectList();
                     }
                 })
+            },
+            rest(){
+                this.searchParams.breedName = '';
+                this.searchParams.solutionScope = '';
+                this.searchParams.status = '';
+                this.searchParams.solutionName = '';
             },
             //搜索栏状态改变
             searchStatusChange(value){
