@@ -184,7 +184,6 @@
                 }
             },
             changePrice(index){
-                debugger
                 this.priceIndex = index;
                 if(index === 0){
                     this.getPriceData('black_agaric');
@@ -198,7 +197,6 @@
             },
             async getPriceData(type){
                 await getQipaoData(type).then((res) => {
-                    debugger
                     let data = res.data;
                     if(res.data.length === 0 ){
                         this.blackData = []
@@ -222,7 +220,6 @@
             },
             setTableData(){
                 getTableData().then((res) => {
-                    debugger
                     this.list = res.data;
                 })
             },
@@ -382,7 +379,6 @@
                 myChart.setOption({
                     tooltip: {
                         formatter(params){
-                            debugger
                             console.log(params)
                             return '地区: ' + params.name + '</br>' + '价格: ' + params.value[1] + '元'
                         },
@@ -542,7 +538,6 @@
                         color:function(params){
                             //设置需要的颜色集合，把params中的对应数据要显示的颜色进行匹配
                             let colorList = ['#40DCE7','#B6E887','#6A79F6','#F7A95D','#F7DB6B','#7cd2a7','#d78506'];
-                            debugger
                             console.log(params)
                             if(params.dataIndex === 0){
                                 return colorList[0];

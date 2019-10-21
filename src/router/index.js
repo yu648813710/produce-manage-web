@@ -39,7 +39,6 @@ router.beforeEach((to, form, next) => {
           return store.dispatch('GenerateRoutes', { ChildRoutes, authList })
         }).then(routes => {
           let MainRoute = DynamicRoute.find(v => v.path === '/')
-          debugger
           MainRoute.children.push(...routes)
           router.addRoutes(DynamicRoute)
           next({ path: to.path })
