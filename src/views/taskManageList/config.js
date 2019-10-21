@@ -1,19 +1,40 @@
 const tableColumns = [
-  { title: '序号', scopedSlots: { customRender: 'id' }, align: 'center' },
+  {
+    title: '序号', scopedSlots: { customRender: 'id' }, align: 'center',
+    width: 60,
+  },
   { title: '农事计划编号', dataIndex: 'farmingNum' },
-  { title: '农事操作', dataIndex: 'actionName' },
-  { title: '所属周期', dataIndex: 'cycleName' },
+  {
+    title: '农事操作', dataIndex: 'actionName',
+    width: 100,
+  },
+  {
+    title: '所属周期', dataIndex: 'cycleName',
+    width: 100,
+  },
   { title: '所属地块', dataIndex: 'farmBizName' },
-  { title: '农事类型', dataIndex: 'farmingTypeName' },
+  {
+    title: '农事类型', dataIndex: 'farmingTypeName',
+    width: 100,
+  },
   { title: '使用农资', dataIndex: 'useMaterial' },
   {
     title: '状态',
     dataIndex: 'taskStatusName',
   },
   { title: '执行时长', dataIndex: 'executeCycle' },
-  { title: '任务开始时间', dataIndex: 'startTime' },
-  { title: '任务结束时间', dataIndex: 'endTime' },
-  { title: '负责人', dataIndex: 'assigner' },
+  {
+    title: '任务开始时间', dataIndex: 'startTime',
+    width: 120,
+  },
+  {
+    title: '任务结束时间', dataIndex: 'endTime',
+    width: 120,
+  },
+  {
+    title: '负责人', dataIndex: 'assigner',
+    width: 100,
+  },
   {
     title: '操作',
     scopedSlots: { customRender: 'action' },
@@ -40,5 +61,6 @@ const crumbsArr = [
     path: ''
   }
 ]
+
 
 export { tableColumns, crumbsArr }

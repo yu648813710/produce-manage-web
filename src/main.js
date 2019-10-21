@@ -18,6 +18,9 @@ Vue.prototype.$echarts = echarts
 // base library
 import { message, Icon, LocaleProvider, InputNumber } from 'ant-design-vue'
 import './utils/filter' // global filter
+import moment from 'moment'
+import 'moment/locale/zh-cn'
+moment.locale('zh-cn');
 
 // 全局样式
 import './assets/css/base.css'
