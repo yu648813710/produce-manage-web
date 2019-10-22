@@ -149,3 +149,20 @@ export function editTask (data) {
     data
   })
 }
+
+// 知识问答分类
+export function knowledgeQuizCategory () {
+  return axios({
+    url: `/dingDing/consult/question/listQuestionClazz`,
+    method: 'GET'
+  })
+}
+
+// 知识问答列表
+export function knowledgeQuizList (data) {
+  return axios({
+    url: `/loresupervise/showquestionlist`,
+    method: 'POST',
+    data
+  })
+}

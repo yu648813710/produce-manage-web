@@ -58,6 +58,7 @@ export default {
    * params: date 时间戳
    * */
   formDate (date) {
+    debugger
     let split = ['-', ':']
     let thisDate = new Date(date);
     let year = thisDate.getFullYear();

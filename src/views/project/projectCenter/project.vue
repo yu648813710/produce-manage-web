@@ -25,7 +25,7 @@
             <a-col :span="6">
               <a-row>
                 <a-col :span="6">
-                  <span class="search-title">产品名称</span>
+                  <span class="search-title">产品品种</span>
                 </a-col>
                 <a-col :span="18">
                   <a-input
