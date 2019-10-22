@@ -75,7 +75,7 @@ export function addNewTask(putData) {
 export function editProjectDetail(solutionId) {
   return axios({
     url: `/plan/solutionDetail/${solutionId}`,
-    method: 'GET',
+    method: 'POST',
   })
 }
 //修改方案

@@ -8,10 +8,18 @@
       <div class="title-wrapper">
         <div class="icon"></div>
         <span class="title-text">黑木耳种植方案</span>
+        <div class="actionBtn">
+          <a-button type="primary" v-show="detail.publishFlag === 'N'" @click="openPublishDialog">发布</a-button>
+          <a-button type="primary" @click="backToList">返回</a-button>
+        </div>
       </div>
       <div class="detail-wrapper">
         <a-row>
-          <a-col :span="24" class="detail-item">
+          <a-col :span="8" class="detail-item">
+            <span class="item-key">供应商：</span>
+            <span class="item-value">{{solutionPlan.companyName}}</span>
+          </a-col>
+          <a-col :span="8" class="detail-item">
             <span class="item-key">方案名称：</span>
             <span class="item-value">{{solutionPlan.solutionName}}</span>
           </a-col>
@@ -24,8 +32,28 @@
             <span class="item-value">{{solutionPlan.breedName}}</span>
           </a-col>
           <a-col :span="8" class="detail-item">
+            <span class="item-key">创建人：</span>
+            <span class="item-value">{{solutionPlan.createUser}}</span>
+          </a-col>
+          <a-col :span="8" class="detail-item">
             <span class="item-key">创建时间：</span>
-            <span class="item-value">{{detail.gmtCreate}}</span>
+            <span class="item-value">{{formDate(solutionPlan.gmtCreate)}}</span>
+          </a-col>
+          <a-col :span="8" class="detail-item">
+            <span class="item-key">周期时长：</span>
+            <span class="item-value">{{solutionPlan.cycleAllLength}}</span>
+          </a-col>
+          <a-col :span="8" class="detail-item">
+            <span class="item-key">状态：</span>
+            <span class="item-value">{{solutionPlan.status === 'Y' ? '启用' : '禁用'}}</span>
+          </a-col>
+          <a-col :span="8" class="detail-item">
+            <span class="item-key">方案权限：</span>
+            <span class="item-value">{{solutionPlan.solutionScope === 'market' ? '公开市场' : '公司私有'}}</span>
+          </a-col>
+          <a-col :span="8" class="detail-item">
+            <span class="item-key">方案参与人：</span>
+            <span class="item-value">{{formatterUser(solutionPlan.participantUserList)}}</span>
           </a-col>
 
         </a-row>
@@ -74,6 +102,10 @@
           :style="{marginTop: '50px'}"
           :rowKey="record => record.greenhouseId"
         >
+          <span
+            slot="materialName"
+            slot-scope="text, record, index"
+          >{{record.materialName + '-' + record.materialDosage + record.materialDosageUnit}}</span>
             <span
               slot="id"
               slot-scope="text, record, index"
@@ -83,13 +115,28 @@
         </a-table>
       </div>
     </div>
+    <!--发布弹窗-->
+    <a-modal
+      title="发布方案"
+      :visible="publishVisible"
+      :width="450"
+      @ok="publishHandleOk"
+      :confirmLoading="publishConfirmLoading"
+      @cancel="publishHandleCancel"
+      okText="确认"
+      cancelText='取消'
+    >
+      <div>
+        是否发布当前方案到{{solutionPlan.solutionScope === 'market' ? '公开市场' : '公司私有'}}？
+      </div>
+    </a-modal>
   </div>
 </template>
 <script>
     import Vue from 'vue'
     import domUtil from "../../../utils/domUtil";
     import { Row,Col,Table, Radio, Button} from 'ant-design-vue'
-    import { projectDetail } from '@/api/projectCenter.js'
+    import { projectDetail, publishTask } from '@/api/projectCenter.js'
     import crumbsNav from "@/components/crumbsNav/CrumbsNav";
     Vue.use(Row)
     Vue.use(Col)
@@ -100,6 +147,8 @@
         data () {
             let self = this;
             return {
+                publishConfirmLoading: false,
+                publishVisible: false,
                 crumbsArr:[
                     {name: '当前位置', back: false, path: ''},
                     {name: '生产管理', back: false, path: ''},
@@ -121,27 +170,23 @@
                 },
                 columns: [
                     { title: '序号', scopedSlots: { customRender: 'id' }, align: 'center', width: 80},
+                    { title: '任务操作', dataIndex: 'actionName', key: 'actionName', width: 150 },
                     { title: '所属周期', dataIndex: 'cycleName', key: 'cycleName', width: 150 },
-                    { title: '操作类型', dataIndex: 'actionName', key: 'actionName', width: 150 },
-                    { title: '生产操作', dataIndex: 'expertName', key: 'expertName', width: 150 },
-                    { title: '使用农资', dataIndex: 'materialName', key: 'materialName', width: 150 },
-                    {
-                        title: '用途',
-                        dataIndex: 'taskUse',
-                        width: 150,
-                        scopedSlots: { customRender: 'taskUse' },
-                    },
-                    {
-                        title: '物料用量',
-                        dataIndex: 'materialDosage',
-                        key: 'materialDosage',
-                        width: 150
+                    { title: '农事类型', dataIndex: 'farmingTypeName', key: 'farmingTypeName', width: 150 },
+                    { title: '使用农资及用量(每亩)', dataIndex: 'materialName', key: 'materialName', width: 150,
+                        scopedSlots: { customRender: 'materialName' },
                     },
                     {
                         title: '执行周期',
                         dataIndex: 'actionCycle',
                         key: 'actionCycle',
                         width: 150,
+                    },
+                    {
+                        title: '用途',
+                        dataIndex: 'taskUse',
+                        width: 150,
+                        scopedSlots: { customRender: 'taskUse' },
                     },
                     {
                         title: '农事描述',
@@ -165,6 +210,51 @@
             this.getProjectDetail();
         },
         methods:{
+            openPublishDialog(){
+                this.publishVisible = true;
+            },
+            publishHandleCancel(){
+                this.publishVisible = false;
+            },
+            publishHandleOk(){
+                this._publishTask();
+            },
+            backToList(){
+                this.$router.push('/projectCenter')
+            },
+            //发布任务
+            _publishTask(){
+                if(this.detail.publishFlag === 'Y'){
+                    return
+                }
+                publishTask(this.detail.solutionId).then((res) => {
+                    if (res.success === 'Y') {
+                        this.detail.publishFlag = 'Y';
+                        this.publishVisible = false;
+                        this.getProjectDetail()
+                    }
+                })
+            },
+            formDate(date){
+                return domUtil.formDate(date)
+            },
+            formatterUser(userList){
+                if(userList.length === 0){
+                    return ''
+                }
+                if (userList.length === 1){
+                    return userList[0].userName
+                }
+                let user = ''
+                for(let i = 0; i< userList.length; i++){
+                    if(i < userList.length){
+                        user = user + userList[i].userName + '、'
+                    }else {
+                        user += userList[i].userName
+                    }
+                }
+                return user
+            },
             getProjectDetail(){
                 projectDetail(this.detail.solutionId).then((res) => {
                     let detailData = res.data;
@@ -182,6 +272,14 @@
     }
 </script>
 <style lang="less" scoped>
+  .actionBtn{
+    position: absolute;
+    right: 50px;
+    top: -5px;
+  }
+  .actionBtn button:nth-of-type(1){
+    margin-right: 20px;
+  }
   .textOverCtr{
     overflow: hidden;
     text-overflow: ellipsis;
@@ -251,6 +349,8 @@
     }
     .title-wrapper{
       position: absolute;
+      width: 100%;
+      text-align: left;
       left: 24px;
 
       .title-text{
