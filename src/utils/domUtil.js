@@ -23,7 +23,6 @@ export const setDocumentTitle = function (title) {
 export default {
   compareArr (array2, array1) {
     let result = [];
-    debugger
     for (let i = 0; i < array2.length; i++) {
       let obj = array2[i];
       let num = obj.value;
@@ -50,7 +49,6 @@ export default {
    *         index2 移动后位置
    * */
   swapItems (arr, index1, index2, direction) {
-    debugger
     arr[index1] = arr.splice(index2, 1, arr[index1])[0];
     return arr;
   },

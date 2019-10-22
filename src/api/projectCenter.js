@@ -71,3 +71,54 @@ export function addNewTask(putData) {
     data: putData
   })
 }
+//获取修改方案的详细信息
+export function editProjectDetail(solutionId) {
+  return axios({
+    url: `/plan/solutionDetail/${solutionId}`,
+    method: 'GET',
+  })
+}
+//修改方案
+export function editProjectMsg(solutionId, data) {
+  return axios({
+    url: `/plan`,
+    method: 'PUT',
+    data: data
+  })
+}
+//方案状态修改
+export function editProjectStatus(solutionId, status) {
+  return axios({
+    url: `/plan/status/${solutionId}/${status}`,
+    method: 'POST',
+  })
+}
+//发布任务
+export function publishTask(solutionId) {
+  return axios({
+    url: `/plan/publish/${solutionId}`,
+    method: 'POST',
+  })
+}
+//删除方案
+export function delProjectTask(solutionId) {
+  return axios({
+    url: `/plan/${solutionId}`,
+    method: 'DELETE',
+  })
+}
+//拷贝方案
+export function copyProject(solutionId) {
+  return axios({
+    url: `/plan/copy/${solutionId}`,
+    method: 'POST',
+  })
+}
+//
+export function checkProjectRepeat(data) {
+  return axios({
+    url: `/plan/repeatSolutionName`,
+    method: 'POST',
+    data: data,
+  })
+}

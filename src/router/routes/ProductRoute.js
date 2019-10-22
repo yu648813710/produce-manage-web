@@ -133,5 +133,25 @@ export default {
       component: () => import('@/views/project/projectCenter/addNewProject.vue'),
       meta: { name: '新增方案', icon: '' }
     },
+    {
+      path: '/planMarket',
+      name: 'planMarket',
+      component: () => import('@/views/planMarket'),
+      meta: { name: '方案市场', icon: '' }
+    },
+    {
+      path: '/planMarketDetail/:solutionId',
+      name: 'planMarketDetail',
+      hidden: true,
+      component: () => import('@/views/planMarket/detail.vue'),
+      meta: { name: '方案市场详情', icon: '' }
+    },
+    {
+      path: '/editProject',
+      name: 'editProject',
+      hidden: true,
+      component: () => import('@/views/project/projectCenter/editProject.vue'),
+      meta: { name: '修改方案', icon: '' }
+    },
   ]
 }
