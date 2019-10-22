@@ -309,7 +309,6 @@ export default {
     }
   },
   created () {
-    let self = this
     this.loading = false
     this.getTaskManageList(this.pagination.current, this.pagination.pageSize)
     this.getTaskStateData()

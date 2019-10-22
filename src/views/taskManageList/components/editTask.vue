@@ -12,7 +12,7 @@
       }"
       :destroyOnClose="true"
       class="task-detail"
-    >
+      >
       <a-form
         :form="editFrom"
         @submit="editFromSubmit"
