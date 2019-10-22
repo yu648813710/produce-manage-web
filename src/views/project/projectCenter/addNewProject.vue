@@ -154,7 +154,7 @@
                         :wrapper-col="{ span: 3 }">
                   <a-form-item
                     v-for="(k, index) in cycleList"
-                    :key="k.duration"
+                    :key="index"
                     :required="false"
                   >
                     <div class="growthCycle">

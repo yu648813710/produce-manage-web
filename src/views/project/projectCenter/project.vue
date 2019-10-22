@@ -107,7 +107,7 @@
               slot="status"
               slot-scope="text, record, index"
             >
-                <a-switch :checked="record.status === 'Y'" @change="statusChange(record)"/>
+                <a-switch checkedChildren="启用" unCheckedChildren="禁用" :checked="record.status === 'Y'" @change="statusChange(record)"/>
               </span>
             <span
               slot="id"

@@ -5,7 +5,7 @@
   <div style="height: 100%">
     <div class="wrapper">
       <a-steps :current="current" :labelPlacement="vertical">
-        <a-step :labelPlacement="vertical" v-for="item in steps" :key="item.title" :title="item.title"/>
+        <a-step :labelPlacement="vertical" v-for="(item, index) in steps" :key="index" :title="item.title"/>
       </a-steps>
       <!--基本信息-->
       <div v-show="current === 0">
@@ -153,13 +153,12 @@
                         :wrapper-col="{ span: 3 }">
                   <a-form-item
                     v-for="(k, index) in cycleList"
-                    :key="k.duration"
+                    :key="index"
                     :required="false"
                   >
                     <div class="growthCycle">
                       <a-input-number
                         :min="1"
-                        :defaultValue="1"
                         class="search-input"
                         v-decorator="[
           `${index}`,
@@ -387,7 +386,6 @@
                   <a-form-item :label-col="{ span: 0 }" :wrapper-col="{ span: 24 }">
                     <a-input-number
                       :min="1"
-                      :defaultValue="1"
                       style="width: 100%"
                       v-decorator="taskForm.minActionRule"
                       placeholder="请输入开始周期"
@@ -402,7 +400,6 @@
                   <a-form-item :label-col="{ span: 0 }" :wrapper-col="{ span: 24 }">
                     <a-input-number
                       :min="1"
-                      :defaultValue="1"
                       style="width: 100%"
                       v-decorator="taskForm.maxActionRule"
                       placeholder="请输入结束周期"
@@ -458,7 +455,6 @@
             </a-select>
             <a-input-number
               :min="1"
-              :defaultValue="1"
               class="tableSelect"
               v-model="consumption"
             />
@@ -962,6 +958,7 @@
                                 taskUse: values.purpose,
                             })
                             console.log(self.taskList)
+                            self.taskCacheList.taskId = '';
                             self.taskCacheList.cycleDescription = values.cycleDesc;
                             self.taskCacheList.cycleDesc = values.cycleDesc;
                             self.taskCacheList.purpose = values.purpose;
@@ -1236,6 +1233,7 @@
                 this.isAdd = false;
                 this.getActionTypeArr(JSON.parse(record.frameType).value);
                 this.getMaterialArr(JSON.parse(record.frameType).value);
+                // this.isFrameType = true;
                 this.isAddTask = true;
                 console.log(record)
             },
