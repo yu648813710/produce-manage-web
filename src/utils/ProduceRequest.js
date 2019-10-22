@@ -2,7 +2,6 @@ import axios from 'axios'
 import notification from 'ant-design-vue/es/notification'
 import store from '@/store'
 import { VueAxios } from './axios'
-
 const baseURL = {
   'dev': '/api',
   'test': '/api',
@@ -40,11 +39,13 @@ const err = (error) => {
       })
     }
   }
+  store.commit( 'UPDATE_LOADING', false)
   return Promise.reject(error)
 }
 
 // request interceptor
 service.interceptors.request.use(config => {
+  store.commit( 'UPDATE_LOADING', true)
   const token = store.getters.userToken
   if (token) {
     config.headers['Access-Token'] = token // 让每个请求携带自定义 token 请根据实际情况自行修改
@@ -54,6 +55,8 @@ service.interceptors.request.use(config => {
 
 // response interceptor
 service.interceptors.response.use((response) => {
+  console.log(response)
+  store.commit( 'UPDATE_LOADING', false)
   return response.data
 }, err)
 

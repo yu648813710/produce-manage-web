@@ -4,6 +4,7 @@
 <template>
   <div>
     <div class="wrapper">
+      <crumbsNav :crumbsArr="crumbsArr"></crumbsNav>
       <div class="title-wrapper">
         <div class="icon"></div>
         <span class="title-text">黑木耳种植方案</span>
@@ -40,11 +41,11 @@
           <a-col :span="24" class="detail-item">
             <span class="item-key">时间单位：</span>
             <a-radio-group name="radioGroup" :value="cycleUnit">
-              <div :class="cycleUnit === 'week' ? 'checkDateTpyeRadio' : 'dateTpyeRadio'">
-                <a-radio value="week">周</a-radio>
+              <div :class="cycleUnit === '3' ? 'checkDateTpyeRadio' : 'dateTpyeRadio'">
+                <a-radio value="3">周</a-radio>
               </div>
-              <div :class="cycleUnit === 'day' ? 'checkDateTpyeRadio' : 'dateTpyeRadio'">
-                <a-radio value="day">天</a-radio>
+              <div :class="cycleUnit === '5' ? 'checkDateTpyeRadio' : 'dateTpyeRadio'">
+                <a-radio value="5">天</a-radio>
               </div>
             </a-radio-group>
           </a-col>
@@ -89,6 +90,7 @@
     import domUtil from "../../../utils/domUtil";
     import { Row,Col,Table, Radio, Button} from 'ant-design-vue'
     import { projectDetail } from '@/api/projectCenter.js'
+    import crumbsNav from "@/components/crumbsNav/CrumbsNav";
     Vue.use(Row)
     Vue.use(Col)
     Vue.use(Table)
@@ -98,6 +100,12 @@
         data () {
             let self = this;
             return {
+                crumbsArr:[
+                    {name: '当前位置', back: false, path: ''},
+                    {name: '生产管理', back: false, path: ''},
+                    {name: '方案中心', back: true, path: '/projectCenter'},
+                    {name: '方案详情', back: false, path: ''},
+                ],
                 detail: this.$route.params,
                 list: [],
                 // dateType: 'week',
@@ -143,18 +151,13 @@
                         scopedSlots: { customRender: 'taskDescription' },
 
                     },
-                    // {
-                    //     title: '操作',
-                    //     key: 'operation',
-                    //     scopedSlots: { customRender: 'operation' },
-                    //     width: 160,
-                    //     align: 'center',
-                    //     fixed: 'right'
-                    // }
                 ],
                 cycleUnit: '',
                 solutionPlan: '',
             }
+        },
+        components: {
+            crumbsNav,
         },
         mounted(){
             this.detail.gmtCreate = domUtil.formDate(this.detail.gmtCreate)
@@ -240,7 +243,12 @@
     background: #fff;
     margin: 16px;
     border-radius: 4px;
-
+    /deep/ .ant-table-tbody > tr > td {
+      padding: 16px 0 !important;
+    }
+    /deep/ .ant-table-thead > tr > th {
+      padding: 16px 0 !important;
+    }
     .title-wrapper{
       position: absolute;
       left: 24px;

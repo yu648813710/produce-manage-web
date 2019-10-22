@@ -15,14 +15,14 @@ export function taskManageList (data) {
   return axios({
     url: '/farmPlan/task/page',
     method: 'POST',
-    data: data,
+    data: data
   })
 }
 // 获取生长监控数据
 export function growthData () {
   return axios({
     url: 'produce/monitor/warning/showEarlyWarningSummary/gh',
-    method: 'POST',
+    method: 'POST'
   })
 }
 // 获取湿度/温度报警数据
@@ -30,7 +30,7 @@ export function shiduData (data, type) {
   return axios({
     url: `/produce/monitor/warning/searchNewAlarm/${type.dikuai}/${type.type}`,
     method: 'POST',
-    data: data,
+    data: data
   })
 }
 // 获取预警规则列表
@@ -38,7 +38,7 @@ export function ruleList (type, data) {
   return axios({
     url: `/produce/monitor/rule/searchWarningList/${type}`,
     method: 'POST',
-    data: data,
+    data: data
   })
 }
 
@@ -47,7 +47,7 @@ export function addRule (data) {
   return axios({
     url: `/produce/monitor/rule/addWarningRule`,
     method: 'POST',
-    data: data,
+    data: data
   })
 }
 
@@ -55,7 +55,7 @@ export function addRule (data) {
 export function listBaseLandSelect () {
   return axios({
     url: `/produce/monitor/rule/listBaseLand`,
-    method: 'GET',
+    method: 'GET'
   })
 }
 
@@ -63,7 +63,7 @@ export function listBaseLandSelect () {
 export function listBlockLandByBaseLandIdSelect (id) {
   return axios({
     url: `/produce/monitor/rule/listBlockLandByBaseLandId?baseLandId=${id}`,
-    method: 'GET',
+    method: 'GET'
   })
 }
 
@@ -72,7 +72,7 @@ export function setRule (data) {
   return axios({
     url: `/produce/monitor/rule/editWarning`,
     method: 'POST',
-    data: data,
+    data: data
   })
 }
 
@@ -80,7 +80,7 @@ export function setRule (data) {
 export function deleteRule (id) {
   return axios({
     url: `/produce/monitor/rule/removeWarning?blockLandId=${id}`,
-    method: 'GET',
+    method: 'GET'
   })
 }
 
@@ -88,7 +88,7 @@ export function deleteRule (id) {
 export function getTaskState () {
   return axios({
     url: `/farmPlan/task/status`,
-    method: 'GET',
+    method: 'GET'
   })
 }
 
@@ -96,7 +96,7 @@ export function getTaskState () {
 export function deleteTask (taskInstId) {
   return axios({
     url: `/farmPlan/task/${taskInstId}`,
-    method: 'DELETE',
+    method: 'DELETE'
   })
 }
 
@@ -104,7 +104,24 @@ export function deleteTask (taskInstId) {
 export function getTaskDetail (taskInstId) {
   return axios({
     url: `/farmPlan/task/${taskInstId}`,
-    method: 'GET',
+    method: 'GET'
+  })
+}
+
+// 方案市场列表
+export function planMarketList (params) {
+  return axios({
+    url: '/plan/pc/list',
+    method: 'POST',
+    data: params
+  })
+}
+
+// 方案详情
+export function planMarketDetail (solutionId) {
+  return axios({
+    url: `/plan/${solutionId}`,
+    method: 'GET'
   })
 }
 
@@ -112,7 +129,7 @@ export function getTaskDetail (taskInstId) {
 export function getMaterial () {
   return axios({
     url: `/material/`,
-    method: 'GET',
+    method: 'GET'
   })
 }
 
@@ -120,7 +137,7 @@ export function getMaterial () {
 export function getUtil () {
   return axios({
     url: `/unit/`,
-    method: 'GET',
+    method: 'GET'
   })
 }
 
