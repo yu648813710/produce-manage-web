@@ -32,6 +32,10 @@ const tableColumns = [
     width: 120,
   },
   {
+    title: '任务完成时间', dataIndex: 'executeTime',
+    width: 120,
+  },
+  {
     title: '负责人', dataIndex: 'assigner',
     width: 100,
   },

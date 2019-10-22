@@ -2,7 +2,7 @@ import { axios } from '@/utils/request';
 // 获取农事计划列表
 export function farmPlanList (data) {
   return axios({
-    url: '/farmPlan/page/',
+    url: '/produce/farmPlan/page/',
     method: 'POST',
     data: data
   })
@@ -10,14 +10,14 @@ export function farmPlanList (data) {
 // 新增农事计划选择产品列表
 export function selectProFarmPlan () {
   return axios({
-    url: '/product/',
+    url: '/produce/product/',
     method: 'GET'
   })
 }
 // 新增农事计划选择种植方案
 export function selectSolutionFarmPlan (breedId) {
   return axios({
-    url: `/farmPlan/solution/${breedId}`,
+    url: `/produce/farmPlan/solution/${breedId}`,
     method: 'GET'
   })
 }
@@ -25,7 +25,7 @@ export function selectSolutionFarmPlan (breedId) {
 // 新增农事计划选择基地
 export function selectBaselandFarmPlan () {
   return axios({
-    url: `/baseland/list/`,
+    url: `/produce/baseland/list/`,
     method: 'GET'
   })
 }
@@ -33,7 +33,7 @@ export function selectBaselandFarmPlan () {
 // 新增农事计划选择菌包
 export function selectFungusbagFarmPlan () {
   return axios({
-    url: `/fungusbag/list/`,
+    url: `/produce/fungusbag/list/`,
     method: 'GET'
   })
 }
@@ -42,7 +42,7 @@ export function selectFungusbagFarmPlan () {
 
 export function selectBaseLandIdFarmPlan (baseLandId) {
   return axios({
-    url: `/blockland/list/${baseLandId}
+    url: `/produce/blockland/list/${baseLandId}
     `,
     method: 'GET'
   })
@@ -52,7 +52,7 @@ export function selectBaseLandIdFarmPlan (baseLandId) {
 
 export function addFarmPlan (data) {
   return axios({
-    url: `/farmPlan/`,
+    url: `/produce/farmPlan/`,
     method: 'POST',
     data
   })
@@ -61,7 +61,7 @@ export function addFarmPlan (data) {
 // 农事计划详情
 export function farmPlanDetail (id) {
   return axios({
-    url: `/farmPlan/${id}`,
+    url: `/produce/farmPlan/${id}`,
     method: 'GET'
   })
 }
@@ -69,7 +69,7 @@ export function farmPlanDetail (id) {
 // 农事计划详情任务列表
 export function farmPlanDetailList (id, data) {
   return axios({
-    url: `/farmPlan/task/${id}`,
+    url: `/produce/farmPlan/task/${id}`,
     method: 'POST',
     data
   })
