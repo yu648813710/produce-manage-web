@@ -83,6 +83,8 @@ const app = {
           { name: '新增农事计划' },
           { name: '新增临时任务' },
           { name: '方案中心' },
+          { name: '方案市场' },
+          { name: '方案市场详情'}
         ]
         resolve(auth)
       })
