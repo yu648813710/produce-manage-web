@@ -14,7 +14,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   modules: modules,
   state: {
-    loading: true,
+    loading: false,
   },
   mutations: {
     UPDATE_LOADING(state, val){

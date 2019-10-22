@@ -4,6 +4,7 @@
 <template>
   <div>
     <div class="wrapper">
+      <crumbsNav :crumbsArr="crumbsArr"></crumbsNav>
       <div class="title-wrapper">
         <div class="icon"></div>
         <span class="title-text">黑木耳种植方案</span>
@@ -89,6 +90,7 @@
     import domUtil from "../../../utils/domUtil";
     import { Row,Col,Table, Radio, Button} from 'ant-design-vue'
     import { projectDetail } from '@/api/projectCenter.js'
+    import crumbsNav from "@/components/crumbsNav/CrumbsNav";
     Vue.use(Row)
     Vue.use(Col)
     Vue.use(Table)
@@ -98,6 +100,12 @@
         data () {
             let self = this;
             return {
+                crumbsArr:[
+                    {name: '当前位置', back: false, path: ''},
+                    {name: '生产管理', back: false, path: ''},
+                    {name: '方案中心', back: true, path: '/projectCenter'},
+                    {name: '方案详情', back: false, path: ''},
+                ],
                 detail: this.$route.params,
                 list: [],
                 // dateType: 'week',
@@ -147,6 +155,9 @@
                 cycleUnit: '',
                 solutionPlan: '',
             }
+        },
+        components: {
+            crumbsNav,
         },
         mounted(){
             this.detail.gmtCreate = domUtil.formDate(this.detail.gmtCreate)

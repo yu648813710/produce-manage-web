@@ -39,6 +39,7 @@ const err = (error) => {
       })
     }
   }
+  store.commit( 'UPDATE_LOADING', false)
   return Promise.reject(error)
 }
 

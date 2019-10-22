@@ -6,6 +6,7 @@
     <a-layout>
       <a-layout-content style="margin: 16px">
         <div class="search-wrapper">
+          <crumbsNav :crumbsArr="crumbsArr"></crumbsNav>
           <a-row :gutter="40">
             <a-col :span="6">
               <a-row>
@@ -154,6 +155,7 @@
 </template>
 <script>
     import Vue from 'vue'
+    import crumbsNav from "@/components/crumbsNav/CrumbsNav";
     import {projectList, copyProject, editProjectStatus, publishTask, delProjectTask} from '@/api/projectCenter.js'
     import domUtil from '../../../utils/domUtil'
     import {
@@ -181,8 +183,8 @@
     Vue.use(Button)
     Vue.use(Table)
     export default {
-        component: {
-            // 'a-button': Button
+        components: {
+            crumbsNav,
         },
         created() {
         },
@@ -192,6 +194,11 @@
         },
         data() {
             return {
+                crumbsArr:[
+                    {name: '当前位置', back: false, path: ''},
+                    {name: '生产管理', back: false, path: ''},
+                    {name: '方案中心', back: false, path: ''},
+                ],
                 searchParams: {
                     status: '',
                     solutionScope: '',
