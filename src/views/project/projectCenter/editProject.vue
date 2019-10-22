@@ -4,6 +4,7 @@
 <template>
   <div style="height: 100%">
     <div class="wrapper">
+      <crumbsNav :crumbsArr="crumbsArr"></crumbsNav>
       <a-steps :current="current" :labelPlacement="vertical">
         <a-step :labelPlacement="vertical" v-for="(item, index) in steps" :key="index" :title="item.title"/>
       </a-steps>
@@ -553,7 +554,7 @@
         editProjectMsg, checkProjectRepeat,
     } from '@/api/projectCenter.js'
     import {Form, Table, Row, Col, Steps, Radio, icon, Modal, Button, Input, Select} from 'ant-design-vue'
-
+    import crumbsNav from "@/components/crumbsNav/CrumbsNav";
     Vue.use(Row)
     Vue.use(Col)
     Vue.use(Form)
@@ -568,6 +569,12 @@
     export default {
         data() {
             return {
+                crumbsArr:[
+                    {name: '当前位置', back: false, path: ''},
+                    {name: '生产管理', back: false, path: ''},
+                    {name: '方案中心', back: true, path: '/projectCenter'},
+                    {name: '编辑方案', back: false, path: ''},
+                ],
                 projectDetail: this.$route.params,
                 list: [],
                 msgForm: {
@@ -715,6 +722,9 @@
                 projectNameRepeat: false,
                 projectNameValidator: '',
             }
+        },
+        components: {
+            crumbsNav,
         },
         mounted() {
             let self = this;
