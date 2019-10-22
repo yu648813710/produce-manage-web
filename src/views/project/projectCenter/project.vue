@@ -25,7 +25,7 @@
             <a-col :span="6">
               <a-row>
                 <a-col :span="6">
-                  <span class="search-title">产品名称</span>
+                  <span class="search-title">产品品种</span>
                 </a-col>
                 <a-col :span="18">
                   <a-input
@@ -229,7 +229,7 @@
                 columns: [
                     {title: '序号', scopedSlots: {customRender: 'id'}, align: 'center'},
                     {title: '方案名称', dataIndex: 'solutionName', key: 'projectName'},
-                    {title: '产品品种', dataIndex: 'categoryName', key: 'categoryName'},
+                    {title: '产品品种', dataIndex: 'breedName', key: 'breedName'},
                     {title: '专家姓名', dataIndex: 'solutionExpertName', key: 'solutionExpertName'},
                     {title: '方案提供公司', dataIndex: 'companyName', key: 'companyName'},
                     {
