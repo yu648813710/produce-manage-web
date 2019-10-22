@@ -4,6 +4,7 @@
 <template>
   <div style="height: 100%">
     <div class="wrapper">
+      <crumbsNav :crumbsArr="crumbsArr"></crumbsNav>
       <a-steps :current="current" :labelPlacement="vertical">
         <a-step :labelPlacement="vertical" v-for="item in steps" :key="item.title" :title="item.title"/>
       </a-steps>
@@ -154,7 +155,7 @@
                         :wrapper-col="{ span: 3 }">
                   <a-form-item
                     v-for="(k, index) in cycleList"
-                    :key="k.duration"
+                    :key="index"
                     :required="false"
                   >
                     <div class="growthCycle">
@@ -537,6 +538,7 @@
         'cycleDesc',
         {rules: [{required: false, message: '请输入农事描述'}]}
     ]
+    import crumbsNav from "@/components/crumbsNav/CrumbsNav";
     import Vue from 'vue'
     import domUtil from "../../../utils/domUtil";
     import {
@@ -565,6 +567,12 @@
     export default {
         data() {
             return {
+                crumbsArr:[
+                    {name: '当前位置', back: false, path: ''},
+                    {name: '生产管理', back: false, path: ''},
+                    {name: '方案中心', back: true, path: '/projectCenter'},
+                    {name: '新增方案', back: false, path: ''},
+                ],
                 list: [],
                 msgForm: {
                     projectNameRule: '',
@@ -710,6 +718,9 @@
                 projectNameRepeat: false,
 
             }
+        },
+        components:{
+            crumbsNav,
         },
         mounted() {
             let self = this;

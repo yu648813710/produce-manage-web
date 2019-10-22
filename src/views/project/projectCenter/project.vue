@@ -6,6 +6,7 @@
     <a-layout>
       <a-layout-content style="margin: 16px">
         <div class="search-wrapper">
+          <crumbsNav :crumbsArr="crumbsArr"></crumbsNav>
           <a-row :gutter="40">
             <a-col :span="6">
               <a-row>
@@ -42,6 +43,7 @@
                 </a-col>
                 <a-col :span="18">
                   <a-select class="detail-input" placeholder="请选择状态" style="width: 100%"
+                            :value="searchParams.status"
                             @change="searchStatusChange"
                   >
                     <a-select-option value="">全部</a-select-option>
@@ -61,6 +63,7 @@
                 </a-col>
                 <a-col :span="18">
                   <a-select class="detail-input" placeholder="请选择方案权限" style="width: 100%"
+                            :value="searchParams.solutionScope"
                             @change="powerChange"
                   >
                     <a-select-option value="">全部</a-select-option>
@@ -75,7 +78,7 @@
             </a-col>
           </a-row>
           <div>
-            <a-button class="button">重置</a-button>
+            <a-button class="button" @click="rest">重置</a-button>
             <a-button
               type="primary"
               class="button"
@@ -105,7 +108,7 @@
               slot="status"
               slot-scope="text, record, index"
             >
-                <a-switch :checked="record.status === 'Y'" @change="statusChange(record)"/>
+                <a-switch checkedChildren="启用" unCheckedChildren="禁用" :checked="record.status === 'Y'" @change="statusChange(record)"/>
               </span>
             <span
               slot="id"
@@ -152,6 +155,7 @@
 </template>
 <script>
     import Vue from 'vue'
+    import crumbsNav from "@/components/crumbsNav/CrumbsNav";
     import {projectList, copyProject, editProjectStatus, publishTask, delProjectTask} from '@/api/projectCenter.js'
     import domUtil from '../../../utils/domUtil'
     import {
@@ -179,8 +183,8 @@
     Vue.use(Button)
     Vue.use(Table)
     export default {
-        component: {
-            // 'a-button': Button
+        components: {
+            crumbsNav,
         },
         created() {
         },
@@ -190,6 +194,11 @@
         },
         data() {
             return {
+                crumbsArr:[
+                    {name: '当前位置', back: false, path: ''},
+                    {name: '生产管理', back: false, path: ''},
+                    {name: '方案中心', back: false, path: ''},
+                ],
                 searchParams: {
                     status: '',
                     solutionScope: '',
@@ -221,7 +230,7 @@
                     {title: '序号', scopedSlots: {customRender: 'id'}, align: 'center'},
                     {title: '方案名称', dataIndex: 'solutionName', key: 'projectName'},
                     {title: '产品品种', dataIndex: 'categoryName', key: 'categoryName'},
-                    {title: '专家姓名', dataIndex: 'expertName', key: 'expertName'},
+                    {title: '专家姓名', dataIndex: 'solutionExpertName', key: 'solutionExpertName'},
                     {title: '方案提供公司', dataIndex: 'companyName', key: 'companyName'},
                     {
                         title: '创建时间',
@@ -291,8 +300,6 @@
             searchProjectList(){
                 this.pagination.current = 1;
                 this.getProjectList();
-
-                console.log(postData)
             },
             //拷贝方案
             _copyProject(record){
@@ -301,6 +308,12 @@
                         this.getProjectList();
                     }
                 })
+            },
+            rest(){
+                this.searchParams.breedName = '';
+                this.searchParams.solutionScope = '';
+                this.searchParams.status = '';
+                this.searchParams.solutionName = '';
             },
             //搜索栏状态改变
             searchStatusChange(value){

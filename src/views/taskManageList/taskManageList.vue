@@ -35,7 +35,7 @@
             >
               <span
                 slot="title"
-                @click="getTaskDetailData(record.instId)"
+                @click="showDetailTask(record.instId)"
               >查看</span>
               <span
                 slot="title"
@@ -238,18 +238,17 @@ export default {
       this.getTaskManageList(this.pagination.current, this.pagination.pageSize)
     },
     // 请求详情数据
-    getTaskDetailData(id, type) {
-      if (!type) {
-        this.showDetailTask()
-      }
+    getTaskDetailData(id) {
       getTaskDetail(id).then(res => {
         if (res.code === 200) {
           this.detailTaskData = res.data
         }
       })
     },
-    showDetailTask() {
+    // 显示详情
+    showDetailTask(id) {
       this.detailTaskShow = true
+      this.getTaskDetailData(id)
     },
     hiddenDetailTask() {
       this.detailTaskShow = false
@@ -266,7 +265,6 @@ export default {
     editTaskShow(id) {
       this.editTaskShowState = true
       getTaskDetail(id).then(res => {
-        console.log(res)
         if (res.code === 200) {
           this.detailTaskData = res.data
         }
