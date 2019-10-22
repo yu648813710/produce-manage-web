@@ -68,10 +68,24 @@ export default {
       meta: { name: '任务管理', icon: '' }
     },
     {
-      path: '/growthMonitore',
-      name: 'growthMonitore',
-      component: () => import('@/views/Production/growthMonitore/growthMonitore.vue'),
-      meta: { name: '生长监控', icon: '' }
+      path: 'production',
+      name: 'production',
+      component: () => import('@/views/Production/index.vue'),
+      meta: { name: '生长监控', icon: '' },
+      children: [
+        {
+          path: 'growthMonitore',
+          name: 'growthMonitore',
+          component: () => import('@/views/Production/growthMonitore/growthMonitore.vue'),
+          meta: { name: '生长监控大屏', icon: '' }
+        },
+        {
+          path: 'rulelist',
+          name: 'rulelist',
+          component: () => import('@/views/Production/RuleList/index.vue'),
+          meta: { name: '加工车间预警规则列表', icon: '' }
+        }
+      ]
     },
     {
       path: '/warringList/:type',
@@ -132,6 +146,6 @@ export default {
       hidden: true,
       component: () => import('@/views/project/projectCenter/addNewProject.vue'),
       meta: { name: '新增方案', icon: '' }
-    },
+    }
   ]
 }

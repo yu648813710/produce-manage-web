@@ -112,7 +112,7 @@ import {
 import { tableColumns, crumbsArr } from './config'
 import SearchForm from './components/SearchForm'
 import TaskDetail from './components/TaskDetail'
-import EditTask from './components/EditTask'
+import EditTask from './components/editTask'
 import CrumbsNav from '@/components/crumbsNav/CrumbsNav'
 // const confirm = Modal.confirm
 Vue.use(Form)

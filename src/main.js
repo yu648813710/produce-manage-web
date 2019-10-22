@@ -10,26 +10,22 @@ import config from '@/config/defaultSettings'
 import { USERTOKEN } from '@/store/mutation-types'
 import scroll from 'vue-seamless-scroll'
 import Print from '@/plugs/print'
-Vue.use(Print) // 注册
-Vue.use(scroll)
 import echarts from 'echarts'
-Vue.prototype.$echarts = echarts
 
 // base library
 import { message, Icon, LocaleProvider, InputNumber } from 'ant-design-vue'
 import './utils/filter' // global filter
 import moment from 'moment'
 import 'moment/locale/zh-cn'
-moment.locale('zh-cn');
 
 // 全局样式
 import './assets/css/base.css'
 
 import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
 
-import G2 from '@antv/g2';
+import G2 from '@antv/g2'
 
-import DataSet from '@antv/data-set';
+import DataSet from '@antv/data-set'
 
 import ECharts from 'vue-echarts'
 
@@ -37,6 +33,10 @@ import 'echarts/lib/chart/bar'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/chart/pie'
+Vue.use(Print) // 注册
+Vue.use(scroll)
+Vue.prototype.$echarts = echarts
+moment.locale('zh-cn')
 
 // mock数据
 // import './mock/mock'

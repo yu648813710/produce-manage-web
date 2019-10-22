@@ -28,10 +28,11 @@ router.beforeEach((to, form, next) => {
   NProgress.start()
   to.meta && (typeof to.meta.name !== 'undefined' && setDocumentTitle(`${to.meta.name} - ${domTitle}`))
   if (store.getters.userToken) {
-    if (to.path != '/login') {
+    if (to.path !== '/login') {
       /* 已有token */
       if (store.getters.routes) {
         /* 已获取菜单权限 */
+        console.log(to)
         next()
       } else {
         /* 未获取菜单权限 */
@@ -39,14 +40,13 @@ router.beforeEach((to, form, next) => {
           return store.dispatch('GenerateRoutes', { ChildRoutes, authList })
         }).then(routes => {
           let MainRoute = DynamicRoute.find(v => v.path === '/')
-          debugger
           MainRoute.children.push(...routes)
           router.addRoutes(DynamicRoute)
           next({ path: to.path })
         })
       }
     } else {
-      next("/")
+      next('/')
     }
   } else {
     /* 没有token */
@@ -55,7 +55,6 @@ router.beforeEach((to, form, next) => {
     } else {
       next({ path: '/login' })
     }
-
   }
 })
 router.afterEach(() => {
