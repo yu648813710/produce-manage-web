@@ -84,7 +84,9 @@ const app = {
           { name: '新增临时任务' },
           { name: '方案中心' },
           { name: '方案市场' },
-          { name: '方案市场详情'}
+          { name: '方案市场详情'},
+          { name: '知识问答' },
+          { name: '知识问答详情' },
         ]
         resolve(auth)
       })
