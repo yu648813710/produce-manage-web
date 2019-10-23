@@ -128,7 +128,7 @@ export function planMarketDetail (solutionId) {
 // 方案市场详情列表
 export function planMarketDetailList(data) {
   return axios({
-    url: `/plan/materials/list`,
+    url: `/solution/plan/materials/list`,
     method: 'POST',
     data
   })
@@ -162,7 +162,7 @@ export function editTask (data) {
 // 知识问答分类
 export function knowledgeQuizCategory () {
   return axios({
-    url: `/dingDing/consult/question/listQuestionClazz`,
+    url: `/solution/dingDing/consult/question/listQuestionClazz`,
     method: 'GET'
   })
 }
@@ -170,7 +170,7 @@ export function knowledgeQuizCategory () {
 // 知识问答列表
 export function knowledgeQuizList (data) {
   return axios({
-    url: `/loresupervise/showquestionlist`,
+    url: `/solution/loresupervise/showquestionlist`,
     method: 'POST',
     data
   })
@@ -179,7 +179,7 @@ export function knowledgeQuizList (data) {
 // 知识问答详情
 export function knowledgeQuizDetail (data) {
   return axios({
-    url: `/loresupervise/showanswerdetail`,
+    url: `/solution/loresupervise/showanswerdetail`,
     method: 'POST',
     data
   })
@@ -188,7 +188,7 @@ export function knowledgeQuizDetail (data) {
 // 新增回复
 export function addKnowledgeQuizReply (data) {
   return axios({
-    url: `/loresupervise/`,
+    url: `/solution/loresupervise/`,
     method: 'POST',
     data
   })
