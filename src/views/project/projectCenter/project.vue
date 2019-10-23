@@ -3,10 +3,12 @@
 */
 <template>
   <div class="about">
+    <div class="crumbCtr">
+      <crumbsNav :crumbsArr="crumbsArr"></crumbsNav>
+    </div>
     <a-layout>
       <a-layout-content style="margin: 16px">
         <div class="search-wrapper">
-          <crumbsNav :crumbsArr="crumbsArr"></crumbsNav>
           <a-row :gutter="40">
             <a-col :span="6">
               <a-row>
@@ -410,6 +412,13 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.crumbCtr{
+  height: 20px;
+  line-height: 20px;
+  margin-top: 20px;
+  margin-left: 16px;
+  text-align: left;
+}
 .actionSpan {
   color: #1890ff;
   background-color: transparent;
