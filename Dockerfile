@@ -15,6 +15,7 @@ RUN mkdir -p /etc/nginx
 RUN mkdir -p /data/www
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY dist /data/www/
+RUN chmod 777 -R /data/
 #COPY toiletYC /data/www/toiletYC
 VOLUME [ "/data/www" ]
 EXPOSE 80

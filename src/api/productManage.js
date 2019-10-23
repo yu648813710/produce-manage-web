@@ -13,7 +13,7 @@ export function warningList (data) {
 // 获取任务管理列表
 export function taskManageList (data) {
   return axios({
-    url: '/farmPlan/task/page',
+    url: '/produce/farmPlan/task/page',
     method: 'POST',
     data: data,
   })
@@ -21,7 +21,7 @@ export function taskManageList (data) {
 // 获取生长监控数据
 export function growthData () {
   return axios({
-    url: 'produce/monitor/warning/showEarlyWarningSummary/gh',
+    url: '/produce/produce/monitor/warning/showEarlyWarningSummary/gh',
     method: 'POST',
   })
 }
@@ -36,7 +36,7 @@ export function shiduData (data, type) {
 // 获取预警规则列表
 export function ruleList (type, data) {
   return axios({
-    url: `/produce/monitor/rule/searchWarningList/${type}`,
+    url: `/produce/produce/monitor/rule/searchWarningList/${type}`,
     method: 'POST',
     data: data,
   })
@@ -45,7 +45,7 @@ export function ruleList (type, data) {
 // 新增预警规则
 export function addRule (data) {
   return axios({
-    url: `/produce/monitor/rule/addWarningRule`,
+    url: `/produce/produce/monitor/rule/addWarningRule`,
     method: 'POST',
     data: data,
   })
@@ -54,7 +54,7 @@ export function addRule (data) {
 // 获取新增预警规则时基地选项
 export function listBaseLandSelect () {
   return axios({
-    url: `/produce/monitor/rule/listBaseLand`,
+    url: `/produce/produce/monitor/rule/listBaseLand`,
     method: 'GET',
   })
 }
@@ -62,7 +62,7 @@ export function listBaseLandSelect () {
 // 获取新增预警规则时地块以及负责人选项
 export function listBlockLandByBaseLandIdSelect (id) {
   return axios({
-    url: `/produce/monitor/rule/listBlockLandByBaseLandId?baseLandId=${id}`,
+    url: `/produce/produce/monitor/rule/listBlockLandByBaseLandId?baseLandId=${id}`,
     method: 'GET',
   })
 }
@@ -87,7 +87,7 @@ export function deleteRule (id) {
 // 获取木耳任务的状态
 export function getTaskState () {
   return axios({
-    url: `/farmPlan/task/status`,
+    url: `/produce/farmPlan/task/status`,
     method: 'GET',
   })
 }
@@ -95,7 +95,7 @@ export function getTaskState () {
 // 删除木耳任务
 export function deleteTask (taskInstId) {
   return axios({
-    url: `/farmPlan/task/${taskInstId}`,
+    url: `/produce/farmPlan/task/${taskInstId}`,
     method: 'DELETE',
   })
 }
@@ -103,7 +103,66 @@ export function deleteTask (taskInstId) {
 // 木耳任务详情
 export function getTaskDetail (taskInstId) {
   return axios({
-    url: `/farmPlan/task/${taskInstId}`,
+    url: `/produce/farmPlan/task/${taskInstId}`,
     method: 'GET',
+  })
+}
+
+// 方案市场列表
+export function planMarketList (params) {
+  return axios({
+    url: '/solution/plan/pc/list',
+    method: 'POST',
+    data: params
+  })
+}
+
+// 方案详情
+export function planMarketDetail (solutionId) {
+  return axios({
+    url: `/solution/plan/${solutionId}`,
+    method: 'GET'
+  })
+}
+
+// 请求农资
+export function getMaterial () {
+  return axios({
+    url: `/produce/material/`,
+    method: 'GET',
+  })
+}
+
+// 请求度量单位
+export function getUtil () {
+  return axios({
+    url: `/produce/unit/`,
+    method: 'GET',
+  })
+}
+
+// 木耳任务编辑
+export function editTask (data) {
+  return axios({
+    url: `/produce/farmPlan/task/`,
+    method: 'patch',
+    data
+  })
+}
+
+// 知识问答分类
+export function knowledgeQuizCategory () {
+  return axios({
+    url: `/dingDing/consult/question/listQuestionClazz`,
+    method: 'GET'
+  })
+}
+
+// 知识问答列表
+export function knowledgeQuizList (data) {
+  return axios({
+    url: `/loresupervise/showquestionlist`,
+    method: 'POST',
+    data
   })
 }

@@ -156,7 +156,7 @@
           :wrapper-col="{ span: 16 }"
           required
           :validate-status="formValidataStatus.temperature"
-          :help="formValidataStatus.temperature===''?'':'请输入正确温度区间'"
+          :help="formValidataStatus.temperature===''?'':'温度应小于等于100℃'"
         >
           <a-input-number
             style="width:42%;"
@@ -177,7 +177,7 @@
           :wrapper-col="{ span: 16 }"
           required
           :validate-status="formValidataStatus.dampness"
-          :help="formValidataStatus.dampness===''?'':'请输入正确湿度区间'"
+          :help="formValidataStatus.dampness===''?'':'湿度应小于等于100%'"
         >
           <a-input-number
             style="width:42%;"
@@ -396,16 +396,17 @@ export default {
     searchRuleList(page, current) {
       this.getRuleList()
     },
-      paginationChange(page, current){
-          this.pagination.current = page.current
-          this.pagination.pageSize = page.pageSize
-      },
+    paginationChange(page, current) {
+      this.pagination.current = page.current
+      this.pagination.pageSize = page.pageSize
+      this.getRuleList()
+    },
     getRuleList() {
       let postData = {
         pageNo: this.pagination.current,
         pageSize: this.pagination.pageSize,
         inputContent: this.searchForm.baseName,
-        alarmType: '',
+        alarmType: ''
       }
       let type = 'gh'
       ruleList(type, postData).then(res => {
@@ -483,6 +484,7 @@ export default {
         if (res.code === 200) {
           this.getRuleList()
           this.deteleHandleCancel()
+          this.tipMessage(res.success, res.message)
         }
       })
     },
@@ -505,21 +507,32 @@ export default {
     // 编辑提交
     editRuleSubmit(data) {
       setRule(data).then(res => {
-        if (res.code === 200) {
-          this.handleCancel()
-          this.getRuleList()
+        if (res.code !== 200) {
+          return false
         }
+        this.tipMessage(res.success, res.message)
+        this.handleCancel()
+        this.getRuleList()
       })
     },
     // 新增提交
     addRuleSubmit(data) {
       addRule(data).then(res => {
-        console.log(res)
-        if (res.code === 200) {
-          this.handleCancel()
-          this.getRuleList()
+        if (res.code !== 200) {
+          return false
         }
+        this.tipMessage(res.success, res.message)
+        this.handleCancel()
+        this.getRuleList()
       })
+    },
+    // 提示信息
+    tipMessage(type, message) {
+      if (type === 'Y') {
+        this.$message.success(message)
+        return false
+      }
+      this.$message.error(message)
     },
     // 校验表单
     validataForm() {

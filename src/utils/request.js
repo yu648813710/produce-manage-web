@@ -3,14 +3,10 @@ import notification from 'ant-design-vue/es/notification'
 import store from '@/store'
 import { VueAxios } from './axios'
 
-const baseURL = {
-  'dev': '/api',
-  'test': '/api',
-  'prd': '/api'
-}[process.env.VUE_APP_VUE_APP_EXCUTION]
+
 // 创建 axios 实例
 const service = axios.create({
-  baseURL: process.env.VUE_APP_PRODUCE_API, // api base_url
+  baseURL: process.env.VUE_APP_BASE_API, // api base_url
   timeout: 6000, // 请求超时时间
   withCredentials: true,
   headers: {
@@ -40,13 +36,13 @@ const err = (error) => {
       })
     }
   }
-  store.commit( 'UPDATE_LOADING', false)
+  store.commit('UPDATE_LOADING', false)
   return Promise.reject(error)
 }
 
 // request interceptor
 service.interceptors.request.use(config => {
-  store.commit( 'UPDATE_LOADING', true)
+  store.commit('UPDATE_LOADING', true)
   const token = store.getters.userToken
   if (token) {
     config.headers['Access-Token'] = token // 让每个请求携带自定义 token 请根据实际情况自行修改
@@ -56,7 +52,7 @@ service.interceptors.request.use(config => {
 
 // response interceptor
 service.interceptors.response.use((response) => {
-  store.commit( 'UPDATE_LOADING', false)
+  store.commit('UPDATE_LOADING', false)
   return response.data
 }, err)
 

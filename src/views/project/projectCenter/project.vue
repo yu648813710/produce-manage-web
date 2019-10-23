@@ -42,16 +42,18 @@
                   <span class="search-title">状态</span>
                 </a-col>
                 <a-col :span="18">
-                  <a-select class="detail-input" placeholder="请选择状态" style="width: 100%"
-                            :value="searchParams.status"
-                            @change="searchStatusChange"
+                  <a-select
+                    class="detail-input"
+                    placeholder="请选择状态"
+                    style="width: 100%"
+                    :value="searchParams.status"
+                    @change="searchStatusChange"
                   >
-                    <a-select-option value="">全部</a-select-option>
-                    <a-select-option v-for="(item,index) in statusArr"
-                                     :value="item.value"
-                    >
-                      {{item.label}}
-                    </a-select-option>
+                    <a-select-option value>全部</a-select-option>
+                    <a-select-option
+                      v-for="(item,index) in statusArr"
+                      :value="item.value"
+                    >{{item.label}}</a-select-option>
                   </a-select>
                 </a-col>
               </a-row>
@@ -62,29 +64,33 @@
                   <span class="search-title">方案权限</span>
                 </a-col>
                 <a-col :span="18">
-                  <a-select class="detail-input" placeholder="请选择方案权限" style="width: 100%"
-                            :value="searchParams.solutionScope"
-                            @change="powerChange"
+                  <a-select
+                    class="detail-input"
+                    placeholder="请选择方案权限"
+                    style="width: 100%"
+                    :value="searchParams.solutionScope"
+                    @change="powerChange"
                   >
-                    <a-select-option value="">全部</a-select-option>
-                    <a-select-option v-for="(item,index) in projectPowerArr"
-                                     :value="item.value"
-                    >
-                      {{item.label}}
-                    </a-select-option>
+                    <a-select-option value>全部</a-select-option>
+                    <a-select-option
+                      v-for="(item,index) in projectPowerArr"
+                      :value="item.value"
+                    >{{item.label}}</a-select-option>
                   </a-select>
                 </a-col>
               </a-row>
             </a-col>
           </a-row>
           <div>
-            <a-button class="button" @click="rest">重置</a-button>
+            <a-button
+              class="button"
+              @click="rest"
+            >重置</a-button>
             <a-button
               type="primary"
               class="button"
               @click="searchProjectList"
-            >查询
-            </a-button>
+            >查询</a-button>
           </div>
         </div>
         <div class="table-wrapper">
@@ -108,8 +114,13 @@
               slot="status"
               slot-scope="text, record, index"
             >
-                <a-switch checkedChildren="启用" unCheckedChildren="禁用" :checked="record.status === 'Y'" @change="statusChange(record)"/>
-              </span>
+              <a-switch
+                checkedChildren="启用"
+                unCheckedChildren="禁用"
+                :checked="record.status === 'Y'"
+                @change="statusChange(record)"
+              />
+            </span>
             <span
               slot="id"
               slot-scope="text, record, index"
@@ -119,20 +130,23 @@
               slot="operation"
               slot-scope="record,index"
             >
-              <span class="actionSpan" @click="_publishTask(record)">
-                <span>
-                  {{record.publishFlag === 'Y' ? '' : '发布'}}
-                </span>
+              <span
+                class="actionSpan"
+                @click="_publishTask(record)"
+              >
+                <span>{{record.publishFlag === 'Y' ? '' : '发布'}}</span>
               </span>
-              <span class="actionSpan" @click="_copyProject(record)">
-                拷贝
-              </span>
+              <span
+                class="actionSpan"
+                @click="_copyProject(record)"
+              >拷贝</span>
               <span>
                 <router-link :to="{name: 'editProject', params: record}">编辑</router-link>
               </span>
-              <span class="actionSpan" @click="openDelDialog(record)">
-                删除
-              </span>
+              <span
+                class="actionSpan"
+                @click="openDelDialog(record)"
+              >删除</span>
               <span>
                 <router-link :to="{name: 'projectDetail', params: record}">查看</router-link>
               </span>
@@ -154,294 +168,297 @@
   </div>
 </template>
 <script>
-    import Vue from 'vue'
-    import crumbsNav from "@/components/crumbsNav/CrumbsNav";
-    import {projectList, copyProject, editProjectStatus, publishTask, delProjectTask} from '@/api/projectCenter.js'
-    import domUtil from '../../../utils/domUtil'
-    import {
-        Layout,
-        Switch,
-        Modal,
-        Breadcrumb,
-        Input,
-        Row,
-        Col,
-        Cascader,
-        Button,
-        Table,Select
-    } from 'ant-design-vue'
+import Vue from 'vue'
+import crumbsNav from '@/components/crumbsNav/CrumbsNav'
+import {
+  projectList,
+  copyProject,
+  editProjectStatus,
+  publishTask,
+  delProjectTask
+} from '@/api/projectCenter.js'
+import domUtil from '../../../utils/domUtil'
+import {
+  Layout,
+  Switch,
+  Modal,
+  Breadcrumb,
+  Input,
+  Row,
+  Col,
+  Cascader,
+  Button,
+  Table,
+  Select
+} from 'ant-design-vue'
 
-    Vue.use(Layout)
-    Vue.use(Switch)
-    Vue.use(Select)
-    Vue.use(Modal)
-    Vue.use(Breadcrumb)
-    Vue.use(Input)
-    Vue.use(Row)
-    Vue.use(Col)
-    Vue.use(Cascader)
-    Vue.use(Button)
-    Vue.use(Table)
-    export default {
-        components: {
-            crumbsNav,
+Vue.use(Layout)
+Vue.use(Switch)
+Vue.use(Select)
+Vue.use(Modal)
+Vue.use(Breadcrumb)
+Vue.use(Input)
+Vue.use(Row)
+Vue.use(Col)
+Vue.use(Cascader)
+Vue.use(Button)
+Vue.use(Table)
+export default {
+  components: {
+    crumbsNav
+  },
+  created() {},
+  async mounted() {
+    await this.getProjectList()
+    console.log(this.list)
+  },
+  data() {
+    return {
+      crumbsArr: [
+        { name: '当前位置', back: false, path: '' },
+        { name: '生产管理', back: false, path: '' },
+        { name: '方案中心', back: false, path: '' }
+      ],
+      searchParams: {
+        status: '',
+        solutionScope: '',
+        solutionName: '',
+        breedName: ''
+      },
+      projectPowerArr: [
+        { value: 'market', label: '公开市场' },
+        { value: 'company', label: '公司私有' }
+      ],
+      statusArr: [{ value: 'Y', label: '启用' }, { value: 'N', label: '禁用' }],
+      list: [],
+      delVisible: false,
+      delConfirmLoading: false,
+      solutionId: '',
+      pagination: {
+        current: 1,
+        pageSize: 10,
+        pageSizeOptions: ['10', '20', '30'],
+        showQuickJumper: true,
+        showSizeChanger: true,
+        total: 0,
+        showTotal: total => `共 ${total} 条`
+      },
+      columns: [
+        { title: '序号', scopedSlots: { customRender: 'id' }, align: 'center' },
+        { title: '方案名称', dataIndex: 'solutionName', key: 'projectName' },
+        { title: '产品品种', dataIndex: 'categoryName', key: 'categoryName' },
+        {
+          title: '专家姓名',
+          dataIndex: 'solutionExpertName',
+          key: 'solutionExpertName'
         },
-        created() {
+        { title: '方案提供公司', dataIndex: 'companyName', key: 'companyName' },
+        {
+          title: '创建时间',
+          dataIndex: 'gmtCreate',
+          customRender: text => {
+            return domUtil.formDate(text)
+          }
         },
-        async mounted() {
-            await this.getProjectList()
-            console.log(this.list)
+        {
+          title: '周期时长',
+          dataIndex: 'cycleTotalLength',
+          key: 'cycleTotalLength',
+          customRender: text => {
+            return text
+          }
         },
-        data() {
-            return {
-                crumbsArr:[
-                    {name: '当前位置', back: false, path: ''},
-                    {name: '生产管理', back: false, path: ''},
-                    {name: '方案中心', back: false, path: ''},
-                ],
-                searchParams: {
-                    status: '',
-                    solutionScope: '',
-                    solutionName: '',
-                    breedName: '',
-                },
-                projectPowerArr: [
-                    {value: 'market', label: '公开市场'},
-                    {value: 'company', label: '公司私有'},
-                ],
-                statusArr: [
-                    {value: 'Y', label: '启用'},
-                    {value: 'N', label: '禁用'},
-                ],
-                list: [],
-                delVisible: false,
-                delConfirmLoading: false,
-                solutionId: '',
-                pagination: {
-                    current: 1,
-                    pageSize: 10,
-                    pageSizeOptions: ['10', '20', '30'],
-                    showQuickJumper: true,
-                    showSizeChanger: true,
-                    total: 0,
-                    showTotal: total => `共 ${total} 条`
-                },
-                columns: [
-                    {title: '序号', scopedSlots: {customRender: 'id'}, align: 'center'},
-                    {title: '方案名称', dataIndex: 'solutionName', key: 'projectName'},
-                    {title: '产品品种', dataIndex: 'breedName', key: 'breedName'},
-                    {title: '专家姓名', dataIndex: 'solutionExpertName', key: 'solutionExpertName'},
-                    {title: '方案提供公司', dataIndex: 'companyName', key: 'companyName'},
-                    {
-                        title: '创建时间',
-                        dataIndex: 'gmtCreate',
-                        customRender: text => {
-                            return domUtil.formDate(text)
-                        }
-                    },
-                    {
-                        title: '周期时长',
-                        dataIndex: 'cycleTotalLength',
-                        key: 'cycleTotalLength',
-                        customRender: text => {
-                            return text
-                        }
-                    },
-                    {
-                        title: '方案状态',
-                        dataIndex: 'status',
-                        scopedSlots: {customRender: 'status'},
-                        key: 'status',
-
-                    },
-                    {
-                        title: '发布状态',
-                        dataIndex: 'publishFlag',
-                        key: 'publishFlag',
-                        customRender: text => {
-                            if (text === 'Y') {
-                                return '已发布'
-                            } else if (text === 'N') {
-                                return '未发布'
-                            }
-                        }
-                    },
-                    {
-                        title: '方案权限',
-                        dataIndex: 'solutionScope',
-                        key: 'solutionScope',
-                        customRender: text => {
-                            if (text === 'market') {
-                                return '公开市场'
-                            } else if (text === 'company') {
-                                return '公司私有'
-                            }
-                        },
-                    },
-                    {
-                        title: '操作',
-                        key: 'operation',
-                        scopedSlots: {customRender: 'operation'},
-                        width: 210,
-                        align: 'center',
-                        fixed: 'right'
-                    }
-                ]
+        {
+          title: '方案状态',
+          dataIndex: 'status',
+          scopedSlots: { customRender: 'status' },
+          key: 'status'
+        },
+        {
+          title: '发布状态',
+          dataIndex: 'publishFlag',
+          key: 'publishFlag',
+          customRender: text => {
+            if (text === 'Y') {
+              return '已发布'
+            } else if (text === 'N') {
+              return '未发布'
             }
+          }
         },
-        methods: {
-            //分页栏页数改变
-            projectPageChange(page){
-                this.pagination.pageSize = page.pageSize;
-                this.pagination.current = page.current;
-                this.getProjectList();
-            },
-            //查询方案列表
-            searchProjectList(){
-                this.pagination.current = 1;
-                this.getProjectList();
-            },
-            //拷贝方案
-            _copyProject(record){
-                copyProject(record.solutionId).then( res => {
-                    if(res.success === 'Y'){
-                        this.getProjectList();
-                    }
-                })
-            },
-            rest(){
-                this.searchParams.breedName = '';
-                this.searchParams.solutionScope = '';
-                this.searchParams.status = '';
-                this.searchParams.solutionName = '';
-            },
-            //搜索栏状态改变
-            searchStatusChange(value){
-                this.searchParams.status = value;
-            },
-            //搜索栏权限改变
-            powerChange(value){
-                this.searchParams.solutionScope = value;
-            },
-            //删除方案
-            delHandleOk(){
-                this.delConfirmLoading = true;
-                delProjectTask(this.solutionId).then((res) => {
-                    if (res.code === 200) {
-                        this.delVisible = false;
-                        this.delConfirmLoading = false;
-                        this.getProjectList();
-                    }
-                })
-            },
-            delHandleCancel(){
-                this.delVisible = false;
-            },
-            openDelDialog(record){
-                this.delVisible = true;
-                this.solutionId = record.solutionId;
-            },
-            _publishTask(record) {
-                if(record.publishFlag === 'Y'){
-                    return
-                }
-                publishTask(record.solutionId).then((res) => {
-                    if (res.code === 200) {
-                        this.getProjectList()
-                    }
-                })
-            },
-            statusChange(record) {
-                let projectStatus = '';
-                projectStatus = record.status === 'Y' ? 'N' : 'Y'
-                editProjectStatus(record.solutionId, projectStatus).then((res) => {
-                    if (res.code === 200) {
-                        this.getProjectList();
-                    }
-
-                })
-                console.log(projectStatus)
-            },
-            getProjectList() {
-                let postData = this.searchParams;
-                postData.pageNo = this.pagination.current;
-                postData.pageSize = this.pagination.pageSize;
-                projectList(postData).then(res => {
-                    let unit = '';
-                    for (let i = 0; i < res.data.records.length; i++) {
-                        if (res.data.records[i].cycleUnit == 3) {
-                            unit = '天'
-                        } else if (res.data.records[i].cycleUnit == 5) {
-                            unit = '周'
-                        }
-                        res.data.records[i].cycleTotalLength =
-                            res.data.records[i].cycleTotalLength + unit
-                    }
-                    this.list = res.data.records
-                    for (let i = 0; i < this.list.length; i++) {
-                        this.list[i].expertName = '张强'
-                    }
-                    this.pagination.total = res.data.total
-                })
-            },
-            editProject(record) {
-                this.$router.to({name: 'productDetail', params: record})
+        {
+          title: '方案权限',
+          dataIndex: 'solutionScope',
+          key: 'solutionScope',
+          customRender: text => {
+            if (text === 'market') {
+              return '公开市场'
+            } else if (text === 'company') {
+              return '公司私有'
             }
+          }
+        },
+        {
+          title: '操作',
+          key: 'operation',
+          scopedSlots: { customRender: 'operation' },
+          width: 210,
+          align: 'center',
+          fixed: 'right'
         }
+      ]
     }
+  },
+  methods: {
+    //分页栏页数改变
+    projectPageChange(page) {
+      this.pagination.pageSize = page.pageSize
+      this.pagination.current = page.current
+      this.getProjectList()
+    },
+    //查询方案列表
+    searchProjectList() {
+      this.pagination.current = 1
+      this.getProjectList()
+    },
+    //拷贝方案
+    _copyProject(record) {
+      copyProject(record.solutionId).then(res => {
+        if (res.success === 'Y') {
+          this.getProjectList()
+        }
+      })
+    },
+    rest() {
+      this.searchParams.breedName = ''
+      this.searchParams.solutionScope = ''
+      this.searchParams.status = ''
+      this.searchParams.solutionName = ''
+    },
+    //搜索栏状态改变
+    searchStatusChange(value) {
+      this.searchParams.status = value
+    },
+    //搜索栏权限改变
+    powerChange(value) {
+      this.searchParams.solutionScope = value
+    },
+    //删除方案
+    delHandleOk() {
+      this.delConfirmLoading = true
+      delProjectTask(this.solutionId).then(res => {
+        if (res.code === 200) {
+          this.delVisible = false
+          this.delConfirmLoading = false
+          this.getProjectList()
+        }
+      })
+    },
+    delHandleCancel() {
+      this.delVisible = false
+    },
+    openDelDialog(record) {
+      this.delVisible = true
+      this.solutionId = record.solutionId
+    },
+    _publishTask(record) {
+      if (record.publishFlag === 'Y') {
+        return
+      }
+      publishTask(record.solutionId).then(res => {
+        if (res.code === 200) {
+          this.getProjectList()
+        }
+      })
+    },
+    statusChange(record) {
+      let projectStatus = ''
+      projectStatus = record.status === 'Y' ? 'N' : 'Y'
+      editProjectStatus(record.solutionId, projectStatus).then(res => {
+        if (res.code === 200) {
+          this.getProjectList()
+        }
+      })
+      console.log(projectStatus)
+    },
+    getProjectList() {
+      let postData = this.searchParams
+      postData.pageNo = this.pagination.current
+      postData.pageSize = this.pagination.pageSize
+      projectList(postData).then(res => {
+        let unit = ''
+        for (let i = 0; i < res.data.records.length; i++) {
+          if (res.data.records[i].cycleUnit == 3) {
+            unit = '天'
+          } else if (res.data.records[i].cycleUnit == 5) {
+            unit = '周'
+          }
+          res.data.records[i].cycleTotalLength =
+            res.data.records[i].cycleTotalLength + unit
+        }
+        this.list = res.data.records
+        for (let i = 0; i < this.list.length; i++) {
+          this.list[i].expertName = '张强'
+        }
+        this.pagination.total = res.data.total
+      })
+    },
+    editProject(record) {
+      this.$router.to({ name: 'productDetail', params: record })
+    }
+  }
+}
 </script>
 <style lang="less" scoped>
-  .actionSpan {
-    color: #1890ff;
-    background-color: transparent;
-    cursor: pointer;
-  }
-  .search-title {
-    color: #333;
-    font-size: 14px;
-    display: inline-block;
-    line-height: 32px;
-    margin-bottom: 30px;
-    text-align: right;
-  }
-  .search-wrapper {
-    padding: 24px;
-    background: #fff;
-    margin-bottom: 10px;
-    height: 168px;
-    border-radius: 4px;
+.actionSpan {
+  color: #1890ff;
+  background-color: transparent;
+  cursor: pointer;
+}
+.search-title {
+  color: #333;
+  font-size: 14px;
+  display: inline-block;
+  line-height: 32px;
+  margin-bottom: 30px;
+  text-align: right;
+}
+.search-wrapper {
+  padding: 24px;
+  background: #fff;
+  margin-bottom: 10px;
+  height: 168px;
+  border-radius: 4px;
 
-    .search-input-wrapper {
-      position: relative;
-      margin-bottom: 24px;
-
-
-
-      .search-input {
-        margin-top: 30px;
-      }
-    }
-
-    .button {
-      margin: 0 5px;
-    }
-  }
-
-  .table-wrapper {
+  .search-input-wrapper {
     position: relative;
-    padding: 24px;
-    background: #fff;
-    min-height: 360px;
-    border-radius: 4px;
+    margin-bottom: 24px;
 
-    .add-button {
-      position: absolute;
-      right: 24px;
-    }
-
-    .action span {
-      display: inline-block;
-      width: 35px;
+    .search-input {
+      margin-top: 30px;
     }
   }
+
+  .button {
+    margin: 0 5px;
+  }
+}
+
+.table-wrapper {
+  position: relative;
+  padding: 24px;
+  background: #fff;
+  min-height: 360px;
+  border-radius: 4px;
+
+  .add-button {
+    position: absolute;
+    right: 24px;
+  }
+
+  .action span {
+    display: inline-block;
+    width: 35px;
+  }
+}
 </style>
