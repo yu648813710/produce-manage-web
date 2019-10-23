@@ -390,9 +390,9 @@ export default {
       projectList(postData).then(res => {
         let unit = ''
         for (let i = 0; i < res.data.records.length; i++) {
-          if (res.data.records[i].cycleUnit == 3) {
+          if (+res.data.records[i].cycleUnit === 5) {
             unit = '天'
-          } else if (res.data.records[i].cycleUnit == 5) {
+          } else if (+res.data.records[i].cycleUnit === 3) {
             unit = '周'
           }
           res.data.records[i].cycleTotalLength =
@@ -412,7 +412,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.crumbCtr{
+.crumbCtr {
   height: 20px;
   line-height: 20px;
   margin-top: 20px;
