@@ -20,7 +20,11 @@ const tableColumns = [
     title: '农事类型', dataIndex: 'farmingTypeName',
     width: 100,
   },
-  { title: '使用农资', dataIndex: 'useMaterial' },
+  {
+    title: '使用农资', dataIndex: 'useMaterial',
+    scopedSlots: { customRender: 'useMaterial' },
+    width: 120,
+  },
   {
     title: '状态',
     dataIndex: 'taskStatusName',

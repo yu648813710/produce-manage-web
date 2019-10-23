@@ -29,6 +29,12 @@
               slot-scope="text, record, index"
             >{{index + 1}}</span>
             <span
+              slot="useMaterial"
+              class="use-material"
+              slot-scope="text, record, index"
+              :title="text"
+            >{{text}}</span>
+            <span
               slot="action"
               slot-scope="text, record"
               class="operation-box"
@@ -341,5 +347,12 @@ export default {
     margin-right: 5px;
     color: #1890ff;
   }
+}
+.use-material {
+  width: 140px;
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 </style>
