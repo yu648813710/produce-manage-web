@@ -92,6 +92,7 @@
           <div
             class="text-overflow"
             slot="useMatetial"
+            :title="text"
             slot-scope="text, record, index"
           >{{text}}</div>
           <a
