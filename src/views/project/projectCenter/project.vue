@@ -138,7 +138,10 @@
                 class="actionSpan"
                 @click="_copyProject(record)"
               >拷贝</span>
-              <span>
+              <span
+                slot-scope="record"
+                v-if="record.publishFlag!=='Y'"
+              >
                 <router-link :to="{name: 'editProject', params: record}">编辑</router-link>
               </span>
               <span
