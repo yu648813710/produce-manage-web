@@ -86,6 +86,7 @@
   Vue.use(Row)
   Vue.use(Col)
   import {getLineData , getQipaoData, getTableData, getPieData} from '@/api/marketStatic.js'
+  import echartsConfig from "./echartsConfig";
     export default {
         name: "marketStatic",
         data() {
@@ -259,123 +260,14 @@
                 // 基于准备好的dom，初始化echarts实例
                 let myChart = this.$echarts.init(document.getElementById('myChart'))
                 // 绘制图表
-                myChart.setOption({
-                    title: '',
-                    tooltip: {
-                        formatter(params){
-                            return '时间:' + params.name + '</br>' + '价格:' + params.value
-                        },
-                    },
-                    legend: {
-                        orient: 'horizontal',
-                        itemWidth: 12,
-                        itemHeight: 12,
-                        data:[
-                            {
-                                name: '黑木耳',
-                                //borderColor: 'yellow'
-                                // icon: 'circle',
-                                icon: 'image://' + self.legend_circle
-                            },
-                            {
-                                name: '玉木耳',
-                                icon: 'image://' + self.legend_circle
-                            },
-                            {
-                                name: '金木耳',
-                                icon: 'image://' + self.legend_circle
-                            }
-                        ],
-                        textStyle: {
-                            color: '#fff',
-                            fontStyle:{
-                                color: '#fff',
-                            }
-                        },
-                    },
-                    xAxis: {
-                        data: self.lineTime,
-                        axisLine: {
-                            onZero: true,
-                            lineStyle: {
-                                color: '#fff'
-                            }
-                        },
-                        splitLine:{
-                            show:false, //是否显示分割线，默认为true
-                            lineStyle:{
-                                color:['#fff'], //分割线颜色
-                            }
-                        },
-                        axisTick:{
-                            show: false
-                        },
-
-                    },
-                    yAxis: {
-                        splitLine:{
-                            show:false, //是否显示分割线，默认为true
-                            lineStyle:{
-
-                            }
-                        },
-                        axisLabel : {
-                            formatter: function(){
-                                return "";
-                            }
-                        },
-                        nameTextStyle:{
-                            color:'#fff', //X轴标记颜色
-                            show: false
-                        },
-                        axisLine: {
-                            onZero: true,
-                            lineStyle: {
-                                color: '#fff'
-                            },
-                            show: false,
-                        },
-                        axisTick:{
-                            show: false
-                        },
-                    },
-                    series: [{
-                        name: '',
-                        type: 'line',
-                        data: self.blackData,
-                        smooth: true,
-                        itemStyle:{
-                            normal:{
-                                color:'#096FF4',
-                                borderWidth: 3,
-                                height:8,
-                                width:8,
-                            },
-                            emphasis:{
-                                borderWidth: 1,
-                                color: '#096FF4',
-                                borderColor: 'rgba(255,255,255,1)'
-                            }
-                        },
-                        lineStyle: {
-                            normal: {
-                                color: new self.$echarts.graphic.LinearGradient(
-                                    1, 0, 0, 1,
-                                    [
-                                        {offset: 0, color: '#00EFF2'},
-                                        {offset: 1, color: '#0B4DF4'}
-                                    ]
-                                )
-                            }
-                        },
-                    }]
-                });
+                echartsConfig.lineEchartsOption(myChart, self)
             },
             initCycleEcharts() {
                 let self = this;
                 // 基于准备好的dom，初始化echarts实例
                 let myChart = this.$echarts.init(document.getElementById('piceChart'))
                 // 绘制图表
+                echartsConfig.cycleEchartsOption(myChart, self)
                 myChart.setOption({
                     tooltip: {
                         formatter(params){
