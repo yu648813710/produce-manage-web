@@ -55,7 +55,6 @@
             <span class="item-key">方案参与人：</span>
             <span class="item-value">{{formatterUser(solutionPlan.participantUserList)}}</span>
           </a-col>
-
         </a-row>
       </div>
     </div>
@@ -239,21 +238,24 @@
                 return domUtil.formDate(date)
             },
             formatterUser(userList){
-                if(userList.length === 0){
-                    return ''
-                }
-                if (userList.length === 1){
-                    return userList[0].userName
-                }
-                let user = ''
-                for(let i = 0; i< userList.length; i++){
-                    if(i < userList.length){
-                        user = user + userList[i].userName + '、'
-                    }else {
-                        user += userList[i].userName
+                if(userList){
+                    if(userList.length === 0){
+                        return ''
                     }
+                    if (userList.length === 1){
+                        return userList[0].userName
+                    }
+                    let user = ''
+                    for(let i = 0; i< userList.length; i++){
+                        if(i < userList.length){
+                            user = user + userList[i].userName + '、'
+                        }else {
+                            user += userList[i].userName
+                        }
+                    }
+                    return user
                 }
-                return user
+
             },
             getProjectDetail(){
                 projectDetail(this.detail.solutionId).then((res) => {
