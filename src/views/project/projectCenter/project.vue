@@ -48,10 +48,8 @@
                     class="detail-input"
                     placeholder="请选择状态"
                     style="width: 100%"
-                    :value="searchParams.status"
                     @change="searchStatusChange"
                   >
-                    <a-select-option value>全部</a-select-option>
                     <a-select-option
                       v-for="(item,index) in statusArr"
                       :value="item.value"
@@ -70,10 +68,8 @@
                     class="detail-input"
                     placeholder="请选择方案权限"
                     style="width: 100%"
-                    :value="searchParams.solutionScope"
                     @change="powerChange"
                   >
-                    <a-select-option value>全部</a-select-option>
                     <a-select-option
                       v-for="(item,index) in projectPowerArr"
                       :value="item.value"

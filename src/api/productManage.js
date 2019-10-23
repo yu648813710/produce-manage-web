@@ -70,7 +70,7 @@ export function listBlockLandByBaseLandIdSelect(id) {
 // 编辑预警规则
 export function setRule(data) {
   return axios({
-    url: `/produce/monitor/rule/editWarning`,
+    url: `/produce/produce/monitor/rule/editWarning`,
     method: 'POST',
     data: data
   })
@@ -79,7 +79,7 @@ export function setRule(data) {
 // 删除预警规则
 export function deleteRule(id) {
   return axios({
-    url: `/produce/monitor/rule/removeWarning?blockLandId=${id}`,
+    url: `/produce/produce/monitor/rule/removeWarning?blockLandId=${id}`,
     method: 'GET'
   })
 }
