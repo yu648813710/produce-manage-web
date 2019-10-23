@@ -3,6 +3,9 @@
 */
 <template>
   <div style="height: 100%">
+    <div class="crumbCtr">
+      <crumbsNav :crumbsArr="crumbsArr"></crumbsNav>
+    </div>
     <div class="wrapper">
       <crumbsNav :crumbsArr="crumbsArr"></crumbsNav>
       <a-steps :current="current" :labelPlacement="vertical">
@@ -1227,6 +1230,13 @@
     }
 </script>
 <style lang="less" scoped>
+  .crumbCtr{
+    height: 20px;
+    line-height: 20px;
+    margin-top: 20px;
+    margin-left: 16px;
+    text-align: left;
+  }
   .tableLineCtr{
     overflow: hidden;
     text-overflow: ellipsis;
