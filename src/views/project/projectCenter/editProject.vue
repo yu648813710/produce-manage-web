@@ -3,8 +3,10 @@
 */
 <template>
   <div style="height: 100%">
-    <div class="wrapper">
+    <div class="crumbCtr">
       <crumbsNav :crumbsArr="crumbsArr"></crumbsNav>
+    </div>
+    <div class="wrapper">
       <a-steps :current="current" :labelPlacement="vertical">
         <a-step :labelPlacement="vertical" v-for="(item, index) in steps" :key="index" :title="item.title"/>
       </a-steps>
@@ -1384,6 +1386,13 @@
     }
 </script>
 <style lang="less" scoped>
+  .crumbCtr{
+    height: 20px;
+    line-height: 20px;
+    margin-top: 20px;
+    margin-left: 16px;
+    text-align: left;
+  }
   .tableLineCtr{
     overflow: hidden;
     text-overflow: ellipsis;

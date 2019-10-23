@@ -122,7 +122,7 @@ export default {
         },
       },
       xAxis: {
-        data: this.zoneNameList,
+        data: self.zoneNameList,
         axisTick:{
           show: false,
           color:'#fff'
@@ -191,6 +191,104 @@ export default {
           [0, self.priceData[0]],
         ],
         type: 'scatter'
+      }]
+    });
+    return option
+  },
+  loudouEchartsOption(id, self){
+    let option = id.setOption({
+      title: {
+        text: '',
+        left:'center',
+        top:'30%',
+        padding:[24,0],
+        textStyle:{
+          color:'#fff',
+          fontSize:18,
+          align:'center'
+        }
+      },
+      tooltip: {
+        formatter(params){
+          return '地区:' + params.name + '</br>' + '销量:' + params.value + '斤'
+        },
+      },
+      series: [{
+        name: '',
+        type: 'pie',
+        data: self.pieData,
+        hoverAnimation: false,
+        center: ["50%", "48%"],
+        radius: ['40%', '60%'],
+        labelLine: {
+          type: 'dashed', //引导线样式为虚线或者实线
+          normal: {
+            length: 10, //引导线有两部分，length和length2分别控制两段线的长度
+            length2: 100,
+            lineStyle: {
+              //color: '#fff'
+            }
+          },
+        },
+        itemStyle: {
+          fontStyle: {
+            color: '#fff'
+          }
+        },
+        label:{            //饼图图形上的文本标签
+          show:true,
+          textStyle : {
+            fontWeight : 300 ,
+            fontSize : 12    //文字的字体大小
+          },
+          formatter:[
+            '{a|{b}}',//引导线上面文字
+            '{b|}',//引导线上面文字
+            '{c|{c}斤}' //引导线下面文字
+          ].join('\n'), //用\n来换行
+          rich:{
+            a:{
+              height:10,
+              width:10,
+              color:'#fff',
+              left:20,
+            },
+            b:{
+              height:10,
+              width:10,
+              color:'#fff',
+              left:20,
+            },
+            c:{
+              height:10,
+              width:10,
+              color:'#fff',
+              padding:[-10,0],
+              left:20,
+            }
+          },
+        },
+        //饼图颜色，在有的需求里需要把饼图颜色固定，可在此处进行配置
+        color:function(params){
+          //设置需要的颜色集合，把params中的对应数据要显示的颜色进行匹配
+          let colorList = ['#40DCE7','#B6E887','#6A79F6','#F7A95D','#F7DB6B','#7cd2a7','#d78506'];
+          console.log(params)
+          if(params.dataIndex === 0){
+            return colorList[0];
+          }else if(params.dataIndex === 1){
+            return colorList[1];
+          }else if(params.dataIndex === 2){
+            return colorList[2];
+          }else if(params.dataIndex === 3){
+            return colorList[3];
+          }else if(params.dataIndex === 4){
+            return colorList[4];
+          }else if(params.dataIndex === 5){
+            return colorList[5];
+          }else if(params.dataIndex === 6){
+            return colorList[6];
+          }
+        }
       }]
     });
     return option
