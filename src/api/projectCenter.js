@@ -74,6 +74,7 @@ export function addNewTask (putData) {
 //获取修改方案的详细信息
 export function editProjectDetail (solutionId) {
   return axios({
+
     url: `/solution/plan/solutionDetail/${solutionId}`,
     method: 'POST',
   })
