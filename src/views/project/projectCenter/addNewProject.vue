@@ -555,6 +555,7 @@
         getMaterialList,
         addNewTask,
         projectUser,
+        checkProjectRepeat,
     } from '@/api/projectCenter.js'
     import {Form, Table, Row, Col, Steps, Radio, icon, Modal, Button, Input, Select} from 'ant-design-vue'
 
@@ -744,16 +745,25 @@
                 this.msgForm.form.validateFields((err, values) => {
                     console.log(values)
                     if (!err) {
-                        self.solutionPlan = {
+                        let data = {
                             solutionName: values.projectName,
-                            breedId: values.productVariety,
-                            categoryId: values.productCategory,
-                            solutionScope: values.projectPower,
-                            participantUserIdList: values.participantUser,
                         }
-                        self.current++
-                        return true
-                        console.log(values)
+                        checkProjectRepeat(data).then( (res) => {
+                            if(res.message === '方案名称重复'){
+                                this.projectNameRepeat = true;
+                                return false;
+                            }else {
+                                self.solutionPlan = {
+                                    solutionName: values.projectName,
+                                    breedId: values.productVariety,
+                                    categoryId: values.productCategory,
+                                    solutionScope: values.projectPower,
+                                    participantUserIdList: values.participantUser,
+                                }
+                                self.current++
+                                return true
+                            }
+                        })
                     } else if (err) {
                         return false
                     }
@@ -1200,11 +1210,11 @@
                 }
                 addNewTask(taskData).then((res) => {
                     if (res.code === 200) {
-                        if(res.message === '方案名称重复'){
-                            //汉字提示抽为常量
-                            this.projectNameRepeat = true;
-                            return false;
-                        }
+                        // if(res.message === '方案名称重复'){
+                        //     //汉字提示抽为常量
+                        //     this.projectNameRepeat = true;
+                        //     return false;
+                        // }
                         this.list = [];
                         this.taskCacheList = {}
                         this.$router.push({path: '/projectCenter'})

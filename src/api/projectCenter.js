@@ -18,7 +18,7 @@ export function projectUser () {
 export function projectDetail (code) {
   return axios({
     url: `/solution/plan/${code}`,
-    method: 'POST',
+    method: 'GET',
   })
 }
 // 获取产品品类
@@ -75,7 +75,7 @@ export function addNewTask (putData) {
 export function editProjectDetail (solutionId) {
   return axios({
     url: `/solution/plan/solutionDetail/${solutionId}`,
-    method: 'GET',
+    method: 'POST',
   })
 }
 //修改方案
