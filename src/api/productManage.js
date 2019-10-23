@@ -125,6 +125,15 @@ export function planMarketDetail (solutionId) {
   })
 }
 
+// 方案市场详情列表
+export function planMarketDetailList(data) {
+  return axios({
+    url: `/plan/materials/list`,
+    method: 'POST',
+    data
+  })
+}
+
 // 请求农资
 export function getMaterial () {
   return axios({
@@ -162,6 +171,24 @@ export function knowledgeQuizCategory () {
 export function knowledgeQuizList (data) {
   return axios({
     url: `/loresupervise/showquestionlist`,
+    method: 'POST',
+    data
+  })
+}
+
+// 知识问答详情
+export function knowledgeQuizDetail (data) {
+  return axios({
+    url: `/loresupervise/showanswerdetail`,
+    method: 'POST',
+    data
+  })
+}
+
+// 新增回复
+export function addKnowledgeQuizReply (data) {
+  return axios({
+    url: `/loresupervise/`,
     method: 'POST',
     data
   })

@@ -2,15 +2,15 @@
   <div class="reply-row">
     <a-layout>
       <a-row class="row">
-        <img class="user-icon" :src="info.userIcon" :alt="info.userName" />
-        <span class="user-name">{{info.userName}}</span>
-        <span class="common-date">{{info.date}}</span>
+        <img class="user-icon" src="@/assets/image/logo.png" :alt="info.createUser" />
+        <span class="user-name">{{info.createUser}}</span>
+        <span class="common-date">{{info.gmtCreate}}</span>
       </a-row>
       <a-row class="row">
-        <span>{{info.desc}}</span>
+        <span>{{info.answerContent}}</span>
       </a-row>
-      <a-row class="row">
-        <img class="common-img" v-for="item in info.imgs" :key="item.id" :src="item.url" :alt="item.url">
+      <a-row v-if="info.filePaths && info.filePaths.length > 0" class="row">
+        <img class="common-img" v-for="item in info.filePaths" :key="item.id" :src="item.url" :alt="item.url">
       </a-row>
     </a-layout>
   </div>
@@ -53,6 +53,7 @@ export default {
     padding: 24px 0;
     span {
       font-size: 14px;
+      text-align: left;
     }
   }
   .user-icon {

@@ -38,7 +38,8 @@
         :rowKey="e => e.id"
         :style="{marginTop: '50px'}"
         :loading="loading"
-        :pagination="false"
+        :pagination="pagination"
+        @change="pageOnChange"
       >
         <span slot="itemIndex" slot-scope="text, record, index">{{index+1}}</span>
         <span slot="materialName" slot-scope="text, record">{{record.materialName}}-{{record.materialDosage}}{{record.materialDosageUnit}}</span>
@@ -52,7 +53,7 @@
 
 <script>
 import Vue from 'vue';
-import { Layout, Row, Col, Card, Table, Radio, Button, message } from 'ant-design-vue';
+import { Layout, Row, Col, Card, Table, Radio, Button, Pagination, message } from 'ant-design-vue';
 Vue.use(Layout);
 Vue.use(Row);
 Vue.use(Col);
@@ -60,7 +61,8 @@ Vue.use(Card);
 Vue.use(Table);
 Vue.use(Radio);
 Vue.use(Button);
-import { planMarketDetail } from '@/api/productManage';
+Vue.use(Pagination);
+import { planMarketDetail, planMarketDetailList } from '@/api/productManage';
 import formDate from '@/utils/domUtil';
 
 const columns = [
@@ -99,7 +101,11 @@ export default {
         alignItems: 'flex-start'
 
       },
-      solutionId: this.$route.params.solutionId
+      solutionId: this.$route.params.solutionId,
+      pageNo: 1,
+      pageSize: 10,
+      pagination: { showQuickJumper: true, showSizeChanger: true },
+      planCycleParams: []
     }
   },
   created() {
@@ -115,17 +121,43 @@ export default {
           this.baseInfo = res.data && res.data.solutionPlan || {}
           this.baseInfos = this.groupBaseInfo(info)
           this.cycleList = res.data && res.data.solutionPlanCycleList || []
-          let list = res.data && res.data.solutionPlanCycleMaterialList || []
-          for (let i = 0; i < list.length; i++) {
-            list[i].id = list[i].planCycleId + i
-          }
-          this.list = list
-
+          let planCycleParams = []
+          this.cycleList.forEach(item => {
+            let pm = {
+              planCycleId: item.planCycleId,
+              lifeCycleName: item.lifeCycleName
+            }
+            planCycleParams.push(pm)
+          })
+          this.planCycleParams = planCycleParams
+          this.fetchList()
           return
         }
         this.cycleList = []
         this.list = []
         message.error(res.message)
+      })
+    },
+
+    fetchList() {
+      let params = {
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
+        planCycleParams: this.planCycleParams
+      }
+      planMarketDetailList(params).then(res => {
+        if (res && res.success === 'Y') {
+          let list = res.data && res.data.records || []
+          for (let i = 0; i < list.length; i++) {
+            list[i].id = list[i].planCycleId + i
+          }
+          const pagination = { ...this.pagination };
+          pagination.total = res.data && res.data.total;
+          this.pagination = pagination;
+          this.list = list
+          return
+        }
+        this.list = []
       })
     },
 
@@ -211,7 +243,17 @@ export default {
           }
       }
       return str
-    }
+    },
+
+    pageOnChange(cfg) {
+      const pager = { ...this.pagination };
+      pager.current = cfg.current;
+      pager.pageSize = cfg.pageSize;
+      this.pagination = pager;
+      this.pageNo = pager.current
+      this.pageSize = pager.pageSize
+      this.fetchList()
+    },
   }
 }
 </script>
