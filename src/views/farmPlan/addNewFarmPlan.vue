@@ -513,7 +513,7 @@ export default {
     requestAddFarmPlan(data) {
       addFarmPlan(data).then(res => {
         if (res.success === 'Y') {
-          this.$router.push('/farmPlan/farmPlan')
+          this.$router.push('/farmPlan')
         }
       })
     }

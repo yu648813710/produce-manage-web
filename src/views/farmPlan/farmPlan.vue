@@ -246,10 +246,10 @@ export default {
       farmPlanList(postData).then(res => {
         if (res.code === 200) {
           this.list = res.data.records
-          this.pagination.pageNo = current
+          this.pagination.current = current
+          this.pagination.total = res.data.total
           this.pagination.pageSize = pageSize
         }
-        console.log(this.list)
       })
     },
     // 页码设置

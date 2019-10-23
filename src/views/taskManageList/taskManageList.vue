@@ -112,7 +112,7 @@ import {
 import { tableColumns, crumbsArr } from './config'
 import SearchForm from './components/SearchForm'
 import TaskDetail from './components/TaskDetail'
-import EditTask from './components/editTask'
+import EditTask from './components/EditTask'
 import CrumbsNav from '@/components/crumbsNav/CrumbsNav'
 // const confirm = Modal.confirm
 Vue.use(Form)
@@ -191,8 +191,9 @@ export default {
       taskManageList(postData).then(res => {
         if (res.code === 200) {
           this.equipmentList = res.data.records
-          this.pagination.pageNo = current
+          this.pagination.current = current
           this.pagination.pageSize = pageSize
+          this.pagination.total = res.data.total
         }
       })
     },
