@@ -12,7 +12,10 @@ const tableColumns = [
     title: '所属周期', dataIndex: 'cycleName',
     width: 100,
   },
-  { title: '所属地块', dataIndex: 'farmBizName' },
+  {
+    title: '所属地块', dataIndex: 'farmBizName',
+    width: 110,
+  },
   {
     title: '农事类型', dataIndex: 'farmingTypeName',
     width: 100,
@@ -21,8 +24,12 @@ const tableColumns = [
   {
     title: '状态',
     dataIndex: 'taskStatusName',
+    width: 90,
   },
-  { title: '执行时长', dataIndex: 'executeCycle' },
+  {
+    title: '执行时长', dataIndex: 'executeCycle',
+    width: 120,
+  },
   {
     title: '任务开始时间', dataIndex: 'startTime',
     width: 120,

@@ -6,6 +6,7 @@
       @cancel="hiddenDetailTask"
       :width="750"
       :footer="null"
+      :maskClosable="false"
       class="task-detail"
     >
       <div class="title">
