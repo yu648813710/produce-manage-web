@@ -166,7 +166,7 @@
           <span
             slot="materialName"
             slot-scope="text, record, index"
-          >{{record.materialName + '-' + record.materialDosage + record.materialDosageUnit}}</span>
+          >{{record.materialName?record.materialName:'-'}}-{{record.materialDosage?record.materialDosage:'-' }}{{record.materialDosageUnit?record.materialDosageUnit:'-'}}</span>
           <span
             slot="id"
             slot-scope="text, record, index"
