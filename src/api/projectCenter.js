@@ -18,7 +18,7 @@ export function projectUser () {
 export function projectDetail (code) {
   return axios({
     url: `/solution/plan/${code}`,
-    method: 'GET',
+    method: 'POST',
   })
 }
 // 获取产品品类

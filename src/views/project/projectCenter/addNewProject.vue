@@ -214,6 +214,7 @@
           <div slot="executionCycle" :title="record" slot-scope="record" class="tableLineCtr">
             {{record}}
           </div>
+          <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
           <div slot="expandedRowRender" slot-scope="record" style="margin: 0" class="expendLine">
             <div class="expendContent" v-for="(item, index) in record.tableNongZi" :key="index">
               <div class="tableCtrol1"></div>
@@ -456,12 +457,10 @@
               </a-select-option>
             </a-select>
             <a-input-number
-              placeholder="Basic usage"
               class="tableSelect"
               v-model="consumption"
             />
             <a-input
-              placeholder="Basic usage"
               class="tableSelect"
               v-model="unit"
             />
@@ -606,7 +605,7 @@
                     form: this.$form.createForm(this),
                 },
                 columns: [
-                    {title: '序号', dataIndex: 'productId', key: 'productId', width: 160, columnTitle: 'productId'},
+                    {title: '序号', dataIndex: 'id', key: 'id', width: 160, columnTitle: 'id',scopedSlots: {customRender: 'id'},},
                     {title: '任务操作', dataIndex: 'taskAction', key: 'taskAction', width: 160, columnTitle: 'taskAction'},
                     {title: '所属周期', dataIndex: 'cycle', key: 'cycle', width: 160,},
                     {title: '农事类型', dataIndex: 'type', key: 'type', width: 160,},
