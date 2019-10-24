@@ -38,15 +38,15 @@ export default {
       }
     }
   },
-  data() {
+  data () {
     return {
     }
   },
   methods: {
-    toDetail(info) {
+    toDetail (info) {
       this.$router.push({ path: `/planMarketDetail/${info.solutionId}` })
     },
-    cmpTime(time) {
+    cmpTime (time) {
       return formDate.formDate(time)
     }
   }
