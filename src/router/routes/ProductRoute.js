@@ -171,7 +171,7 @@ export default {
     {
       path: '/knowledgeQuiz',
       name: 'knowledgeQuiz',
-      hidden: true,
+      hidden: false,
       component: () => import('@/views/knowledgeQuiz'),
       meta: { name: '知识问答', icon: '' }
     },
