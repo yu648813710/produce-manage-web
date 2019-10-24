@@ -58,7 +58,7 @@ export default {
     {
       path: '/RuleMonitoringList',
       name: 'RuleMonitoringList',
-      component: () => import('@/views/Production/growthMonitoring/ruleEarlyWarning/ruleList.vue'),
+      component: () => import('@/views/ruleEarlyWarning/ruleList.vue'),
       meta: { name: '地块预警规则列表', icon: '' }
     },
     {
