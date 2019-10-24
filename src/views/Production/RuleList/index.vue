@@ -163,7 +163,15 @@ export default {
       tableColumns,
       lerderUser: [], // 负责人
       list: [],
-      pagination: {},
+      pagination: {
+        current: 1,
+        pageSize: 10,
+        pageSizeOptions: ['10', '20', '30'],
+        showQuickJumper: true,
+        showSizeChanger: true,
+        total: 0,
+        showTotal: total => `共 ${total} 条`
+      },
       sreachForm: this.$form.createForm(this),
       modalTitle: '新建预警',
       visible: false,
@@ -245,7 +253,7 @@ export default {
           inputContent: '',
           principalUser: '',
           pageNo: pagination.current,
-          pageSize: 10
+          pageSize: pagination.pageSize
         }
         this.getTableList(data)
       }
@@ -314,6 +322,7 @@ export default {
 .rule-list{
   padding: 20px;
   .search-wrapper{
+    border-radius: 4px;
     background-color: white;
     padding: 27px 15px 21px 15px;
     .ant-form-item{
