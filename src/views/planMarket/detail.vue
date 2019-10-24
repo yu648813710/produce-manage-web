@@ -2,7 +2,10 @@
   <a-layout class="plan-market-detail">
     <!-- 基础信息 -->
     <a-card :headStyle="headStyle" :bodyStyle="bodyStyle">
-      <span slot="title" class="title-block">▍<span>基本信息</span></span>
+      <span slot="title" class="title-block">
+        ▍
+        <span>基本信息</span>
+      </span>
       <a-row :gutter="24">
         <a-col :span="8" v-for="item in baseInfos" :key="item.id" style="text-align: left">
           <span class="tip-label">{{item.label}}：</span>
@@ -13,7 +16,10 @@
     <!-- 产品周期 -->
     <div class="cycle-list">
       <a-card class="cycle-list-card" :headStyle="headStyle" :bodyStyle="bodyStyle">
-        <span slot="title" class="title-block">▍<span>产品周期</span></span>
+        <span slot="title" class="title-block">
+          ▍
+          <span>产品周期</span>
+        </span>
         <a-row class="content-row" :gutter="24">
           <span>时间单位：</span>
           <a-radio class="radio" :defaultChecked="false" :disabled="true">周</a-radio>
@@ -21,11 +27,22 @@
         </a-row>
         <a-row class="content-row" :gutter="24">
           <span>产品周期：</span>
-          <a-button class="cycle-btn" type="primary" size="small" v-for="item in cycleList" :key="item.lifeCycleId">{{item.lifeCycleName}}</a-button>
+          <a-button
+            class="cycle-btn"
+            type="primary"
+            size="small"
+            v-for="item in cycleList"
+            :key="item.lifeCycleId"
+          >{{item.lifeCycleName}}</a-button>
         </a-row>
         <a-row class="content-row" :gutter="24">
           <span>周期时长：</span>
-          <a-button class="cycle-btn-time" size="small" v-for="item in cycleList" :key="item.lifeCycleId">{{item.cycleLength}}</a-button>
+          <a-button
+            class="cycle-btn-time"
+            size="small"
+            v-for="item in cycleList"
+            :key="item.lifeCycleId"
+          >{{item.cycleLength}}</a-button>
         </a-row>
       </a-card>
     </div>
@@ -42,9 +59,19 @@
         @change="pageOnChange"
       >
         <span slot="itemIndex" slot-scope="text, record, index">{{index+1}}</span>
-        <span slot="materialName" slot-scope="text, record">{{record.materialName}}-{{record.materialDosage}}{{record.materialDosageUnit}}</span>
-        <span slot="taskWeekly" slot-scope="text, record">第{{record.taskStartDay}}天 - 第{{record.taskEndDay}}天</span>
-        <span slot="taskDescription" slot-scope="text, record" :title="record.taskDescription">{{record.taskDescription}}</span>
+        <span
+          slot="materialName"
+          slot-scope="text, record"
+        >{{record.materialName}}-{{record.materialDosage}}{{record.materialDosageUnit}}</span>
+        <span
+          slot="taskWeekly"
+          slot-scope="text, record"
+        >第{{record.taskStartDay}}天 - 第{{record.taskEndDay}}天</span>
+        <span
+          slot="taskDescription"
+          slot-scope="text, record"
+          :title="record.taskDescription"
+        >{{record.taskDescription}}</span>
         <!-- <span class="delete" slot="operation" slot-scope="text, record" @click="handleDelete(record)">删除</span> -->
       </a-table>
     </div>
@@ -73,13 +100,13 @@ const columns = [
   { title: '使用农资及用量(每亩)', key: 'materialName', scopedSlots: { customRender: 'materialName' } },
   { title: '执行周期', key: 'taskWeekly', scopedSlots: { customRender: 'taskWeekly' } },
   { title: '用途', dataIndex: 'taskUse', key: 'taskUse' },
-  { title: '农事描述', key: 'taskDescription', scopedSlots: { customRender: 'taskDescription'} }
+  { title: '农事描述', key: 'taskDescription', scopedSlots: { customRender: 'taskDescription' } }
   // { title: '操作', key: 'operation', scopedSlots: { customRender: 'operation' } }
 ]
 
 export default {
   name: 'planMarketDetail',
-  data() {
+  data () {
     return {
       columns,
       baseInfo: {},
@@ -89,7 +116,7 @@ export default {
       loading: false,
       headStyle: {
         display: 'flex',
-        flexDirection: 'row', 
+        flexDirection: 'row',
         justifyContent: 'flex-start',
         borderBottom: 'none'
       },
@@ -108,19 +135,19 @@ export default {
       planCycleParams: []
     }
   },
-  created() {
+  created () {
     this.fetchInfos(this.solutionId);
   },
   methods: {
-    fetchInfos(solutionId) {
+    fetchInfos (solutionId) {
       this.loading = true
       planMarketDetail(solutionId).then(res => {
         this.loading = false
         if (res && res.success === 'Y') {
-          let info = res.data && res.data.solutionPlan || {}
-          this.baseInfo = res.data && res.data.solutionPlan || {}
+          let info = (res.data && res.data.solutionPlan) || {}
+          this.baseInfo = (res.data && res.data.solutionPlan) || {}
           this.baseInfos = this.groupBaseInfo(info)
-          this.cycleList = res.data && res.data.solutionPlanCycleList || []
+          this.cycleList = (res.data && res.data.solutionPlanCycleList) || []
           let planCycleParams = []
           this.cycleList.forEach(item => {
             let pm = {
@@ -139,7 +166,7 @@ export default {
       })
     },
 
-    fetchList() {
+    fetchList () {
       let params = {
         pageNo: this.pageNo,
         pageSize: this.pageSize,
@@ -161,9 +188,9 @@ export default {
       })
     },
 
-    groupBaseInfo(info) {
+    groupBaseInfo (info) {
       let baseInfos = []
-      for(let item in info) {
+      for (let item in info) {
         if (item === 'companyName') {
           let param = {}
           param.id = item
@@ -225,27 +252,27 @@ export default {
       return this.sortByKey(baseInfos, 'index')
     },
 
-    sortByKey(array,key){
-      return array.sort(function(a,b){
-          var x = a[key];
-          var y = b[key];
-          return((x<y)?-1:((x>y)?1:0));
+    sortByKey (array, key) {
+      return array.sort(function (a, b) {
+        var x = a[key];
+        var y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
       })
     },
 
-    cmpUsers(users) {
+    cmpUsers (users) {
       let str = ''
       for (let i in users) {
-          if (i != users.length - 1) {
-            str += users[i].userName + ','
-          } else {
-            str += users[i].userName
-          }
+        if (i != users.length - 1) {
+          str += users[i].userName + ','
+        } else {
+          str += users[i].userName
+        }
       }
       return str
     },
 
-    pageOnChange(cfg) {
+    pageOnChange (cfg) {
       const pager = { ...this.pagination };
       pager.current = cfg.current;
       pager.pageSize = cfg.pageSize;
@@ -262,7 +289,7 @@ export default {
 .plan-market-detail {
   margin: 16px;
   .title-block {
-    color: #3C8DFF;
+    color: #3c8dff;
     span {
       color: #000;
       font-weight: bold;
@@ -284,7 +311,7 @@ export default {
     width: 68px;
     line-height: 28px;
     border-radius: 14px;
-    background-color: #F5F6FA;
+    background-color: #f5f6fa;
   }
   .cycle-btn {
     border-radius: 0;
@@ -299,7 +326,7 @@ export default {
     min-width: 90px;
   }
   .radio:last-child {
-    border: 1px solid #3C8CFF;
+    border: 1px solid #3c8cff;
   }
   .cycle-list {
     margin: 20px 0;
@@ -327,7 +354,7 @@ export default {
     }
     .delete {
       cursor: pointer;
-      color: #3C8DFF;
+      color: #3c8dff;
     }
   }
 }

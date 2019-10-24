@@ -25,10 +25,7 @@
             <a-col>
               <a-button type="primary" html-type="submit">查询</a-button>
               <a-button :style="{ marginLeft: '8px' }" @click="handleReset">重置</a-button>
-              <a-button
-                :style="{ marginLeft: '8px' }"
-                @click="() => {expand = !expand}"
-              >
+              <a-button :style="{ marginLeft: '8px' }" @click="() => {expand = !expand}">
                 <a-icon :type="expand ? 'up' : 'down'" />
                 {{expand ? '收起' : '展开'}}
               </a-button>
@@ -37,18 +34,30 @@
         </a-form>
       </div>
       <div class="list-collection">
-          <template v-if="collectionItems.length > 0">
-            <ul v-for="(item, i) in collectionItems" :key="item.solutionId">
-              <a-col :span="8">
-                <CollectionItem :class="cmpCollection(i)" :info="item"/>
-              </a-col>
-            </ul>
-          </template>
-          <template v-else>
-            <div class="empty-list"><span>暂无数据</span></div>
-          </template>
+        <template v-if="collectionItems.length > 0">
+          <ul v-for="(item, i) in collectionItems" :key="item.solutionId">
+            <a-col :span="8">
+              <CollectionItem :class="cmpCollection(i)" :info="item" />
+            </a-col>
+          </ul>
+        </template>
+        <template v-else>
+          <div class="empty-list">
+            <span>暂无数据</span>
+          </div>
+        </template>
       </div>
-      <a-pagination class="pagination" :pageSizeOptions="['6', '12', '18']" showSizeChanger showQuickJumper :defaultCurrent="pageNo" :pageSize="pageSize" :total="total" @change="pageOnChange" @showSizeChange="pageSizeOnChange"/>
+      <a-pagination
+        class="pagination"
+        :pageSizeOptions="['6', '12', '18']"
+        showSizeChanger
+        showQuickJumper
+        :defaultCurrent="pageNo"
+        :pageSize="pageSize"
+        :total="total"
+        @change="pageOnChange"
+        @showSizeChange="pageSizeOnChange"
+      />
     </a-layout>
   </div>
 </template>
@@ -138,7 +147,7 @@ export default {
     MyBreadCrumb,
     CollectionItem
   },
-  data() {
+  data () {
     return {
       breadcrumbs,
       fields,
@@ -152,20 +161,20 @@ export default {
     }
   },
   computed: {
-    count() {
+    count () {
       return this.expand ? 4 : 3
     }
   },
-  created() {
+  created () {
     this.fetchList({})
   },
   methods: {
-    cmpCollection(i) {
+    cmpCollection (i) {
       return i === 1 || i === 4 ? 'card-item-cen'
         : i === 0 || i === 3 ? 'card-item-lef' : 'card-item-rig'
     },
 
-    fetchList(params) {
+    fetchList (params) {
       let postdata = {
         pageNo: this.pageNo,
         pageSize: this.pageSize,
@@ -173,8 +182,8 @@ export default {
       }
       planMarketList(postdata).then(res => {
         if (res && res.success === 'Y') {
-          this.total = res.data && res.data.total || 0
-          this.collectionItems = res.data && res.data.records || []
+          this.total = (res.data && res.data.total) || 0
+          this.collectionItems = (res.data && res.data.records) || []
           return
         }
         this.collectionItems = []
@@ -182,7 +191,7 @@ export default {
       })
     },
 
-    handleSubmit(e) {
+    handleSubmit (e) {
       e.preventDefault()
       this.form.validateFields((err, values) => {
         if (!err) {
@@ -199,17 +208,17 @@ export default {
       })
     },
 
-    handleReset() {
+    handleReset () {
       this.form.resetFields()
       this.fetchList({})
     },
 
-    pageOnChange(pageNumber) {
+    pageOnChange (pageNumber) {
       this.pageNo = pageNumber
       this.fetchList(this.fetchParams)
     },
 
-    pageSizeOnChange(cfg, pageSize) {
+    pageSizeOnChange (cfg, pageSize) {
       this.pageNo = 1
       this.pageSize = pageSize
       this.fetchList(this.fetchParams)
