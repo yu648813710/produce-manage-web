@@ -3,38 +3,35 @@ module.exports = {
   root: true,
   // 使用 env 关键字指定你想启用的环境
   env: {
-    'node': true
+    node: true
   },
   // 使用的插件
-  extends: [
-    'plugin:vue/essential',
-    '@vue/standard'
-  ],
+  extends: ["plugin:vue/essential", "@vue/standard"],
   // 配置规则
   rules: {
-    'generator-star-spacing': 0,
-    'no-tabs': 'off',
-    'space-before-function-paren': 'off',
-    'no-control-regex': 'off',
-    'no-empty-character-class': 'off',
-    'no-invalid-regexp': 'off',
-    'no-regex-spaces': 'off',
-    'no-template-curly-in-string': 'off',
-    'vue/no-parsing-error': [
+    "generator-star-spacing": 0,
+    "no-tabs": "off",
+    "space-before-function-paren": "off",
+    "no-control-regex": "off",
+    "no-empty-character-class": "off",
+    "no-invalid-regexp": "off",
+    "no-regex-spaces": "off",
+    "no-template-curly-in-string": "off",
+    "vue/no-parsing-error": [
       2,
       {
-        'x-invalid-end-tag': false
+        "x-invalid-end-tag": false
       }
     ],
     complexity: [
       // 圈复杂度最大为10
-      'error',
+      "error",
       {
-        max: 10
+        max: 30
       }
     ],
-    'max-lines': [
-      'error',
+    "max-lines": [
+      "error",
       {
         // 单文件最大行数为600
         max: 600,
@@ -42,9 +39,9 @@ module.exports = {
       }
     ],
     // radix: 'off', // parseInt 不是必须传入第二个参数
-    'max-statements-per-line': [
+    "max-statements-per-line": [
       // 一行只能有一条语句
-      'error',
+      "error",
       {
         max: 1
       }
@@ -52,6 +49,6 @@ module.exports = {
   },
   // eslint的解析器 默认是Espree
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: "babel-eslint"
   }
-}
+};
