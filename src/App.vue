@@ -10,7 +10,7 @@ import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
 export default {
   data() {
     return {
-      zhCN,
+      zhCN
     }
   }
 }
@@ -23,5 +23,8 @@ export default {
   text-align: center;
   color: #2c3e50;
   height: 100%;
+}
+.ant-layout{
+  background: none !important;
 }
 </style>

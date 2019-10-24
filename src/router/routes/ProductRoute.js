@@ -78,13 +78,13 @@ export default {
           name: 'growthMonitore',
           component: () => import('@/views/Production/growthMonitore/growthMonitore.vue'),
           meta: { name: '生长监控大屏', icon: '' }
-        },
-        {
-          path: 'rulelist',
-          name: 'rulelist',
-          component: () => import('@/views/Production/RuleList/index.vue'),
-          meta: { name: '加工车间预警规则列表', icon: '' }
         }
+        // {
+        //   path: 'rulelist',
+        //   name: 'rulelist',
+        //   component: () => import('@/views/Production/RuleList/index.vue'),
+        //   meta: { name: '加工车间预警规则列表', icon: '' }
+        // }
       ]
     },
     {

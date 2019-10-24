@@ -5,6 +5,8 @@
   <div class="about">
     <a-layout>
       <a-layout-content style="margin: 16px">
+        <!-- 导航 -->
+        <crumbs-nav :crumbs-arr="crumbsArr" />
         <div class="search-wrapper">
           <div
             class="search-input-box"
@@ -44,8 +46,8 @@
                 </div>
               </a-col>
             </a-row>
-            <a-row :gutter="20">
-              <a-col :span="6">
+            <a-row :gutter="40">
+              <a-col :span="8">
                 <div class="search-input-wrapper">
                   <span class="search-title">所属地块</span>
                   <a-input
@@ -55,7 +57,7 @@
                   />
                 </div>
               </a-col>
-              <a-col :span="6">
+              <a-col :span="8">
                 <div class="search-input-wrapper">
                   <span class="search-title">生长周期</span>
                   <a-input
@@ -66,7 +68,7 @@
                   />
                 </div>
               </a-col>
-              <a-col :span="6">
+              <a-col :span="8">
                 <div class="search-input-wrapper">
                   <span class="search-title">创建人</span>
                   <a-input
@@ -77,7 +79,9 @@
                   />
                 </div>
               </a-col>
-              <a-col :span="6">
+            </a-row>
+            <a-row :gutter="40">
+              <a-col :span="8">
                 <div class="search-input-wrapper">
                   <span class="search-title">种植方案</span>
                   <a-input
@@ -92,16 +96,16 @@
           </div>
           <div>
             <a-button
-              class="button"
-              @click="clearInputVal"
-            >重置</a-button>
-            <a-button
               type="primary"
               class="button"
               @click="searchFarmPlanList"
             >查询</a-button>
             <a-button
-              :style="{ marginLeft: '8px', fontSize: '12px' }"
+              class="button"
+              @click="clearInputVal"
+            >重置</a-button>
+            <a-button
+              :style="{ marginLeft: '8px' }"
               @click="downUpSearch=!downUpSearch"
             >
               <a-icon :type="downUpSearch ? 'down' : 'up'" />
@@ -155,6 +159,7 @@ import {
   Button,
   Table
 } from 'ant-design-vue'
+import CrumbsNav from '@/components/crumbsNav/CrumbsNav' // 面包屑
 const list = []
 Vue.use(Layout)
 Vue.use(Breadcrumb)
@@ -166,6 +171,9 @@ Vue.use(Cascader)
 Vue.use(Button)
 Vue.use(Table)
 export default {
+  components: {
+    CrumbsNav
+  },
   created() {
     this.getFarmPlanList(this.pagination.current, this.pagination.pageSize)
   },
@@ -246,7 +254,24 @@ export default {
         productName: '', // 产品名称
         solutionPlanName: '' // 方案名称
       },
-      downUpSearch: true
+      downUpSearch: true,
+      crumbsArr: [
+        {
+          name: '当前位置',
+          back: false,
+          path: ''
+        },
+        {
+          name: '生产管理',
+          back: false,
+          path: ''
+        },
+        {
+          name: '农事计划',
+          back: false,
+          path: ''
+        }
+      ]
     }
   },
   methods: {
