@@ -395,9 +395,9 @@ export default {
         let unit = ''
         for (let i = 0; i < res.data.records.length; i++) {
           if (res.data.records[i].cycleUnit == 3) {
-            unit = '天'
-          } else if (res.data.records[i].cycleUnit == 5) {
             unit = '周'
+          } else if (res.data.records[i].cycleUnit == 5) {
+            unit = '天'
           }
           res.data.records[i].cycleTotalLength =
             res.data.records[i].cycleTotalLength + unit
