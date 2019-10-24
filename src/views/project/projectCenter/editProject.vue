@@ -1600,7 +1600,7 @@
   .wrapper {
     position: relative;
     padding: 24px 24px 0 24px;
-    height: calc(100% - 80px);
+    min-height: calc(100% - 80px);
     background: #fff;
     margin: 16px;
     border-radius: 4px;

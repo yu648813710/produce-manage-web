@@ -11,8 +11,9 @@
         overflow:'auto'
       }"
       :destroyOnClose="true"
+      :maskClosable="false"
       class="task-detail"
-    >
+      >
       <a-form
         :form="editFrom"
         @submit="editFromSubmit"
@@ -195,7 +196,18 @@
             :key="index"
           >
             <span>{{item.materialName}}</span>
-            <span>{{item.materialDosage}}</span>
+            <span
+              v-if="!item.inputEdit"
+              @click="showInputEditItem(index)"
+            >{{item.materialDosage}}</span>
+            <span v-else>
+              <a-input-number
+                :autofocus="item.inputEdit"
+                v-model="item.materialDosage"
+                @blur="hiddenInputEditItem(index)"
+                style="width:80%;"
+              ></a-input-number>
+            </span>
             <span>{{item.materialUnitName}}</span>
             <span
               class="table-delete"
@@ -209,7 +221,7 @@
 </template>
 <script>
 export default {
-  data() {
+  data () {
     return {
       navData: ['农资名称', '用量', '用量单位', '操作'],
       materialForm: this.$form.createForm(this, { name: 'material' }),
@@ -229,44 +241,66 @@ export default {
       required: true
     },
     detailPageData: {
-      type: Object,
       default: {},
       required: true
     },
     utilData: {
-      type: Array,
       default: [],
       required: true
     },
     materialData: {
-      type: Array,
       default: [],
       required: true
     }
   },
   watch: {
-    detailPageData(val) {
+    detailPageData (val) {
       this.detailPageData = val
+      this.detailPageData.taskUseReMaterial.map(res => {
+        res.inputEdit = false
+      })
+      this.$set(this.detailPageData)
+      console.log(this.detailPageData)
       this.editFromSetVal()
     }
   },
   methods: {
+    // 显示农资编辑框
+    showInputEditItem(index) {
+      this.detailPageData.taskUseReMaterial = this.detailPageData.taskUseReMaterial.map(
+        (res, resIndex) => {
+          if (index === resIndex) {
+            res.inputEdit = true
+          }
+          return res
+        }
+      )
+    },
+    // 隐藏农资编辑框
+    hiddenInputEditItem(index) {
+      this.detailPageData.taskUseReMaterial = this.detailPageData.taskUseReMaterial.map(
+        (res, resIndex) => {
+          if (index === resIndex) {
+            res.inputEdit = false
+          }
+          return res
+        }
+      )
+    },
     // 隐藏编辑框
-    hiddenEditTask() {
+    hiddenEditTask () {
       this.$emit('hiddenEditTask')
     },
     // 提交编辑框
-    editSbumit() {
+    editSbumit () {
       this.editFromSubmit()
     },
     // 提交编辑表单
-    editFromSubmit() {
+    editFromSubmit () {
       this.editFrom.validateFields((err, values) => {
         if (err) {
           return false
         }
-        console.log(values)
-        console.log(this.detailPageData)
         let queryData = {
           instId: this.detailPageData.instId,
           taskUseReMaterial: this.detailPageData.taskUseReMaterial
@@ -277,7 +311,7 @@ export default {
       })
     },
     // 提交农资
-    submitMeterial(e) {
+    submitMeterial (e) {
       e.preventDefault()
       this.materialForm.validateFields((err, values) => {
         if (!err) {
@@ -286,41 +320,43 @@ export default {
       })
     },
     // 编辑表单赋值
-    editFromSetVal() {
+    editFromSetVal () {
       let self = this
       this.editFrom.setFieldsValue({
-        ['cycleStartTime']: self.detailPageData.cycleStartTime
+        'cycleStartTime': self.detailPageData.cycleStartTime
           ? self.detailPageData.cycleStartTime
           : 0,
-        ['cycleEndTime']: self.detailPageData.cycleEndTime
+        'cycleEndTime': self.detailPageData.cycleEndTime
           ? self.detailPageData.cycleEndTime
           : 0
       })
     },
     // 插入农资数据
-    pushReMaterialData(values) {
+    pushReMaterialData (values) {
       let data = {
         materialName: this.materialData.filter(
           res => res.materialId === values.materialId
         )[0].materialName,
         materialUnitName: this.utilData.filter(
           res => res.unitId === values.materialUnitId
-        )[0].unitName
+        )[0].unitName,
+        inputEdit: false
       }
       data = Object.assign(data, values)
       this.detailPageData.taskUseReMaterial.push(data)
+      console.log(this.detailPageData.taskUseReMaterial)
       this.resetRematerialData()
     },
     // 删除农资数据
-    deleteRematerialData(index) {
+    deleteRematerialData (index) {
       this.detailPageData.taskUseReMaterial.splice(index, 1)
     },
     // 重置农资表单
-    resetRematerialData() {
+    resetRematerialData () {
       this.materialForm.resetFields()
     },
     // 周期结束天数
-    cycleEndTimeFun(rule, value, callback) {
+    cycleEndTimeFun (rule, value, callback) {
       let startTime = this.editFrom.getFieldValue('cycleStartTime')
       if (rule.field === 'cycleEndTime' && (!value || value < startTime)) {
         callback(rule.message)
@@ -328,7 +364,7 @@ export default {
       callback()
     },
     // 开始周期
-    cycleStartTimeInput(e) {
+    cycleStartTimeInput (e) {
       this.cycleEndTimeMin = e
     }
   }

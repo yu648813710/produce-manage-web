@@ -81,7 +81,7 @@
           :columns="columns"
           :dataSource="list"
           :rowKey="e => e.question.questionId"
-          :style="{marginTop: '50px'}"
+          :style="{padding: '24px'}"
           :pagination="pagination"
           :loading="loading"
           @change="pageOnChange"
@@ -93,13 +93,6 @@
           <span class="preview" slot="operation" slot-scope="text, record" @click="handleDetail(record)">查看</span>
         </a-table>
       </div>
-      <!-- <a-pagination
-        class="pagination"
-        showQuickJumper
-        :defaultCurrent="1"
-        :total="total"
-        @change="pageOnChange"
-      /> -->
     </a-layout>
   </div>
 </template>
@@ -251,12 +244,13 @@ export default {
       fields,
       form: this.$form.createForm(this, { name: "knowledgeQuiz" }),
       expand: false,
-      pageNo: 0,
+      pageNo: 1,
       pageSize: 10,
       total: 100,
+      fetchParams: {},
       columns,
       list,
-      pagination: { showQuickJumper: true },
+      pagination: { showQuickJumper: true, showSizeChanger: true },
       loading: false,
 
       startDate: null,
@@ -328,7 +322,8 @@ export default {
             beginDate: this.startValue,
             endDate: this.endValue
           }
-          console.log('+++++++++++:', params)
+          this.pageNo = 1;
+          this.fetchParams = params;
           this.fetchList(params)
         }
       });
@@ -340,16 +335,18 @@ export default {
 
     handleReset() {
       this.form.resetFields();
-      this.fetchList({});
+      this.fetchParams = {}
+      this.fetchList(this.fetchParams);
     },
 
     pageOnChange(cfg) {
-      console.log('cfg:', cfg)
       const pager = { ...this.pagination };
       pager.current = cfg.current;
+      pager.pageSize = cfg.pageSize;
       this.pagination = pager;
       this.pageNo = pager.current
-      this.fetchList({})
+      this.pageSize = pager.pageSize
+      this.fetchList(this.fetchParams)
     },
 
     /**
@@ -388,6 +385,7 @@ export default {
     margin-bottom: 12px;
   }
   .list-collection {
+    background-color: #fff;
     .preview {
       cursor: pointer;
       color: #3C8DFF;

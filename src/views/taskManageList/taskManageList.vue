@@ -16,7 +16,7 @@
         <a-locale-provider :locale="zhCN">
           <a-table
             class="equipmentTable"
-            :scroll="{ x: 1500 }"
+            :scroll="{ x: 1600 }"
             :rowKey="record => record.instId"
             :columns="columns"
             :dataSource="equipmentList"
@@ -28,6 +28,12 @@
               slot="id"
               slot-scope="text, record, index"
             >{{index + 1}}</span>
+            <span
+              slot="useMaterial"
+              class="use-material"
+              slot-scope="text, record, index"
+              :title="text"
+            >{{text}}</span>
             <span
               slot="action"
               slot-scope="text, record"
@@ -112,7 +118,7 @@ import {
 import { tableColumns, crumbsArr } from './config'
 import SearchForm from './components/SearchForm'
 import TaskDetail from './components/TaskDetail'
-import EditTask from './components/editTask'
+import EditTask from './components/EditTask'
 import CrumbsNav from '@/components/crumbsNav/CrumbsNav'
 // const confirm = Modal.confirm
 Vue.use(Form)
@@ -137,7 +143,7 @@ export default {
     TaskDetail,
     EditTask
   },
-  data() {
+  data () {
     return {
       deleteShow: false,
       zhCN,
@@ -164,25 +170,23 @@ export default {
     }
   },
   methods: {
-    showDeleteModal(id) {
+    showDeleteModal (id) {
       this.taskID = id
       this.deleteShow = true
     },
-    hiddenDeleteModal() {
+    hiddenDeleteModal () {
       this.deleteShow = false
     },
     // 获取任务列表
-    getTaskManageList(current, pageSize, queryData) {
-      let queryData_ = queryData
-        ? queryData
-        : {
-            actionName: '', // 操作名称
-            blockLandName: '', // 地块名称
-            cycleName: '', // 周期名称
-            farmingNum: '', // 农事编号
-            farmingTypeName: '', // 农事类型名称
-            taskStatus: '' // 任务状态
-          }
+    getTaskManageList (current, pageSize, queryData) {
+      let queryData_ = queryData || {
+        actionName: '', // 操作名称
+        blockLandName: '', // 地块名称
+        cycleName: '', // 周期名称
+        farmingNum: '', // 农事编号
+        farmingTypeName: '', // 农事类型名称
+        taskStatus: '' // 任务状态
+      }
       let postData = {
         page: current,
         pageSize: pageSize
@@ -191,13 +195,14 @@ export default {
       taskManageList(postData).then(res => {
         if (res.code === 200) {
           this.equipmentList = res.data.records
-          this.pagination.pageNo = current
+          this.pagination.current = current
           this.pagination.pageSize = pageSize
+          this.pagination.total = res.data.total
         }
       })
     },
     // 获取选择状态
-    getTaskStateData() {
+    getTaskStateData () {
       getTaskState().then(res => {
         if (res.code === 200) {
           this.selectStateData = res.data
@@ -205,7 +210,7 @@ export default {
       })
     },
     // 删除任务
-    deleteTask() {
+    deleteTask () {
       deleteTask(this.taskID).then(res => {
         if (res.code !== 200) {
           return false
@@ -219,14 +224,14 @@ export default {
       })
     },
     // 页码设置
-    setPageList(e) {
+    setPageList (e) {
       let current = e.current
       let pageSize = e.pageSize
 
       this.getTaskManageList(current, pageSize)
     },
     // 搜索任务
-    searchTask(e) {
+    searchTask (e) {
       this.getTaskManageList(
         this.pagination.current,
         this.pagination.pageSize,
@@ -234,11 +239,11 @@ export default {
       )
     },
     // 清楚搜索条件
-    clearSearch(e) {
+    clearSearch (e) {
       this.getTaskManageList(this.pagination.current, this.pagination.pageSize)
     },
     // 请求详情数据
-    getTaskDetailData(id) {
+    getTaskDetailData (id) {
       getTaskDetail(id).then(res => {
         if (res.code === 200) {
           this.detailTaskData = res.data
@@ -246,15 +251,15 @@ export default {
       })
     },
     // 显示详情
-    showDetailTask(id) {
+    showDetailTask (id) {
       this.detailTaskShow = true
       this.getTaskDetailData(id)
     },
-    hiddenDetailTask() {
+    hiddenDetailTask () {
       this.detailTaskShow = false
     },
     // 提示信息
-    tipMessage(type, message) {
+    tipMessage (type, message) {
       if (type === 'Y') {
         this.$message.success(message)
         return false
@@ -262,7 +267,7 @@ export default {
       this.$message.error(message)
     },
     // 点击修改
-    editTaskShow(id) {
+    editTaskShow (id) {
       this.editTaskShowState = true
       getTaskDetail(id).then(res => {
         if (res.code === 200) {
@@ -271,11 +276,11 @@ export default {
       })
     },
     // 隐藏编辑
-    editTaskHidden() {
+    editTaskHidden () {
       this.editTaskShowState = false
     },
     // 请求单位
-    getUtilData() {
+    getUtilData () {
       getUtil().then(res => {
         if (res.code !== 200) {
           return false
@@ -284,7 +289,7 @@ export default {
       })
     },
     // 请求农资
-    getMaterialData() {
+    getMaterialData () {
       getMaterial().then(res => {
         if (res.code !== 200) {
           return false
@@ -293,7 +298,7 @@ export default {
       })
     },
     // 提交编辑
-    editSbumit(e) {
+    editSbumit (e) {
       console.log(e)
       editTask(e).then(res => {
         if (res.code !== 200) {
@@ -310,8 +315,7 @@ export default {
       })
     }
   },
-  created() {
-    let self = this
+  created () {
     this.loading = false
     this.getTaskManageList(this.pagination.current, this.pagination.pageSize)
     this.getTaskStateData()
@@ -340,5 +344,12 @@ export default {
     margin-right: 5px;
     color: #1890ff;
   }
+}
+.use-material {
+  width: 140px;
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 </style>
