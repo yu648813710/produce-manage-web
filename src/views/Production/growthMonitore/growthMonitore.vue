@@ -85,7 +85,7 @@
 import Vue from 'vue'
 import { Row, Col } from 'ant-design-vue'
 import { growthData } from '@/api/productManage.js'
-import echartsConfig from "./echartsConfig";
+import echartsConfig from './echartsConfig'
 Vue.use(Row)
 Vue.use(Col)
 export default {
@@ -93,7 +93,6 @@ export default {
     // 'a-button': Button
   },
   data() {
-    let self = this
     return {
       totalWarring: 0,
       newWarring: 0,
@@ -103,7 +102,13 @@ export default {
       inUseMassif: 0,
       myChart: '',
       pieData: [{ name: '湿度', value: 0 }, { name: '温度', value: 0 }],
-      timer: ''
+      timer: '',
+      crumbsArr: [
+        { name: '当前位置', back: false, path: '' },
+        { name: '生产管理', back: false, path: '' },
+        { name: '生长监控', back: true, path: '/projectCenter' },
+        { name: '新增方案', back: false, path: '' }
+      ]
     }
   },
   created() {},
@@ -118,11 +123,11 @@ export default {
     getGrowthData() {
       growthData('gh').then(res => {
         this.totalWarring = res.data.alarmHistoryTotal
-        this.newWarring = res.data.temperatureHistoryCount //温度新增
-        this.inUseMassif = res.data.landOpenAirCount //地块数量
-        this.inUseHouse = res.data.landGreenhousesCount //大棚数量
-        this.warring1 = res.data.temperatureNewCount //新增温度数量
-        this.warring2 = res.data.dampnessNewCount //新增湿度数量
+        this.newWarring = res.data.temperatureHistoryCount // 温度新增
+        this.inUseMassif = res.data.landOpenAirCount // 地块数量
+        this.inUseHouse = res.data.landGreenhousesCount // 大棚数量
+        this.warring1 = res.data.temperatureNewCount // 新增温度数量
+        this.warring2 = res.data.dampnessNewCount // 新增湿度数量
         this.newWarring = this.warring1 + this.warring2
         this.pieData[1].value = this.warring1
         this.pieData[0].value = this.warring2
@@ -135,11 +140,11 @@ export default {
       // 基于准备好的dom，初始化echarts实例
       this.myChart = this.$echarts.init(document.getElementById('pieEcharts'))
       // 绘制图表
-      echartsConfig.pieEchartsOption(this.myChart, self);
+      echartsConfig.pieEchartsOption(this.myChart, self)
     },
     warringDetailList(index) {
       if (index === 1) {
-        this.$router.push({ path: `/warringList/${index}` })
+        this.$router.push({ path: `warringList/${index}` })
       } else if (index === 2) {
         this.$router.push({ path: `warringList/${index}` })
       }

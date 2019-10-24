@@ -1,4 +1,4 @@
-import { axios } from '@/utils/request';
+import { axios } from '@/utils/request'
 // 获取方案中心列表
 export function projectList(data) {
   return axios({

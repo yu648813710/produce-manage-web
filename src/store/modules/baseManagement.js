@@ -1,12 +1,12 @@
-import Vue from 'vue'
-import {ROUTES, USERTOKEN} from "../mutation-types";
+// import Vue from 'vue'
+// import { ROUTES, USERTOKEN } from '../mutation-types'
 
 const state = {
   // 判断是不是详情页
   isEdit: false,
   // 判断是不是详情页
   isDetail: false,
-  isShowList:true,
+  isShowList: true
 }
 const mutations = {
   UPDATEDETAIL(state, val) {
@@ -17,24 +17,24 @@ const mutations = {
   },
   SHOWLIST(state, val) {
     state.isShowList = val
-  },
+  }
 }
 
 const actions = {
-  addBase({commit}, val) {
+  addBase({ commit }, val) {
     commit('UPDATEDETAIL', val)
   },
-  checkBaseDetail({commit}, val) {
+  checkBaseDetail({ commit }, val) {
     commit('CHECKDETAIL', val)
   },
-  showList({commit}, val) {
+  showList({ commit }, val) {
     commit('SHOWLIST', val)
-  },
+  }
 }
 
 export default {
   namespaced: true,
   state,
   mutations,
-  actions,
+  actions
 }

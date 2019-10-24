@@ -47,7 +47,7 @@
             >{{index + 1}}</span>
             <span
               slot="action"
-              slot-scope="text, record"
+              slot-scope=""
             >
               <!-- 编辑 -->
               <span
@@ -128,7 +128,7 @@ export default {
           title: '状态',
           dataIndex: 'status',
           customRender: text => {
-            if (text == 'abnormal') {
+            if (text === 'abnormal') {
               return '异常的'
             } else {
               return '正常的'

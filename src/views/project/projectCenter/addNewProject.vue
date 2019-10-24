@@ -7,7 +7,6 @@
       <crumbsNav :crumbsArr="crumbsArr"></crumbsNav>
     </div>
     <div class="wrapper">
-      <crumbsNav :crumbsArr="crumbsArr"></crumbsNav>
       <a-steps :current="current" :labelPlacement="vertical">
         <a-step :labelPlacement="vertical" v-for="item in steps" :key="item.title" :title="item.title"/>
       </a-steps>
@@ -44,7 +43,7 @@
                               @change="categoryChange"
                               v-decorator="msgForm.productCategoryRule"
                     >
-                      <a-select-option v-for="(item,index) in productCategoryList"
+                      <a-select-option v-for="(item) in productCategoryList"
                                        :key="item.value"
                       >
                         {{item.label}}
@@ -61,7 +60,7 @@
                               @change="breedChange"
                               v-decorator="msgForm.productVarietyRule"
                     >
-                      <a-select-option v-for="(item,index) in productVarietyList"
+                      <a-select-option v-for="(item) in productVarietyList"
                                        :key="item.value"
                       >
                         {{item.label}}
@@ -77,7 +76,7 @@
                               @change="projectPowerChange"
                               v-decorator="msgForm.projectPowerRule"
                     >
-                      <a-select-option v-for="(item,index) in projectPowerArr"
+                      <a-select-option v-for="(item) in projectPowerArr"
                                        :key="item.value"
                       >
                         {{item.label}}
@@ -94,7 +93,7 @@
                               @change="participantUserChange"
                               v-decorator="msgForm.participantUserRule"
                     >
-                      <a-select-option v-for="(item,index) in participantUserIdArr"
+                      <a-select-option v-for="(item) in participantUserIdArr"
                                        :key="item.value"
                       >
                         {{item.label}}
@@ -244,10 +243,10 @@
             <span @click="editAction(record)">编辑</span>
             <span @click="taskAction(1,record)">删除</span>
           </div>
-          <div class="textOverCtr" slot="purpose" slot-scope="text, record, index" :title="record.purpose">
+          <div class="textOverCtr" slot="purpose" slot-scope="text, record" :title="record.purpose">
             {{record.purpose}}
           </div>
-          <div class="textOverCtr" slot="cycleDescription" slot-scope="text, record, index"
+          <div class="textOverCtr" slot="cycleDescription" slot-scope="text, record"
                :title="record.cycleDescription">{{record.cycleDescription}}
           </div>
         </a-table>
@@ -299,7 +298,7 @@
           <a-col :span="19">
             <div class="growthCycle" v-for="(item,index) in arrList" :key="index">
               <a-button type="primary">{{item.label}}</a-button>
-              <div class="moneLabel" v-for="(item,moveIndex) in moveList" :key="index" @click="moveLabel(index,moveIndex)">
+              <div class="moneLabel" v-for="(item,moveIndex) in moveList" :key="moveIndex" @click="moveLabel(index,moveIndex)">
                 {{item.label}}
               </div>
             </div>
@@ -308,7 +307,7 @@
             <a-select placeholder="请选择" :disabled="selectList.length === 0 ? true : false" style="width: 120px"
                       @select="handleChange">
               <a-icon slot="suffixIcon" type="smile"/>
-              <a-select-option v-for="(item,index) in selectList" :key="JSON.stringify(item)">{{item.label}}
+              <a-select-option v-for="(item) in selectList" :key="JSON.stringify(item)">{{item.label}}
               </a-select-option>
             </a-select>
           </a-col>
@@ -340,7 +339,7 @@
                           @change="cycleChange"
                           v-decorator="taskForm.cycleRule"
                 >
-                  <a-select-option v-for="(item,index) in taskCycle"
+                  <a-select-option v-for="(item) in taskCycle"
                                    :key="JSON.stringify(item)"
                   >
                     {{item.label}}
@@ -354,7 +353,7 @@
                           @change="frameChange"
                           v-decorator="taskForm.frameRule"
                 >
-                  <a-select-option v-for="(item,index) in frameType"
+                  <a-select-option v-for="(item) in frameType"
                                    :key="JSON.stringify(item)"
                   >
                     {{item.label}}
@@ -369,7 +368,7 @@
                           @change="actionChange"
                           v-decorator="taskForm.actionRule"
                 >
-                  <a-select-option v-for="(item,index) in actionType"
+                  <a-select-option v-for="(item) in actionType"
                                    :key="JSON.stringify(item)"
                   >
                     {{item.label}}
@@ -456,7 +455,7 @@
                       v-model="nongziName"
                       @change="nameChange">
               <a-icon slot="suffixIcon" type="smile"/>
-              <a-select-option v-for="(item,index) in name" :key="JSON.stringify(item)">{{item.label}}
+              <a-select-option v-for="(item) in name" :key="JSON.stringify(item)">{{item.label}}
               </a-select-option>
             </a-select>
             <a-input-number
@@ -484,750 +483,747 @@
       </a-modal>
     </div>
 
-
   </div>
 </template>
 <script>
-    const tableHead = [
-        {label: '农资名称'},
-        {label: '用量'},
-        {label: '用量单位'},
-        {label: '操作'}
-    ]
-    // const projectNameRule = [
-    //     'projectName',
-    //     {rules: [{required: true, message: '请输入基地名称'}]}
-    // ];
-    const productCategoryRule = [
-        'productCategory',
-        {rules: [{required: true, message: '请选择产品品类'}]}
-    ]
-    const productVarietyRule = [
-        'productVariety',
-        {rules: [{required: true, message: '请选择产品品种'}]}
-    ]
-    const projectPowerRule = [
-        'projectPower',
-        {rules: [{required: true, message: '请选择产品权限'}]}
-    ]
-    const participantUserRule = [
-        'participantUser',
-        {rules: [{required: false,}]}
-    ]
-    const cycleRule = [
-        'taskCycle',
-        {rules: [{required: true, message: '请选择周期'}]}
-    ]
-    const frameRule = [
-        'frameType',
-        {rules: [{required: true, message: '请选择农事类型'}]}
-    ]
-    const actionRule = [
-        'actionType',
-        {rules: [{required: true, message: '请选择任务操作'}]}
-    ]
-    const minActionRule = [
-        'minActionType',
-        {rules: [{required: true, message: '请输入开始周期'}]}
-    ]
-    const maxActionRule = [
-        'maxActionType',
-        {rules: [{required: true, message: '请输入结束周期'}]}
-    ]
-    const actionInputRule = [
-        'actionInput',
-        {rules: [{required: true, message: ''}]}
-    ]
-    const purposeRule = [
-        'purpose',
-        {rules: [{required: true, message: '请输入用途'}]}
-    ]
-    const cycleDescRule = [
-        'cycleDesc',
-        {rules: [{required: false, message: '请输入农事描述'}]}
-    ]
-    import crumbsNav from "@/components/crumbsNav/CrumbsNav";
-    import Vue from 'vue'
-    import domUtil from "../../../utils/domUtil";
-    import {
-        getCategoryList,
-        getBreedList,
-        getLifeCycleList,
-        getfarmingTypeList,
-        getActionList,
-        getMaterialList,
-        addNewTask,
-        projectUser,
-        checkProjectRepeat,
-    } from '@/api/projectCenter.js'
-    import {Form, Table, Row, Col, Steps, Radio, icon, Modal, Button, Input, Select} from 'ant-design-vue'
+import crumbsNav from '@/components/crumbsNav/CrumbsNav'
+import Vue from 'vue'
+import domUtil from '../../../utils/domUtil'
+import {
+  getCategoryList,
+  getBreedList,
+  getLifeCycleList,
+  getfarmingTypeList,
+  getActionList,
+  getMaterialList,
+  addNewTask,
+  projectUser,
+  checkProjectRepeat
+} from '@/api/projectCenter.js'
+import { Form, Table, Row, Col, Steps, Radio, icon, Modal, Button, Input, Select } from 'ant-design-vue'
+const tableHead = [
+  { label: '农资名称' },
+  { label: '用量' },
+  { label: '用量单位' },
+  { label: '操作' }
+]
+// const projectNameRule = [
+//     'projectName',
+//     {rules: [{required: true, message: '请输入基地名称'}]}
+// ];
+const productCategoryRule = [
+  'productCategory',
+  { rules: [{ required: true, message: '请选择产品品类' }] }
+]
+const productVarietyRule = [
+  'productVariety',
+  { rules: [{ required: true, message: '请选择产品品种' }] }
+]
+const projectPowerRule = [
+  'projectPower',
+  { rules: [{ required: true, message: '请选择产品权限' }] }
+]
+const participantUserRule = [
+  'participantUser',
+  { rules: [{ required: false }] }
+]
+const cycleRule = [
+  'taskCycle',
+  { rules: [{ required: true, message: '请选择周期' }] }
+]
+const frameRule = [
+  'frameType',
+  { rules: [{ required: true, message: '请选择农事类型' }] }
+]
+const actionRule = [
+  'actionType',
+  { rules: [{ required: true, message: '请选择任务操作' }] }
+]
+const minActionRule = [
+  'minActionType',
+  { rules: [{ required: true, message: '请输入开始周期' }] }
+]
+const maxActionRule = [
+  'maxActionType',
+  { rules: [{ required: true, message: '请输入结束周期' }] }
+]
+const actionInputRule = [
+  'actionInput',
+  { rules: [{ required: true, message: '' }] }
+]
+const purposeRule = [
+  'purpose',
+  { rules: [{ required: true, message: '请输入用途' }] }
+]
+const cycleDescRule = [
+  'cycleDesc',
+  { rules: [{ required: false, message: '请输入农事描述' }] }
+]
 
-    Vue.use(Row)
-    Vue.use(Col)
-    Vue.use(Form)
-    Vue.use(Steps)
-    Vue.use(Radio)
-    Vue.use(icon)
-    Vue.use(Modal)
-    Vue.use(Button)
-    Vue.use(Input)
-    Vue.use(Select)
-    Vue.use(Table)
-    export default {
-        data() {
-            return {
-                crumbsArr:[
-                    {name: '当前位置', back: false, path: ''},
-                    {name: '生产管理', back: false, path: ''},
-                    {name: '方案中心', back: true, path: '/projectCenter'},
-                    {name: '新增方案', back: false, path: ''},
-                ],
-                list: [],
-                msgForm: {
-                    projectNameRule: '',
-                    productCategoryRule,
-                    productVarietyRule,
-                    projectPowerRule,
-                    participantUserRule,
-                    form: this.$form.createForm(this),
-                    isCategory: false,
-                },
-                isFrameType: false,
-                taskForm: {
-                    form: this.$form.createForm(this),
-                    cycleRule,
-                    frameRule,
-                    actionRule,
-                    purposeRule,
-                    cycleDescRule,
-                    minActionRule,
-                    maxActionRule,
-                    actionInputRule,
-                },
-                nongziName: '',
-                cycleForm: {
-                    form: this.$form.createForm(this),
-                },
-                columns: [
-                    {title: '序号', dataIndex: 'id', key: 'id', width: 160, columnTitle: 'id',scopedSlots: {customRender: 'id'},},
-                    {title: '任务操作', dataIndex: 'taskAction', key: 'taskAction', width: 160, columnTitle: 'taskAction'},
-                    {title: '所属周期', dataIndex: 'cycle', key: 'cycle', width: 160,},
-                    {title: '农事类型', dataIndex: 'type', key: 'type', width: 160,},
-                    {
-                        title: '使用农资及用量', dataIndex: 'tableNongZi', key: 'tableNongZi',
-                        width: 180,
-                        scopedSlots: {customRender: 'tableNongZi'},
+Vue.use(Row)
+Vue.use(Col)
+Vue.use(Form)
+Vue.use(Steps)
+Vue.use(Radio)
+Vue.use(icon)
+Vue.use(Modal)
+Vue.use(Button)
+Vue.use(Input)
+Vue.use(Select)
+Vue.use(Table)
+export default {
+  data() {
+    return {
+      crumbsArr: [
+        { name: '当前位置', back: false, path: '' },
+        { name: '生产管理', back: false, path: '' },
+        { name: '方案中心', back: true, path: '/projectCenter' },
+        { name: '新增方案', back: false, path: '' }
+      ],
+      list: [],
+      msgForm: {
+        projectNameRule: '',
+        productCategoryRule,
+        productVarietyRule,
+        projectPowerRule,
+        participantUserRule,
+        form: this.$form.createForm(this),
+        isCategory: false
+      },
+      isFrameType: false,
+      taskForm: {
+        form: this.$form.createForm(this),
+        cycleRule,
+        frameRule,
+        actionRule,
+        purposeRule,
+        cycleDescRule,
+        minActionRule,
+        maxActionRule,
+        actionInputRule
+      },
+      nongziName: '',
+      cycleForm: {
+        form: this.$form.createForm(this)
+      },
+      columns: [
+        { title: '序号', dataIndex: 'id', key: 'id', width: 160, columnTitle: 'id', scopedSlots: { customRender: 'id' } },
+        { title: '任务操作', dataIndex: 'taskAction', key: 'taskAction', width: 160, columnTitle: 'taskAction' },
+        { title: '所属周期', dataIndex: 'cycle', key: 'cycle', width: 160 },
+        { title: '农事类型', dataIndex: 'type', key: 'type', width: 160 },
+        {
+          title: '使用农资及用量',
+          dataIndex: 'tableNongZi',
+          key: 'tableNongZi',
+          width: 180,
+          scopedSlots: { customRender: 'tableNongZi' }
 
-                    },
-                    {title: '执行周期', dataIndex: 'executionCycle', key: 'executionCycle', width: 160,scopedSlots: {customRender: 'executionCycle'},},
-                    {
-                        title: '用途',
-                        dataIndex: 'purpose',
-                        key: 'purpose',
-                        width: 160,
-                        columnTitle: 'purpose',
-                        scopedSlots: {customRender: 'purpose'},
-                    },
-                    {
-                        title: '农事描述',
-                        dataIndex: 'cycleDescription',
-                        key: 'cycleDescription',
-                        width: 160,
-                        columnTitle: 'cycleDescription',
-                        scopedSlots: {customRender: 'cycleDescription'},
-                    },
-                    {
-                        title: '操作',
-                        key: 'operation',
-                        scopedSlots: {customRender: 'operation'},
-                        width: 160,
-                    }
-                ],
-                tableHead,
-                detail: this.$route.params,
-                steps: [{
-                    title: '基本信息',
-                    content: '基本信息',
-                    labelPlacement: 'vertical'
-                }, {
-                    title: '产品周期',
-                    content: '产品周期',
-                }, {
-                    title: '任务列表',
-                    content: '任务列表',
-                }, {
-                    title: '已完成',
-                    content: '已完成',
-                }],
-                projectPowerArr: [
-                    {label: '公开市场', value: 'market'},
-                    {label: '公司私有', value: 'company'},
-                ],
-                participantUserIdArr: [],
-                projectPower: '', //权限
-                participantUser: [], //参与人
-                current: 0,
-                vertical: 'vertical',
-                projectName: '',
-                productVarietyList: [],
-                productCategoryList: [],
-                productCategory: '',
-                productVariety: '',
-                solutionPlan: {},
-                dateType: '3',
-                cycleList: [],
-                taskCycle: [],
-                cycleData: [],
-                lifeCycleId: '',
-                visible: false,
-                confirmLoading: false,
-                ModalText: 'Content of the modal',
-                moveList: [
-                    {label: '前移', index: 1, type: '准备期'},
-                    {label: '后移', index: 2, type: '准备期'},
-                    {label: '删除', index: 3, type: '准备期'},
-                ],
-                arrList: [],
-                dateList: ['cycleDate0', 'cycleDate1', 'cycleDate2'],
-                selectList: [],
-                formatList: [],
-                isAddTask: false,
-                isAdd: false,
-                frameType: [],
-                actionType: [],
-                actionId: '',
-                farmingTypeId: '',
-                cycleType: [
-                    {label: '所属周期', type: 1, duration: ''},
-                ],
-                minActionType: 0,
-                maxActionType: 0,
-                useType: [
-                    {label: '用途', type: 1, duration: ''},
-                ],
-                cycleDesc: '',
-                taskCacheList: {},
-                name: [],
-                consumption: '',
-                unit: '',
-                tableProduction: {},
-                tableList: [],
-                tableDataID: 0,
-                taskList: [],
-                purpose: '',
-                projectNameRepeat: false,
-
-            }
         },
-        components:{
-            crumbsNav,
+        { title: '执行周期', dataIndex: 'executionCycle', key: 'executionCycle', width: 160, scopedSlots: { customRender: 'executionCycle' } },
+        {
+          title: '用途',
+          dataIndex: 'purpose',
+          key: 'purpose',
+          width: 160,
+          columnTitle: 'purpose',
+          scopedSlots: { customRender: 'purpose' }
         },
-        mounted() {
-            let self = this;
-            this.msgForm.projectNameRule = [`projectName`, {
-                rules: [{
-                    required: true,
-                    message: '请输入基地名称',
-                },{validator: self.projectNameValidator}],
+        {
+          title: '农事描述',
+          dataIndex: 'cycleDescription',
+          key: 'cycleDescription',
+          width: 160,
+          columnTitle: 'cycleDescription',
+          scopedSlots: { customRender: 'cycleDescription' }
+        },
+        {
+          title: '操作',
+          key: 'operation',
+          scopedSlots: { customRender: 'operation' },
+          width: 160
+        }
+      ],
+      tableHead,
+      detail: this.$route.params,
+      steps: [{
+        title: '基本信息',
+        content: '基本信息',
+        labelPlacement: 'vertical'
+      }, {
+        title: '产品周期',
+        content: '产品周期'
+      }, {
+        title: '任务列表',
+        content: '任务列表'
+      }, {
+        title: '已完成',
+        content: '已完成'
+      }],
+      projectPowerArr: [
+        { label: '公开市场', value: 'market' },
+        { label: '公司私有', value: 'company' }
+      ],
+      participantUserIdArr: [],
+      projectPower: '', // 权限
+      participantUser: [], // 参与人
+      current: 0,
+      vertical: 'vertical',
+      projectName: '',
+      productVarietyList: [],
+      productCategoryList: [],
+      productCategory: '',
+      productVariety: '',
+      solutionPlan: {},
+      dateType: '3',
+      cycleList: [],
+      taskCycle: [],
+      cycleData: [],
+      lifeCycleId: '',
+      visible: false,
+      confirmLoading: false,
+      ModalText: 'Content of the modal',
+      moveList: [
+        { label: '前移', index: 1, type: '准备期' },
+        { label: '后移', index: 2, type: '准备期' },
+        { label: '删除', index: 3, type: '准备期' }
+      ],
+      arrList: [],
+      dateList: ['cycleDate0', 'cycleDate1', 'cycleDate2'],
+      selectList: [],
+      formatList: [],
+      isAddTask: false,
+      isAdd: false,
+      frameType: [],
+      actionType: [],
+      actionId: '',
+      farmingTypeId: '',
+      cycleType: [
+        { label: '所属周期', type: 1, duration: '' }
+      ],
+      minActionType: 0,
+      maxActionType: 0,
+      useType: [
+        { label: '用途', type: 1, duration: '' }
+      ],
+      cycleDesc: '',
+      taskCacheList: {},
+      name: [],
+      consumption: '',
+      unit: '',
+      tableProduction: {},
+      tableList: [],
+      tableDataID: 0,
+      taskList: [],
+      purpose: '',
+      projectNameRepeat: false
+
+    }
+  },
+  components: {
+    crumbsNav
+  },
+  mounted() {
+    let self = this
+    this.msgForm.projectNameRule = [`projectName`, {
+      rules: [{
+        required: true,
+        message: '请输入基地名称'
+      }, { validator: self.projectNameValidator }]
+    }
+    ]
+    for (let i = 0; i < this.list.length; i++) {
+      this.list[i].index = i
+    }
+    this._getprojectUser()
+    this.getCategoryArr()
+    // this.getLifeCycleArr();
+    this.getFrameTypeArr()
+    // this.getActionTypeArr();
+    // this.getMaterialArr();
+  },
+  methods: {
+    // 校验基础信息
+    handleMsgSubmit() {
+      let self = this
+      this.msgForm.form.validateFields((err, values) => {
+        console.log(values)
+        if (!err) {
+          let data = {
+            solutionName: values.projectName
+          }
+          checkProjectRepeat(data).then((res) => {
+            if (res.message === '方案名称重复') {
+              this.projectNameRepeat = true
+              return false
+            } else {
+              self.solutionPlan = {
+                solutionName: values.projectName,
+                breedId: values.productVariety,
+                categoryId: values.productCategory,
+                solutionScope: values.projectPower,
+                participantUserIdList: values.participantUser
+              }
+              self.current++
+              return true
             }
-            ]
+          })
+        } else if (err) {
+          return false
+        }
+      })
+    },
+    // 校验周期
+    cycleSubmit() {
+      let self = this
+      this.cycleForm.form.validateFields((err, values) => {
+        if (!err) {
+          let stepCycleList = []
+          for (let i = 0; i < this.cycleList.length; i++) {
+            stepCycleList.push({
+              cycleLength: Number(values[i]),
+              cycleSort: i,
+              cycleUnit: this.dateType,
+              lifeCycleId: this.cycleList[i].value
+            })
+            this.cycleList[i].direction = i
+            this.taskCycle.push(
+              { label: this.cycleList[i].label, value: this.cycleList[i].value }
+            )
+          }
+          // this.taskCycle =
+          console.log(stepCycleList)
+          this.formatList = JSON.parse(JSON.stringify(this.cycleList))
+          this.cycleData = stepCycleList
+          console.log(stepCycleList)
+          self.current++
+          console.log(values)
+        }
+      })
+    },
+    // 校验任务新增
+    taskSubmit() {
+      let self = this
+      this.taskForm.form.validateFields((err, values) => {
+        console.log(values)
+        if (!err) {
+          if (this.isAdd) {
+            let nongzi = []
+            for (let i = 0; i < this.tableList.length; i++) {
+              nongzi.push({
+                materialDosage: this.tableList[i].consumption,
+                materialId: this.tableList[i].materialId
+              })
+            }
+            self.taskList.push({
+              actionId: self.actionId,
+              farmingTypeId: self.farmingTypeId,
+              lifeCycleId: self.lifeCycleId,
+              taskDescription: values.cycleDesc,
+              taskEndDay: Number(values.maxActionType),
+              taskStartDay: Number(values.minActionType),
+              taskMaterial: nongzi,
+              taskUse: values.purpose
+            })
+            console.log(self.taskList)
+            self.taskCacheList.cycleDescription = values.cycleDesc
+            self.taskCacheList.cycleDesc = values.cycleDesc
+            self.taskCacheList.purpose = values.purpose
+            self.taskCacheList.taskCycle = values.taskCycle
+            self.taskCacheList.frameType = values.frameType
+            self.taskCacheList.actionType = values.actionType
+            self.taskCacheList.minActionType = values.minActionType
+            self.taskCacheList.maxActionType = values.maxActionType
+            self.taskCacheList.executionCycle = '第' + values.minActionType + '天' + '-' + '第' + values.maxActionType + '天'
+            let lineData = JSON.parse(JSON.stringify(this.taskCacheList))
+            lineData.tableNongZi = this.tableList
+            this.list.push(lineData)
             for (let i = 0; i < this.list.length; i++) {
-                this.list[i].index = i
+              this.list[i].index = i
             }
-            this._getprojectUser();
-            this.getCategoryArr();
-            //this.getLifeCycleArr();
-            this.getFrameTypeArr();
-            //this.getActionTypeArr();
-            //this.getMaterialArr();
-        },
-        methods: {
-            //校验基础信息
-            handleMsgSubmit() {
-                let self = this
-                this.msgForm.form.validateFields((err, values) => {
-                    console.log(values)
-                    if (!err) {
-                        let data = {
-                            solutionName: values.projectName,
-                        }
-                        checkProjectRepeat(data).then( (res) => {
-                            if(res.message === '方案名称重复'){
-                                this.projectNameRepeat = true;
-                                return false;
-                            }else {
-                                self.solutionPlan = {
-                                    solutionName: values.projectName,
-                                    breedId: values.productVariety,
-                                    categoryId: values.productCategory,
-                                    solutionScope: values.projectPower,
-                                    participantUserIdList: values.participantUser,
-                                }
-                                self.current++
-                                return true
-                            }
-                        })
-                    } else if (err) {
-                        return false
-                    }
-                })
-            },
-            //校验周期
-            cycleSubmit() {
-                let self = this;
-                this.cycleForm.form.validateFields((err, values) => {
-                    if (!err) {
-                        let stepCycleList = [];
-                        for (let i = 0; i < this.cycleList.length; i++) {
-                            stepCycleList.push({
-                                cycleLength: Number(values[i]),
-                                cycleSort: i,
-                                cycleUnit: this.dateType,
-                                lifeCycleId: this.cycleList[i].value
-                            })
-                            this.cycleList[i].direction = i;
-                            this.taskCycle.push(
-                                {label: this.cycleList[i].label, value: this.cycleList[i].value},
-                            )
-                        }
-                        // this.taskCycle =
-                        console.log(stepCycleList);
-                        this.formatList = JSON.parse(JSON.stringify(this.cycleList))
-                        this.cycleData = stepCycleList;
-                        console.log(stepCycleList)
-                        self.current++
-                        console.log(values)
-                    }
-                })
-            },
-            //校验任务新增
-            taskSubmit() {
-                let self = this;
-                this.taskForm.form.validateFields((err, values) => {
-                    console.log(values)
-                    if (!err) {
-                        if (this.isAdd) {
-                            let nongzi = []
-                            for (let i = 0; i < this.tableList.length; i++) {
-                                nongzi.push({
-                                    materialDosage: this.tableList[i].consumption,
-                                    materialId: this.tableList[i].materialId,
-                                })
-                            }
-                            self.taskList.push({
-                                actionId: self.actionId,
-                                farmingTypeId: self.farmingTypeId,
-                                lifeCycleId: self.lifeCycleId,
-                                taskDescription: values.cycleDesc,
-                                taskEndDay: Number(values.maxActionType),
-                                taskStartDay: Number(values.minActionType),
-                                taskMaterial: nongzi,
-                                taskUse: values.purpose,
-                            })
-                            console.log(self.taskList)
-                            self.taskCacheList.cycleDescription = values.cycleDesc;
-                            self.taskCacheList.cycleDesc = values.cycleDesc;
-                            self.taskCacheList.purpose = values.purpose;
-                            self.taskCacheList.taskCycle = values.taskCycle;
-                            self.taskCacheList.frameType = values.frameType;
-                            self.taskCacheList.actionType = values.actionType;
-                            self.taskCacheList.minActionType = values.minActionType;
-                            self.taskCacheList.maxActionType = values.maxActionType;
-                            self.taskCacheList.executionCycle = '第' + values.minActionType + '天' + '-' + '第' + values.maxActionType + '天'
-                            let lineData = JSON.parse(JSON.stringify(this.taskCacheList))
-                            lineData.tableNongZi = this.tableList;
-                            this.list.push(lineData);
-                            for (let i = 0; i < this.list.length; i++) {
-                                this.list[i].index = i
-                            }
-                            console.log(this.list)
-                            console.log(this.tableList)
-                            console.log(this.taskList)
-                            this.formatDialogData();
-                            this.taskCacheList = {};
-                            self.isAddTask = false;
-                            console.log(values)
-                        } else if (!this.isAdd) {
-                            let nongzi = []
-                            for (let i = 0; i < this.tableList.length; i++) {
-                                nongzi.push({
-                                    materialDosage: this.tableList[i].consumption,
-                                    materialId: this.tableList[i].materialId,
-                                })
-                            }
-                            self.taskList[self.tableDataID].actionId = self.actionId;
-                            self.taskList[self.tableDataID].farmingTypeId = self.farmingTypeId;
-                            self.taskList[self.tableDataID].lifeCycleId = self.lifeCycleId;
-                            self.taskList[self.tableDataID].taskDescription = values.cycleDesc;
-                            self.taskList[self.tableDataID].taskEndDay = Number(values.maxActionType);
-                            self.taskList[self.tableDataID].taskStartDay = Number(values.minActionType);
-                            self.taskList[self.tableDataID].taskMaterial = nongzi;
-                            self.taskList[self.tableDataID].taskUse = values.purpose;
-                            console.log(self.taskList)
-                            self.taskCacheList.cycleDescription = values.cycleDesc;
-                            self.taskCacheList.cycleDesc = values.cycleDesc;
-                            self.taskCacheList.purpose = values.purpose;
-                            self.taskCacheList.taskCycle = values.taskCycle;
-                            self.taskCacheList.frameType = values.frameType;
-                            self.taskCacheList.actionType = values.actionType;
-                            self.taskCacheList.minActionType = values.minActionType;
-                            self.taskCacheList.maxActionType = values.maxActionType;
-                            self.taskCacheList.executionCycle = '第' + values.minActionType + '天' + '-' + '第' + values.maxActionType + '天'
-                            self.taskCacheList.type = JSON.parse(values.frameType).label;
-                            self.taskCacheList.cycle = JSON.parse(values.taskCycle).label;
-                            self.taskCacheList.taskAction = JSON.parse(values.actionType).label
-                            let lineData = JSON.parse(JSON.stringify(this.taskCacheList))
-                            lineData.tableNongZi = self.tableList;
-                            self.list[self.tableDataID] = lineData;
-                            self.list[self.tableDataID].index = self.tableDataID;
-                            console.log(self.list)
-                            this.formatDialogData();
-                            this.taskCacheList = {};
-                            self.isAddTask = false;
-                        }
-                    }
-                })
-            },
-            //获取方案参与人
-            _getprojectUser() {
-                this.participantUserIdArr = [];
-                projectUser().then((res) => {
-                    for (let i = 0; i < res.data.length; i++) {
-                        this.participantUserIdArr.push(
-                            {label: res.data[i].userName, value: res.data[i].userId}
-                        )
-                    }
-                    console.log(res);
-                })
-            },
-            formatDialogData() {
-                this.tableList = [];
-                this.tableProduction = {};
-                this.consumption = '';
-                this.unit = '';
-                this.minActionType = '';
-                this.maxActionType = '';
-                this.cycleDesc = '';
-            },
-            selectLabel(item) {
-                console.log(item)
-            },
-            getLifeCycleArr(code) {
-                let self = this;
-                self.cycleList = [];
-                getLifeCycleList(code).then((res) => {
-                    for (let i = 0; i < res.data.length; i++) {
-                        self.cycleList.push({
-                            value: res.data[i].lifeCycleId,
-                            label: res.data[i].lifeCycleName,
-                            duration: ''
-                        })
-                    }
-                })
-            },
-            getCategoryArr() {
-                let self = this;
-                getCategoryList().then((res) => {
-                    for (let i = 0; i < res.data.length; i++) {
-                        self.$nextTick();
-                        self.productCategoryList.push({value: res.data[i].categoryId, label: res.data[i].categoryName})
-                    }
-                })
-            },
-            getBreedArr(type) {
-                let self = this;
-                self.productVarietyList = [];
-                getBreedList(type).then((res) => {
-                    for (let i = 0; i < res.data.length; i++) {
-                        self.productVarietyList.push({value: res.data[i].breedId, label: res.data[i].breedName})
-                    }
-                })
-            },
-            getFrameTypeArr() {
-                let self = this;
-                getfarmingTypeList().then((res) => {
-                    for (let i = 0; i < res.data.length; i++) {
-                        self.frameType.push({value: res.data[i].farmingTypeId, label: res.data[i].farmingName})
-                    }
-                })
-            },
-            getActionTypeArr(code) {
-                let self = this;
-                self.actionType = [];
-                getActionList(code).then((res) => {
-                    for (let i = 0; i < res.data.length; i++) {
-                        self.actionType.push({value: res.data[i].optionId, label: res.data[i].optionName})
-                        // self.taskForm.form.setFieldsValue({
-                        //     actionType: self.actionType[0].value,
-                        // });
-                    }
-                })
-            },
-            getMaterialArr(code) {
-                let self = this;
-                self.name = [];
-                getMaterialList(this.productVariety, code).then((res) => {
-                    for (let i = 0; i < res.data.length; i++) {
-                        self.name.push({
-                            value: res.data[i].materialId,
-                            label: res.data[i].materialName,
-                            unit: res.data[i].unitName,
-                            materialId: res.data[i].materialId
-                        })
-                    }
-                    this.nongziName = self.name[0].label
-                    this.unit = self.name[0].unit
-                    this.tableProduction.name = self.name[0].label;
-                    this.tableProduction.unit = self.name[0].unit;
-                    this.tableProduction.materialId = self.name[0].materialId;
-                })
-            },
-            categoryChange(value) {
-                this.msgForm.isCategory = true;
-                this.productCategory = value;
-                this.getBreedArr(value.toString());
-                console.log(value)
-            },
-            breedChange(value) {
-                console.log(value)
-                this.getLifeCycleArr(value);
-                this.productVariety = value;
-
-            },
-            //权限下拉框改变
-            projectPowerChange(value) {
-                this.projectPower = value;
-            },
-            //参与人改变
-            participantUserChange(value) {
-                this.participantUser = value;
-            },
-            frameChange(data) {
-                this.isFrameType = true;
-                this.tableList = [];
-                let changeData = JSON.parse(data)
-                this.taskCacheList.type = changeData.label;
-                this.farmingTypeId = changeData.value;
-                this.getActionTypeArr(changeData.value);
-                this.getMaterialArr(changeData.value);
-                console.log(changeData)
-            },
-            actionChange(data) {
-                let changeData = JSON.parse(data)
-                this.taskCacheList.taskAction = changeData.label
-                this.actionId = changeData.value;
-                console.log(changeData)
-            },
-            cycleChange(data) {
-                let changeData = JSON.parse(data)
-                this.taskCacheList.cycle = changeData.label;
-                this.lifeCycleId = changeData.value;
-                console.log(changeData)
-            },
-            // useChange(data) {
-            //     let changeData = JSON.parse(data)
-            //     this.purpose = '';
-            //     this.taskCacheList.purpose = changeData.label
-            //     console.log(changeData)
-            // },
-            nameChange(data) {
-                let changeData = JSON.parse(data)
-                this.tableProduction.name = changeData.label;
-                this.tableProduction.materialId = changeData.materialId;
-                this.unit = changeData.unit
-                this.tableProduction.unit = changeData.unit;
-                console.log(changeData)
-            },
-            confirmTable(type) {
-                if (type === 1) {
-                    this.$set(this.tableProduction, 'consumption', this.consumption);
-                    let lineData = JSON.parse(JSON.stringify(this.tableProduction));
-                    console.log(this.tableList)
-                    this.tableList.push(lineData);
-                }
-            },
-            delTableLine(index) {
-                this.tableList.splice(index, 1);
-            },
-            editAction(record) {
-                this.tableDataID = record.index;
-                this.tableList = record.tableNongZi;
-                    this.taskForm.form = this.$form.createForm(this, {
-                    mapPropsToFields: () => {
-                        return {
-                            taskCycle: this.$form.createFormField({
-                                value: record.taskCycle,
-                            }),
-                            frameType: this.$form.createFormField({
-                                value: record.frameType,
-                            }),
-                            actionType: this.$form.createFormField({
-                                value: record.actionType,
-                            }),
-                            minActionType: this.$form.createFormField({
-                                value: record.minActionType,
-                            }),
-                            maxActionType: this.$form.createFormField({
-                                value: record.maxActionType,
-                            }),
-                            purpose: this.$form.createFormField({
-                                value: record.purpose,
-                            }),
-                            cycleDesc: this.$form.createFormField({
-                                value: record.cycleDesc,
-                            }),
-                            actionInput: this.$form.createFormField({
-                                value: 'record.actionInput',
-                            }),
-                        }
-
-                    }
-                })
-                this.isAdd = false;
-                this.getActionTypeArr(JSON.parse(record.frameType).value);
-                this.getMaterialArr(JSON.parse(record.frameType).value);
-                this.isAddTask = true;
-                console.log(record)
-            },
-            /**
+            console.log(this.list)
+            console.log(this.tableList)
+            console.log(this.taskList)
+            this.formatDialogData()
+            this.taskCacheList = {}
+            self.isAddTask = false
+            console.log(values)
+          } else if (!this.isAdd) {
+            let nongzi = []
+            for (let i = 0; i < this.tableList.length; i++) {
+              nongzi.push({
+                materialDosage: this.tableList[i].consumption,
+                materialId: this.tableList[i].materialId
+              })
+            }
+            self.taskList[self.tableDataID].actionId = self.actionId
+            self.taskList[self.tableDataID].farmingTypeId = self.farmingTypeId
+            self.taskList[self.tableDataID].lifeCycleId = self.lifeCycleId
+            self.taskList[self.tableDataID].taskDescription = values.cycleDesc
+            self.taskList[self.tableDataID].taskEndDay = Number(values.maxActionType)
+            self.taskList[self.tableDataID].taskStartDay = Number(values.minActionType)
+            self.taskList[self.tableDataID].taskMaterial = nongzi
+            self.taskList[self.tableDataID].taskUse = values.purpose
+            console.log(self.taskList)
+            self.taskCacheList.cycleDescription = values.cycleDesc
+            self.taskCacheList.cycleDesc = values.cycleDesc
+            self.taskCacheList.purpose = values.purpose
+            self.taskCacheList.taskCycle = values.taskCycle
+            self.taskCacheList.frameType = values.frameType
+            self.taskCacheList.actionType = values.actionType
+            self.taskCacheList.minActionType = values.minActionType
+            self.taskCacheList.maxActionType = values.maxActionType
+            self.taskCacheList.executionCycle = '第' + values.minActionType + '天' + '-' + '第' + values.maxActionType + '天'
+            self.taskCacheList.type = JSON.parse(values.frameType).label
+            self.taskCacheList.cycle = JSON.parse(values.taskCycle).label
+            self.taskCacheList.taskAction = JSON.parse(values.actionType).label
+            let lineData = JSON.parse(JSON.stringify(this.taskCacheList))
+            lineData.tableNongZi = self.tableList
+            self.list[self.tableDataID] = lineData
+            self.list[self.tableDataID].index = self.tableDataID
+            console.log(self.list)
+            this.formatDialogData()
+            this.taskCacheList = {}
+            self.isAddTask = false
+          }
+        }
+      })
+    },
+    // 获取方案参与人
+    _getprojectUser() {
+      this.participantUserIdArr = []
+      projectUser().then((res) => {
+        for (let i = 0; i < res.data.length; i++) {
+          this.participantUserIdArr.push(
+            { label: res.data[i].userName, value: res.data[i].userId }
+          )
+        }
+        console.log(res)
+      })
+    },
+    formatDialogData() {
+      this.tableList = []
+      this.tableProduction = {}
+      this.consumption = ''
+      this.unit = ''
+      this.minActionType = ''
+      this.maxActionType = ''
+      this.cycleDesc = ''
+    },
+    selectLabel(item) {
+      console.log(item)
+    },
+    getLifeCycleArr(code) {
+      let self = this
+      self.cycleList = []
+      getLifeCycleList(code).then((res) => {
+        for (let i = 0; i < res.data.length; i++) {
+          self.cycleList.push({
+            value: res.data[i].lifeCycleId,
+            label: res.data[i].lifeCycleName,
+            duration: ''
+          })
+        }
+      })
+    },
+    getCategoryArr() {
+      let self = this
+      getCategoryList().then((res) => {
+        for (let i = 0; i < res.data.length; i++) {
+          self.$nextTick()
+          self.productCategoryList.push({ value: res.data[i].categoryId, label: res.data[i].categoryName })
+        }
+      })
+    },
+    getBreedArr(type) {
+      let self = this
+      self.productVarietyList = []
+      getBreedList(type).then((res) => {
+        for (let i = 0; i < res.data.length; i++) {
+          self.productVarietyList.push({ value: res.data[i].breedId, label: res.data[i].breedName })
+        }
+      })
+    },
+    getFrameTypeArr() {
+      let self = this
+      getfarmingTypeList().then((res) => {
+        for (let i = 0; i < res.data.length; i++) {
+          self.frameType.push({ value: res.data[i].farmingTypeId, label: res.data[i].farmingName })
+        }
+      })
+    },
+    getActionTypeArr(code) {
+      let self = this
+      self.actionType = []
+      getActionList(code).then((res) => {
+        for (let i = 0; i < res.data.length; i++) {
+          self.actionType.push({ value: res.data[i].optionId, label: res.data[i].optionName })
+          // self.taskForm.form.setFieldsValue({
+          //     actionType: self.actionType[0].value,
+          // });
+        }
+      })
+    },
+    getMaterialArr(code) {
+      let self = this
+      self.name = []
+      getMaterialList(this.productVariety, code).then((res) => {
+        for (let i = 0; i < res.data.length; i++) {
+          self.name.push({
+            value: res.data[i].materialId,
+            label: res.data[i].materialName,
+            unit: res.data[i].unitName,
+            materialId: res.data[i].materialId
+          })
+        }
+        this.nongziName = self.name[0].label
+        this.unit = self.name[0].unit
+        this.tableProduction.name = self.name[0].label
+        this.tableProduction.unit = self.name[0].unit
+        this.tableProduction.materialId = self.name[0].materialId
+      })
+    },
+    categoryChange(value) {
+      this.msgForm.isCategory = true
+      this.productCategory = value
+      this.getBreedArr(value.toString())
+      console.log(value)
+    },
+    breedChange(value) {
+      console.log(value)
+      this.getLifeCycleArr(value)
+      this.productVariety = value
+    },
+    // 权限下拉框改变
+    projectPowerChange(value) {
+      this.projectPower = value
+    },
+    // 参与人改变
+    participantUserChange(value) {
+      this.participantUser = value
+    },
+    frameChange(data) {
+      this.isFrameType = true
+      this.tableList = []
+      let changeData = JSON.parse(data)
+      this.taskCacheList.type = changeData.label
+      this.farmingTypeId = changeData.value
+      this.getActionTypeArr(changeData.value)
+      this.getMaterialArr(changeData.value)
+      console.log(changeData)
+    },
+    actionChange(data) {
+      let changeData = JSON.parse(data)
+      this.taskCacheList.taskAction = changeData.label
+      this.actionId = changeData.value
+      console.log(changeData)
+    },
+    cycleChange(data) {
+      let changeData = JSON.parse(data)
+      this.taskCacheList.cycle = changeData.label
+      this.lifeCycleId = changeData.value
+      console.log(changeData)
+    },
+    // useChange(data) {
+    //     let changeData = JSON.parse(data)
+    //     this.purpose = '';
+    //     this.taskCacheList.purpose = changeData.label
+    //     console.log(changeData)
+    // },
+    nameChange(data) {
+      let changeData = JSON.parse(data)
+      this.tableProduction.name = changeData.label
+      this.tableProduction.materialId = changeData.materialId
+      this.unit = changeData.unit
+      this.tableProduction.unit = changeData.unit
+      console.log(changeData)
+    },
+    confirmTable(type) {
+      if (type === 1) {
+        this.$set(this.tableProduction, 'consumption', this.consumption)
+        let lineData = JSON.parse(JSON.stringify(this.tableProduction))
+        console.log(this.tableList)
+        this.tableList.push(lineData)
+      }
+    },
+    delTableLine(index) {
+      this.tableList.splice(index, 1)
+    },
+    editAction(record) {
+      this.tableDataID = record.index
+      this.tableList = record.tableNongZi
+      this.taskForm.form = this.$form.createForm(this, {
+        mapPropsToFields: () => {
+          return {
+            taskCycle: this.$form.createFormField({
+              value: record.taskCycle
+            }),
+            frameType: this.$form.createFormField({
+              value: record.frameType
+            }),
+            actionType: this.$form.createFormField({
+              value: record.actionType
+            }),
+            minActionType: this.$form.createFormField({
+              value: record.minActionType
+            }),
+            maxActionType: this.$form.createFormField({
+              value: record.maxActionType
+            }),
+            purpose: this.$form.createFormField({
+              value: record.purpose
+            }),
+            cycleDesc: this.$form.createFormField({
+              value: record.cycleDesc
+            }),
+            actionInput: this.$form.createFormField({
+              value: 'record.actionInput'
+            })
+          }
+        }
+      })
+      this.isAdd = false
+      this.getActionTypeArr(JSON.parse(record.frameType).value)
+      this.getMaterialArr(JSON.parse(record.frameType).value)
+      this.isAddTask = true
+      console.log(record)
+    },
+    /**
              * description：任务列表操作栏
              * params 0：删除
              *        1：上移
              *        2：下移
              * */
-            taskAction(type, data) {
-                console.log(data)
-                if (type === 1) {
-                    this.list.map((key, index) => {
-                        if (key.index === data.index) {
-                            this.list.splice(index, 1)
-                            this.taskList.splice(index, 1);
-                        }
-                    })
+    taskAction(type, data) {
+      console.log(data)
+      if (type === 1) {
+        this.list.map((key, index) => {
+          if (key.index === data.index) {
+            this.list.splice(index, 1)
+            this.taskList.splice(index, 1)
+          }
+        })
 
-                    console.log('删除')
-                } else if (type === 2) {
-                    console.log('上移')
-                } else if (type === 3) {
-                    console.log('下移')
-                }
-            },
-            next() {
-                console.log(this.solutionPlan)
-                if (this.current === 0) {
-                    this.handleMsgSubmit();
-                }
-                if (this.current === 1) {
-                    this.cycleSubmit();
-                }
-            },
-            handleChange(selectData) {
-                let data = JSON.parse(selectData)
-                let self = this
-                self.formatList.forEach((item) => {
-                    if (item.value === data.value) {
-                        self.selectList.forEach((selectItem, index) => {
-                            if (item.value === selectItem.value) {
-                                self.selectList.splice(index, 1)
-                                console.log(selectItem)
-                            }
-                        })
-                        self.arrList.push(item)
-                    }
-                })
-                console.log(value)
-            },
-            prev() {
-                this.current--
-            },
-            checkRadio(data) {
-                this.dateType = data.target.value;
-                console.log(data.target.value);
-            },
-            editCycle() {
-                this.selectList = domUtil.compareArr(this.formatList, this.cycleList);
-                console.log(this.selectList)
-                this.arrList = JSON.parse(JSON.stringify(this.cycleList))
-                this.visible = true;
-            },
-            handleOk(type) {
-                if (type === 1) {
-                    this.cycleList = this.arrList;
-                    this.ModalText = 'The modal will be closed after two seconds';
-                    this.visible = false
-                } else if (type === 2) {
-                    this.taskSubmit();
-                    console.log(this.taskCacheList)
-
-                }
-
-                // this.confirmLoading = true;
-            },
-            handleCancel(type) {
-                console.log('Clicked cancel button');
-                if (type === 1) {
-                    this.visible = false
-                } else if (type === 2) {
-                    this.isAddTask = false
-                    this.formatDialogData();
-                }
-            },
-            moveLabel(index, moveIndex) {
-                console.log(index);
-                console.log(moveIndex);
-                if (moveIndex === 0) {
-                    if ((index + 1) === this.arrList.length) {
-                        return
-                    }
-                    domUtil.swapItems(this.arrList, index, index + 1);
-                } else if (moveIndex === 1) {
-                    if (index === 0) {
-                        return
-                    }
-                    domUtil.swapItems(this.arrList, index, index - 1);
-                } else if (moveIndex === 2) {
-                    this.selectList.push(this.arrList.splice(index, 1)[0])
-                    console.log(this.selectList)
-                }
-            },
-            addTask() {
-                this.isAddTask = true;
-                this.isAdd = true;
-                this.purpose = '';
-                this.taskForm.form = this.$form.createForm(this, {
-                    mapPropsToFields: () => {
-                        return {
-                            actionInput: this.$form.createFormField({
-                                value: 'actionInput',
-                            }),
-                        }
-                    }
-                })
-                console.log('新增任务')
-            },
-            commitTaskData() {
-                const taskData = {
-                    taskList: this.taskList,
-                    solutionPlan: this.solutionPlan,
-                    cycleList: this.cycleData,
-                }
-                addNewTask(taskData).then((res) => {
-                    if (res.code === 200) {
-                        // if(res.message === '方案名称重复'){
-                        //     //汉字提示抽为常量
-                        //     this.projectNameRepeat = true;
-                        //     return false;
-                        // }
-                        this.list = [];
-                        this.taskCacheList = {}
-                        this.$router.push({path: '/projectCenter'})
-                    }
-                    console.log(res)
-                })
-                console.log(taskData);
-            },
+        console.log('删除')
+      } else if (type === 2) {
+        console.log('上移')
+      } else if (type === 3) {
+        console.log('下移')
+      }
+    },
+    next() {
+      console.log(this.solutionPlan)
+      if (this.current === 0) {
+        this.handleMsgSubmit()
+      }
+      if (this.current === 1) {
+        this.cycleSubmit()
+      }
+    },
+    handleChange(selectData) {
+      let data = JSON.parse(selectData)
+      let self = this
+      self.formatList.forEach((item) => {
+        if (item.value === data.value) {
+          self.selectList.forEach((selectItem, index) => {
+            if (item.value === selectItem.value) {
+              self.selectList.splice(index, 1)
+              console.log(selectItem)
+            }
+          })
+          self.arrList.push(item)
         }
+      })
+    },
+    prev() {
+      this.current--
+    },
+    checkRadio(data) {
+      this.dateType = data.target.value
+      console.log(data.target.value)
+    },
+    editCycle() {
+      this.selectList = domUtil.compareArr(this.formatList, this.cycleList)
+      console.log(this.selectList)
+      this.arrList = JSON.parse(JSON.stringify(this.cycleList))
+      this.visible = true
+    },
+    handleOk(type) {
+      if (type === 1) {
+        this.cycleList = this.arrList
+        this.ModalText = 'The modal will be closed after two seconds'
+        this.visible = false
+      } else if (type === 2) {
+        this.taskSubmit()
+        console.log(this.taskCacheList)
+      }
+
+      // this.confirmLoading = true;
+    },
+    handleCancel(type) {
+      console.log('Clicked cancel button')
+      if (type === 1) {
+        this.visible = false
+      } else if (type === 2) {
+        this.isAddTask = false
+        this.formatDialogData()
+      }
+    },
+    moveLabel(index, moveIndex) {
+      console.log(index)
+      console.log(moveIndex)
+      if (moveIndex === 0) {
+        if ((index + 1) === this.arrList.length) {
+          return
+        }
+        domUtil.swapItems(this.arrList, index, index + 1)
+      } else if (moveIndex === 1) {
+        if (index === 0) {
+          return
+        }
+        domUtil.swapItems(this.arrList, index, index - 1)
+      } else if (moveIndex === 2) {
+        this.selectList.push(this.arrList.splice(index, 1)[0])
+        console.log(this.selectList)
+      }
+    },
+    addTask() {
+      this.isAddTask = true
+      this.isAdd = true
+      this.purpose = ''
+      this.taskForm.form = this.$form.createForm(this, {
+        mapPropsToFields: () => {
+          return {
+            actionInput: this.$form.createFormField({
+              value: 'actionInput'
+            })
+          }
+        }
+      })
+      console.log('新增任务')
+    },
+    commitTaskData() {
+      const taskData = {
+        taskList: this.taskList,
+        solutionPlan: this.solutionPlan,
+        cycleList: this.cycleData
+      }
+      addNewTask(taskData).then((res) => {
+        if (res.code === 200) {
+          // if(res.message === '方案名称重复'){
+          //     //汉字提示抽为常量
+          //     this.projectNameRepeat = true;
+          //     return false;
+          // }
+          this.list = []
+          this.taskCacheList = {}
+          this.$router.push({ path: '/projectCenter' })
+        }
+        console.log(res)
+      })
+      console.log(taskData)
     }
+  }
+}
 </script>
 <style lang="less" scoped>
   .crumbCtr{
@@ -1501,7 +1497,6 @@
       margin-top: 25px;
       text-align: left;
 
-
       .detail-item {
         margin-bottom: 32px;
 
@@ -1520,6 +1515,4 @@
     }
   }
 
-
 </style>
-

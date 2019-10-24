@@ -45,7 +45,7 @@
                       { rules: [{ required: false, message: '' }] },
                     ]"
                   >
-                    <a-select-option v-for="(item, index) in statusArr" :key="item.value" :value="item.value">
+                    <a-select-option v-for="(item) in statusArr" :key="item.value" :value="item.value">
                       {{item.label}}
                     </a-select-option>
                   </a-select>
@@ -63,7 +63,7 @@
                       { rules: [{ required: false, message: '' }] },
                     ]"
                   >
-                    <a-select-option v-for="(item, index) in projectPowerArr" :key="item.value" :value="item.value">
+                    <a-select-option v-for="(item) in projectPowerArr" :key="item.value" :value="item.value">
                       {{item.label}}
                     </a-select-option>
                   </a-select>
@@ -74,14 +74,14 @@
 
           <div>
             <a-button
-              class="button"
-              @click="rest"
-            >重置</a-button>
-            <a-button
               type="primary"
               class="button"
               @click="handleSearchClick"
             >查询</a-button>
+            <a-button
+              class="button"
+              @click="rest"
+            >重置</a-button>
           </div>
         </div>
         <div class="table-wrapper">
@@ -99,11 +99,11 @@
             :style="{marginTop: '50px'}"
             :pagination="pagination"
             @change="projectPageChange"
-            :rowKey="record => record.greenhouseId"
+            :rowKey="(record, index) => index"
           >
             <span
               slot="status"
-              slot-scope="text, record, index"
+              slot-scope="text, record"
             >
               <a-switch
                 checkedChildren="启用"
@@ -119,7 +119,7 @@
             <div
               class="action"
               slot="operation"
-              slot-scope="record,index"
+              slot-scope="record"
             >
               <span
                 class="actionSpan"
@@ -181,7 +181,7 @@ import {
   Button,
   Table,
   Select,
-    Form
+  Form
 } from 'ant-design-vue'
 
 Vue.use(Layout)
@@ -207,7 +207,7 @@ export default {
   },
   data() {
     return {
-        sreachFrom: this.$form.createForm(this),
+      sreachFrom: this.$form.createForm(this),
       crumbsArr: [
         { name: '当前位置', back: false, path: '' },
         { name: '生产管理', back: false, path: '' },
@@ -304,28 +304,29 @@ export default {
     }
   },
   methods: {
-      handleSearchClick(){
-          this.sreachFrom.validateFields((err, values) => {
-              console.log(values)
-              this.pagination.current = 1
-              this.searchParams.solutionScope = values.solutionScope ? values.solutionScope : '';
-              this.searchParams.status = values.status ? values.status : '';
-              this.searchParams.solutionName = values.solutionName ? values.solutionName : '';
-              this.searchParams.breedName = values.breedName ? values.breedName : '';
-              this.getProjectList();
-          })
-      },
-    //分页栏页数改变
+    handleSearchClick() {
+      this.sreachFrom.validateFields((err, values) => {
+        if (!err) {
+          this.pagination.current = 1
+          this.searchParams.solutionScope = values.solutionScope ? values.solutionScope : ''
+          this.searchParams.status = values.status ? values.status : ''
+          this.searchParams.solutionName = values.solutionName ? values.solutionName : ''
+          this.searchParams.breedName = values.breedName ? values.breedName : ''
+          this.getProjectList()
+        }
+      })
+    },
+    // 分页栏页数改变
     projectPageChange(page) {
       this.pagination.pageSize = page.pageSize
       this.pagination.current = page.current
       this.getProjectList()
     },
-    //查询方案列表
+    // 查询方案列表
     searchProjectList() {
       this.getProjectList()
     },
-    //拷贝方案
+    // 拷贝方案
     _copyProject(record) {
       copyProject(record.solutionId).then(res => {
         if (res.success === 'Y') {
@@ -338,18 +339,18 @@ export default {
       this.searchParams.solutionScope = ''
       this.searchParams.status = ''
       this.searchParams.solutionName = ''
-      this.sreachFrom.resetFields();
-      this.getProjectList();
+      this.sreachFrom.resetFields()
+      this.getProjectList()
     },
-    //搜索栏状态改变
+    // 搜索栏状态改变
     searchStatusChange(value) {
       this.searchParams.status = value
     },
-    //搜索栏权限改变
+    // 搜索栏权限改变
     powerChange(value) {
       this.searchParams.solutionScope = value
     },
-    //删除方案
+    // 删除方案
     delHandleOk() {
       this.delConfirmLoading = true
       delProjectTask(this.solutionId).then(res => {
@@ -394,9 +395,9 @@ export default {
       projectList(postData).then(res => {
         let unit = ''
         for (let i = 0; i < res.data.records.length; i++) {
-          if (res.data.records[i].cycleUnit == 3) {
+          if (res.data.records[i].cycleUnit === 3) {
             unit = '天'
-          } else if (res.data.records[i].cycleUnit == 5) {
+          } else if (res.data.records[i].cycleUnit === 5) {
             unit = '周'
           }
           res.data.records[i].cycleTotalLength =
