@@ -64,8 +64,8 @@
         </a-row>
         <a-row>
           <a-col>
-            <a-button :style="{ marginRight: '8px' }" @click="handleReset">重置</a-button>
             <a-button type="primary" html-type="submit">查询</a-button>
+            <a-button :style="{ marginLeft: '8px' }" @click="handleReset">重置</a-button>
             <span
               :style="{ marginLeft: '8px', cursor: 'pointer' }"
               @click="() => {expand = !expand}"
@@ -88,9 +88,17 @@
         >
           <span slot="itemIndex" slot-scope="text, record, index">{{index+1}}</span>
           <span slot="questionContent" slot-scope="text, record">{{record.question.questionContent}}</span>
-          <span slot="questionType" slot-scope="text, record">{{cmpQuestionType(record.question.questionType)}}</span>
+          <span
+            slot="questionType"
+            slot-scope="text, record"
+          >{{cmpQuestionType(record.question.questionType)}}</span>
           <span slot="replayFlag" slot-scope="text, record">{{cmpReplyFlag(record.replayFlag)}}</span>
-          <span class="preview" slot="operation" slot-scope="text, record" @click="handleDetail(record)">查看</span>
+          <span
+            class="preview"
+            slot="operation"
+            slot-scope="text, record"
+            @click="handleDetail(record)"
+          >查看</span>
         </a-table>
       </div>
     </a-layout>
@@ -238,7 +246,7 @@ export default {
   components: {
     MyBreadCrumb
   },
-  data() {
+  data () {
     return {
       breadcrumbs,
       fields,
@@ -260,16 +268,16 @@ export default {
     }
   },
   computed: {
-    count() {
+    count () {
       return this.expand ? 6 : 3
     }
   },
-  created() {
+  created () {
     this.fetchCategory()
     this.fetchList({})
   },
   methods: {
-    fetchCategory() {
+    fetchCategory () {
       knowledgeQuizCategory().then(res => {
         if (res && res.success === 'Y') {
           this.fields[2].arrs = res.data
@@ -279,7 +287,7 @@ export default {
       })
     },
 
-    fetchList(params) {
+    fetchList (params) {
       this.loading = true
       let postData = {
         pageNo: this.pageNo,
@@ -299,16 +307,16 @@ export default {
       })
     },
 
-    cmpQuestionType(tag) {
+    cmpQuestionType (tag) {
       return tag === 0 ? '是' : '否'
     },
 
-    cmpReplyFlag(flag) {
+    cmpReplyFlag (flag) {
       return flag === 'Y' ? '是' : '否'
     },
 
-    handleSubmit(e) {
-      e.preventDefault()
+    handleSubmit (e) {
+      e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
           const params = {
@@ -320,28 +328,29 @@ export default {
             beginDate: this.startValue,
             endDate: this.endValue
           }
-          this.pageNo = 1
-          this.fetchParams = params
+          this.pageNo = 1;
+          this.pagination.current = 1
+          this.fetchParams = params;
           this.fetchList(params)
         }
       })
     },
 
-    handleDetail(record) {
+    handleDetail (record) {
       this.$router.push({ path: `/knowledgeQuizDetail/${record.question.questionId}` })
     },
 
-    handleReset() {
-      this.form.resetFields()
+    handleReset () {
+      this.form.resetFields();
       this.fetchParams = {}
       this.fetchList(this.fetchParams)
     },
 
-    pageOnChange(cfg) {
-      const pager = { ...this.pagination }
-      pager.current = cfg.current
-      pager.pageSize = cfg.pageSize
-      this.pagination = pager
+    pageOnChange (cfg) {
+      const pager = { ...this.pagination };
+      pager.current = cfg.current;
+      pager.pageSize = cfg.pageSize;
+      this.pagination = pager;
       this.pageNo = pager.current
       this.pageSize = pager.pageSize
       this.fetchList(this.fetchParams)
@@ -350,25 +359,25 @@ export default {
     /**
      * 日期
      */
-    disabledStartDate(startValue) {
-      const endValue = this.endValue
+    disabledStartDate (startValue) {
+      const endValue = this.endValue;
       if (!startValue || !endValue) {
         return false
       }
       return startValue.valueOf() > endValue.valueOf()
     },
-    disabledEndDate(endValue) {
-      const startValue = this.startValue
+    disabledEndDate (endValue) {
+      const startValue = this.startValue;
       if (!endValue || !startValue) {
         return false
       }
       return startValue.valueOf() >= endValue.valueOf()
     },
-    handleStartOpenChange(date, dateString) {
+    handleStartOpenChange (date, dateString) {
       this.startDate = date
       this.startValue = dateString
     },
-    handleEndOpenChange(date, dateString) {
+    handleEndOpenChange (date, dateString) {
       this.endDate = date
       this.endValue = dateString
     }
@@ -386,7 +395,7 @@ export default {
     background-color: #fff;
     .preview {
       cursor: pointer;
-      color: #3C8DFF;
+      color: #3c8dff;
     }
     span {
       display: inline-block;
