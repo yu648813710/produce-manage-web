@@ -64,8 +64,8 @@
         </a-row>
         <a-row>
           <a-col>
+            <a-button :style="{ marginRight: '8px' }" @click="handleReset">重置</a-button>
             <a-button type="primary" html-type="submit">查询</a-button>
-            <a-button :style="{ marginLeft: '8px' }" @click="handleReset">重置</a-button>
             <span
               :style="{ marginLeft: '8px', cursor: 'pointer' }"
               @click="() => {expand = !expand}"
@@ -272,7 +272,6 @@ export default {
     fetchCategory() {
       knowledgeQuizCategory().then(res => {
         if (res && res.success === 'Y') {
-          console.log('res:', res)
           this.fields[2].arrs = res.data
           return
         }
@@ -289,7 +288,6 @@ export default {
       };
       knowledgeQuizList(postData).then(res => {
         this.loading = false
-        console.log('res:', res)
         if (res && res.success === 'Y') {
           const pagination = { ...this.pagination };
           pagination.total = res.data && res.data.total;

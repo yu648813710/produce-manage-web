@@ -2,7 +2,7 @@
   <div class="reply-row">
     <a-layout>
       <a-row class="row">
-        <img class="user-icon" src="@/assets/image/logo.png" :alt="info.createUser" />
+        <img class="user-icon" src="@/assets/image/user_easyicon.svg" :alt="info.createUser" />
         <span class="user-name">{{info.createUser}}</span>
         <span class="common-date">{{info.gmtCreate}}</span>
       </a-row>

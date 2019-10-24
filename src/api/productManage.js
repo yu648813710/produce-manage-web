@@ -36,7 +36,7 @@ export function shiduData (data, type) {
 // 获取预警规则列表
 export function ruleList (type, data) {
   return axios({
-    url: `/produce/monitor/rule/searchWarningList/${type}`,
+    url: `/produce/produce/monitor/rule/searchWarningList/${type}`,
     method: 'POST',
     data: data,
   })
@@ -54,7 +54,7 @@ export function addRule (data) {
 // 获取新增预警规则时基地选项
 export function listBaseLandSelect () {
   return axios({
-    url: `/produce/monitor/rule/listBaseLand`,
+    url: `/produce/produce/monitor/rule/listBaseLand`,
     method: 'GET',
   })
 }

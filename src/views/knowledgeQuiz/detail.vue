@@ -8,43 +8,46 @@
           <a-card class="edit-card">
             <a-row slot="title">
               <template v-if="questionInfo.question">
+                  <a-icon type="question-circle" theme="filled" style="color:#3C8CFF;margin-right:12px;font-size:20px"/>
                   <span>{{questionInfo.question.questionContent}}</span>
                   <a-button class="tag-btn" size="small" v-for="item in [{id: '000', type: 0, name: questionInfo.question.breedName},{id: '001', type: 1, name: questionInfo.question.targetClazz}]" :key="item.id" :style="{backgroundColor: cmpTagColor(item.type), color: '#fff'}">{{item.name}}</a-button>
               </template>
             </a-row>
             <span slot="extra" style="color: #999">2019-10-22 15:45</span>
-            <a-row class="edit-card-row">
-              <img class="edit-icon" src="@/assets/image/logo.png" alt="用户">
-              <div class="commen-block">
-                <a-textarea class="textarea" placeholder="请输入评论/回复" maxlength="500" :autosize="{minRows: 4, mxRows: 6}" v-model="answerContent" @change="handleReply"></a-textarea>
-                <div class="imgs-btns-block">
-                  <a-row class="imgs-block">
-                    <img class="edit-img" v-for="im in fileList" :key="im.uid"  :src="im.url" alt="上传中..." @click="handlePreview(im)">
-                    <a-upload
-                      :customRequest="selfUpload"
-                      :beforeUpload="beforeUpload"
-                      listType="picture-card"
-                      :fileList="fileList"
-                      :showUploadList="false"
-                      @preview="handlePreview"
-                      @change="handleChange"
-                    >
-                      <div v-if="fileList.length < 9">
-                        <a-icon :type="uploadLoading ? 'loading' : 'plus'" />
-                        <div class="ant-upload-text">上传</div>
-                      </div>
-                    </a-upload>
-                    <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
-                      <img alt="example" style="width: 100%" :src="previewImage" />
-                    </a-modal>
-                  </a-row>
-                  <a-row class="btns-block">
-                    <a-button style="margin-right: 12px">取消</a-button>
-                    <a-button type="primary" @click.native="addReply">发布</a-button>
-                  </a-row>
+            <a-spin :spinning="isRepling">
+              <a-row class="edit-card-row">
+                <img class="edit-icon" src="@/assets/image/user_easyicon.svg" alt="用户">
+                <div class="commen-block">
+                  <a-textarea class="textarea" placeholder="请输入评论/回复" maxlength="500" :autosize="{minRows: 4, mxRows: 6}" v-model="answerContent" @change="handleReply"></a-textarea>
+                  <div class="imgs-btns-block">
+                    <a-row class="imgs-block">
+                      <img class="edit-img" v-for="im in fileList" :key="im.uid"  :src="im.url" alt="上传中..." @click="handlePreview(im)">
+                      <a-upload
+                        :customRequest="selfUpload"
+                        :beforeUpload="beforeUpload"
+                        listType="picture-card"
+                        :fileList="fileList"
+                        :showUploadList="false"
+                        @preview="handlePreview"
+                        @change="handleChange"
+                      >
+                        <div v-if="fileList.length < 9">
+                          <a-icon :type="uploadLoading ? 'loading' : 'plus'" />
+                          <div class="ant-upload-text">上传</div>
+                        </div>
+                      </a-upload>
+                      <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
+                        <img alt="example" style="width: 100%" :src="previewImage" />
+                      </a-modal>
+                    </a-row>
+                    <a-row class="btns-block">
+                      <a-button style="margin-right: 12px">取消</a-button>
+                      <a-button type="primary" @click.native="addReply">发布</a-button>
+                    </a-row>
+                  </div>
                 </div>
-              </div>
-            </a-row>
+              </a-row>
+            </a-spin>
           </a-card>
         </div>
         <!-- 回复展示区 -->
@@ -143,6 +146,7 @@ export default {
       replyList,
       questionInfo: {},
       isSpinning: false,
+      isRepling: false,
       answerContent: '',
       uploadLoading: false,
 
@@ -178,6 +182,7 @@ export default {
     addReply() {
       let self = this
       let files = []
+      this.isRepling = true
       this.fileList.forEach(item => {
         files.push(item.url)
       })
@@ -187,9 +192,14 @@ export default {
         filePaths: files
       }
       addKnowledgeQuizReply(params).then(res => {
+        setTimeout(() => {
+          self.isRepling = false
+        }, 1000);
         if (res && res.success === 'Y') {
           self.fetchDetail()
           self.$message.success(res.message)
+          self.answerContent = ''
+          self.fileList = []
           return
         }
         self.$message.error(res.message)
@@ -284,7 +294,6 @@ export default {
 
 .edit-block {
   .edit-card {
-    margin: 10px 0;
     .tag-btn {
       margin: 0 10px;
       border: none;

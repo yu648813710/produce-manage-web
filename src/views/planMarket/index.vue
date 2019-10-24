@@ -22,8 +22,8 @@
         </a-row>
         <a-row>
           <a-col>
+            <a-button :style="{ marginRight: '8px' }" @click="handleReset">重置</a-button>
             <a-button type="primary" html-type="submit">查询</a-button>
-            <a-button :style="{ marginLeft: '8px' }" @click="handleReset">重置</a-button>
             <span :style="{ marginLeft: '8px', cursor: 'pointer' }" @click="() => {expand = !expand}">
               {{expand ? '收起' : '展开'}}
               <a-icon :type="expand ? 'up' : 'down'" />

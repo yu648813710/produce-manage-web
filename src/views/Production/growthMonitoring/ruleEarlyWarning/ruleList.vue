@@ -12,16 +12,9 @@
     <div class="form">
       <!-- 搜索条件 -->
       <a-form class="searchForm">
-        <a-row
-          :gutter="24"
-          type="flex"
-        >
+        <a-row :gutter="24" type="flex">
           <a-col :span="8">
-            <a-form-item
-              label="地块名称:"
-              :label-col="{ span: 6 }"
-              :wrapper-col="{ span: 18 }"
-            >
+            <a-form-item label="地块名称:" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
               <a-input
                 v-model="searchForm.baseName"
                 placeholder="请输入地块名称"
@@ -34,15 +27,8 @@
           </a-col>
         </a-row>
         <a-row>
-          <a-col
-            :span="24"
-            :style="{ textAlign: 'center' }"
-          >
-            <a-button
-              type="primary"
-              html-type="submit"
-              @click="searchRuleList"
-            >查询</a-button>
+          <a-col :span="24" :style="{ textAlign: 'center' }">
+            <a-button type="primary" html-type="submit" @click="searchRuleList">查询</a-button>
             <a-button :style="{ marginLeft: '8px' }">重置</a-button>
             <a-button :style="{ marginLeft: '8px', fontSize: '12px' }">
               <a-icon :type="true ? 'up' : 'down'" />收起
@@ -55,11 +41,7 @@
       <!-- 设备列表表格 -->
       <div class="table-content">
         <div class="block-box">
-          <a-button
-            type="primary"
-            class="add-button"
-            @click="addShowModal()"
-          >新增预警</a-button>
+          <a-button type="primary" class="add-button" @click="addShowModal()">新增预警</a-button>
         </div>
         <div class="block-box">
           <a-locale-provider :locale="zhCN">
@@ -72,15 +54,8 @@
               @change="paginationChange"
               :rowKey=" record => record.blockLandId "
             >
-              <span
-                slot="id"
-                slot-scope="text, record, index"
-              >{{index + 1}}</span>
-              <div
-                class="action"
-                slot="operation"
-                slot-scope="record,index"
-              >
+              <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
+              <div class="action" slot="operation" slot-scope="record,index">
                 <span
                   style="color:#1890ff; cursor: pointer; margin-right:10px"
                   @click="editRuleEvent(record)"
@@ -104,15 +79,8 @@
       :confirmLoading="confirmLoading"
       @cancel="handleCancel"
     >
-      <a-form
-        :form="ruleForm"
-        @submit="handleOk"
-      >
-        <a-form-item
-          label="基地名称"
-          :label-col="{ span: 5 }"
-          :wrapper-col="{ span: 16 }"
-        >
+      <a-form :form="ruleForm" @submit="handleOk">
+        <a-form-item label="基地名称" :label-col="{ span: 5 }" :wrapper-col="{ span: 16 }">
           <a-select
             placeholder="选择基地"
             @change="baseLandChange"
@@ -129,11 +97,7 @@
             >{{item.baseLandName}}</a-select-option>
           </a-select>
         </a-form-item>
-        <a-form-item
-          label="地块名称"
-          :label-col="{ span: 5 }"
-          :wrapper-col="{ span: 16 }"
-        >
+        <a-form-item label="地块名称" :label-col="{ span: 5 }" :wrapper-col="{ span: 16 }">
           <a-select
             placeholder="选择地块"
             @change="blockLandChange"
@@ -158,17 +122,9 @@
           :validate-status="formValidataStatus.temperature"
           :help="formValidataStatus.temperature===''?'':'温度应小于等于100℃'"
         >
-          <a-input-number
-            style="width:42%;"
-            v-model="formInputVal.temperatureInf"
-            :min="0"
-          />
+          <a-input-number style="width:42%;" v-model="formInputVal.temperatureInf" :min="0" />
           <span style="padding:0 2%;">-</span>
-          <a-input-number
-            style="width:42%;"
-            v-model="formInputVal.temperatureSup"
-            :min="0"
-          />
+          <a-input-number style="width:42%;" v-model="formInputVal.temperatureSup" :min="0" />
           <span style="padding:0 1%;">℃</span>
         </a-form-item>
         <a-form-item
@@ -179,28 +135,13 @@
           :validate-status="formValidataStatus.dampness"
           :help="formValidataStatus.dampness===''?'':'湿度应小于等于100%'"
         >
-          <a-input-number
-            style="width:42%;"
-            v-model="formInputVal.dampnessInf"
-            :min="0"
-          />
+          <a-input-number style="width:42%;" v-model="formInputVal.dampnessInf" :min="0" />
           <span style="padding:0 2%;">-</span>
-          <a-input-number
-            style="width:42%;"
-            v-model="formInputVal.dampnessSup"
-            :min="0"
-          />
+          <a-input-number style="width:42%;" v-model="formInputVal.dampnessSup" :min="0" />
           <span style="padding:0 1%;">%</span>
         </a-form-item>
-        <a-form-item
-          label="负责人"
-          :label-col="{ span: 5 }"
-          :wrapper-col="{ span: 16 }"
-        >
-          <a-input
-            :value="formInputVal.user"
-            disabled
-          />
+        <a-form-item label="负责人" :label-col="{ span: 5 }" :wrapper-col="{ span: 16 }">
+          <a-input :value="formInputVal.user" disabled />
         </a-form-item>
       </a-form>
     </a-modal>
@@ -260,7 +201,7 @@ Vue.prototype.$message = message
 export default {
   name: 'BaseList',
   components: {},
-  data() {
+  data () {
     return {
       visible: false,
       confirmLoading: false,
@@ -319,26 +260,26 @@ export default {
       blockLandId: ''
     }
   },
-  mounted() {
+  mounted () {
     this.getRuleList()
     this.getSelectBaseLand()
   },
   methods: {
     // 显示新增弹窗
-    showModal() {
+    showModal () {
       this.visible = true
     },
     // 显示删除弹窗
-    shwoDeteleModal(id) {
+    shwoDeteleModal (id) {
       this.deteleVisible = true
       this.blockLandId = id
     },
     // 消失删除弹窗
-    deteleHandleCancel() {
+    deteleHandleCancel () {
       this.deteleVisible = false
     },
     // 点击显示新增弹窗
-    addShowModal() {
+    addShowModal () {
       this.showModal()
       this.formInputVal = {
         user: '', // 负责人
@@ -354,7 +295,7 @@ export default {
       this.infoAddOrEditType = 'add'
     },
     // 点击新增弹窗确定
-    handleOk() {
+    handleOk () {
       this.ruleForm.validateFields((err, rule) => {
         let validataFormState = this.validataForm()
         if (!validataFormState || err !== null) {
@@ -381,7 +322,7 @@ export default {
       })
     },
     // 点击新增弹窗取消
-    handleCancel() {
+    handleCancel () {
       this.visible = false
       this.blockLandData = []
       this.formValidataStatus.dampness = ''
@@ -393,15 +334,15 @@ export default {
         地块名称: ''
       })
     },
-    searchRuleList(page, current) {
+    searchRuleList (page, current) {
       this.getRuleList()
     },
-    paginationChange(page, current) {
+    paginationChange (page, current) {
       this.pagination.current = page.current
       this.pagination.pageSize = page.pageSize
       this.getRuleList()
     },
-    getRuleList() {
+    getRuleList () {
       let postData = {
         pageNo: this.pagination.current,
         pageSize: this.pagination.pageSize,
@@ -430,7 +371,7 @@ export default {
       })
     },
     // 基地选项事件
-    baseLandChange(e) {
+    baseLandChange (e) {
       this.ruleForm.setFieldsValue({
         基地名称: e
       })
@@ -438,7 +379,7 @@ export default {
       this.getSelectBlockBland(e)
     },
     // 地块选项事件
-    blockLandChange(e) {
+    blockLandChange (e) {
       this.ruleForm.setFieldsValue({
         地块名称: e
       })
@@ -450,7 +391,7 @@ export default {
       })[0].principalUser
     },
     // 编辑事件
-    editRuleEvent(data) {
+    editRuleEvent (data) {
       this.showModal()
       this.formInputVal.temperatureInf = data.temperatureInf
       this.formInputVal.temperatureSup = data.temperatureSup
@@ -479,7 +420,7 @@ export default {
       this.infoAddOrEditType = 'edit'
     },
     // 删除事件
-    deteleHandleOk() {
+    deteleHandleOk () {
       deleteRule(this.blockLandId).then(res => {
         if (res.code === 200) {
           this.getRuleList()
@@ -489,7 +430,7 @@ export default {
       })
     },
     // 获取基地的信息
-    getSelectBaseLand() {
+    getSelectBaseLand () {
       listBaseLandSelect().then(res => {
         if (res.code === 200) {
           this.baseLandData = res.data
@@ -497,7 +438,7 @@ export default {
       })
     },
     // 获取地块信息
-    async getSelectBlockBland(id) {
+    async getSelectBlockBland (id) {
       await listBlockLandByBaseLandIdSelect(id).then(res => {
         if (res.code === 200) {
           this.blockLandData = res.data
@@ -505,7 +446,7 @@ export default {
       })
     },
     // 编辑提交
-    editRuleSubmit(data) {
+    editRuleSubmit (data) {
       setRule(data).then(res => {
         if (res.code !== 200) {
           return false
@@ -516,7 +457,7 @@ export default {
       })
     },
     // 新增提交
-    addRuleSubmit(data) {
+    addRuleSubmit (data) {
       addRule(data).then(res => {
         if (res.code !== 200) {
           return false
@@ -527,7 +468,7 @@ export default {
       })
     },
     // 提示信息
-    tipMessage(type, message) {
+    tipMessage (type, message) {
       if (type === 'Y') {
         this.$message.success(message)
         return false
@@ -535,7 +476,7 @@ export default {
       this.$message.error(message)
     },
     // 校验表单
-    validataForm() {
+    validataForm () {
       let formDataInput = this.formInputVal
       if (
         (!formDataInput.temperatureInf && !formDataInput.temperatureSup) ||
