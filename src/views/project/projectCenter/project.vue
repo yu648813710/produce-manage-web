@@ -9,80 +9,69 @@
     <a-layout>
       <a-layout-content style="margin: 16px">
         <div class="search-wrapper">
-          <a-row :gutter="40">
-            <a-col :span="6">
-              <a-row>
-                <a-col :span="6">
-                  <span class="search-title">方案名称</span>
-                </a-col>
-                <a-col :span="18">
+          <a-form :form="sreachFrom" @submit="handleSearchClick">
+            <a-row>
+              <a-col :span="8">
+                <a-form-item label="方案名称" :label-col="{ span: 24 }" :wrapper-col="{ span: 20 }">
                   <a-input
-                    v-model="searchParams.solutionName"
                     placeholder="请输入方案名称"
-                    class="search-input"
+                    v-decorator="[
+                      'solutionName',
+                      { rules: [{ required: false, message: '' }] },
+                    ]"
                   />
-                </a-col>
-              </a-row>
-            </a-col>
-            <a-col :span="6">
-              <a-row>
-                <a-col :span="6">
-                  <span class="search-title">产品品种</span>
-                </a-col>
-                <a-col :span="18">
+                </a-form-item>
+              </a-col>
+              <a-col :span="8">
+                <a-form-item label="产品品种" :label-col="{ span: 24 }" :wrapper-col="{ span: 20 }">
                   <a-input
-                    v-model="searchParams.breedName"
-                    placeholder="请输入产品名称"
-                    class="search-input"
+                    placeholder="请输入产品品种"
+                    v-decorator="[
+                      'breedName',
+                      { rules: [{ required: false, message: '' }] },
+                    ]"
                   />
-                </a-col>
-              </a-row>
-            </a-col>
-            <a-col :span="6">
-              <a-row>
-                <a-col :span="6">
-                  <span class="search-title">状态</span>
-                </a-col>
-                <a-col :span="18">
+                </a-form-item>
+              </a-col>
+              <a-col :span="8">
+                <a-form-item label="状态" :label-col="{ span: 24 }" :wrapper-col="{ span: 20 }">
                   <a-select
-                    class="detail-input"
                     placeholder="请选择状态"
+                    :allowClear="true"
+                    class="search-input"
                     style="width: 100%"
-                    :value="searchParams.status"
-                    @change="searchStatusChange"
+                    v-decorator="[
+                      'status',
+                      { rules: [{ required: false, message: '' }] },
+                    ]"
                   >
-                    <a-select-option value>全部</a-select-option>
-                    <a-select-option
-                      v-for="(item,index) in statusArr"
-                      :value="item.value"
-                    >{{item.label}}</a-select-option>
+                    <a-select-option v-for="(item, index) in statusArr" :key="item.value" :value="item.value">
+                      {{item.label}}
+                    </a-select-option>
                   </a-select>
-                </a-col>
-              </a-row>
-            </a-col>
-            <a-col :span="6">
-              <a-row>
-                <a-col :span="6">
-                  <span class="search-title">方案权限</span>
-                </a-col>
-                <a-col :span="18">
+                </a-form-item>
+              </a-col>
+              <a-col :span="8">
+                <a-form-item label="方案权限" :label-col="{ span: 24 }" :wrapper-col="{ span: 20 }">
                   <a-select
-                    class="detail-input"
                     placeholder="请选择方案权限"
+                    :allowClear="true"
+                    class="search-input"
                     style="width: 100%"
-                    :value="searchParams.solutionScope"
-                    @change="powerChange"
+                    v-decorator="[
+                      'solutionScope',
+                      { rules: [{ required: false, message: '' }] },
+                    ]"
                   >
-                    <a-select-option value>全部</a-select-option>
-                    <a-select-option
-                      v-for="(item,index) in projectPowerArr"
-                      :value="item.value"
-                    >{{item.label}}</a-select-option>
+                    <a-select-option v-for="(item, index) in projectPowerArr" :key="item.value" :value="item.value">
+                      {{item.label}}
+                    </a-select-option>
                   </a-select>
-                </a-col>
-              </a-row>
-            </a-col>
-          </a-row>
+                </a-form-item>
+              </a-col>
+            </a-row>
+          </a-form>
+
           <div>
             <a-button
               class="button"
@@ -91,7 +80,7 @@
             <a-button
               type="primary"
               class="button"
-              @click="searchProjectList"
+              @click="handleSearchClick"
             >查询</a-button>
           </div>
         </div>
@@ -191,10 +180,12 @@ import {
   Cascader,
   Button,
   Table,
-  Select
+  Select,
+    Form
 } from 'ant-design-vue'
 
 Vue.use(Layout)
+Vue.use(Form)
 Vue.use(Switch)
 Vue.use(Select)
 Vue.use(Modal)
@@ -216,6 +207,7 @@ export default {
   },
   data() {
     return {
+        sreachFrom: this.$form.createForm(this),
       crumbsArr: [
         { name: '当前位置', back: false, path: '' },
         { name: '生产管理', back: false, path: '' },
@@ -312,6 +304,17 @@ export default {
     }
   },
   methods: {
+      handleSearchClick(){
+          this.sreachFrom.validateFields((err, values) => {
+              console.log(values)
+              this.pagination.current = 1
+              this.searchParams.solutionScope = values.solutionScope ? values.solutionScope : '';
+              this.searchParams.status = values.status ? values.status : '';
+              this.searchParams.solutionName = values.solutionName ? values.solutionName : '';
+              this.searchParams.breedName = values.breedName ? values.breedName : '';
+              this.getProjectList();
+          })
+      },
     //分页栏页数改变
     projectPageChange(page) {
       this.pagination.pageSize = page.pageSize
@@ -320,7 +323,6 @@ export default {
     },
     //查询方案列表
     searchProjectList() {
-      this.pagination.current = 1
       this.getProjectList()
     },
     //拷贝方案
@@ -336,6 +338,8 @@ export default {
       this.searchParams.solutionScope = ''
       this.searchParams.status = ''
       this.searchParams.solutionName = ''
+      this.sreachFrom.resetFields();
+      this.getProjectList();
     },
     //搜索栏状态改变
     searchStatusChange(value) {
@@ -436,7 +440,7 @@ export default {
   padding: 24px;
   background: #fff;
   margin-bottom: 10px;
-  height: 168px;
+  height: 260px;
   border-radius: 4px;
 
   .search-input-wrapper {
