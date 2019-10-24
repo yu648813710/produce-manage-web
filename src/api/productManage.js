@@ -28,7 +28,7 @@ export function growthData() {
 // 获取湿度/温度报警数据
 export function shiduData(data, type) {
   return axios({
-    url: `/produce/monitor/warning/searchNewAlarm/${type.dikuai}/${type.type}`,
+    url: `/produce/produce/monitor/warning/searchNewAlarm/${type.dikuai}/${type.type}`,
     method: 'POST',
     data: data
   })
