@@ -14,7 +14,7 @@
               <a-input
                 v-if="index === 0 || index === 1"
                 :placeholder="item.placeholder"
-                v-decorator="[`field_${item.id}`, { 
+                v-decorator="[`field_${item.id}`, {
                   rules: item.validators
                 }]"
               />
@@ -42,7 +42,7 @@
               <a-select
                 v-if="index === 2 && item.arrs.length > 0"
                 notFoundContent="未匹配到数据"
-                v-decorator="[`select_${item.id}`, { 
+                v-decorator="[`select_${item.id}`, {
                   rules: item.validators
                 }]"
                 :placeholder="item.placeholder"
@@ -52,7 +52,7 @@
               <a-select
                 v-if="index === 3 || index === 4"
                 notFoundContent="未匹配到数据"
-                v-decorator="[`select_${item.id}`, { 
+                v-decorator="[`select_${item.id}`, {
                   rules: item.validators
                 }]"
                 :placeholder="item.placeholder"
@@ -98,29 +98,29 @@
 </template>
 
 <script>
-import MyBreadCrumb from "@/components/crumbsNav/CrumbsNav";
-import Vue from "vue";
-import { Form, Col, Row, Button, Input, Select, DatePicker, Layout, Pagination, Table, message } from "ant-design-vue";
-Vue.use(Form);
-Vue.use(Col);
-Vue.use(Row);
-Vue.use(Button);
-Vue.use(Input);
-Vue.use(Select);
-Vue.use(DatePicker);
-Vue.use(Layout);
-Vue.use(Pagination);
-Vue.use(Table);
-import { knowledgeQuizList, knowledgeQuizCategory } from '@/api/productManage';
+import MyBreadCrumb from '@/components/crumbsNav/CrumbsNav'
+import Vue from 'vue'
+import { Form, Col, Row, Button, Input, Select, DatePicker, Layout, Pagination, Table } from 'ant-design-vue'
+import { knowledgeQuizList, knowledgeQuizCategory } from '@/api/productManage'
+Vue.use(Form)
+Vue.use(Col)
+Vue.use(Row)
+Vue.use(Button)
+Vue.use(Input)
+Vue.use(Select)
+Vue.use(DatePicker)
+Vue.use(Layout)
+Vue.use(Pagination)
+Vue.use(Table)
 
 const breadcrumbs = [
-  { name: "方案管理", back: false, path: "" },
-  { name: "知识问答", back: false, path: "" }
-];
+  { name: '方案管理', back: false, path: '' },
+  { name: '知识问答', back: false, path: '' }
+]
 
 const list = []
 const columns = [
-  { title: "序号", key: "itemIndex", scopedSlots: { customRender: 'itemIndex' } },
+  { title: '序号', key: 'itemIndex', scopedSlots: { customRender: 'itemIndex' } },
   { title: '问题描述', key: 'questionContent', scopedSlots: { customRender: 'questionContent' } },
   { title: '品种', dataIndex: 'question.breedName', key: 'breedName' },
   { title: '品类', dataIndex: 'question.categoryName', key: 'categoryName' },
@@ -139,102 +139,102 @@ const columns = [
 
 const validatorBaseX = (rule, value, callback) => {
   if (value && JSON.stringify(value).length > 10) {
-    callback("不能超过10个字符");
+    callback(new Error('不能超过10个字符'))
   }
-  callback();
-};
+  callback()
+}
 const validatorBaseXX = (rule, value, callback) => {
   if (value && JSON.stringify(value).length > 20) {
-    callback("不能超过20个字符");
+    callback(new Error('不能超过20个字符'))
   }
-  callback();
-};
+  callback()
+}
 
 const validators = {
-  ["v-questionContent"]: [
-    { required: false, message: "请输入问题描述" },
+  'v-questionContent': [
+    { required: false, message: '请输入问题描述' },
     { validator: validatorBaseXX }
   ],
-  ["v-categoryName"]: [
-    { required: false, message: "请输入品种" },
+  'v-categoryName': [
+    { required: false, message: '请输入品种' },
     { validator: validatorBaseXX }
   ],
-  ["v-targetClazz"]: [
-    { required: false, message: "请选择分类" },
+  'v-targetClazz': [
+    { required: false, message: '请选择分类' },
     { validator: validatorBaseX }
   ],
-  ["v-questionType"]: [
-    { required: false, message: "请选择是否为常见问题" },
+  'v-questionType': [
+    { required: false, message: '请选择是否为常见问题' },
     { validator: validatorBaseX }
   ],
-  ["v-replyType"]: [
-    { required: false, message: "请选择是否需要回复" },
+  'v-replyType': [
+    { required: false, message: '请选择是否需要回复' },
     { validator: validatorBaseX }
   ],
-  ["v-startDate"]: [
-    { required: false, message: "开始日期" },
+  'v-startDate': [
+    { required: false, message: '开始日期' }
   ],
-  ["v-endDate"]: [
-    { required: false, message: "结束日期" },
-  ],
-};
+  'v-endDate': [
+    { required: false, message: '结束日期' }
+  ]
+}
 
 const fields = [
   {
-    id: "questionContent",
-    label: "问题描述",
-    placeholder: "请输入问题描述",
-    validators: validators["v-questionContent"]
+    id: 'questionContent',
+    label: '问题描述',
+    placeholder: '请输入问题描述',
+    validators: validators['v-questionContent']
   },
   {
-    id: "categoryName",
-    label: "品种",
-    placeholder: "请输入品种",
-    validators: validators["v-breed"]
+    id: 'categoryName',
+    label: '品种',
+    placeholder: '请输入品种',
+    validators: validators['v-breed']
   },
   {
-    id: "targetClazz",
-    label: "分类",
-    placeholder: "请选择分类",
+    id: 'targetClazz',
+    label: '分类',
+    placeholder: '请选择分类',
     arrs: [],
-    validators: validators["v-targetClazz"]
+    validators: validators['v-targetClazz']
   },
   {
-    id: "questionType",
-    label: "是否为常见问题",
-    placeholder: "请选择是否为常见问题",
+    id: 'questionType',
+    label: '是否为常见问题',
+    placeholder: '请选择是否为常见问题',
     arrs: [
-      { id: 0, label: '是'},
-      { id: 1, label: '否'}
+      { id: 0, label: '是' },
+      { id: 1, label: '否' }
     ],
-    validators: validators["v-questionType"]
+    validators: validators['v-questionType']
   },
   {
-    id: "replyType",
-    label: "是否需要回复",
-    placeholder: "请选择是否需要回复",
+    id: 'replyType',
+    label: '是否需要回复',
+    placeholder: '请选择是否需要回复',
     arrs: [
-      { id: 'Y', label: '是'},
-      { id: 'N', label: '否'}
+      { id: 'Y', label: '是' },
+      { id: 'N', label: '否' }
     ],
-    validators: validators["v-replyType"]
+    validators: validators['v-replyType']
   },
   {
-    id: "creatStartDate",
-    label: "创建日期",
-    placeholder: "开始日期",
-    validators: validators["v-startDate"]
+    id: 'creatStartDate',
+    label: '创建日期',
+    placeholder: '开始日期',
+    validators: validators['v-startDate']
   },
   {
-    id: "creatEndDate",
-    label: "",
-    placeholder: "结束日期",
-    validators: validators["v-endDate"]
+    id: 'creatEndDate',
+    label: '',
+    placeholder: '结束日期',
+    validators: validators['v-endDate']
   }
-];
+]
 
 export default {
-  name: "knowledgeQuiz",
+  name: 'knowledgeQuiz',
   components: {
     MyBreadCrumb
   },
@@ -242,7 +242,7 @@ export default {
     return {
       breadcrumbs,
       fields,
-      form: this.$form.createForm(this, { name: "knowledgeQuiz" }),
+      form: this.$form.createForm(this, { name: 'knowledgeQuiz' }),
       expand: false,
       pageNo: 1,
       pageSize: 10,
@@ -256,12 +256,12 @@ export default {
       startDate: null,
       startValue: null,
       endDate: null,
-      endValue: null,
-    };
+      endValue: null
+    }
   },
   computed: {
     count() {
-      return this.expand ? 6 : 3;
+      return this.expand ? 6 : 3
     }
   },
   created() {
@@ -285,13 +285,13 @@ export default {
         pageNo: this.pageNo,
         pageSize: this.pageSize,
         ...params
-      };
+      }
       knowledgeQuizList(postData).then(res => {
         this.loading = false
         if (res && res.success === 'Y') {
-          const pagination = { ...this.pagination };
-          pagination.total = res.data && res.data.total;
-          this.pagination = pagination;
+          const pagination = { ...this.pagination }
+          pagination.total = res.data && res.data.total
+          this.pagination = pagination
           this.list = res.data && res.data.records
           return
         }
@@ -308,9 +308,9 @@ export default {
     },
 
     handleSubmit(e) {
-      e.preventDefault();
+      e.preventDefault()
       this.form.validateFields((err, values) => {
-        if (!err) {          
+        if (!err) {
           const params = {
             questionContent: values.field_questionContent === undefined || values.field_questionContent === '' ? null : values.field_questionContent,
             categoryName: values.field_categoryName === undefined || values.field_categoryName === '' ? null : values.field_categoryName,
@@ -320,28 +320,28 @@ export default {
             beginDate: this.startValue,
             endDate: this.endValue
           }
-          this.pageNo = 1;
-          this.fetchParams = params;
+          this.pageNo = 1
+          this.fetchParams = params
           this.fetchList(params)
         }
-      });
+      })
     },
 
     handleDetail(record) {
-      this.$router.push({path: `/knowledgeQuizDetail/${record.question.questionId}`})
+      this.$router.push({ path: `/knowledgeQuizDetail/${record.question.questionId}` })
     },
 
     handleReset() {
-      this.form.resetFields();
+      this.form.resetFields()
       this.fetchParams = {}
-      this.fetchList(this.fetchParams);
+      this.fetchList(this.fetchParams)
     },
 
     pageOnChange(cfg) {
-      const pager = { ...this.pagination };
-      pager.current = cfg.current;
-      pager.pageSize = cfg.pageSize;
-      this.pagination = pager;
+      const pager = { ...this.pagination }
+      pager.current = cfg.current
+      pager.pageSize = cfg.pageSize
+      this.pagination = pager
       this.pageNo = pager.current
       this.pageSize = pager.pageSize
       this.fetchList(this.fetchParams)
@@ -351,18 +351,18 @@ export default {
      * 日期
      */
     disabledStartDate(startValue) {
-      const endValue = this.endValue;
+      const endValue = this.endValue
       if (!startValue || !endValue) {
-        return false;
+        return false
       }
-      return startValue.valueOf() > endValue.valueOf();
+      return startValue.valueOf() > endValue.valueOf()
     },
     disabledEndDate(endValue) {
-      const startValue = this.startValue;
+      const startValue = this.startValue
       if (!endValue || !startValue) {
-        return false;
+        return false
       }
-      return startValue.valueOf() >= endValue.valueOf();
+      return startValue.valueOf() >= endValue.valueOf()
     },
     handleStartOpenChange(date, dateString) {
       this.startDate = date
@@ -371,9 +371,9 @@ export default {
     handleEndOpenChange(date, dateString) {
       this.endDate = date
       this.endValue = dateString
-    },
+    }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .knowledge-quiz {
