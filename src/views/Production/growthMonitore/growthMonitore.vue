@@ -103,7 +103,13 @@ export default {
       inUseMassif: 0,
       myChart: '',
       pieData: [{ name: '湿度', value: 0 }, { name: '温度', value: 0 }],
-      timer: ''
+      timer: '',
+        crumbsArr:[
+            {name: '当前位置', back: false, path: ''},
+            {name: '生产管理', back: false, path: ''},
+            {name: '生长监控', back: true, path: '/projectCenter'},
+            {name: '新增方案', back: false, path: ''},
+        ],
     }
   },
   created() {},
@@ -139,7 +145,7 @@ export default {
     },
     warringDetailList(index) {
       if (index === 1) {
-        this.$router.push({ path: `/warringList/${index}` })
+        this.$router.push({ path: `warringList/${index}` })
       } else if (index === 2) {
         this.$router.push({ path: `warringList/${index}` })
       }
