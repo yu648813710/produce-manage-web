@@ -29,12 +29,22 @@
           </a-col>
         </a-row>
         <a-row>
-          <a-col :span="24" :style="{ textAlign: 'center' }">
-            <a-button type="primary" html-type="submit" @click="searchRuleList">查询</a-button>
-            <a-button :style="{ marginLeft: '8px' }">重置</a-button>
-            <a-button :style="{ marginLeft: '8px', fontSize: '12px' }">
-              <a-icon :type="true ? 'up' : 'down'" />收起
-            </a-button>
+          <a-col
+            :span="24"
+            :style="{ textAlign: 'center' }"
+          >
+            <a-button
+              type="primary"
+              html-type="submit"
+              @click="searchRuleList"
+            >查询</a-button>
+            <a-button
+              @click="restSearch"
+              :style="{ marginLeft: '8px' }"
+            >重置</a-button>
+            <!--            <a-button :style="{ marginLeft: '8px', fontSize: '12px' }">-->
+            <!--              <a-icon :type="true ? 'up' : 'down'" />收起-->
+            <!--            </a-button>-->
           </a-col>
         </a-row>
       </a-form>
