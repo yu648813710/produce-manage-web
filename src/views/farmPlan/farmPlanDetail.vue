@@ -92,12 +92,13 @@
           <div
             class="text-overflow"
             slot="useMatetial"
+            :title="text"
             slot-scope="text, record, index"
           >{{text}}</div>
           <a
             slot="toDetail"
             slot-scope="text, record, index"
-          >操作</a>
+          >查看</a>
         </a-table>
       </div>
     </div>

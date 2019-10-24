@@ -2,62 +2,88 @@
 周期信息详情页面
 */
 <template>
-  <div class="wrapper">
-    <a-breadcrumb style="text-align: left; height: 40px; width: 100%">
-      <a-breadcrumb-item>当前位置：</a-breadcrumb-item>
-      <a-breadcrumb-item>生产管理</a-breadcrumb-item>
-      <a-breadcrumb-item>
-        <router-link :to="{name: 'growthMonitore'}">生长监控</router-link>
-      </a-breadcrumb-item>
-      <a-breadcrumb-item>地块监控列表</a-breadcrumb-item>
-    </a-breadcrumb>
-    <a-row>
-      <a-col :span="18">
-        <div class="title-wrapper">
-          <div class="icon"></div>
-          <span class="title-text">地块监控列表</span>
-        </div>
-      </a-col>
-      <a-col :span="6">
-        <a-input
-          placeholder="Basic usage"
-          class="tableSelect"
-        />
-      </a-col>
-    </a-row>
-    <div class="table-wrapper">
-      <a-table
-        :scroll="{ x: 1080 }"
-        :columns="columns"
-        :dataSource="list"
-        :style="{marginTop: '50px'}"
-        :loading="loading"
-        :pagination="pagination"
-        :rowKey="record => record.greenhouseId"
-      >
-        <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
-        <div
-          class="action"
-          slot="operation"
-          slot-scope="record,index"
+  <div>
+    <div class="crumbCtr">
+      <crumbsNav :crumbsArr="crumbsArr"></crumbsNav>
+    </div>
+    <div class="wrapper">
+      <div class="search-wrapper">
+        <a-row>
+<!--          <a-col :span="18">-->
+<!--            <div class="title-wrapper">-->
+<!--              <div class="icon"></div>-->
+<!--              <span class="title-text">地块监控列表</span>-->
+<!--            </div>-->
+<!--          </a-col>-->
+          <a-form :form="sreachFrom" @submit="handleSearchClick">
+            <a-row>
+              <a-col :span="8">
+                <a-form-item label="地块名称" :label-col="{ span: 24 }" :wrapper-col="{ span: 20 }">
+                  <a-input
+                    placeholder="请输入地块名称"
+                    v-decorator="[
+                      'baseLandName',
+                      { rules: [{ required: false, message: '' }] },
+                    ]"
+                  />
+                </a-form-item>
+              </a-col>
+              <a-col :span="8">
+                <a-form-item label="异常原因" :label-col="{ span: 24 }" :wrapper-col="{ span: 20 }">
+                  <a-input
+                    placeholder="请输入异常原因"
+                    v-decorator="[
+                      'noNormalReason',
+                      { rules: [{ required: false, message: '' }] },
+                    ]"
+                  />
+                </a-form-item>
+              </a-col>
+            </a-row>
+          </a-form>
+          <!--        <a-col :span="6">-->
+          <!--          <a-input-->
+          <!--            placeholder="Basic usage"-->
+          <!--            class="tableSelect"-->
+          <!--          />-->
+          <!--        </a-col>-->
+        </a-row>
+      </div>
+      <div class="table-wrapper">
+        <a-table
+          :scroll="{ x: 1080 }"
+          :columns="columns"
+          :dataSource="list"
+          :style="{marginTop: '50px'}"
+          :loading="loading"
+          :pagination="pagination"
+          :rowKey="record => record.greenhouseId"
         >
+          <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
+          <div
+            class="action"
+            slot="operation"
+            slot-scope="record,index"
+          >
               <span>
                 <router-link :to="{name: 'projectDetail', params: record}">编辑</router-link>
               </span>
-          <span>
+            <span>
                 <router-link :to="{name: 'projectDetail', params: record}">查看</router-link>
               </span>
-        </div>
-      </a-table>
+          </div>
+        </a-table>
+      </div>
     </div>
-
   </div>
 </template>
 <script>
     import Vue from 'vue'
-    import {Table, Row, Col, Steps, Radio, icon, Modal, Button, Input, Select} from 'ant-design-vue'
+    import {Table, Row, Col, Steps, Radio, icon, Modal, Button, Input, Select, Form} from 'ant-design-vue'
     import { shiduData } from '@/api/productManage.js'
+    import crumbsNav from "@/components/crumbsNav/CrumbsNav";
     Vue.use(Row)
+    Vue.use(Form)
     Vue.use(Col)
     Vue.use(Steps)
     Vue.use(Radio)
@@ -70,10 +96,14 @@
     Vue.use(Row)
     Vue.use(Col)
     export default {
+        components:{
+            crumbsNav,
+        },
         data () {
             return {
                 detail: this.$route.params,
                 list: [],
+                sreachFrom: this.$form.createForm(this),
                 loading:false,
                 pagination: {
                     current: 1,
@@ -84,7 +114,13 @@
                     total: 0,
                     showTotal: total => `共 ${total} 条`
                 },
-                columns: []
+                columns: [],
+                crumbsArr:[
+                    {name: '当前位置', back: false, path: ''},
+                    {name: '生产管理', back: false, path: ''},
+                    {name: '生长监控', back: true, path: '/production/growthMonitore'},
+                    {name: '地块监控列表', back: false, path: ''},
+                ],
             }
         },
         mounted() {
@@ -155,6 +191,11 @@
 
                 })
             },
+            handleSearchClick(){
+                this.sreachFrom.validateFields((err, values) => {
+                    console.log(values)
+                })
+            },
             getWenduData(){
                 let postData = {
                     pageNo: 1,
@@ -174,6 +215,31 @@
     }
 </script>
 <style lang="less" scoped>
+  .search-wrapper {
+    background: #fff;
+    margin-bottom: 10px;
+    border-radius: 4px;
+
+    .search-input-wrapper {
+      position: relative;
+      margin-bottom: 24px;
+
+      .search-input {
+        margin-top: 30px;
+      }
+    }
+
+    .button {
+      margin: 0 5px;
+    }
+  }
+  .crumbCtr{
+    height: 20px;
+    line-height: 20px;
+    margin-top: 20px;
+    margin-left: 16px;
+    text-align: left;
+  }
   .table-wrapper {
     position: relative;
     padding: 24px;
@@ -199,8 +265,7 @@
     border-radius: 4px;
 
     .title-wrapper{
-      position: absolute;
-      left: 24px;
+      text-align: left;
 
       .title-text{
         font-size: 16px;

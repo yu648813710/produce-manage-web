@@ -3,8 +3,10 @@
 */
 <template>
   <div style="height: 100%">
-    <div class="wrapper">
+    <div class="crumbCtr">
       <crumbsNav :crumbsArr="crumbsArr"></crumbsNav>
+    </div>
+    <div class="wrapper">
       <a-steps :current="current" :labelPlacement="vertical">
         <a-step :labelPlacement="vertical" v-for="item in steps" :key="item.title" :title="item.title"/>
       </a-steps>
@@ -203,11 +205,18 @@
         </div>
 
         <a-table
-          :scroll="{ x: 1200 }"
+          :scroll="{ x: 1280 }"
           :columns="columns"
           :dataSource="list"
           :style="{marginTop: '50px'}"
         >
+          <div slot="tableNongZi" slot-scope="record" class="tableLineCtr">
+            {{record[0] ? record[0].name + '-' + record[0].consumption + record[0].unit : ''}}
+          </div>
+          <div slot="executionCycle" :title="record" slot-scope="record" class="tableLineCtr">
+            {{record}}
+          </div>
+          <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
           <div slot="expandedRowRender" slot-scope="record" style="margin: 0" class="expendLine">
             <div class="expendContent" v-for="(item, index) in record.tableNongZi" :key="index">
               <div class="tableCtrol1"></div>
@@ -215,9 +224,9 @@
               <div class="tableCtrol1">{{record.cycle}}</div>
               <div class="tableCtrol1">{{record.type}}</div>
               <div class="tableCtrol2">
-                <div>{{item.name}} - {{item.consumption}}{{item.unit}}</div>
+                <div class="textOverCtr" :title="item.name + '-' + item.consumption + item.unit">{{item.name}} - {{item.consumption}}{{item.unit}}</div>
               </div>
-              <div>{{record.executionCycle}}</div>
+              <div class="textOverCtr" :title="record.executionCycle">{{record.executionCycle}}</div>
 
               <div :title="record.purpose" class="textOverCtr">{{record.purpose}}</div>
               <div :title="record.cycleDescription" class="tableCtrol1 textOverCtr">{{record.cycleDescription}}</div>
@@ -450,12 +459,10 @@
               </a-select-option>
             </a-select>
             <a-input-number
-              placeholder="Basic usage"
               class="tableSelect"
               v-model="consumption"
             />
             <a-input
-              placeholder="Basic usage"
               class="tableSelect"
               v-model="unit"
             />
@@ -466,9 +473,9 @@
           </div>
           <div>
             <li v-for="(item,index) in tableList" :key="index" class="tableLine">
-              <span>{{item.name}}</span>
-              <span>{{item.consumption}}</span>
-              <span>{{item.unit}}</span>
+              <span :title="item.name">{{item.name}}</span>
+              <span :title="item.consumption">{{item.consumption}}</span>
+              <span :title="item.unit">{{item.unit}}</span>
               <span style="color: #3C8CFF;cursor: pointer" @click="delTableLine(index)">删除</span>
             </li>
           </div>
@@ -550,6 +557,7 @@
         getMaterialList,
         addNewTask,
         projectUser,
+        checkProjectRepeat,
     } from '@/api/projectCenter.js'
     import {Form, Table, Row, Col, Steps, Radio, icon, Modal, Button, Input, Select} from 'ant-design-vue'
 
@@ -600,26 +608,17 @@
                     form: this.$form.createForm(this),
                 },
                 columns: [
-                    {title: '序号', dataIndex: 'productId', key: 'productId', width: 160, columnTitle: 'productId'},
+                    {title: '序号', dataIndex: 'id', key: 'id', width: 160, columnTitle: 'id',scopedSlots: {customRender: 'id'},},
                     {title: '任务操作', dataIndex: 'taskAction', key: 'taskAction', width: 160, columnTitle: 'taskAction'},
                     {title: '所属周期', dataIndex: 'cycle', key: 'cycle', width: 160,},
                     {title: '农事类型', dataIndex: 'type', key: 'type', width: 160,},
                     {
                         title: '使用农资及用量', dataIndex: 'tableNongZi', key: 'tableNongZi',
-                        width: 160,
-                        customRender: (text) => {
-                            if (text[0]) {
-                                let lineText = text[0].name + '-' + text[0].consumption + text[0].unit;
-                                if (text.length > 1) {
-                                    return lineText + '...'
-                                }
-                                return lineText
-                            }
-                            return ''
-                        },
-                        render: h => h('div', '123123')
+                        width: 180,
+                        scopedSlots: {customRender: 'tableNongZi'},
+
                     },
-                    {title: '执行周期', dataIndex: 'executionCycle', key: 'executionCycle', width: 160,},
+                    {title: '执行周期', dataIndex: 'executionCycle', key: 'executionCycle', width: 160,scopedSlots: {customRender: 'executionCycle'},},
                     {
                         title: '用途',
                         dataIndex: 'purpose',
@@ -748,16 +747,25 @@
                 this.msgForm.form.validateFields((err, values) => {
                     console.log(values)
                     if (!err) {
-                        self.solutionPlan = {
+                        let data = {
                             solutionName: values.projectName,
-                            breedId: values.productVariety,
-                            categoryId: values.productCategory,
-                            solutionScope: values.projectPower,
-                            participantUserIdList: values.participantUser,
                         }
-                        self.current++
-                        return true
-                        console.log(values)
+                        checkProjectRepeat(data).then( (res) => {
+                            if(res.message === '方案名称重复'){
+                                this.projectNameRepeat = true;
+                                return false;
+                            }else {
+                                self.solutionPlan = {
+                                    solutionName: values.projectName,
+                                    breedId: values.productVariety,
+                                    categoryId: values.productCategory,
+                                    solutionScope: values.projectPower,
+                                    participantUserIdList: values.participantUser,
+                                }
+                                self.current++
+                                return true
+                            }
+                        })
                     } else if (err) {
                         return false
                     }
@@ -1204,11 +1212,11 @@
                 }
                 addNewTask(taskData).then((res) => {
                     if (res.code === 200) {
-                        if(res.message === '方案名称重复'){
-                            //汉字提示抽为常量
-                            this.projectNameRepeat = true;
-                            return false;
-                        }
+                        // if(res.message === '方案名称重复'){
+                        //     //汉字提示抽为常量
+                        //     this.projectNameRepeat = true;
+                        //     return false;
+                        // }
                         this.list = [];
                         this.taskCacheList = {}
                         this.$router.push({path: '/projectCenter'})
@@ -1221,6 +1229,19 @@
     }
 </script>
 <style lang="less" scoped>
+  .crumbCtr{
+    height: 20px;
+    line-height: 20px;
+    margin-top: 20px;
+    margin-left: 16px;
+    text-align: left;
+  }
+  .tableLineCtr{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 140px;
+  }
   .ant-form-explain{
     position: absolute;
     height: 21px;
@@ -1288,7 +1309,9 @@
     width: 100px;
     text-align: center;
     line-height: 35px;
-
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .tableSelect {

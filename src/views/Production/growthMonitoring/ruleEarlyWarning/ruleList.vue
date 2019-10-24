@@ -3,12 +3,14 @@
 */
 <template>
   <div class="base">
-    <a-breadcrumb style="text-align: left; height: 40px">
+    <!-- <a-breadcrumb style="text-align: left; height: 40px">
       <a-breadcrumb-item>当前位置：</a-breadcrumb-item>
       <a-breadcrumb-item>生产管理</a-breadcrumb-item>
       <a-breadcrumb-item>生长监测</a-breadcrumb-item>
       <a-breadcrumb-item>地块预警规则</a-breadcrumb-item>
-    </a-breadcrumb>
+    </a-breadcrumb> -->
+    <!-- 导航 -->
+    <crumbs-nav :crumbs-arr="crumbsArr" />
     <div class="form">
       <!-- 搜索条件 -->
       <a-form class="searchForm">
@@ -55,7 +57,7 @@
               :rowKey=" record => record.blockLandId "
             >
               <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
-              <div class="action" slot="operation" slot-scope="record,index">
+              <div class="action" slot="operation" slot-scope="record">
                 <span
                   style="color:#1890ff; cursor: pointer; margin-right:10px"
                   @click="editRuleEvent(record)"
@@ -169,6 +171,7 @@ import {
   setRule,
   deleteRule
 } from '@/api/productManage.js'
+import CrumbsNav from '@/components/crumbsNav/CrumbsNav'
 import {
   Button,
   Breadcrumb,
@@ -200,8 +203,10 @@ Vue.use(LocaleProvider)
 Vue.prototype.$message = message
 export default {
   name: 'BaseList',
-  components: {},
-  data () {
+  components: {
+    CrumbsNav
+  },
+  data() {
     return {
       visible: false,
       confirmLoading: false,
@@ -257,7 +262,29 @@ export default {
         dampness: ''
       },
       ruleForm: this.$form.createForm(this),
-      blockLandId: ''
+      blockLandId: '',
+      crumbsArr: [
+        {
+          name: '当前位置',
+          back: false,
+          path: ''
+        },
+        {
+          name: '生产管理',
+          back: false,
+          path: ''
+        },
+        {
+          name: '生长监测',
+          back: false,
+          path: ''
+        },
+        {
+          name: '地块预警规则',
+          back: false,
+          path: ''
+        }
+      ]
     }
   },
   mounted () {
@@ -334,7 +361,11 @@ export default {
         地块名称: ''
       })
     },
-    searchRuleList (page, current) {
+    // 重置
+    restSearch() {
+      this.searchForm.baseName = ''
+    },
+    searchRuleList(page, current) {
       this.getRuleList()
     },
     paginationChange (page, current) {
@@ -412,6 +443,7 @@ export default {
         })
         this.formInputVal.user = this.blockLandData.filter(res => {
           if (res.blockLandId === data.blockLandId) {
+            console.log(this.blockLandData)
             return res
           }
         })[0].principalUser
@@ -515,29 +547,19 @@ export default {
 }
 
 .form {
-  background-color: white;
-  padding: 27px 15px 21px 15px;
-}
-
-.form {
+  border-radius: 4px;
   background-color: white;
   padding: 27px 15px 21px 15px;
 }
 
 .table {
+  border-radius: 4px;
   padding: 20px 16px 24px 16px;
   background-color: white;
   margin-top: 12px;
 }
-
 .add-button {
-  float: left;
-  margin-bottom: 20px;
-  cursor: pointer;
-}
-
-.add-button {
-  float: left;
+  float: right;
   margin-bottom: 20px;
   cursor: pointer;
 }
@@ -547,8 +569,5 @@ export default {
 .block-box {
   overflow: hidden;
   height: auto;
-}
-.title_item {
-  float: left;
 }
 </style>
