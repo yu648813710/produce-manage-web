@@ -10,9 +10,7 @@
     >
       <template v-for="item in menuList">
         <a-menu-item v-if="!item.children" v-show="!item.hidden" :key="item.name">
-          <template v-if="item.meta.icon">
-            <a-icon :type="item.meta.icon" />
-          </template>
+          <a-icon :type="item.meta.icon" />
           <span>{{item.meta.name}}</span>
         </a-menu-item>
         <menu-item v-else :menuInfo="item" :key="item.name" />
