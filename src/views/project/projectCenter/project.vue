@@ -52,6 +52,7 @@
                   >
                     <a-select-option
                       v-for="(item,index) in statusArr"
+                      :key="index"
                       :value="item.value"
                     >{{item.label}}</a-select-option>
                   </a-select>
@@ -73,6 +74,7 @@
                     <a-select-option
                       v-for="(item,index) in projectPowerArr"
                       :value="item.value"
+                      :key="index"
                     >{{item.label}}</a-select-option>
                   </a-select>
                 </a-col>
@@ -110,7 +112,7 @@
           >
             <span
               slot="status"
-              slot-scope="text, record, index"
+              slot-scope="text, record"
             >
               <a-switch
                 checkedChildren="启用"
@@ -126,7 +128,7 @@
             <div
               class="action"
               slot="operation"
-              slot-scope="record,index"
+              slot-scope="record"
             >
               <span
                 class="actionSpan"
@@ -311,18 +313,18 @@ export default {
     }
   },
   methods: {
-    //分页栏页数改变
+    // 分页栏页数改变
     projectPageChange(page) {
       this.pagination.pageSize = page.pageSize
       this.pagination.current = page.current
       this.getProjectList()
     },
-    //查询方案列表
+    // 查询方案列表
     searchProjectList() {
       this.pagination.current = 1
       this.getProjectList()
     },
-    //拷贝方案
+    // 拷贝方案
     _copyProject(record) {
       copyProject(record.solutionId).then(res => {
         if (res.success === 'Y') {
@@ -336,15 +338,15 @@ export default {
       this.searchParams.status = ''
       this.searchParams.solutionName = ''
     },
-    //搜索栏状态改变
+    // 搜索栏状态改变
     searchStatusChange(value) {
       this.searchParams.status = value
     },
-    //搜索栏权限改变
+    // 搜索栏权限改变
     powerChange(value) {
       this.searchParams.solutionScope = value
     },
-    //删除方案
+    // 删除方案
     delHandleOk() {
       this.delConfirmLoading = true
       delProjectTask(this.solutionId).then(res => {

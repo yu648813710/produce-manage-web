@@ -1,4 +1,4 @@
-import { axios } from '@/utils/request';
+import { axios } from '@/utils/request'
 const api = {
   warningList: '/monitor/warning/searchMonitorList/gh/realTime'
 }
@@ -109,7 +109,7 @@ export function getTaskDetail(taskInstId) {
 }
 
 // 方案市场列表
-export function planMarketList(params) {
+export function planMarketList (params) {
   return axios({
     url: '/solution/plan/pc/list',
     method: 'POST',
@@ -118,7 +118,7 @@ export function planMarketList(params) {
 }
 
 // 方案详情
-export function planMarketDetail(solutionId) {
+export function planMarketDetail (solutionId) {
   return axios({
     url: `/solution/plan/${solutionId}`,
     method: 'GET'
