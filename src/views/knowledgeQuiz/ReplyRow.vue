@@ -16,13 +16,13 @@
   </div>
 </template>
 <script>
-import Vue from "vue";
-import { Col, Row, Button, Input, Layout } from "ant-design-vue";
-Vue.use(Col);
-Vue.use(Row);
-Vue.use(Button);
-Vue.use(Input);
-Vue.use(Layout);
+import Vue from 'vue'
+import { Col, Row, Button, Input, Layout } from 'ant-design-vue'
+Vue.use(Col)
+Vue.use(Row)
+Vue.use(Button)
+Vue.use(Input)
+Vue.use(Layout)
 
 export default {
   name: 'replyRow',

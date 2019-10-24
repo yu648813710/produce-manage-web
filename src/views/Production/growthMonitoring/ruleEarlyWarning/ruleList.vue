@@ -197,7 +197,7 @@ import {
   Modal,
   LocaleProvider
 } from 'ant-design-vue'
-import { async } from 'q'
+// import { async } from 'q'
 Vue.use(Form)
 Vue.use(Button)
 Vue.use(Icon)
