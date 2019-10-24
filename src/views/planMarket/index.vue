@@ -43,7 +43,7 @@
             <div class="empty-list"><span>暂无数据</span></div>
           </template>
       </div>
-      <a-pagination class="pagination" showQuickJumper :defaultCurrent="1" :total="total" @change="pageOnChange"/>
+      <a-pagination class="pagination" :pageSizeOptions="['6', '12', '18']" showSizeChanger showQuickJumper :defaultCurrent="pageNo" :pageSize="pageSize" :total="total" @change="pageOnChange" @showSizeChange="pageSizeOnChange"/>
     </a-layout>
   </div>
 </template>
@@ -139,7 +139,7 @@ export default {
       form: this.$form.createForm(this, { name: "planMarket" }),
       expand: false,
       collectionItems,
-      pageNo: 0,
+      pageNo: 1,
       pageSize: 6,
       total: 0,
       fetchParams: {}
@@ -186,6 +186,7 @@ export default {
             categoryName: values.field_categoryName === undefined || values.field_categoryName === '' ? null : values.field_categoryName,
             breedName: values.field_breedName === undefined || values.field_breedName === '' ? null : values.field_breedName
           }
+          this.pageNo = 1;
           this.fetchParams = params;
           this.fetchList(params)
         }
@@ -199,6 +200,12 @@ export default {
 
     pageOnChange(pageNumber) {
       this.pageNo = pageNumber;
+      this.fetchList(this.fetchParams);
+    },
+
+    pageSizeOnChange(cfg, pageSize) {
+      this.pageNo = 1;
+      this.pageSize = pageSize
       this.fetchList(this.fetchParams);
     }
   }

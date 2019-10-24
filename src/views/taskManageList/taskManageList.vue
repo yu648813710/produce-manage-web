@@ -16,7 +16,7 @@
         <a-locale-provider :locale="zhCN">
           <a-table
             class="equipmentTable"
-            :scroll="{ x: 1500 }"
+            :scroll="{ x: 1600 }"
             :rowKey="record => record.instId"
             :columns="columns"
             :dataSource="equipmentList"
@@ -28,6 +28,12 @@
               slot="id"
               slot-scope="text, record, index"
             >{{index + 1}}</span>
+            <span
+              slot="useMaterial"
+              class="use-material"
+              slot-scope="text, record, index"
+              :title="text"
+            >{{text}}</span>
             <span
               slot="action"
               slot-scope="text, record"
@@ -189,8 +195,9 @@ export default {
       taskManageList(postData).then(res => {
         if (res.code === 200) {
           this.equipmentList = res.data.records
-          this.pagination.pageNo = current
+          this.pagination.current = current
           this.pagination.pageSize = pageSize
+          this.pagination.total = res.data.total
         }
       })
     },
@@ -337,5 +344,12 @@ export default {
     margin-right: 5px;
     color: #1890ff;
   }
+}
+.use-material {
+  width: 140px;
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 </style>

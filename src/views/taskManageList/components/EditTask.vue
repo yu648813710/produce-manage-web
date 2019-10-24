@@ -11,6 +11,7 @@
         overflow:'auto'
       }"
       :destroyOnClose="true"
+      :maskClosable="false"
       class="task-detail"
       >
       <a-form
@@ -195,7 +196,18 @@
             :key="index"
           >
             <span>{{item.materialName}}</span>
-            <span>{{item.materialDosage}}</span>
+            <span
+              v-if="!item.inputEdit"
+              @click="showInputEditItem(index)"
+            >{{item.materialDosage}}</span>
+            <span v-else>
+              <a-input-number
+                :autofocus="item.inputEdit"
+                v-model="item.materialDosage"
+                @blur="hiddenInputEditItem(index)"
+                style="width:80%;"
+              ></a-input-number>
+            </span>
             <span>{{item.materialUnitName}}</span>
             <span
               class="table-delete"
@@ -244,10 +256,37 @@ export default {
   watch: {
     detailPageData (val) {
       this.detailPageData = val
+      this.detailPageData.taskUseReMaterial.map(res => {
+        res.inputEdit = false
+      })
+      this.$set(this.detailPageData)
+      console.log(this.detailPageData)
       this.editFromSetVal()
     }
   },
   methods: {
+    // 显示农资编辑框
+    showInputEditItem(index) {
+      this.detailPageData.taskUseReMaterial = this.detailPageData.taskUseReMaterial.map(
+        (res, resIndex) => {
+          if (index === resIndex) {
+            res.inputEdit = true
+          }
+          return res
+        }
+      )
+    },
+    // 隐藏农资编辑框
+    hiddenInputEditItem(index) {
+      this.detailPageData.taskUseReMaterial = this.detailPageData.taskUseReMaterial.map(
+        (res, resIndex) => {
+          if (index === resIndex) {
+            res.inputEdit = false
+          }
+          return res
+        }
+      )
+    },
     // 隐藏编辑框
     hiddenEditTask () {
       this.$emit('hiddenEditTask')
@@ -300,10 +339,12 @@ export default {
         )[0].materialName,
         materialUnitName: this.utilData.filter(
           res => res.unitId === values.materialUnitId
-        )[0].unitName
+        )[0].unitName,
+        inputEdit: false
       }
       data = Object.assign(data, values)
       this.detailPageData.taskUseReMaterial.push(data)
+      console.log(this.detailPageData.taskUseReMaterial)
       this.resetRematerialData()
     },
     // 删除农资数据

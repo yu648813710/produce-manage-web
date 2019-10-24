@@ -119,6 +119,7 @@
           <a-table
             :columns="columns"
             :dataSource="list"
+            :scroll="{ x: 1500 }"
             :style="{marginTop: '50px'}"
             :loading="loading"
             :pagination="pagination"
@@ -141,7 +142,6 @@
   </div>
 </template>
 <script>
-const list = []
 import Vue from 'vue'
 import { farmPlanList } from '@/api/farmPlan.js'
 import {
@@ -155,6 +155,7 @@ import {
   Button,
   Table
 } from 'ant-design-vue'
+const list = []
 Vue.use(Layout)
 Vue.use(Breadcrumb)
 Vue.use(Input)
@@ -196,14 +197,26 @@ export default {
         {
           title: '种植方案',
           dataIndex: 'solutionValue.solutionName',
-          key: 'solutionName'
+          key: 'solutionName',
+          width: 160
         },
-        { title: '生长周期', dataIndex: 'cycleName', key: 'cycleName' },
-        { title: '创建人', dataIndex: 'createUserName', key: 'createUserName' },
+        {
+          title: '生长周期',
+          dataIndex: 'cycleName',
+          key: 'cycleName',
+          width: 130
+        },
+        {
+          title: '创建人',
+          dataIndex: 'createUserName',
+          key: 'createUserName',
+          width: 130
+        },
         {
           title: '计划开始时间',
           dataIndex: 'planStartTime',
-          key: 'planStartTime'
+          key: 'planStartTime',
+          width: 140
         },
         {
           title: '操作',
@@ -246,10 +259,10 @@ export default {
       farmPlanList(postData).then(res => {
         if (res.code === 200) {
           this.list = res.data.records
-          this.pagination.pageNo = current
+          this.pagination.current = current
+          this.pagination.total = res.data.total
           this.pagination.pageSize = pageSize
         }
-        console.log(this.list)
       })
     },
     // 页码设置

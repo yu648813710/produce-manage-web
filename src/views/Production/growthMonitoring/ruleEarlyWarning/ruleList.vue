@@ -43,10 +43,13 @@
               html-type="submit"
               @click="searchRuleList"
             >查询</a-button>
-            <a-button :style="{ marginLeft: '8px' }">重置</a-button>
-            <a-button :style="{ marginLeft: '8px', fontSize: '12px' }">
-              <a-icon :type="true ? 'up' : 'down'" />收起
-            </a-button>
+            <a-button
+              @click="restSearch"
+              :style="{ marginLeft: '8px' }"
+            >重置</a-button>
+            <!--            <a-button :style="{ marginLeft: '8px', fontSize: '12px' }">-->
+            <!--              <a-icon :type="true ? 'up' : 'down'" />收起-->
+            <!--            </a-button>-->
           </a-col>
         </a-row>
       </a-form>
@@ -393,6 +396,10 @@ export default {
         地块名称: ''
       })
     },
+    //重置
+    restSearch() {
+      this.searchForm.baseName = ''
+    },
     searchRuleList(page, current) {
       this.getRuleList()
     },
@@ -471,6 +478,7 @@ export default {
         })
         this.formInputVal.user = this.blockLandData.filter(res => {
           if (res.blockLandId === data.blockLandId) {
+            console.log(this.blockLandData)
             return res
           }
         })[0].principalUser

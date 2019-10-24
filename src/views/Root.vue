@@ -3,7 +3,7 @@
     <div class="sider">
       <SideMenu></SideMenu>
     </div>
-    <div class="loadingContent" v-show="loading">
+     <div class="loadingContent" v-show="loading">
       <a-spin :spinning="loading" size="large" />
     </div>
     <div class="content">

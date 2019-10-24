@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <p class="title">欢迎进入柞水木耳信息平台</p>
+    <p class="title">欢迎进入柞水木耳产业销售大数据应用服务平台</p>
     <div class="img">
       <img
         src="@/assets/image/welcome-img.png"

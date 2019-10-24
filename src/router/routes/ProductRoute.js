@@ -166,6 +166,20 @@ export default {
       hidden: true,
       component: () => import('@/views/project/projectCenter/editProject.vue'),
       meta: { name: '修改方案', icon: '' }
+    },
+    {
+      path: '/knowledgeQuiz',
+      name: 'knowledgeQuiz',
+      hidden: true,
+      component: () => import('@/views/knowledgeQuiz'),
+      meta: { name: '知识问答', icon: '' }
+    },
+    {
+      path: '/knowledgeQuizDetail/:questionId',
+      name: 'knowledgeQuizDetail',
+      hidden: true,
+      component: () => import('@/views/knowledgeQuiz/detail.vue'),
+      meta: { name: '知识问答详情', icon: '' }
     }
   ]
 }

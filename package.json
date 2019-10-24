@@ -45,29 +45,6 @@
     "mockjs": "^1.0.1-beta3",
     "vue-template-compiler": "^2.6.10"
   },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "@vue/standard"
-    ],
-    "rules": {
-      "generator-star-spacing": "off",
-      "no-tabs": "off",
-      "no-control-regex": "off",
-      "no-empty-character-class": "off",
-      "no-invalid-regexp": "off",
-      "no-regex-spaces": "off",
-      "no-template-curly-in-string": "off",
-      "vue/no-parsing-error": [2, { "x-invalid-end-tag": false }]
-    },
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
-  },
   "postcss": {
     "plugins": {
       "autoprefixer": {}

@@ -44,7 +44,6 @@ export default {
   },
   methods: {
     toDetail(info) {
-      console.log('info:', info)
       this.$router.push({path: `/planMarketDetail/${info.solutionId}`})
     },
     cmpTime(time) {
