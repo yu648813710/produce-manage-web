@@ -188,7 +188,7 @@ export default {
         taskStatus: '' // 任务状态
       }
       let postData = {
-        page: current,
+        pageNo: current,
         pageSize: pageSize
       }
       postData = Object.assign(postData, queryData_)
