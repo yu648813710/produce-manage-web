@@ -6,11 +6,11 @@
         class="search-box"
         :style="!upDownStatue?'':'height:86px'"
       >
-        <a-row :gutter="24">
+        <a-row :gutter="40">
           <template v-for="(item,index) in searchFormData">
             <a-col
-              v-if="index<4"
-              :span="6"
+              v-if="index<3"
+              :span="8"
               :key="index"
             >
               <a-form-item
@@ -39,11 +39,11 @@
             </a-col>
           </template>
         </a-row>
-        <a-row :gutter="24">
+        <a-row :gutter="40">
           <template v-for="(item,index) in searchFormData">
             <a-col
-              v-if="index>3"
-              :span="6"
+              v-if="index>2"
+              :span="8"
               :key="index"
             >
               <a-form-item
@@ -51,6 +51,18 @@
                 :label-col="{ span: 24 }"
                 :wrapper-col="{ span: 24 }"
               >
+              <a-select
+                  v-if="item.type==='select'"
+                  :placeholder="item.placeholder"
+                  style="width: 100%"
+                  v-model="item.data"
+                >
+                <a-select-option
+                    v-for="(selectItem,key,index) in item.selectData"
+                    :key="index"
+                    :value="selectItem"
+                >{{key}}</a-select-option>
+                </a-select>
                 <a-input
                   v-if="item.type==='input'"
                   :placeholder="item.placeholder"
@@ -76,7 +88,7 @@
             @click="clearSearch"
           >重置</a-button>
           <a-button
-            :style="{ marginLeft: '8px', fontSize: '12px' }"
+            :style="{ marginLeft: '8px' }"
             @click="upDownStatue=!upDownStatue"
           >
             <a-icon :type="!upDownStatue ? 'up' : 'down'" />
@@ -95,7 +107,7 @@ export default {
       // 搜索项表单
       searchForm: {
         farmingNum: '', // 计划编号
-        actionName: '', //农事操作
+        actionName: '', // 农事操作
         farmingTypeName: '', // 农事类型
         taskStatus: '', // 状态
         blockLandName: '', // 地块名称
@@ -161,7 +173,7 @@ export default {
       })
       this.searchForm = {
         farmingNum: '', // 计划编号
-        actionName: '', //农事操作
+        actionName: '', // 农事操作
         farmingTypeName: '', // 农事类型
         taskStatus: '', // 状态
         blockLandName: '', // 地块名称
@@ -183,6 +195,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .form {
+  border-radius: 4px;
   background-color: white;
   padding: 27px 15px 21px 15px;
   .search-box {

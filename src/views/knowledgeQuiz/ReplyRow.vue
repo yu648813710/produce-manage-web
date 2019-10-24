@@ -2,7 +2,7 @@
   <div class="reply-row">
     <a-layout>
       <a-row class="row">
-        <img class="user-icon" src="@/assets/image/logo.png" :alt="info.createUser" />
+        <img class="user-icon" src="@/assets/image/user_easyicon.svg" :alt="info.createUser" />
         <span class="user-name">{{info.createUser}}</span>
         <span class="common-date">{{info.gmtCreate}}</span>
       </a-row>
@@ -16,13 +16,13 @@
   </div>
 </template>
 <script>
-import Vue from "vue";
-import { Col, Row, Button, Input, Layout } from "ant-design-vue";
-Vue.use(Col);
-Vue.use(Row);
-Vue.use(Button);
-Vue.use(Input);
-Vue.use(Layout);
+import Vue from 'vue'
+import { Col, Row, Button, Input, Layout } from 'ant-design-vue'
+Vue.use(Col)
+Vue.use(Row)
+Vue.use(Button)
+Vue.use(Input)
+Vue.use(Layout)
 
 export default {
   name: 'replyRow',

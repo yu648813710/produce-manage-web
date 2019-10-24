@@ -31,7 +31,7 @@
             <span
               slot="useMaterial"
               class="use-material"
-              slot-scope="text, record, index"
+              slot-scope="text"
               :title="text"
             >{{text}}</span>
             <span
@@ -334,6 +334,7 @@ export default {
   padding: 27px 15px 21px 15px;
 }
 .table {
+  border-radius: 4px;
   padding: 20px 16px 24px 16px;
   background-color: white;
   margin-top: 12px;

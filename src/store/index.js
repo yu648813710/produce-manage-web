@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import getters from './getters'
-import baseManagement from "./modules/baseManagement";
+import baseManagement from './modules/baseManagement'
 
 const requireContext = require.context('./modules', true, /\.js$/)
 const modules = { baseManagement }
@@ -14,18 +14,18 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   modules: modules,
   state: {
-    loading: false,
+    loading: false
   },
   mutations: {
-    UPDATE_LOADING(state, val){
+    UPDATE_LOADING(state, val) {
       state.loading = val
-    },
+    }
 
   },
   actions: {
-    updateLoading({commit}, val) {
+    updateLoading({ commit }, val) {
       commit('UPDATE_LOADING', val)
-    },
+    }
   },
   getters
 })

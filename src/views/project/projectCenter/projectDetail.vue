@@ -127,6 +127,7 @@
             <div
               class="growthCycle"
               v-for="(item,index) in solutionPlanCycleList"
+              :key="index"
             >
               <a-button type="primary">{{item.lifeCycleName}}</a-button>
             </div>
@@ -138,6 +139,7 @@
             <span class="item-key">周期时长：</span>
             <div
               v-for="(item,index) in solutionPlanCycleList"
+              :key="index"
               class="growthCycle"
             >
               <a-input
@@ -165,7 +167,7 @@
         >
           <span
             slot="materialName"
-            slot-scope="text, record, index"
+            slot-scope="text, record"
           >{{record.materialName?record.materialName:'-'}}-{{record.materialDosage?record.materialDosage:'-' }}{{record.materialDosageUnit?record.materialDosageUnit:'-'}}</span>
           <span
             slot="id"
@@ -174,13 +176,13 @@
           <div
             class="textOverCtr"
             slot="taskUse"
-            slot-scope="text, record, index"
+            slot-scope="text, record"
             :title="record.taskUse"
           >{{record.taskUse}}</div>
           <div
             class="textOverCtr"
             slot="taskDescription"
-            slot-scope="text, record, index"
+            slot-scope="text, record"
             :title="record.taskDescription"
           >{{record.taskDescription}}</div>
         </a-table>
@@ -214,7 +216,7 @@ Vue.use(Radio)
 Vue.use(Button)
 export default {
   data() {
-    let self = this
+    // let self = this
     return {
       publishConfirmLoading: false,
       publishVisible: false,
@@ -313,7 +315,7 @@ export default {
     backToList() {
       this.$router.push('/projectCenter')
     },
-    //发布任务
+    // 发布任务
     _publishTask() {
       if (this.detail.publishFlag === 'Y') {
         return
@@ -494,4 +496,3 @@ export default {
   }
 }
 </style>
-

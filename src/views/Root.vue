@@ -15,15 +15,15 @@
 <script>
 import { SideMenu } from '@/components'
 import Vue from 'vue'
-import {Spin} from 'ant-design-vue'
+import { Spin } from 'ant-design-vue'
 Vue.use(Spin)
-import { mapState, mapActions, mapMutations, } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 export default {
   name: 'Root',
   components: { SideMenu },
-    computed: {
-        ...mapState(['loading'])
-    },
+  computed: {
+    ...mapState(['loading'])
+  }
 }
 </script>
 <style lang="less" scoped>

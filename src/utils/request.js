@@ -3,7 +3,6 @@ import notification from 'ant-design-vue/es/notification'
 import store from '@/store'
 import { VueAxios } from './axios'
 
-
 // 创建 axios 实例
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // api base_url

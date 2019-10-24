@@ -46,7 +46,7 @@ const crumbsArr = [
     path: ''
   },
   {
-    name: '预警规则',
+    name: '加工车间预警规则列表',
     back: false,
     path: ''
   }

@@ -58,7 +58,7 @@ export default {
     {
       path: '/RuleMonitoringList',
       name: 'RuleMonitoringList',
-      component: () => import('@/views/Production/growthMonitoring/ruleEarlyWarning/ruleList.vue'),
+      component: () => import('@/views/ruleEarlyWarning/ruleList.vue'),
       meta: { name: '地块预警规则列表', icon: '' }
     },
     {
@@ -80,18 +80,19 @@ export default {
           meta: { name: '生长监控大屏', icon: '' }
         },
         {
-          path: 'rulelist',
-          name: 'rulelist',
-          component: () => import('@/views/Production/RuleList/index.vue'),
-          meta: { name: '加工车间预警规则列表', icon: '' }
-        },
-        {
           path: 'warringList/:type',
           name: 'warringList',
           hidden: true,
           component: () => import('@/views/Production/growthMonitore/warringList.vue'),
           meta: { name: '生长监控预警', icon: '' }
         },
+        {
+          path: 'rulelist',
+          name: 'rulelist',
+          hidden: true,
+          component: () => import('@/views/Production/RuleList/index.vue'),
+          meta: { name: '加工车间预警规则列表', icon: '' }
+        }
       ]
     },
     {
@@ -170,7 +171,7 @@ export default {
     {
       path: '/knowledgeQuiz',
       name: 'knowledgeQuiz',
-      hidden: true,
+      hidden: false,
       component: () => import('@/views/knowledgeQuiz'),
       meta: { name: '知识问答', icon: '' }
     },

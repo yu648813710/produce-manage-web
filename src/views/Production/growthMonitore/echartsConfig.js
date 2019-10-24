@@ -1,5 +1,5 @@
 export default {
-  pieEchartsOption(id, self){
+  pieEchartsOption(id, self) {
     let option = id.setOption({
       title: {
         text: '',
@@ -39,9 +39,9 @@ export default {
           center: ['75%', '38%'],
           radius: ['45%', '75%'],
           labelLine: {
-            type: 'dashed', //引导线样式为虚线或者实线
+            type: 'dashed', // 引导线样式为虚线或者实线
             normal: {
-              length: 10, //引导线有两部分，length和length2分别控制两段线的长度
+              length: 10, // 引导线有两部分，length和length2分别控制两段线的长度
               length2: 100,
               lineStyle: {
                 color: '#fff'
@@ -54,12 +54,12 @@ export default {
             }
           },
           label: {
-            //饼图图形上的文本标签
+            // 饼图图形上的文本标签
             show: false
           },
-          //饼图颜色，在有的需求里需要把饼图颜色固定，可在此处进行配置
+          // 饼图颜色，在有的需求里需要把饼图颜色固定，可在此处进行配置
           color: function(params) {
-            //设置需要的颜色集合，把params中的对应数据要显示的颜色进行匹配
+            // 设置需要的颜色集合，把params中的对应数据要显示的颜色进行匹配
             let colorList = [
               '#02FBF8',
               '#FFC100',
@@ -82,7 +82,7 @@ export default {
           }
         }
       ]
-    });
+    })
     return option
-  },
+  }
 }
