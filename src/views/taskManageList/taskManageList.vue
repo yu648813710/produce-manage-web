@@ -31,7 +31,7 @@
             <span
               slot="useMaterial"
               class="use-material"
-              slot-scope="text, record, index"
+              slot-scope="text"
               :title="text"
             >{{text}}</span>
             <span

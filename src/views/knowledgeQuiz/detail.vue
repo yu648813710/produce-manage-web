@@ -76,55 +76,55 @@
 </template>
 
 <script>
-import MyBreadCrumb from "@/components/crumbsNav/CrumbsNav";
-import ReplyRow from './ReplyRow';
-import axios from 'axios';
-import Vue from "vue";
-import { Col, Row, Button, Input, Layout, Pagination, Card, Spin, Icon, Upload, Modal, message } from "ant-design-vue";
-Vue.use(Col);
-Vue.use(Row);
-Vue.use(Button);
-Vue.use(Input);
-Vue.use(Layout);
-Vue.use(Pagination);
-Vue.use(Card);
-Vue.use(Spin);
-Vue.use(Icon);
-Vue.use(Upload);
-Vue.use(Modal);
-import { knowledgeQuizDetail, addKnowledgeQuizReply } from '@/api/productManage';
+import MyBreadCrumb from '@/components/crumbsNav/CrumbsNav'
+import ReplyRow from './ReplyRow'
+import axios from 'axios'
+import Vue from 'vue'
+import { Col, Row, Button, Input, Layout, Pagination, Card, Spin, Icon, Upload, Modal } from 'ant-design-vue'
+import { knowledgeQuizDetail, addKnowledgeQuizReply } from '@/api/productManage'
+Vue.use(Col)
+Vue.use(Row)
+Vue.use(Button)
+Vue.use(Input)
+Vue.use(Layout)
+Vue.use(Pagination)
+Vue.use(Card)
+Vue.use(Spin)
+Vue.use(Icon)
+Vue.use(Upload)
+Vue.use(Modal)
 
 const breadcrumbs = [
-  { name: "方案管理", back: false, path: "" },
-  { name: "知识库问答", back: false, path: "" },
-  { name: "详情", back: false, path: "" }
-];
+  { name: '方案管理', back: false, path: '' },
+  { name: '知识库问答', back: false, path: '' },
+  { name: '详情', back: false, path: '' }
+]
 
 const replyList = [
-  { 
-    id: '000', 
-    userIcon: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg', 
-    userName: '罗沈季', 
-    date: '2019-10-22 16:21', 
-    desc: '这只是一段文字介绍，这只是一段文字介绍', 
+  {
+    id: '000',
+    userIcon: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg',
+    userName: '罗沈季',
+    date: '2019-10-22 16:21',
+    desc: '这只是一段文字介绍，这只是一段文字介绍',
     imgs: [
-      {id: '000', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg'}, 
-      {id: '001', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg'}, 
-      {id: '002', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg'}, 
-      {id: '003', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg'}
+      { id: '000', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg' },
+      { id: '001', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg' },
+      { id: '002', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg' },
+      { id: '003', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg' }
     ]
   },
-  { 
-    id: '001', 
-    userIcon: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg', 
-    userName: '薛灵灵', 
-    date: '2019-10-22 16:21', 
-    desc: '这只是一段文字介绍，这只是一段文字介绍', 
+  {
+    id: '001',
+    userIcon: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg',
+    userName: '薛灵灵',
+    date: '2019-10-22 16:21',
+    desc: '这只是一段文字介绍，这只是一段文字介绍',
     imgs: [
-      {id: '000', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg'}, 
-      {id: '001', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg'}, 
-      {id: '002', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg'}, 
-      {id: '003', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg'}
+      { id: '000', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg' },
+      { id: '001', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg' },
+      { id: '002', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg' },
+      { id: '003', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg' }
     ]
   }
 ]
@@ -152,11 +152,11 @@ export default {
 
       previewVisible: false,
       previewImage: '',
-      fileList: [],
+      fileList: []
     }
   },
   created() {
-      this.fetchDetail()
+    this.fetchDetail()
   },
   methods: {
     fetchDetail() {
@@ -169,9 +169,9 @@ export default {
       knowledgeQuizDetail(postData).then(res => {
         this.isSpinning = false
         if (res && res.success === 'Y') {
-          this.total = res.data && res.data.answers && res.data.answers.total || 0
-          this.replyList = res.data.answers && res.data.answers.records || []
-          this.questionInfo = res.data && res.data.question || {}
+          this.total = (res.data && res.data.answers && res.data.answers.total) || 0
+          this.replyList = (res.data.answers && res.data.answers.records) || []
+          this.questionInfo = (res.data && res.data.question) || {}
           return
         }
         this.replyList = []
@@ -194,7 +194,7 @@ export default {
       addKnowledgeQuizReply(params).then(res => {
         setTimeout(() => {
           self.isRepling = false
-        }, 1000);
+        }, 1000)
         if (res && res.success === 'Y') {
           self.fetchDetail()
           self.$message.success(res.message)
@@ -207,26 +207,26 @@ export default {
     },
 
     cmpTagColor(tag) {
-      return tag === 0 ? '#5ABB3C' : 
-             tag === 1 ? '#FF9801' : '#5ABB3C' 
+      return tag === 0 ? '#5ABB3C'
+        : tag === 1 ? '#FF9801' : '#5ABB3C'
     },
 
     handleReply(e) {
-     this.answerContent = e.target.value || ''
+      this.answerContent = e.target.value || ''
     },
 
     pageOnChange(current) {
-      const pager = { ...this.pagination };
-      pager.current = current;
-      this.pagination = pager;
+      const pager = { ...this.pagination }
+      pager.current = current
+      this.pagination = pager
       this.pageNo = pager.current
       this.fetchDetail({})
     },
 
     pageSizeOnChange(curr, pageSize) {
-      const pager = { ...this.pagination };
-      pager.pageSize = pageSize;
-      this.pagination = pager;
+      const pager = { ...this.pagination }
+      pager.pageSize = pageSize
+      this.pagination = pager
       this.pageNo = 0
       this.pageSize = pager.pageSize
       this.fetchDetail({})
@@ -261,18 +261,18 @@ export default {
     },
 
     handleCancel() {
-      this.previewVisible = false;
+      this.previewVisible = false
     },
     handlePreview(file) {
-      this.previewImage = file.url || file.thumbUrl;
-      this.previewVisible = true;
+      this.previewImage = file.url || file.thumbUrl
+      this.previewVisible = true
     },
     handleChange(file) {
-      this.fileList = file.fileList;
+      this.fileList = file.fileList
       if (file.file.status === 'uploading') {
         this.uploadLoading = true
       }
-    },
+    }
   }
 }
 </script>
