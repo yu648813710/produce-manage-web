@@ -39,7 +39,7 @@
         <div
           class="action"
           slot="operation"
-          slot-scope="record,index"
+          slot-scope="record"
         >
               <span>
                 <router-link :to="{name: 'projectDetail', params: record}">编辑</router-link>
@@ -54,72 +54,70 @@
   </div>
 </template>
 <script>
-    import Vue from 'vue'
-    import {Table, Row, Col, Steps, Radio, icon, Modal, Button, Input, Select} from 'ant-design-vue'
-    import { shiduData } from '@/api/productManage.js'
-    Vue.use(Row)
-    Vue.use(Col)
-    Vue.use(Steps)
-    Vue.use(Radio)
-    Vue.use(icon)
-    Vue.use(Modal)
-    Vue.use(Button)
-    Vue.use(Input)
-    Vue.use(Select)
-    Vue.use(Table)
-    Vue.use(Row)
-    Vue.use(Col)
-    export default {
-        data () {
-            return {
-                detail: this.$route.params,
-                list: [],
-                loading:false,
-                pagination: {
-                    current: 1,
-                    pageSize: 10,
-                    pageSizeOptions: ['10', '20', '30'],
-                    showQuickJumper: true,
-                    showSizeChanger: true,
-                    total: 0,
-                    showTotal: total => `共 ${total} 条`
-                },
-                columns: [
-                    { title: '序号', scopedSlots: { customRender: 'id' }, align: 'center' },
-                    {title: '基地名称', dataIndex: 'solutionName'},
-                    {title: '地块名称', dataIndex: 'categoryName'},
-                    {title: '温度', dataIndex: 'expertName'},
-                    {title: '湿度', dataIndex: 'companyName'},
-                    {
-                        title: '状态',
-                        dataIndex: 'status'
-                    },
-                    {title: '异常原因', dataIndex: 'companyName'},
-                ]
-            }
+import Vue from 'vue'
+import { Table, Row, Col, Steps, Radio, icon, Modal, Button, Input, Select } from 'ant-design-vue'
+import { shiduData } from '@/api/productManage.js'
+Vue.use(Row)
+Vue.use(Col)
+Vue.use(Steps)
+Vue.use(Radio)
+Vue.use(icon)
+Vue.use(Modal)
+Vue.use(Button)
+Vue.use(Input)
+Vue.use(Select)
+Vue.use(Table)
+Vue.use(Row)
+Vue.use(Col)
+export default {
+  data () {
+    return {
+      detail: this.$route.params,
+      list: [],
+      loading: false,
+      pagination: {
+        current: 1,
+        pageSize: 10,
+        pageSizeOptions: ['10', '20', '30'],
+        showQuickJumper: true,
+        showSizeChanger: true,
+        total: 0,
+        showTotal: total => `共 ${total} 条`
+      },
+      columns: [
+        { title: '序号', scopedSlots: { customRender: 'id' }, align: 'center' },
+        { title: '基地名称', dataIndex: 'solutionName' },
+        { title: '地块名称', dataIndex: 'categoryName' },
+        { title: '温度', dataIndex: 'expertName' },
+        { title: '湿度', dataIndex: 'companyName' },
+        {
+          title: '状态',
+          dataIndex: 'status'
         },
-        mounted() {
-            this.getShiduData();
-
-        },
-        methods: {
-            getShiduData(){
-                let postData = {
-                    pageNo: 1,
-                    pageSize: 10,
-                    value: "",
-                }
-                let typeList = {
-                    dikuai:'gh',
-                    type:'temperature',
-                }
-                shiduData(postData,typeList).then((res)=>{
-                    console.log(res)
-
-                })
-            },
-        },
+        { title: '异常原因', dataIndex: 'companyName' }
+      ]
     }
+  },
+  mounted() {
+    this.getShiduData()
+  },
+  methods: {
+    getShiduData() {
+      let postData = {
+        pageNo: 1,
+        pageSize: 10,
+        value: ''
+      }
+      let typeList = {
+        dikuai: 'gh',
+        type: 'temperature'
+      }
+      shiduData(postData, typeList).then((res) => {
+        console.log(res)
+      })
+    }
+  }
+}
 </script>
 <style lang="less" scoped>
   .table-wrapper {
@@ -187,6 +185,4 @@
     }
   }
 
-
 </style>
-

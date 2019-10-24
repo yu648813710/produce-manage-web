@@ -15,7 +15,7 @@
     <div class="topContent">
       <div class="echartsBox">
         <div class="echartsLegend">
-          <div class="legendBox" v-for="(item,index) in lineLegend" @click="changeLine(index)">
+          <div class="legendBox" v-for="(item,index) in lineLegend" :key="index" @click="changeLine(index)">
             <span class="legend" :class="lineIndex === index ? 'isSelect' : ''"></span>
             <span>{{item.label}}</span>
           </div>
@@ -30,7 +30,7 @@
 
         </div>
         <div class="echartsLegend">
-          <div class="legendBox" v-for="(item,index) in lineLegend" @click="changePrice(index)">
+          <div class="legendBox" v-for="(item,index) in lineLegend" :key="index" @click="changePrice(index)">
             <span class="legend" :class="priceIndex === index ? 'isSelect' : ''"></span>
             <span>{{item.label}}</span>
           </div>
@@ -44,7 +44,7 @@
         <span class="echartsLabel">各区域木耳价格</span>
         <div class="echartsContent">
           <div class="tableContent">
-            <div v-for="(item, index) in columns">{{item.title}}</div>
+            <div v-for="(item, index) in columns" :key="index">{{item.title}}</div>
           </div>
           <vue-seamless-scroll
             :data="list"
@@ -52,7 +52,7 @@
             style="overflow: hidden;"
           >
             <div class="tableBox">
-              <div class="tableContent" v-for="(item, index) in list">
+              <div class="tableContent" v-for="(item, index) in list" :key="index">
                 <div>{{item.productType}}</div>
                 <div>{{item.cityName}}</div>
                 <div>{{item.productPrice}}</div>
@@ -63,7 +63,6 @@
               </div>
             </div>
           </vue-seamless-scroll>
-
 
         </div>
       </div>
@@ -78,206 +77,204 @@
 </template>
 
 <script>
-  import split_bg from '../ststic/split_bg.png'
-  import domUtil from "../../../utils/domUtil";
-  import legend_circle from '../ststic/legend_circle.png';
-  import Vue from 'vue'
-  import { Row,Col} from 'ant-design-vue'
-  Vue.use(Row)
-  Vue.use(Col)
-  import {getLineData , getQipaoData, getTableData, getPieData} from '@/api/marketStatic.js'
-  import echartsConfig from "./echartsConfig";
-    export default {
-        name: "marketStatic",
-        data() {
-            return {
-                classOption: {
-                    direction: 1,
-                    step: 0.5,
-                    limitMoveNum: 6,
-                },
-                split_bg,
-                legend_circle,
-                lineLegend:[
-                    {label: '黑木耳'},
-                    {label: '玉木耳'},
-                    {label: '金木耳'}
-                ],
-                list: [
-                    {
-                        productType: '产品品种',
-                        region: '区域',
-                        price: '单价',
-                        percent: '环比',
-                        salesVolume: '销售量'
-                    },
-                    {
-                        productType: '产品品类',
-                        productName: '产品名称',
-                        region: '区域',
-                        price: '单价',
-                        percent: '环比',
-                        salesVolume: '销售量'
-                    }
-                ],
-                loading: false,
-                pagination: {
-                    current: 1,
-                    pageSize: 10,
-                    pageSizeOptions: ['10', '20', '30'],
-                    showQuickJumper: true,
-                    showSizeChanger: true,
-                    total: 0,
-                    showTotal: total => `共 ${total} 条`
-                },
-                columns: [
-                    {title: '产品品种', dataIndex: 'productType'},
-                    {title: '区域', dataIndex: 'cityName'},
-                    {title: '单价', dataIndex: 'price'},
-                    {title: '环比', dataIndex: 'periodRatio',},
-                    // {title: '销量（斤）', dataIndex: 'sellAmount'},
-                ],
-                blackData: [],
-                lineTime:[],
-                priceData: [0,0,0,0,0,0,0],
-                zoneNameList: ["华中地区","华南地区","华北地区","华东地区","东北地区","西北地区",'西南地区'],
-                pieData:[
-                    {value:1000,name:'华中'},
-                    {value:2000,name:'华东'},
-                    {value:1200,name:'华中2'},
-                    {value:1500,name:'华中33'},
-                    {value:1400,name:'华中111'},
-                ],
-                setTime:'',
-                lineIndex: 0,
-                priceIndex: 0,
-                pieTotal: 0,
-            }
+import split_bg from '../ststic/split_bg.png'
+import domUtil from '../../../utils/domUtil'
+import legend_circle from '../ststic/legend_circle.png'
+import Vue from 'vue'
+import { Row, Col } from 'ant-design-vue'
+import { getLineData, getQipaoData, getTableData, getPieData } from '@/api/marketStatic.js'
+import echartsConfig from './echartsConfig'
+Vue.use(Row)
+Vue.use(Col)
+export default {
+  name: 'marketStatic',
+  data() {
+    return {
+      classOption: {
+        direction: 1,
+        step: 0.5,
+        limitMoveNum: 6
+      },
+      split_bg,
+      legend_circle,
+      lineLegend: [
+        { label: '黑木耳' },
+        { label: '玉木耳' },
+        { label: '金木耳' }
+      ],
+      list: [
+        {
+          productType: '产品品种',
+          region: '区域',
+          price: '单价',
+          percent: '环比',
+          salesVolume: '销售量'
         },
-        mounted() {
-            let self = this;
-            self.changeLine(0);
-            self.changePrice(0);
-            self.getPieData();
-            self.setTableData();
-            window.addEventListener('resize', () => {
-                this.myChart.resize()
-            })
-        },
-        beforeDestroy(){
-            clearInterval(this.setTime)
-        },
-        methods: {
-            formatterRadio(data){
-                if(data.indexOf('-') >= 0){
-                    return data.split('-')[1]
-                }
-                return data
-            },
-            async changeLine(index){
-                this.lineIndex = index;
-                if(this.lineIndex === 0){
-                    await this.setLineData('black_agaric')
-                }else if(this.lineIndex === 1){
-                    await this.setLineData('yu_agaric')
-                }else if(this.lineIndex === 2){
-                    await this.setLineData('jin_agaric')
-                }
-            },
-            changePrice(index){
-                this.priceIndex = index;
-                if(index === 0){
-                    this.getPriceData('black_agaric');
-                }else if(index === 1){
-                    // this.priceData = [33,44,55,66,77,22,11]
-                    this.getPriceData('yu_agaric');
-                }else if(index === 2){
-                    // this.priceData = [33,11,55,11,66,33,44]
-                    this.getPriceData('jin_agaric');
-                }
-            },
-            async getPriceData(type){
-                await getQipaoData(type).then((res) => {
-                    let data = res.data;
-                    if(res.data.length === 0 ){
-                        this.blackData = []
-                        this.lineTime = [];
-                        this.priceData = [0,0,0,0,0,0,0];
-                        this.initCycleEcharts()
-                    }else{
-                        for(let i = 0; i< data.length; i++){
-                            for(let j = 0; j < this.zoneNameList.length; j++){
-                                if(data[i].zoneName == this.zoneNameList[j]){
-                                    this.priceData[this.zoneNameList.indexOf(this.zoneNameList[j])] = data[i].productPrice
-                                }
-                            }
-                            this.blackData.push(data[i].productPrice);
-                            this.lineTime.push(domUtil.formDate(data[i].time))
-                        }
-                        this.initCycleEcharts()
-                    }
-
-                })
-            },
-            setTableData(){
-                getTableData().then((res) => {
-                    this.list = res.data;
-                })
-            },
-            getPieData(){
-                let self = this;
-                this.pieData = [];
-                this.pieTotal = 0;
-                for(let i = 0;i<this.pieData.length;i++){
-                    this.pieTotal += this.pieData[i].value
-                }
-                getPieData().then((res) => {
-                    for(let i=0; i< res.data.length; i++){
-                        this.pieData.push(
-                            {value: res.data[i].sellAmount, name: res.data[i].zoneName}
-                        )
-                        self.initLoudouEcharts()
-                    }
-                })
-
-            },
-            async setLineData(type){
-                this.blackData = [];
-                this.lineTime = [];
-                let dateList = [];
-                getLineData(type).then((res) => {
-                    let data = res.data;
-                    for(let i = 0; i< data.length; i++){
-                        dateList.push(domUtil.formDate(data[i].time))
-                        this.blackData.push(data[i].productPrice);
-                    }
-                    this.lineTime = dateList;
-                    this.initLineEcharts()
-                })
-            },
-            initLineEcharts() {
-                let self = this;
-                // 基于准备好的dom，初始化echarts实例
-                let myChart = this.$echarts.init(document.getElementById('myChart'))
-                // 绘制图表
-                echartsConfig.lineEchartsOption(myChart, self)
-            },
-            initCycleEcharts() {
-                let self = this;
-                // 基于准备好的dom，初始化echarts实例
-                let myChart = this.$echarts.init(document.getElementById('piceChart'))
-                // 绘制图表
-                echartsConfig.cycleEchartsOption(myChart, self)
-            },
-            initLoudouEcharts(){
-                let self = this;
-                // 基于准备好的dom，初始化echarts实例
-                let myChart = this.$echarts.init(document.getElementById('barChart'))
-                // 绘制图表
-                echartsConfig.loudouEchartsOption(myChart, self)
-            },
-        },
+        {
+          productType: '产品品类',
+          productName: '产品名称',
+          region: '区域',
+          price: '单价',
+          percent: '环比',
+          salesVolume: '销售量'
+        }
+      ],
+      loading: false,
+      pagination: {
+        current: 1,
+        pageSize: 10,
+        pageSizeOptions: ['10', '20', '30'],
+        showQuickJumper: true,
+        showSizeChanger: true,
+        total: 0,
+        showTotal: total => `共 ${total} 条`
+      },
+      columns: [
+        { title: '产品品种', dataIndex: 'productType' },
+        { title: '区域', dataIndex: 'cityName' },
+        { title: '单价', dataIndex: 'price' },
+        { title: '环比', dataIndex: 'periodRatio' }
+        // {title: '销量（斤）', dataIndex: 'sellAmount'},
+      ],
+      blackData: [],
+      lineTime: [],
+      priceData: [0, 0, 0, 0, 0, 0, 0],
+      zoneNameList: ['华中地区', '华南地区', '华北地区', '华东地区', '东北地区', '西北地区', '西南地区'],
+      pieData: [
+        { value: 1000, name: '华中' },
+        { value: 2000, name: '华东' },
+        { value: 1200, name: '华中2' },
+        { value: 1500, name: '华中33' },
+        { value: 1400, name: '华中111' }
+      ],
+      setTime: '',
+      lineIndex: 0,
+      priceIndex: 0,
+      pieTotal: 0
     }
+  },
+  mounted() {
+    let self = this
+    self.changeLine(0)
+    self.changePrice(0)
+    self.getPieData()
+    self.setTableData()
+    window.addEventListener('resize', () => {
+      this.myChart.resize()
+    })
+  },
+  beforeDestroy() {
+    clearInterval(this.setTime)
+  },
+  methods: {
+    formatterRadio(data) {
+      if (data.indexOf('-') >= 0) {
+        return data.split('-')[1]
+      }
+      return data
+    },
+    async changeLine(index) {
+      this.lineIndex = index
+      if (this.lineIndex === 0) {
+        await this.setLineData('black_agaric')
+      } else if (this.lineIndex === 1) {
+        await this.setLineData('yu_agaric')
+      } else if (this.lineIndex === 2) {
+        await this.setLineData('jin_agaric')
+      }
+    },
+    changePrice(index) {
+      this.priceIndex = index
+      if (index === 0) {
+        this.getPriceData('black_agaric')
+      } else if (index === 1) {
+        // this.priceData = [33,44,55,66,77,22,11]
+        this.getPriceData('yu_agaric')
+      } else if (index === 2) {
+        // this.priceData = [33,11,55,11,66,33,44]
+        this.getPriceData('jin_agaric')
+      }
+    },
+    async getPriceData(type) {
+      await getQipaoData(type).then((res) => {
+        let data = res.data
+        if (res.data.length === 0) {
+          this.blackData = []
+          this.lineTime = []
+          this.priceData = [0, 0, 0, 0, 0, 0, 0]
+          this.initCycleEcharts()
+        } else {
+          for (let i = 0; i < data.length; i++) {
+            for (let j = 0; j < this.zoneNameList.length; j++) {
+              if (data[i].zoneName === this.zoneNameList[j]) {
+                this.priceData[this.zoneNameList.indexOf(this.zoneNameList[j])] = data[i].productPrice
+              }
+            }
+            this.blackData.push(data[i].productPrice)
+            this.lineTime.push(domUtil.formDate(data[i].time))
+          }
+          this.initCycleEcharts()
+        }
+      })
+    },
+    setTableData() {
+      getTableData().then((res) => {
+        this.list = res.data
+      })
+    },
+    getPieData() {
+      let self = this
+      this.pieData = []
+      this.pieTotal = 0
+      for (let i = 0; i < this.pieData.length; i++) {
+        this.pieTotal += this.pieData[i].value
+      }
+      getPieData().then((res) => {
+        for (let i = 0; i < res.data.length; i++) {
+          this.pieData.push(
+            { value: res.data[i].sellAmount, name: res.data[i].zoneName }
+          )
+          self.initLoudouEcharts()
+        }
+      })
+    },
+    async setLineData(type) {
+      this.blackData = []
+      this.lineTime = []
+      let dateList = []
+      getLineData(type).then((res) => {
+        let data = res.data
+        for (let i = 0; i < data.length; i++) {
+          dateList.push(domUtil.formDate(data[i].time))
+          this.blackData.push(data[i].productPrice)
+        }
+        this.lineTime = dateList
+        this.initLineEcharts()
+      })
+    },
+    initLineEcharts() {
+      let self = this
+      // 基于准备好的dom，初始化echarts实例
+      let myChart = this.$echarts.init(document.getElementById('myChart'))
+      // 绘制图表
+      echartsConfig.lineEchartsOption(myChart, self)
+    },
+    initCycleEcharts() {
+      let self = this
+      // 基于准备好的dom，初始化echarts实例
+      let myChart = this.$echarts.init(document.getElementById('piceChart'))
+      // 绘制图表
+      echartsConfig.cycleEchartsOption(myChart, self)
+    },
+    initLoudouEcharts() {
+      let self = this
+      // 基于准备好的dom，初始化echarts实例
+      let myChart = this.$echarts.init(document.getElementById('barChart'))
+      // 绘制图表
+      echartsConfig.loudouEchartsOption(myChart, self)
+    }
+  }
+}
 </script>
 
 <style scoped lang="less">

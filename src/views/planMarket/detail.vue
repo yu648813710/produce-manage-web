@@ -79,21 +79,21 @@
 </template>
 
 <script>
-import Vue from 'vue';
-import { Layout, Row, Col, Card, Table, Radio, Button, Pagination, message } from 'ant-design-vue';
-Vue.use(Layout);
-Vue.use(Row);
-Vue.use(Col);
-Vue.use(Card);
-Vue.use(Table);
-Vue.use(Radio);
-Vue.use(Button);
-Vue.use(Pagination);
-import { planMarketDetail, planMarketDetailList } from '@/api/productManage';
-import formDate from '@/utils/domUtil';
+import Vue from 'vue'
+import { Layout, Row, Col, Card, Table, Radio, Button, Pagination, message } from 'ant-design-vue'
+import { planMarketDetail, planMarketDetailList } from '@/api/productManage'
+import formDate from '@/utils/domUtil'
+Vue.use(Layout)
+Vue.use(Row)
+Vue.use(Col)
+Vue.use(Card)
+Vue.use(Table)
+Vue.use(Radio)
+Vue.use(Button)
+Vue.use(Pagination)
 
 const columns = [
-  { title: "序号", key: "itemIndex", scopedSlots: { customRender: 'itemIndex' } },
+  { title: '序号', key: 'itemIndex', scopedSlots: { customRender: 'itemIndex' } },
   { title: '任务操作', dataIndex: 'actionName', key: 'actionName' },
   { title: '所属周期', dataIndex: 'cycleName', key: 'cycleName' },
   { title: '农事类型', dataIndex: 'farmingTypeName', key: 'farmingTypeName' },
@@ -136,7 +136,7 @@ export default {
     }
   },
   created () {
-    this.fetchInfos(this.solutionId);
+    this.fetchInfos(this.solutionId)
   },
   methods: {
     fetchInfos (solutionId) {
@@ -174,13 +174,13 @@ export default {
       }
       planMarketDetailList(params).then(res => {
         if (res && res.success === 'Y') {
-          let list = res.data && res.data.records || []
+          let list = (res.data && res.data.records) || []
           for (let i = 0; i < list.length; i++) {
             list[i].id = list[i].planCycleId + i
           }
-          const pagination = { ...this.pagination };
-          pagination.total = res.data && res.data.total;
-          this.pagination = pagination;
+          const pagination = { ...this.pagination }
+          pagination.total = res.data && res.data.total
+          this.pagination = pagination
           this.list = list
           return
         }
@@ -254,16 +254,16 @@ export default {
 
     sortByKey (array, key) {
       return array.sort(function (a, b) {
-        var x = a[key];
-        var y = b[key];
-        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+        var x = a[key]
+        var y = b[key]
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0))
       })
     },
 
     cmpUsers (users) {
       let str = ''
       for (let i in users) {
-        if (i != users.length - 1) {
+        if (i !== users.length - 1) {
           str += users[i].userName + ','
         } else {
           str += users[i].userName
@@ -273,14 +273,14 @@ export default {
     },
 
     pageOnChange (cfg) {
-      const pager = { ...this.pagination };
-      pager.current = cfg.current;
-      pager.pageSize = cfg.pageSize;
-      this.pagination = pager;
+      const pager = { ...this.pagination }
+      pager.current = cfg.current
+      pager.pageSize = cfg.pageSize
+      this.pagination = pager
       this.pageNo = pager.current
       this.pageSize = pager.pageSize
       this.fetchList()
-    },
+    }
   }
 }
 </script>

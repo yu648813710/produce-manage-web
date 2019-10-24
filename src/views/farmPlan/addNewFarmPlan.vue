@@ -457,7 +457,7 @@ export default {
     },
     requestSelctProduct() {
       selectProFarmPlan().then(res => {
-        if (res.code == 200) {
+        if (res.code === 200) {
           this.frameTypeArr = res.data
         }
       })

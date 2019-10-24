@@ -173,10 +173,10 @@ export default {
       e.preventDefault()
       this.form.validateFields((error, values) => {
         if (error === null || !error) {
-          let params = {
-            userAccount: self.userName,
-            password: self.passwd
-          }
+          // let params = {
+          //   userAccount: self.userName,
+          //   password: self.passwd
+          // }
           // self.$api.postLogin(params).then(async res => {
           //     message.success(res.data.resultMsg)
           //     // 登录后页面跳转
@@ -191,7 +191,7 @@ export default {
           //         self.SET_BURNSOCKETTAG(rdm)
           //     })
           // })
-          if (this.userName === 'admin' && this.passwd == '123456') {
+          if (this.userName === 'admin' && this.passwd === '123456') {
             self.$store.commit('SET_USERTOKEN', '123')
             self.$router.push('/')
           } else {
