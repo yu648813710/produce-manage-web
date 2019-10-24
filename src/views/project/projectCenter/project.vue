@@ -9,78 +9,69 @@
     <a-layout>
       <a-layout-content style="margin: 16px">
         <div class="search-wrapper">
-          <a-row :gutter="40">
-            <a-col :span="6">
-              <a-row>
-                <a-col :span="6">
-                  <span class="search-title">方案名称</span>
-                </a-col>
-                <a-col :span="18">
+          <a-form :form="sreachFrom" @submit="handleSearchClick">
+            <a-row>
+              <a-col :span="8">
+                <a-form-item label="方案名称" :label-col="{ span: 24 }" :wrapper-col="{ span: 20 }">
                   <a-input
-                    v-model="searchParams.solutionName"
                     placeholder="请输入方案名称"
-                    class="search-input"
+                    v-decorator="[
+                      'solutionName',
+                      { rules: [{ required: false, message: '' }] },
+                    ]"
                   />
-                </a-col>
-              </a-row>
-            </a-col>
-            <a-col :span="6">
-              <a-row>
-                <a-col :span="6">
-                  <span class="search-title">产品品种</span>
-                </a-col>
-                <a-col :span="18">
+                </a-form-item>
+              </a-col>
+              <a-col :span="8">
+                <a-form-item label="产品品种" :label-col="{ span: 24 }" :wrapper-col="{ span: 20 }">
                   <a-input
-                    v-model="searchParams.breedName"
-                    placeholder="请输入产品名称"
-                    class="search-input"
+                    placeholder="请输入产品品种"
+                    v-decorator="[
+                      'breedName',
+                      { rules: [{ required: false, message: '' }] },
+                    ]"
                   />
-                </a-col>
-              </a-row>
-            </a-col>
-            <a-col :span="6">
-              <a-row>
-                <a-col :span="6">
-                  <span class="search-title">状态</span>
-                </a-col>
-                <a-col :span="18">
+                </a-form-item>
+              </a-col>
+              <a-col :span="8">
+                <a-form-item label="状态" :label-col="{ span: 24 }" :wrapper-col="{ span: 20 }">
                   <a-select
-                    class="detail-input"
                     placeholder="请选择状态"
+                    :allowClear="true"
+                    class="search-input"
                     style="width: 100%"
-                    @change="searchStatusChange"
+                    v-decorator="[
+                      'status',
+                      { rules: [{ required: false, message: '' }] },
+                    ]"
                   >
-                    <a-select-option
-                      v-for="(item,index) in statusArr"
-                      :key="index"
-                      :value="item.value"
-                    >{{item.label}}</a-select-option>
+                    <a-select-option v-for="(item, index) in statusArr" :key="item.value" :value="item.value">
+                      {{item.label}}
+                    </a-select-option>
                   </a-select>
-                </a-col>
-              </a-row>
-            </a-col>
-            <a-col :span="6">
-              <a-row>
-                <a-col :span="6">
-                  <span class="search-title">方案权限</span>
-                </a-col>
-                <a-col :span="18">
+                </a-form-item>
+              </a-col>
+              <a-col :span="8">
+                <a-form-item label="方案权限" :label-col="{ span: 24 }" :wrapper-col="{ span: 20 }">
                   <a-select
-                    class="detail-input"
                     placeholder="请选择方案权限"
+                    :allowClear="true"
+                    class="search-input"
                     style="width: 100%"
-                    @change="powerChange"
+                    v-decorator="[
+                      'solutionScope',
+                      { rules: [{ required: false, message: '' }] },
+                    ]"
                   >
-                    <a-select-option
-                      v-for="(item,index) in projectPowerArr"
-                      :value="item.value"
-                      :key="index"
-                    >{{item.label}}</a-select-option>
+                    <a-select-option v-for="(item, index) in projectPowerArr" :key="item.value" :value="item.value">
+                      {{item.label}}
+                    </a-select-option>
                   </a-select>
-                </a-col>
-              </a-row>
-            </a-col>
-          </a-row>
+                </a-form-item>
+              </a-col>
+            </a-row>
+          </a-form>
+
           <div>
             <a-button
               class="button"
@@ -89,7 +80,7 @@
             <a-button
               type="primary"
               class="button"
-              @click="searchProjectList"
+              @click="handleSearchClick"
             >查询</a-button>
           </div>
         </div>
@@ -112,7 +103,7 @@
           >
             <span
               slot="status"
-              slot-scope="text, record"
+              slot-scope="text, record, index"
             >
               <a-switch
                 checkedChildren="启用"
@@ -128,7 +119,7 @@
             <div
               class="action"
               slot="operation"
-              slot-scope="record"
+              slot-scope="record,index"
             >
               <span
                 class="actionSpan"
@@ -140,10 +131,7 @@
                 class="actionSpan"
                 @click="_copyProject(record)"
               >拷贝</span>
-              <span
-                slot-scope="record"
-                v-if="record.publishFlag!=='Y'"
-              >
+              <span>
                 <router-link :to="{name: 'editProject', params: record}">编辑</router-link>
               </span>
               <span
@@ -192,10 +180,12 @@ import {
   Cascader,
   Button,
   Table,
-  Select
+  Select,
+    Form
 } from 'ant-design-vue'
 
 Vue.use(Layout)
+Vue.use(Form)
 Vue.use(Switch)
 Vue.use(Select)
 Vue.use(Modal)
@@ -217,6 +207,7 @@ export default {
   },
   data() {
     return {
+        sreachFrom: this.$form.createForm(this),
       crumbsArr: [
         { name: '当前位置', back: false, path: '' },
         { name: '生产管理', back: false, path: '' },
@@ -313,18 +304,28 @@ export default {
     }
   },
   methods: {
-    // 分页栏页数改变
+      handleSearchClick(){
+          this.sreachFrom.validateFields((err, values) => {
+              console.log(values)
+              this.pagination.current = 1
+              this.searchParams.solutionScope = values.solutionScope ? values.solutionScope : '';
+              this.searchParams.status = values.status ? values.status : '';
+              this.searchParams.solutionName = values.solutionName ? values.solutionName : '';
+              this.searchParams.breedName = values.breedName ? values.breedName : '';
+              this.getProjectList();
+          })
+      },
+    //分页栏页数改变
     projectPageChange(page) {
       this.pagination.pageSize = page.pageSize
       this.pagination.current = page.current
       this.getProjectList()
     },
-    // 查询方案列表
+    //查询方案列表
     searchProjectList() {
-      this.pagination.current = 1
       this.getProjectList()
     },
-    // 拷贝方案
+    //拷贝方案
     _copyProject(record) {
       copyProject(record.solutionId).then(res => {
         if (res.success === 'Y') {
@@ -337,16 +338,18 @@ export default {
       this.searchParams.solutionScope = ''
       this.searchParams.status = ''
       this.searchParams.solutionName = ''
+      this.sreachFrom.resetFields();
+      this.getProjectList();
     },
-    // 搜索栏状态改变
+    //搜索栏状态改变
     searchStatusChange(value) {
       this.searchParams.status = value
     },
-    // 搜索栏权限改变
+    //搜索栏权限改变
     powerChange(value) {
       this.searchParams.solutionScope = value
     },
-    // 删除方案
+    //删除方案
     delHandleOk() {
       this.delConfirmLoading = true
       delProjectTask(this.solutionId).then(res => {
@@ -391,9 +394,9 @@ export default {
       projectList(postData).then(res => {
         let unit = ''
         for (let i = 0; i < res.data.records.length; i++) {
-          if (+res.data.records[i].cycleUnit === 5) {
+          if (res.data.records[i].cycleUnit == 3) {
             unit = '天'
-          } else if (+res.data.records[i].cycleUnit === 3) {
+          } else if (res.data.records[i].cycleUnit == 5) {
             unit = '周'
           }
           res.data.records[i].cycleTotalLength =
@@ -413,7 +416,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.crumbCtr {
+.crumbCtr{
   height: 20px;
   line-height: 20px;
   margin-top: 20px;
@@ -437,7 +440,7 @@ export default {
   padding: 24px;
   background: #fff;
   margin-bottom: 10px;
-  height: 168px;
+  height: 260px;
   border-radius: 4px;
 
   .search-input-wrapper {
