@@ -2,80 +2,82 @@
   <div class="knowledge-quiz">
     <a-layout style="margin: 16px;background: #eee;">
       <MyBreadCrumb :crumbsArr="breadcrumbs"></MyBreadCrumb>
-      <a-form class="form-fields" :form="form" @submit="handleSubmit">
-        <a-row :gutter="24">
-          <a-col
-            v-for="(item, index) in fields"
-            :key="'field' + item.id"
-            :span="8"
-            :style="{ display: index < count ? 'block' : 'none' }"
-          >
-            <a-form-item :label="item.label" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-              <a-input
-                v-if="index === 0 || index === 1"
-                :placeholder="item.placeholder"
-                v-decorator="[`field_${item.id}`, {
-                  rules: item.validators
-                }]"
-              />
-              <template v-else-if="index === 5 || index === 6">
-                <a-date-picker
-                  :disabledDate="disabledStartDate"
-                  style="width:45%"
-                  mode="date"
-                  format="YYYY-MM-DD HH:mm:ss"
-                  :placeholder="item.placeholder"
-                  @change="handleStartOpenChange"
-                  v-model="startDate"
-                />
-                <span style="height:1px;width:3%;margin: 0 2%;">━━</span>
-                <a-date-picker
-                  :disabledDate="disabledEndDate"
-                  style="width:45%"
-                  mode="date"
-                  format="YYYY-MM-DD HH:mm:ss"
-                  :placeholder="item.placeholder"
-                  @change="handleEndOpenChange"
-                  v-model="endDate"
-                />
-              </template>
-              <a-select
-                v-if="index === 2 && item.arrs.length > 0"
-                notFoundContent="未匹配到数据"
-                v-decorator="[`select_${item.id}`, {
-                  rules: item.validators
-                }]"
-                :placeholder="item.placeholder"
-              >
-                <a-select-option v-for="i in item.arrs" :key="i.targetClazz">{{i.clazzName}}</a-select-option>
-              </a-select>
-              <a-select
-                v-if="index === 3 || index === 4"
-                notFoundContent="未匹配到数据"
-                v-decorator="[`select_${item.id}`, {
-                  rules: item.validators
-                }]"
-                :placeholder="item.placeholder"
-              >
-                <a-select-option v-for="i in item.arrs" :key="i.id">{{i.label}}</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row>
-          <a-col>
-            <a-button type="primary" html-type="submit">查询</a-button>
-            <a-button :style="{ marginLeft: '8px' }" @click="handleReset">重置</a-button>
-            <span
-              :style="{ marginLeft: '8px', cursor: 'pointer' }"
-              @click="() => {expand = !expand}"
+      <div class="search-wrapper">
+        <a-form class="form-fields" :form="form" @submit="handleSubmit">
+          <a-row :gutter="24">
+            <a-col
+              v-for="(item, index) in fields"
+              :key="'field' + item.id"
+              :span="8"
+              :style="{ display: index < count ? 'block' : 'none' }"
             >
-              {{expand ? '收起' : '展开'}}
-              <a-icon :type="expand ? 'up' : 'down'" />
-            </span>
-          </a-col>
-        </a-row>
-      </a-form>
+              <a-form-item :label="item.label">
+                <a-input
+                  v-if="index === 0 || index === 1"
+                  :placeholder="item.placeholder"
+                  v-decorator="[`field_${item.id}`, {
+                    rules: item.validators
+                  }]"
+                />
+                <template v-else-if="index === 5 || index === 6">
+                  <a-date-picker
+                    :disabledDate="disabledStartDate"
+                    style="width:45%"
+                    mode="date"
+                    format="YYYY-MM-DD HH:mm:ss"
+                    :placeholder="item.placeholder"
+                    @change="handleStartOpenChange"
+                    v-model="startDate"
+                  />
+                  <span style="height:1px;width:3%;margin: 0 2%;">━━</span>
+                  <a-date-picker
+                    :disabledDate="disabledEndDate"
+                    style="width:45%"
+                    mode="date"
+                    format="YYYY-MM-DD HH:mm:ss"
+                    :placeholder="item.placeholder"
+                    @change="handleEndOpenChange"
+                    v-model="endDate"
+                  />
+                </template>
+                <a-select
+                  v-if="index === 2 && item.arrs.length > 0"
+                  notFoundContent="未匹配到数据"
+                  v-decorator="[`select_${item.id}`, {
+                    rules: item.validators
+                  }]"
+                  :placeholder="item.placeholder"
+                >
+                  <a-select-option v-for="i in item.arrs" :key="i.targetClazz">{{i.clazzName}}</a-select-option>
+                </a-select>
+                <a-select
+                  v-if="index === 3 || index === 4"
+                  notFoundContent="未匹配到数据"
+                  v-decorator="[`select_${item.id}`, {
+                    rules: item.validators
+                  }]"
+                  :placeholder="item.placeholder"
+                >
+                  <a-select-option v-for="i in item.arrs" :key="i.id">{{i.label}}</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+          </a-row>
+          <a-row>
+            <a-col>
+              <a-button type="primary" html-type="submit">查询</a-button>
+              <a-button :style="{ marginLeft: '8px' }" @click="handleReset">重置</a-button>
+              <a-button
+                :style="{ marginLeft: '8px', cursor: 'pointer' }"
+                @click="() => {expand = !expand}"
+              >
+                <a-icon :type="expand ? 'up' : 'down'" />
+                {{expand ? '收起' : '展开'}}
+              </a-button>
+            </a-col>
+          </a-row>
+        </a-form>
+      </div>
       <div class="list-collection">
         <a-table
           :columns="columns"
@@ -122,6 +124,7 @@ Vue.use(Pagination)
 Vue.use(Table)
 
 const breadcrumbs = [
+  { name: '当前位置', back: false, path: '' },
   { name: '方案管理', back: false, path: '' },
   { name: '知识问答', back: false, path: '' }
 ]
@@ -316,7 +319,7 @@ export default {
     },
 
     handleSubmit (e) {
-      e.preventDefault();
+      e.preventDefault()
       this.form.validateFields((err, values) => {
         if (!err) {
           const params = {
@@ -328,9 +331,9 @@ export default {
             beginDate: this.startValue,
             endDate: this.endValue
           }
-          this.pageNo = 1;
+          this.pageNo = 1
           this.pagination.current = 1
-          this.fetchParams = params;
+          this.fetchParams = params
           this.fetchList(params)
         }
       })
@@ -341,16 +344,16 @@ export default {
     },
 
     handleReset () {
-      this.form.resetFields();
+      this.form.resetFields()
       this.fetchParams = {}
       this.fetchList(this.fetchParams)
     },
 
     pageOnChange (cfg) {
-      const pager = { ...this.pagination };
-      pager.current = cfg.current;
-      pager.pageSize = cfg.pageSize;
-      this.pagination = pager;
+      const pager = { ...this.pagination }
+      pager.current = cfg.current
+      pager.pageSize = cfg.pageSize
+      this.pagination = pager
       this.pageNo = pager.current
       this.pageSize = pager.pageSize
       this.fetchList(this.fetchParams)
@@ -360,14 +363,14 @@ export default {
      * 日期
      */
     disabledStartDate (startValue) {
-      const endValue = this.endValue;
+      const endValue = this.endValue
       if (!startValue || !endValue) {
         return false
       }
       return startValue.valueOf() > endValue.valueOf()
     },
     disabledEndDate (endValue) {
-      const startValue = this.startValue;
+      const startValue = this.startValue
       if (!endValue || !startValue) {
         return false
       }
@@ -386,10 +389,16 @@ export default {
 </script>
 <style lang="less" scoped>
 .knowledge-quiz {
-  .form-fields {
-    background-color: white;
-    padding: 30px 10px;
-    margin-bottom: 12px;
+  .search-wrapper {
+    padding: 24px;
+    background: #fff;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    .form-fields {
+      .ant-form-item {
+        text-align: left;
+      }
+    }
   }
   .list-collection {
     background-color: #fff;
