@@ -98,7 +98,7 @@ export default {
   data () {
     return {
       visible: false,
-        form: this.$form.createForm(this),
+      form: this.$form.createForm(this)
     }
   },
   methods: {
@@ -106,31 +106,30 @@ export default {
       console.log(e)
       this.$nextTick(() => {
         this.visible = true
-          this.showEditFormData (e)
+        this.showEditFormData(e)
       })
     },
-     // 数据回显
-      showEditFormData (data) {
-     this.$nextTick(() => {
-         this.form.setFieldsValue({
-             companyName: data.baseLandName,
-             baseName: data.area,
-             baseArea: data.createUser,
-             baseAddress: data.greenhouseId,
-             phone: data.greenhouseName,
-             leader: data.iotDeviceNumbers
-         });
-     })
-
-      },
-      handleSubmit (e) {
-          e.preventDefault();
-          this.form.validateFields((err, values) => {
-              if (!err) {
-                  console.log('Received values of form: ', values);
-              }
-          });
-      },
+    // 数据回显
+    showEditFormData (data) {
+      this.$nextTick(() => {
+        this.form.setFieldsValue({
+          companyName: data.baseLandName,
+          baseName: data.area,
+          baseArea: data.createUser,
+          baseAddress: data.greenhouseId,
+          phone: data.greenhouseName,
+          leader: data.iotDeviceNumbers
+        })
+      })
+    },
+    handleSubmit (e) {
+      e.preventDefault()
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          console.log('Received values of form: ', values)
+        }
+      })
+    }
   }
 
 }

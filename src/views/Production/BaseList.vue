@@ -102,7 +102,7 @@
           :loading="loading"
         >
           <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
-          <span slot="action" slot-scope="text, record">
+          <span slot="action" slot-scope="">
             <!-- 编辑 -->
               <span slot="title" style="color: #1890ff; cursor:pointer" @click="showModal">编辑</span>
           </span>
@@ -250,7 +250,11 @@ export default {
         { title: '状态',
           dataIndex: 'status',
           customRender: (text) => {
-            if (text == 'n') { return '禁用中' } else if (text == 'y') { return '使用中' }
+            if (text === 'n') {
+              return '禁用中'
+            } else if (text === 'y') {
+              return '使用中'
+            }
           } },
         { title: '操作', scopedSlots: { customRender: 'action' }, width: 160, align: 'center', fixed: 'right' }
       ],

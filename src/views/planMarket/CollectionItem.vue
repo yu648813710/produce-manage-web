@@ -23,11 +23,11 @@
 </template>
 
 <script>
-import Vue from 'vue';
-import { Card, Row } from 'ant-design-vue';
-Vue.use(Card);
-Vue.use(Row);
-import formDate from '@/utils/domUtil';
+import Vue from 'vue'
+import { Card, Row } from 'ant-design-vue'
+import formDate from '@/utils/domUtil'
+Vue.use(Card)
+Vue.use(Row)
 export default {
   name: 'collectionItem',
   props: {
@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     toDetail(info) {
-      this.$router.push({path: `/planMarketDetail/${info.solutionId}`})
+      this.$router.push({ path: `/planMarketDetail/${info.solutionId}` })
     },
     cmpTime(time) {
       return formDate.formDate(time)

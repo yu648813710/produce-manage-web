@@ -46,48 +46,48 @@
   </div>
 </template>
 <script>
-  const columns = [
-    {title: '序号', dataIndex: 'fungusBagId', key: 'fungusBagId'},
-    {title: '菌包名称', dataIndex: 'fungusBagName', key: 'fungusBagName'},
-    {title: '菌包类别', dataIndex: 'categoryName', key: 'categoryName'},
-    {title: '生产批次号',  dataIndex: 'productionLotNumber', key: 'productionLotNumber'},
-    {title: '生产企业',  dataIndex: 'produceCompanyName', key: 'produceCompanyName'},
-    {title: '包装时间',  dataIndex: 'packagingDate', key: 'packagingDate'},
-    {title: '规格（g/包）', dataIndex: 'specification', key: 'specification'},
-    {title: '追溯码', dataIndex: 'qrCode', key: 'qrCode',scopedSlots: { customRender: 'qrCode' },},
-    {title: '操作', key: 'operation', scopedSlots: { customRender: 'operation' }}
-    ];
-
-  const list = [{
-    fungusBagId: "1",
-    qrCode: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2761691330,563494352&fm=11&gp=0.jpg",
-    fungusBagName: "菌包名称",
-    categoryName: "菌包类别",
-    productionLotNumber: "生产批次号",
-    produceCompanyName: "生产企业",
-    packagingDate: "包装时间",
-    specification: "规格",
-  }, {
-    fungusBagId: "2",
-    qrCode: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2761691330,563494352&fm=11&gp=0.jpg",
-    fungusBagName: "菌包名称",
-    categoryName: "菌包类别",
-    productionLotNumber: "生产批次号",
-    produceCompanyName: "生产企业",
-    packagingDate: "包装时间",
-    specification: "规格",
-  }, {
-    fungusBagId: "3",
-    qrCode: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2761691330,563494352&fm=11&gp=0.jpg",
-    fungusBagName: "菌包名称",
-    categoryName: "菌包类别",
-    productionLotNumber: "生产批次号",
-    produceCompanyName: "生产企业",
-    packagingDate: "包装时间",
-    specification: "规格",
-  }];
 import Vue from 'vue'
-import { Layout, Breadcrumb, Input,Row,Col,Cascader,Button,Table} from 'ant-design-vue'
+import { Layout, Breadcrumb, Input, Row, Col, Cascader, Button, Table } from 'ant-design-vue'
+const columns = [
+  { title: '序号', dataIndex: 'fungusBagId', key: 'fungusBagId' },
+  { title: '菌包名称', dataIndex: 'fungusBagName', key: 'fungusBagName' },
+  { title: '菌包类别', dataIndex: 'categoryName', key: 'categoryName' },
+  { title: '生产批次号', dataIndex: 'productionLotNumber', key: 'productionLotNumber' },
+  { title: '生产企业', dataIndex: 'produceCompanyName', key: 'produceCompanyName' },
+  { title: '包装时间', dataIndex: 'packagingDate', key: 'packagingDate' },
+  { title: '规格（g/包）', dataIndex: 'specification', key: 'specification' },
+  { title: '追溯码', dataIndex: 'qrCode', key: 'qrCode', scopedSlots: { customRender: 'qrCode' } },
+  { title: '操作', key: 'operation', scopedSlots: { customRender: 'operation' } }
+]
+
+const list = [{
+  fungusBagId: '1',
+  qrCode: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2761691330,563494352&fm=11&gp=0.jpg',
+  fungusBagName: '菌包名称',
+  categoryName: '菌包类别',
+  productionLotNumber: '生产批次号',
+  produceCompanyName: '生产企业',
+  packagingDate: '包装时间',
+  specification: '规格'
+}, {
+  fungusBagId: '2',
+  qrCode: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2761691330,563494352&fm=11&gp=0.jpg',
+  fungusBagName: '菌包名称',
+  categoryName: '菌包类别',
+  productionLotNumber: '生产批次号',
+  produceCompanyName: '生产企业',
+  packagingDate: '包装时间',
+  specification: '规格'
+}, {
+  fungusBagId: '3',
+  qrCode: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2761691330,563494352&fm=11&gp=0.jpg',
+  fungusBagName: '菌包名称',
+  categoryName: '菌包类别',
+  productionLotNumber: '生产批次号',
+  produceCompanyName: '生产企业',
+  packagingDate: '包装时间',
+  specification: '规格'
+}]
 Vue.use(Layout)
 Vue.use(Breadcrumb)
 Vue.use(Input)
@@ -96,30 +96,30 @@ Vue.use(Col)
 Vue.use(Cascader)
 Vue.use(Button)
 Vue.use(Table)
-  export default {
-    component: {
-        // 'a-button': Button
-    },
-    created () {
-      this.axios(
-        {
-          method: 'get',
-          url: "http://10.168.1.30:9090/produce/fungusbag",
-          headers:{
-            "Content-Type": 'application/json'
-          },
+export default {
+  component: {
+    // 'a-button': Button
+  },
+  created () {
+    this.axios(
+      {
+        method: 'get',
+        url: 'http://10.168.1.30:9090/produce/fungusbag',
+        headers: {
+          'Content-Type': 'application/json'
         }
-      ).then( res => {this.list = res.data.records})
-    },
-    data() {
-      return {
-        list,
-        columns,
       }
-    },
-    methods: {
+    ).then(res => { this.list = res.data.records })
+  },
+  data() {
+    return {
+      list,
+      columns
     }
+  },
+  methods: {
   }
+}
 </script>
 <style lang="less" scoped>
   .search-wrapper{

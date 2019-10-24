@@ -93,11 +93,11 @@
             class="text-overflow"
             slot="useMatetial"
             :title="text"
-            slot-scope="text, record, index"
+            slot-scope="text"
           >{{text}}</div>
           <a
             slot="toDetail"
-            slot-scope="text, record, index"
+            slot-scope=""
           >查看</a>
         </a-table>
       </div>
@@ -105,6 +105,9 @@
   </div>
 </template>
 <script>
+import Vue from 'vue'
+import { Row, Col } from 'ant-design-vue'
+import { farmPlanDetail, farmPlanDetailList } from '@/api/farmPlan.js'
 const columns = [
   {
     title: '序号',
@@ -130,9 +133,6 @@ const columns = [
     scopedSlots: { customRender: 'toDetail' }
   }
 ]
-import Vue from 'vue'
-import { Row, Col } from 'ant-design-vue'
-import { farmPlanDetail, farmPlanDetailList } from '@/api/farmPlan.js'
 Vue.use(Row)
 Vue.use(Col)
 export default {
@@ -257,4 +257,3 @@ export default {
   text-overflow: ellipsis;
 }
 </style>
-
