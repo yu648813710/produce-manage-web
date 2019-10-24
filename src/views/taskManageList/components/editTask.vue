@@ -262,8 +262,6 @@ export default {
         if (err) {
           return false
         }
-        console.log(values)
-        console.log(this.detailPageData)
         let queryData = {
           instId: this.detailPageData.instId,
           taskUseReMaterial: this.detailPageData.taskUseReMaterial
