@@ -1,4 +1,4 @@
-import { axios } from '@/utils/request.js';
+import { axios } from '@/utils/request.js'
 // 均价趋势数据
 export function getLineData(type) {
   return axios({

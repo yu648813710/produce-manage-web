@@ -22,21 +22,21 @@ export const setDocumentTitle = function (title) {
  * */
 export default {
   compareArr (array2, array1) {
-    let result = [];
+    let result = []
     for (let i = 0; i < array2.length; i++) {
-      let obj = array2[i];
-      let num = obj.value;
-      let isExist = false;
+      let obj = array2[i]
+      let num = obj.value
+      let isExist = false
       for (let j = 0; j < array1.length; j++) {
-        let aj = array1[j];
-        let n = aj.value;
-        if (n == num) {
-          isExist = true;
-          break;
+        let aj = array1[j]
+        let n = aj.value
+        if (n === num) {
+          isExist = true
+          break
         }
       }
       if (!isExist) {
-        result.push(obj);
+        result.push(obj)
       }
     }
     return result
@@ -49,8 +49,8 @@ export default {
    *         index2 移动后位置
    * */
   swapItems (arr, index1, index2, direction) {
-    arr[index1] = arr.splice(index2, 1, arr[index1])[0];
-    return arr;
+    arr[index1] = arr.splice(index2, 1, arr[index1])[0]
+    return arr
   },
   /**
    * methods: formDate
@@ -58,18 +58,16 @@ export default {
    * params: date 时间戳
    * */
   formDate (date) {
-    debugger
     let split = ['-', ':']
-    let thisDate = new Date(date);
-    let year = thisDate.getFullYear();
-    let mon = thisDate.getMonth() + 1;
-    let day = thisDate.getDate();
-    let hh = thisDate.getHours();
-    let mm = thisDate.getMinutes();
-    let ss = thisDate.getSeconds();
-    let newDate = year + split[0] + this.addZero(mon) + split[0] + this.addZero(day) + " "
-    console.log(newDate)
-    return newDate;
+    let thisDate = new Date(date)
+    let year = thisDate.getFullYear()
+    let mon = thisDate.getMonth() + 1
+    let day = thisDate.getDate()
+    // let hh = thisDate.getHours()
+    // let mm = thisDate.getMinutes()
+    // let ss = thisDate.getSeconds()
+    let newDate = year + split[0] + this.addZero(mon) + split[0] + this.addZero(day) + ' '
+    return newDate
   },
   addZero (data) {
     if (data < 10) {
@@ -85,10 +83,10 @@ export default {
    * */
   sortByKey (array, key) {
     return array.sort(function (a, b) {
-      let x = a[key];
-      let y = b[key];
-      return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-    });
+      let x = a[key]
+      let y = b[key]
+      return ((x < y) ? -1 : ((x > y) ? 1 : 0))
+    })
   }
 }
 
