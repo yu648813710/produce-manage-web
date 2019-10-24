@@ -173,8 +173,8 @@ export default {
       }
       planMarketList(postdata).then(res => {
         if (res && res.success === 'Y') {
-          this.total = res.data && res.data.total || 0
-          this.collectionItems = res.data && res.data.records || []
+          this.total = (res.data && res.data.total) || 0
+          this.collectionItems = (res.data && res.data.records) || []
           return
         }
         this.collectionItems = []

@@ -105,7 +105,7 @@
             <!-- 编辑 -->
               <span slot="title" style="color: #1890ff; cursor:pointer" @click="showModal(record)">编辑</span>
           </span>
-          <span slot="qrCode" slot-scope="text, record, index">
+          <span slot="qrCode" slot-scope="text">
             <!-- 二维码 -->
 <!--              <span slot="title" style="color: #1890ff; cursor:pointer" @click="showModal">编辑</span>-->
             <img style="width: 30px;height: 30px" :src= decode(text) >
@@ -177,7 +177,11 @@ export default {
         { title: '状态',
           dataIndex: 'status',
           customRender: (text) => {
-            if (text == 'n') { return '禁用中' } else if (text == 'y') { return '使用中' }
+            if (text === 'n') {
+              return '禁用中'
+            } else if (text === 'y') {
+              return '使用中'
+            }
           } },
         { title: '操作', scopedSlots: { customRender: 'action' }, width: 160, align: 'center', fixed: 'right' }
       ],
