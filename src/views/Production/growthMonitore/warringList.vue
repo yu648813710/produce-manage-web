@@ -7,20 +7,48 @@
       <crumbsNav :crumbsArr="crumbsArr"></crumbsNav>
     </div>
     <div class="wrapper">
-      <a-row>
-        <a-col :span="18">
-          <div class="title-wrapper">
-            <div class="icon"></div>
-            <span class="title-text">地块监控列表</span>
-          </div>
-        </a-col>
-        <a-col :span="6">
-          <a-input
-            placeholder="Basic usage"
-            class="tableSelect"
-          />
-        </a-col>
-      </a-row>
+      <div class="search-wrapper">
+        <a-row>
+<!--          <a-col :span="18">-->
+<!--            <div class="title-wrapper">-->
+<!--              <div class="icon"></div>-->
+<!--              <span class="title-text">地块监控列表</span>-->
+<!--            </div>-->
+<!--          </a-col>-->
+          <a-form :form="sreachFrom" @submit="handleSearchClick">
+            <a-row>
+              <a-col :span="8">
+                <a-form-item label="地块名称" :label-col="{ span: 24 }" :wrapper-col="{ span: 20 }">
+                  <a-input
+                    placeholder="请输入地块名称"
+                    v-decorator="[
+                      'baseLandName',
+                      { rules: [{ required: false, message: '' }] },
+                    ]"
+                  />
+                </a-form-item>
+              </a-col>
+              <a-col :span="8">
+                <a-form-item label="异常原因" :label-col="{ span: 24 }" :wrapper-col="{ span: 20 }">
+                  <a-input
+                    placeholder="请输入异常原因"
+                    v-decorator="[
+                      'noNormalReason',
+                      { rules: [{ required: false, message: '' }] },
+                    ]"
+                  />
+                </a-form-item>
+              </a-col>
+            </a-row>
+          </a-form>
+          <!--        <a-col :span="6">-->
+          <!--          <a-input-->
+          <!--            placeholder="Basic usage"-->
+          <!--            class="tableSelect"-->
+          <!--          />-->
+          <!--        </a-col>-->
+        </a-row>
+      </div>
       <div class="table-wrapper">
         <a-table
           :scroll="{ x: 1080 }"
@@ -51,10 +79,11 @@
 </template>
 <script>
     import Vue from 'vue'
-    import {Table, Row, Col, Steps, Radio, icon, Modal, Button, Input, Select} from 'ant-design-vue'
+    import {Table, Row, Col, Steps, Radio, icon, Modal, Button, Input, Select, Form} from 'ant-design-vue'
     import { shiduData } from '@/api/productManage.js'
     import crumbsNav from "@/components/crumbsNav/CrumbsNav";
     Vue.use(Row)
+    Vue.use(Form)
     Vue.use(Col)
     Vue.use(Steps)
     Vue.use(Radio)
@@ -74,6 +103,7 @@
             return {
                 detail: this.$route.params,
                 list: [],
+                sreachFrom: this.$form.createForm(this),
                 loading:false,
                 pagination: {
                     current: 1,
@@ -161,6 +191,11 @@
 
                 })
             },
+            handleSearchClick(){
+                this.sreachFrom.validateFields((err, values) => {
+                    console.log(values)
+                })
+            },
             getWenduData(){
                 let postData = {
                     pageNo: 1,
@@ -180,6 +215,24 @@
     }
 </script>
 <style lang="less" scoped>
+  .search-wrapper {
+    background: #fff;
+    margin-bottom: 10px;
+    border-radius: 4px;
+
+    .search-input-wrapper {
+      position: relative;
+      margin-bottom: 24px;
+
+      .search-input {
+        margin-top: 30px;
+      }
+    }
+
+    .button {
+      margin: 0 5px;
+    }
+  }
   .crumbCtr{
     height: 20px;
     line-height: 20px;
@@ -212,8 +265,7 @@
     border-radius: 4px;
 
     .title-wrapper{
-      position: absolute;
-      left: 24px;
+      text-align: left;
 
       .title-text{
         font-size: 16px;

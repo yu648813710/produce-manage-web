@@ -7,7 +7,6 @@
       <crumbsNav :crumbsArr="crumbsArr"></crumbsNav>
     </div>
     <div class="wrapper">
-      <crumbsNav :crumbsArr="crumbsArr"></crumbsNav>
       <a-steps :current="current" :labelPlacement="vertical">
         <a-step :labelPlacement="vertical" v-for="item in steps" :key="item.title" :title="item.title"/>
       </a-steps>
