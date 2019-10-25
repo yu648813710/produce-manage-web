@@ -13,6 +13,7 @@
             >
               <a-form-item :label="item.label">
                 <a-input
+                  autocomplete="off"
                   :placeholder="item.placeholder"
                   v-decorator="[`field_${item.id}`, {
                     rules: item.validators

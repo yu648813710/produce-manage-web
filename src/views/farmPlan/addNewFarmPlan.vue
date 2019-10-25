@@ -17,10 +17,7 @@
                   style="width: 100%"
                   @change="frameChange"
                 >
-                  <a-icon
-                    slot="suffixIcon"
-                    type="smile"
-                  />
+                  <a-icon slot="suffixIcon" type="smile" />
                   <a-select-option
                     v-for="(item) in frameTypeArr"
                     :id="item.breedId"
@@ -29,10 +26,7 @@
                 </a-select>
               </div>
             </a-col>
-            <a-col
-              :span="11"
-              :offset="2"
-            >
+            <a-col :span="11" :offset="2">
               <div class="detail-input-wrapper">
                 <span class="detail-title">选择种植方案</span>
                 <a-select
@@ -41,10 +35,7 @@
                   style="width: 100%"
                   @change="programChange"
                 >
-                  <a-icon
-                    slot="suffixIcon"
-                    type="smile"
-                  />
+                  <a-icon slot="suffixIcon" type="smile" />
                   <a-select-option
                     v-for="(item) in frameProgramArr"
                     :key="item.solutionId"
@@ -61,10 +52,7 @@
                   style="width: 100%"
                   @change="baseChange"
                 >
-                  <a-icon
-                    slot="suffixIcon"
-                    type="smile"
-                  />
+                  <a-icon slot="suffixIcon" type="smile" />
                   <a-select-option
                     v-for="(item) in frameBaseArr"
                     :key="item.baseLandId"
@@ -72,10 +60,7 @@
                 </a-select>
               </div>
             </a-col>
-            <a-col
-              :span="11"
-              :offset="2"
-            >
+            <a-col :span="11" :offset="2">
               <div class="detail-input-wrapper">
                 <span class="detail-title">计划开始时间</span>
                 <a-date-picker
@@ -97,10 +82,7 @@
                   style="width: 100%"
                   @change="bagChange"
                 >
-                  <a-icon
-                    slot="suffixIcon"
-                    type="smile"
-                  />
+                  <a-icon slot="suffixIcon" type="smile" />
                   <a-select-option
                     v-for="(item) in frameBagArr"
                     :key="item.fungusBagId"
@@ -108,13 +90,11 @@
                 </a-select>
               </div>
             </a-col>
-            <a-col
-              :span="11"
-              :offset="2"
-            >
+            <a-col :span="11" :offset="2">
               <div class="detail-input-wrapper">
                 <span class="detail-title">菌包数量</span>
                 <a-input
+                  autocomplete="off"
                   placeholder="Basic usage"
                   class="detail-input"
                   v-model="bagVal"
@@ -122,10 +102,7 @@
               </div>
             </a-col>
             <a-col :span="24">
-              <div
-                class="detail-input-wrapper"
-                style="text-align: left"
-              >
+              <div class="detail-input-wrapper" style="text-align: left">
                 <span class="detail-title">选择地块</span>
                 <div class="treeContent">
                   <div class="readyTreeContent">
@@ -137,15 +114,8 @@
                           :checked="checkAllBlank"
                         >可选</a-checkbox>
                       </a-col>
-                      <a-checkbox-group
-                        @change="readyCheckChange"
-                        v-model="readyValue"
-                      >
-                        <a-col
-                          v-for="(item,index) in readyOptions"
-                          :span="24"
-                          :key="index"
-                        >
+                      <a-checkbox-group @change="readyCheckChange" v-model="readyValue">
+                        <a-col v-for="(item,index) in readyOptions" :span="24" :key="index">
                           <a-checkbox :value="item.blockLandId">{{item.blockLandName}}</a-checkbox>
                         </a-col>
                       </a-checkbox-group>
@@ -153,18 +123,10 @@
                   </div>
                   <div class="checkBtnGroup">
                     <div>
-                      <a-button
-                        type="primary"
-                        class="add-button"
-                        @click="confirmCheck"
-                      >选择</a-button>
+                      <a-button type="primary" class="add-button" @click="confirmCheck">选择</a-button>
                     </div>
                     <div>
-                      <a-button
-                        type="primary"
-                        class="add-button"
-                        @click="cancleCheck"
-                      >取消</a-button>
+                      <a-button type="primary" class="add-button" @click="cancleCheck">取消</a-button>
                     </div>
                   </div>
                   <div class="confirmTreeContent">
@@ -176,15 +138,8 @@
                           :checked="checkAllBlankCanle"
                         >可选</a-checkbox>
                       </a-col>
-                      <a-checkbox-group
-                        @change="confirmCheckChange"
-                        v-model="checkValue"
-                      >
-                        <a-col
-                          v-for="(item,index) in checkOptions"
-                          :span="24"
-                          :key="index"
-                        >
+                      <a-checkbox-group @change="confirmCheckChange" v-model="checkValue">
+                        <a-col v-for="(item,index) in checkOptions" :span="24" :key="index">
                           <a-checkbox :value="item.blockLandId">{{item.blockLandName}}</a-checkbox>
                         </a-col>
                       </a-checkbox-group>
@@ -197,6 +152,7 @@
               <div class="detail-input-wrapper">
                 <span class="detail-title">种植面积</span>
                 <a-input
+                  autocomplete="off"
                   placeholder="Basic usage"
                   class="detail-input"
                   v-model="farmArea"
@@ -210,18 +166,10 @@
       </a-layout-content>
     </a-layout>
     <div class="btnGroup">
-      <a-button
-        type="primary"
-        class="save-button"
-        @click="save"
-      >
+      <a-button type="primary" class="save-button" @click="save">
         <router-link :to="{name: 'farmPlan'}">取消</router-link>
       </a-button>
-      <a-button
-        type="primary"
-        class="add-button"
-        @click="submit"
-      >确定</a-button>
+      <a-button type="primary" class="add-button" @click="submit">确定</a-button>
     </div>
   </div>
 </template>
@@ -272,7 +220,7 @@ const checkValue = []
 export default {
   name: 'baseDetail',
   watch: {},
-  data() {
+  data () {
     return {
       readyOptions,
       checkOptions: [],
@@ -297,27 +245,27 @@ export default {
       indeterminateBlankCanle: true
     }
   },
-  created() {
+  created () {
     this.requestSelctProduct() // 请求方案
     this.requestSelectBaseland() // 请求基地
     this.requestSelectFungusbag() // 请求菌包
   },
   methods: {
     moment,
-    onTimeChange(value, dateString) {
+    onTimeChange (value, dateString) {
       this.startDate = dateString
     },
-    onOk(value) {
+    onOk (value) {
       console.log('onOk: ', value)
     },
-    readyCheckChange(value) {
+    readyCheckChange (value) {
       this.readyValue = value
       this.indeterminateBlank =
         !!value.length && value.length < this.readyOptions.length
 
       this.checkAllBlank = value.length === this.readyOptions.length
     },
-    confirmCheckChange(value) {
+    confirmCheckChange (value) {
       this.checkValue = value
 
       this.indeterminateBlankCanle =
@@ -325,7 +273,7 @@ export default {
 
       this.checkAllBlankCanle = value.length === this.checkOptions.length
     },
-    confirmCheck() {
+    confirmCheck () {
       let checkData = []
       this.readyValue.map(id => {
         this.readyOptions.map(res => {
@@ -337,7 +285,7 @@ export default {
       this.calcBlankArea(this.readyValue)
       this.checkOptions = checkData
     },
-    calcBlankArea(val) {
+    calcBlankArea (val) {
       let result_ = 0
       val.map(id => {
         this.readyOptions.map(res => {
@@ -348,7 +296,7 @@ export default {
       })
       this.farmArea = result_
     },
-    cancleCheck() {
+    cancleCheck () {
       if (!this.checkValue.length) {
         return false
       }
@@ -375,8 +323,8 @@ export default {
       this.checkAllBlank = false
       this.checkAllBlankCanle = false
     },
-    async save() {},
-    submit() {
+    async save () { },
+    submit () {
       let massifType = []
       for (let i = 0; i < this.checkOptions.length; i++) {
         massifType.push(this.checkOptions[i].value)
@@ -423,61 +371,61 @@ export default {
       }
       this.requestAddFarmPlan(postData)
     },
-    frameChange(data) {
+    frameChange (data) {
       let dataArr = data.split(',')
       this.frameType.productId = dataArr[0]
       this.frameType.breedId = dataArr[1]
       this.requestSelectSolution(this.frameType.breedId) // 请求方案
     },
-    programChange(data) {
+    programChange (data) {
       this.programType = data
     },
-    baseChange(data) {
+    baseChange (data) {
       this.baseType = data
       this.requestSelectBaseLandId(data) // 请求地块
     },
-    bagChange(data) {
+    bagChange (data) {
       this.bagType = data
     },
-    massifChange(data) {
+    massifChange (data) {
       this.massifType = data
     },
-    requestSelctProduct() {
+    requestSelctProduct () {
       selectProFarmPlan().then(res => {
         if (res.code === 200) {
           this.frameTypeArr = res.data
         }
       })
     },
-    requestSelectSolution(breedId) {
+    requestSelectSolution (breedId) {
       selectSolutionFarmPlan(breedId).then(res => {
         if (res.code === 200) {
           this.frameProgramArr = res.data
         }
       })
     },
-    requestSelectBaseland() {
+    requestSelectBaseland () {
       selectBaselandFarmPlan().then(res => {
         if (res.code === 200) {
           this.frameBaseArr = res.data
         }
       })
     },
-    requestSelectFungusbag() {
+    requestSelectFungusbag () {
       selectFungusbagFarmPlan().then(res => {
         if (res.code === 200) {
           this.frameBagArr = res.data
         }
       })
     },
-    requestSelectBaseLandId(baseLandId) {
+    requestSelectBaseLandId (baseLandId) {
       selectBaseLandIdFarmPlan(baseLandId).then(res => {
         if (res.code === 200) {
           this.readyOptions = res.data
         }
       })
     },
-    onCheckAllChangeBlank(e) {
+    onCheckAllChangeBlank (e) {
       let self_ = this
       Object.assign(this, {
         readyValue: e.target.checked
@@ -487,7 +435,7 @@ export default {
         checkAllBlank: e.target.checked
       })
     },
-    onCheckAllChangeBlankCanle(e) {
+    onCheckAllChangeBlankCanle (e) {
       let self_ = this
       Object.assign(this, {
         checkValue: e.target.checked
@@ -497,7 +445,7 @@ export default {
         checkAllBlankCanle: e.target.checked
       })
     },
-    requestAddFarmPlan(data) {
+    requestAddFarmPlan (data) {
       addFarmPlan(data).then(res => {
         if (res.success === 'Y') {
           this.$router.push('/farmPlan')

@@ -21,6 +21,7 @@
               :wrapper-col="{ span: 24 }"
             >
               <a-input
+                autocomplete="off"
                 v-model="searchForm.baseName"
                 placeholder="请输入"
               />

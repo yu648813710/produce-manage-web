@@ -8,15 +8,13 @@
         <!-- 导航 -->
         <crumbs-nav :crumbs-arr="crumbsArr" />
         <div class="search-wrapper">
-          <div
-            class="search-input-box"
-            :style="downUpSearch?'height:86px':''"
-          >
+          <div class="search-input-box" :style="downUpSearch?'height:86px':''">
             <a-row :gutter="40">
               <a-col :span="8">
                 <div class="search-input-wrapper">
                   <span class="search-title">农事计划编号</span>
                   <a-input
+                    autocomplete="off"
                     placeholder="输入农事计划编号"
                     class="search-input"
                     v-model="searchInputVal.farmingNum"
@@ -27,6 +25,7 @@
                 <div class="search-input-wrapper">
                   <span class="search-title">产品名称</span>
                   <a-input
+                    autocomplete="off"
                     style="width: 100%"
                     placeholder="输入产品名称"
                     class="search-input"
@@ -38,6 +37,7 @@
                 <div class="search-input-wrapper">
                   <span class="search-title">所属基地</span>
                   <a-input
+                    autocomplete="off"
                     style="width: 100%"
                     placeholder="输入所属基地"
                     class="search-input"
@@ -51,6 +51,7 @@
                 <div class="search-input-wrapper">
                   <span class="search-title">所属地块</span>
                   <a-input
+                    autocomplete="off"
                     placeholder="输入所属地块"
                     class="search-input"
                     v-model="searchInputVal.blockLandName"
@@ -61,6 +62,7 @@
                 <div class="search-input-wrapper">
                   <span class="search-title">生长周期</span>
                   <a-input
+                    autocomplete="off"
                     style="width: 100%"
                     placeholder="输入生长周期"
                     class="search-input"
@@ -72,6 +74,7 @@
                 <div class="search-input-wrapper">
                   <span class="search-title">创建人</span>
                   <a-input
+                    autocomplete="off"
                     style="width: 100%"
                     placeholder="输入创建人"
                     class="search-input"
@@ -85,6 +88,7 @@
                 <div class="search-input-wrapper">
                   <span class="search-title">种植方案</span>
                   <a-input
+                    autocomplete="off"
                     style="width: 100%"
                     placeholder="输入种植方案"
                     class="search-input"
@@ -95,29 +99,16 @@
             </a-row>
           </div>
           <div>
-            <a-button
-              type="primary"
-              class="button"
-              @click="searchFarmPlanList"
-            >查询</a-button>
-            <a-button
-              class="button"
-              @click="clearInputVal"
-            >重置</a-button>
-            <a-button
-              :style="{ marginLeft: '8px' }"
-              @click="downUpSearch=!downUpSearch"
-            >
+            <a-button type="primary" class="button" @click="searchFarmPlanList">查询</a-button>
+            <a-button class="button" @click="clearInputVal">重置</a-button>
+            <a-button :style="{ marginLeft: '8px' }" @click="downUpSearch=!downUpSearch">
               <a-icon :type="downUpSearch ? 'down' : 'up'" />
               {{downUpSearch?'展开':'收起'}}
             </a-button>
           </div>
         </div>
         <div class="table-wrapper">
-          <a-button
-            type="primary"
-            class="add-button"
-          >
+          <a-button type="primary" class="add-button">
             <router-link :to="{name: 'addNewFarmPlan'}">新增农事计划</router-link>
           </a-button>
           <a-table
@@ -130,10 +121,7 @@
             @change="setPageList"
             :rowKey=" record => record.farmingPlanId "
           >
-            <span
-              slot="id"
-              slot-scope="text, record, index"
-            >{{index + 1}}</span>
+            <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
             <router-link
               slot="operation"
               slot-scope="text, record"
@@ -174,10 +162,10 @@ export default {
   components: {
     CrumbsNav
   },
-  created() {
+  created () {
     this.getFarmPlanList(this.pagination.current, this.pagination.pageSize)
   },
-  data() {
+  data () {
     return {
       list,
       columns: [
@@ -275,7 +263,7 @@ export default {
     }
   },
   methods: {
-    getFarmPlanList(current, pageSize) {
+    getFarmPlanList (current, pageSize) {
       let postData = {
         pageNo: current,
         pageSize: pageSize
@@ -291,7 +279,7 @@ export default {
       })
     },
     // 页码设置
-    setPageList(e) {
+    setPageList (e) {
       console.log(e)
       let current = e.current
       let pageSize = e.pageSize
@@ -299,7 +287,7 @@ export default {
       this.getFarmPlanList(current, pageSize)
     },
     // 重置搜索条件
-    clearInputVal() {
+    clearInputVal () {
       this.searchInputVal = {
         baseLandName: '', // 基地名称
         blockLandName: '', // 地块名称
@@ -312,7 +300,7 @@ export default {
       this.getFarmPlanList(this.pagination.current, this.pagination.pageSize)
     },
     // 搜索开始
-    searchFarmPlanList() {
+    searchFarmPlanList () {
       this.getFarmPlanList(this.pagination.current, this.pagination.pageSize)
     }
   }

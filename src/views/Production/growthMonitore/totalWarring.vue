@@ -20,6 +20,7 @@
       </a-col>
       <a-col :span="6">
         <a-input
+          autocomplete="off"
           placeholder="Basic usage"
           class="tableSelect"
         />

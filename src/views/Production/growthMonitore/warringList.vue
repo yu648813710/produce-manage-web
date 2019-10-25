@@ -20,6 +20,7 @@
               <a-col :span="8">
                 <a-form-item label="地块名称" :label-col="{ span: 24 }" :wrapper-col="{ span: 20 }">
                   <a-input
+                    autocomplete="off"
                     placeholder="请输入地块名称"
                     v-decorator="[
                       'baseLandName',
@@ -31,6 +32,7 @@
               <a-col :span="8">
                 <a-form-item label="异常原因" :label-col="{ span: 24 }" :wrapper-col="{ span: 20 }">
                   <a-input
+                    autocomplete="off"
                     placeholder="请输入异常原因"
                     v-decorator="[
                       'noNormalReason',

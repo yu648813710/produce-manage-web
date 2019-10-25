@@ -14,6 +14,7 @@
               <a-col :span="8">
                 <a-form-item label="方案名称" :label-col="{ span: 24 }" :wrapper-col="{ span: 20 }">
                   <a-input
+                    autocomplete="off"
                     placeholder="请输入方案名称"
                     v-decorator="[
                       'solutionName',
@@ -25,6 +26,7 @@
               <a-col :span="8">
                 <a-form-item label="产品品种" :label-col="{ span: 24 }" :wrapper-col="{ span: 20 }">
                   <a-input
+                    autocomplete="off"
                     placeholder="请输入产品品种"
                     v-decorator="[
                       'breedName',

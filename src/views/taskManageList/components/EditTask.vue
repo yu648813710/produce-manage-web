@@ -56,6 +56,7 @@
             第
             <a-form-item class="form-item">
               <a-input-number
+                autocomplete="off"
                 class="input"
                 v-decorator="['cycleStartTime', { rules: [{ required: true, message: '请输入正确周期'}] }]"
                 @change="cycleStartTimeInput"
@@ -64,6 +65,7 @@
             </a-form-item>天~ 第
             <a-form-item class="form-item">
               <a-input-number
+                autocomplete="off"
                 class="input"
                 v-decorator="['cycleEndTime', { rules: [{ required: true, message: '请输入正确周期', validator:cycleEndTimeFun }] }]"
                 :min="cycleEndTimeMin"
@@ -149,6 +151,7 @@
                   class="item-select"
                 >
                   <a-input
+                    autocomplete="off"
                     placeholder="请输入"
                     v-decorator="['materialDosage', { rules: [{ required: true, message: '请输入' }] }]"
                   ></a-input>
@@ -202,6 +205,7 @@
             >{{item.materialDosage}}</span>
             <span v-else>
               <a-input-number
+                autocomplete="off"
                 :autofocus="item.inputEdit"
                 v-model="item.materialDosage"
                 @blur="hiddenInputEditItem(index)"

@@ -17,7 +17,7 @@
             :label-col="{ span: 24 }"
             :wrapper-col="{ span: 24 }"
           >
-            <a-input v-model="searchForm.baseName" placeholder="请输入基地名称"  />
+            <a-input autocomplete="off" v-model="searchForm.baseName" placeholder="请输入基地名称"  />
           </a-form-item>
         </a-col>
         <!--          &lt;!&ndash; 所属公司 &ndash;&gt;-->
@@ -176,7 +176,7 @@
               :label-col="{ span: 4 }"
               :wrapper-col="{ span: 20 }"
             >
-              <a-input placeholder="请输入基地电话"/>
+              <a-input autocomplete="off" placeholder="请输入基地电话"/>
             </a-form-item>
           </a-col>
           <a-col :span="24">
@@ -185,7 +185,7 @@
               :label-col="{ span: 4 }"
               :wrapper-col="{ span: 20 }"
             >
-              <a-input placeholder="请输入负责人"/>
+              <a-input autocomplete="off" placeholder="请输入负责人"/>
             </a-form-item>
           </a-col>
         </a-row>

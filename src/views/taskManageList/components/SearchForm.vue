@@ -19,6 +19,7 @@
                 :wrapper-col="{ span: 24 }"
               >
                 <a-input
+                  autocomplete="off"
                   v-if="item.type==='input'"
                   :placeholder="item.placeholder"
                   v-model="item.data"
@@ -64,6 +65,7 @@
                 >{{key}}</a-select-option>
                 </a-select>
                 <a-input
+                  autocomplete="off"
                   v-if="item.type==='input'"
                   :placeholder="item.placeholder"
                   v-model="item.data"

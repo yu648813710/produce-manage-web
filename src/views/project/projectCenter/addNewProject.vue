@@ -26,6 +26,7 @@
                 <div class="search-input-wrapper">
                   <a-form-item :label="`方案名称`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
                     <a-input
+                      autocomplete="off"
                       v-decorator="msgForm.projectNameRule"
                       placeholder="请输入方案名称"
                       class="search-input"
@@ -162,6 +163,7 @@
                   >
                     <div class="growthCycle">
                       <a-input-number
+                        autocomplete="off"
                         :min="1"
                         class="search-input"
                         v-decorator="[
@@ -383,6 +385,7 @@
                   <a-form-item style="text-align: right" :label="`执行周期(天):`" :label-col="{ span: 23 }"
                                :wrapper-col="{ span: 1 }">
                     <a-input
+                      autocomplete="off"
                       style="display: none"
                       v-decorator="taskForm.actionInputRule"
                       placeholder="请输入开始周期"
@@ -393,6 +396,7 @@
                 <a-col :span="7">
                   <a-form-item :label-col="{ span: 0 }" :wrapper-col="{ span: 24 }">
                     <a-input-number
+                      autocomplete="off"
                       style="width: 100%"
                       v-decorator="taskForm.minActionRule"
                       placeholder="请输入开始周期"
@@ -406,6 +410,7 @@
                 <a-col :span="7">
                   <a-form-item :label-col="{ span: 0 }" :wrapper-col="{ span: 24 }">
                     <a-input
+                      autocomplete="off"
                       v-decorator="taskForm.maxActionRule"
                       placeholder="请输入结束周期"
                       class="search-input"
@@ -417,6 +422,7 @@
             <a-col :span="11">
               <a-form-item :label="`用途`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
                 <a-input
+                  autocomplete="off"
                   v-decorator="taskForm.purposeRule"
                   placeholder="请输入用途"
                   class="search-input"
@@ -426,6 +432,7 @@
             <a-col :span="11">
               <a-form-item :label="`农事描述`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
                 <a-input
+                  autocomplete="off"
                   v-decorator="taskForm.cycleDescRule"
                   placeholder="请输入农事描述"
                   class="search-input"
@@ -459,10 +466,12 @@
               </a-select-option>
             </a-select>
             <a-input-number
+              autocomplete="off"
               class="tableSelect"
               v-model="consumption"
             />
             <a-input
+              autocomplete="off"
               class="tableSelect"
               v-model="unit"
             />

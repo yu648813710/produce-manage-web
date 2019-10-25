@@ -10,7 +10,7 @@
             <a-col :span="8">
               <div class="search-input-wrapper">
                 <span class="search-title">菌包名称</span>
-                <a-input placeholder="Basic usage" class="search-input"/>
+                <a-input autocomplete="off" placeholder="Basic usage" class="search-input"/>
               </div>
             </a-col>
             <a-col :span="8">
