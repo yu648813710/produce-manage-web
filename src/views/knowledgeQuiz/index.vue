@@ -13,6 +13,7 @@
             >
               <a-form-item :label="item.label">
                 <a-input
+                  autocomplete="off"
                   v-if="index === 0 || index === 1"
                   :placeholder="item.placeholder"
                   v-decorator="[`field_${item.id}`, {

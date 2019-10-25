@@ -38,6 +38,7 @@
             >
               <a-form-item :label="i.label">
                 <a-input
+                  autocomplete="off"
                   v-if="index === 0"
                   class="row-input"
                   size="large"
@@ -63,6 +64,7 @@
                 </a-input>
                 <a-input
                   v-else
+                  autocomplete="off"
                   :type="isPassword ? '' : 'password'"
                   class="row-input pwd"
                   size="large"

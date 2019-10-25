@@ -19,6 +19,7 @@
           >
           <a-input
             v-if="isEdit"
+            autocomplete="off"
             :value="dataEdit.blockLandName"
             :disabled="true"
           />
@@ -45,6 +46,7 @@
           :wrapper-col="{ span: 16 }"
           >
           <a-input-number
+            autocomplete="off"
             style="width:42%;"
             v-decorator="[
               'temperatureInf',
@@ -55,6 +57,7 @@
           />
           <span style="padding:0 2%;">-</span>
           <a-input-number
+            autocomplete="off"
             style="width:42%;"
             v-decorator="[
               'temperatureSup',
@@ -72,6 +75,7 @@
           :wrapper-col="{ span: 16 }"
           >
           <a-input-number
+            autocomplete="off"
             style="width:42%;"
             v-decorator="[
               'dampnessInf',
@@ -82,6 +86,7 @@
           />
           <span style="padding:0 2%;">-</span>
           <a-input-number
+            autocomplete="off"
             style="width:42%;"
             v-decorator="[
               'dampnessSup',
@@ -99,6 +104,7 @@
           :wrapper-col="{ span: 16 }"
           >
           <a-input-number
+            autocomplete="off"
             style="width:42%;"
             v-decorator="[
               'co2ConcentrationInf',
@@ -110,6 +116,7 @@
           />
           <span style="padding:0 2%;">-</span>
           <a-input-number
+            autocomplete="off"
             style="width:42%;"
             v-decorator="[
               'co2ConcentrationSup',
@@ -127,6 +134,7 @@
           :wrapper-col="{ span: 16 }"
           >
           <a-input
+            autocomplete="off"
             :value="userId"
             :disabled="true"
           />

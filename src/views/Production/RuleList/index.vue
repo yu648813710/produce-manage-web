@@ -12,6 +12,7 @@
           <a-col :span="8">
             <a-form-item label="车间名称">
               <a-input
+                autocomplete="off"
                 placeholder="请输入"
                 v-decorator="[
                   'inputContent',

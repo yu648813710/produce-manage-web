@@ -143,6 +143,7 @@
               class="growthCycle"
             >
               <a-input
+                autocomplete="off"
                 :disabled="true"
                 v-model="item.cycleLength"
                 placeholder="Basic usage"
