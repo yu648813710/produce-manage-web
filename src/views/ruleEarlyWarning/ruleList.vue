@@ -8,7 +8,7 @@
       <a-breadcrumb-item>生产管理</a-breadcrumb-item>
       <a-breadcrumb-item>生长监测</a-breadcrumb-item>
       <a-breadcrumb-item>地块预警规则</a-breadcrumb-item>
-    </a-breadcrumb> -->
+    </a-breadcrumb>-->
     <!-- 导航 -->
     <crumbs-nav :crumbs-arr="crumbsArr" />
     <div class="form">
@@ -30,22 +30,9 @@
           </a-col>
         </a-row>
         <a-row>
-          <a-col
-            :span="24"
-            :style="{ textAlign: 'center' }"
-          >
-            <a-button
-              type="primary"
-              html-type="submit"
-              @click="searchRuleList"
-            >查询</a-button>
-            <a-button
-              @click="restSearch"
-              :style="{ marginLeft: '8px' }"
-            >重置</a-button>
-            <!--            <a-button :style="{ marginLeft: '8px', fontSize: '12px' }">-->
-            <!--              <a-icon :type="true ? 'up' : 'down'" />收起-->
-            <!--            </a-button>-->
+          <a-col :span="24" :style="{ textAlign: 'center' }">
+            <a-button type="primary" html-type="submit" @click="searchRuleList">查询</a-button>
+            <a-button @click="restSearch" :style="{ marginLeft: '8px' }">重置</a-button>
           </a-col>
         </a-row>
       </a-form>
@@ -84,80 +71,20 @@
       </div>
     </div>
     <!-- 新增弹窗 -->
-    <a-modal
-      :title="infoAddOrEditType==='add'?'新建预警':'修改预警'"
+    <add-rule
+      :info-add-or-edit-type="infoAddOrEditType"
       :visible="visible"
-      @ok="handleOk"
-      :width="600"
-      :confirmLoading="confirmLoading"
-      @cancel="handleCancel"
-    >
-      <a-form :form="ruleForm" @submit="handleOk">
-        <a-form-item label="基地名称" :label-col="{ span: 5 }" :wrapper-col="{ span: 16 }">
-          <a-select
-            placeholder="选择基地"
-            @change="baseLandChange"
-            v-decorator="[
-          '基地名称',
-          {rules: [{ required: true, message: '请选择基地名称!' }]}
-        ]"
-            :disabled="infoAddOrEditType==='edit'?true:false"
-          >
-            <a-select-option
-              v-for="(item,index) in baseLandData"
-              :value="item.baseLandId"
-              :key="index"
-            >{{item.baseLandName}}</a-select-option>
-          </a-select>
-        </a-form-item>
-        <a-form-item label="地块名称" :label-col="{ span: 5 }" :wrapper-col="{ span: 16 }">
-          <a-select
-            placeholder="选择地块"
-            @change="blockLandChange"
-            v-decorator="[
-          '地块名称',
-          {rules: [{ required: true, message: '请选择地块名称!' }]}
-        ]"
-            :disabled="infoAddOrEditType==='edit'?true:false"
-          >
-            <a-select-option
-              v-for="(item,index) in blockLandData"
-              :value="item.blockLandId"
-              :key="index"
-            >{{item.blockLandName}}</a-select-option>
-          </a-select>
-        </a-form-item>
-        <a-form-item
-          label="温度"
-          :label-col="{ span: 5 }"
-          :wrapper-col="{ span: 16 }"
-          required
-          :validate-status="formValidataStatus.temperature"
-          :help="formValidataStatus.temperature===''?'':'温度应小于等于100℃'"
-        >
-          <a-input-number autocomplete="off" style="width:42%;" v-model="formInputVal.temperatureInf" :min="0" />
-          <span style="padding:0 2%;">-</span>
-          <a-input-number autocomplete="off" style="width:42%;" v-model="formInputVal.temperatureSup" :min="0" />
-          <span style="padding:0 1%;">℃</span>
-        </a-form-item>
-        <a-form-item
-          label="湿度"
-          :label-col="{ span: 5 }"
-          :wrapper-col="{ span: 16 }"
-          required
-          :validate-status="formValidataStatus.dampness"
-          :help="formValidataStatus.dampness===''?'':'湿度应小于等于100%'"
-        >
-          <a-input-number autocomplete="off" style="width:42%;" v-model="formInputVal.dampnessInf" :min="0" />
-          <span style="padding:0 2%;">-</span>
-          <a-input-number autocomplete="off" style="width:42%;" v-model="formInputVal.dampnessSup" :min="0" />
-          <span style="padding:0 1%;">%</span>
-        </a-form-item>
-        <a-form-item label="负责人" :label-col="{ span: 5 }" :wrapper-col="{ span: 16 }">
-          <a-input autocomplete="off" :value="formInputVal.user" disabled />
-        </a-form-item>
-      </a-form>
-    </a-modal>
+      :confirm-loading="confirmLoading"
+      :base-land-data="baseLandData"
+      :block-land-data="blockLandData"
+      :form-validata-status="formValidataStatus"
+      :form-input-val="formInputVal"
+      @handleOk="handleOk"
+      @handleCancel="handleCancel"
+      @baseLandChange="baseLandChange"
+      @blockLandChange="blockLandChange"
+      @setFrorm="setFrorm"
+    />
     <!-- 新增弹窗 end -->
     <!-- 删除弹框 -->
     <a-modal
@@ -182,6 +109,8 @@ import {
   setRule,
   deleteRule
 } from '@/api/productManage.js'
+import { listColumns } from './config'
+import AddRule from './components/AddRule'
 import CrumbsNav from '@/components/crumbsNav/CrumbsNav'
 import {
   Button,
@@ -198,7 +127,6 @@ import {
   Modal,
   LocaleProvider
 } from 'ant-design-vue'
-// import { async } from 'q'
 Vue.use(Form)
 Vue.use(Button)
 Vue.use(Icon)
@@ -215,9 +143,10 @@ Vue.prototype.$message = message
 export default {
   name: 'BaseList',
   components: {
+    AddRule,
     CrumbsNav
   },
-  data() {
+  data () {
     return {
       visible: false,
       confirmLoading: false,
@@ -238,20 +167,7 @@ export default {
         total: 0,
         showTotal: total => `共 ${total} 条`
       },
-      columns: [
-        { title: '序号', scopedSlots: { customRender: 'id' }, align: 'center' },
-        { title: '基地名称', dataIndex: 'baseLandName' },
-        { title: '地块名称', dataIndex: 'blockLandName' },
-        { title: '监测指标', dataIndex: 'temperature' },
-        {
-          title: '操作',
-          key: 'operation',
-          scopedSlots: { customRender: 'operation' },
-          width: 160,
-          align: 'center',
-          fixed: 'right'
-        }
-      ],
+      columns: listColumns,
       equipmentList: [],
       deteleVisible: false,
       baseLandData: [],
@@ -272,7 +188,6 @@ export default {
         temperature: '',
         dampness: ''
       },
-      ruleForm: this.$form.createForm(this),
       blockLandId: '',
       crumbsArr: [
         {
@@ -307,6 +222,10 @@ export default {
     showModal () {
       this.visible = true
     },
+    // 弹窗后赋值
+    setFrorm (ruleForm) {
+      this.ruleForm = ruleForm
+    },
     // 显示删除弹窗
     shwoDeteleModal (id) {
       this.deteleVisible = true
@@ -333,7 +252,8 @@ export default {
       this.infoAddOrEditType = 'add'
     },
     // 点击新增弹窗确定
-    handleOk () {
+    handleOk (ruleForm) {
+      this.ruleForm = ruleForm
       this.ruleForm.validateFields((err, rule) => {
         let validataFormState = this.validataForm()
         if (!validataFormState || err !== null) {
@@ -360,7 +280,8 @@ export default {
       })
     },
     // 点击新增弹窗取消
-    handleCancel () {
+    handleCancel (ruleForm) {
+      this.ruleForm = ruleForm
       this.visible = false
       this.blockLandData = []
       this.formValidataStatus.dampness = ''
@@ -373,10 +294,10 @@ export default {
       })
     },
     // 重置
-    restSearch() {
+    restSearch () {
       this.searchForm.baseName = ''
     },
-    searchRuleList(page, current) {
+    searchRuleList (page, current) {
       this.getRuleList()
     },
     paginationChange (page, current) {
@@ -414,23 +335,19 @@ export default {
     },
     // 基地选项事件
     baseLandChange (e) {
-      this.ruleForm.setFieldsValue({
-        基地名称: e
-      })
       this.formSelectVal.baseLandId = e
       this.getSelectBlockBland(e)
     },
     // 地块选项事件
     blockLandChange (e) {
-      this.ruleForm.setFieldsValue({
-        地块名称: e
-      })
       this.formSelectVal.blockLandId = e
-      this.formInputVal.user = this.blockLandData.filter(res => {
+      let userdata = this.blockLandData.filter(res => {
         if (res.blockLandId === e) {
           return res
         }
-      })[0].principalUser
+      })
+      console.log(userdata)
+      this.formInputVal.user = userdata[0] ? userdata[0].principalUser : ''
     },
     // 编辑事件
     editRuleEvent (data) {
@@ -444,20 +361,23 @@ export default {
 
       this.formSelectVal.blockLandId = data.blockLandId
 
+      this.setFrorm()
       this.$nextTick(async () => {
         await this.getSelectBlockBland(data.baseLandId)
+        console.log(data.blockLandId)
+        console.log(this.blockLandData)
         this.ruleForm.setFieldsValue({
-          基地名称: data.baseLandId
+          基地名称: data.baseLandName
         })
         this.ruleForm.setFieldsValue({
-          地块名称: data.blockLandId
+          地块名称: data.blockLandName
         })
-        this.formInputVal.user = this.blockLandData.filter(res => {
+        let userData = this.blockLandData.filter(res => {
           if (res.blockLandId === data.blockLandId) {
-            console.log(this.blockLandData)
             return res
           }
-        })[0].principalUser
+        })
+        this.formInputVal.user = userData[0] ? userData[0].principalUser : ''
       })
 
       this.infoAddOrEditType = 'edit'
@@ -495,7 +415,7 @@ export default {
           return false
         }
         this.tipMessage(res.success, res.message)
-        this.handleCancel()
+        this.handleCancel(this.ruleForm)
         this.getRuleList()
       })
     },
@@ -506,7 +426,7 @@ export default {
           return false
         }
         this.tipMessage(res.success, res.message)
-        this.handleCancel()
+        this.handleCancel(this.ruleForm)
         this.getRuleList()
       })
     },

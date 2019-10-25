@@ -106,7 +106,6 @@
                 <span class="detail-title">选择地块</span>
                 <div class="treeContent">
                   <div class="readyTreeContent">
-                    <!--                    <a-checkbox-group :options="readyOptions" v-model="readyValue" />-->
                     <a-row>
                       <a-col :span="24">
                         <a-checkbox
@@ -202,12 +201,7 @@ import {
   Checkbox,
   Layout
 } from 'ant-design-vue'
-const readyOptions = [
-  // { blockLandName: '地块1', blockLandId: 1 },
-  // { blockLandName: '地块2', blockLandId: 2 },
-  // { blockLandName: '地块3', blockLandId: 3 },
-  // { blockLandName: '地块4', blockLandId: 4 }
-]
+const readyOptions = []
 Vue.use(Layout)
 Vue.use(Row)
 Vue.use(Col)
@@ -300,7 +294,6 @@ export default {
           }
         })
       })
-      console.log(result_)
       this.farmArea = result_
     },
     cancleCheck () {
@@ -376,32 +369,26 @@ export default {
           amount: that.farmArea
         }
       }
-      console.log('submit', postData)
       this.requestAddFarmPlan(postData)
     },
     frameChange (data) {
       let dataArr = data.split(',')
       this.frameType.productId = dataArr[0]
       this.frameType.breedId = dataArr[1]
-      console.log(data)
       this.requestSelectSolution(this.frameType.breedId) // 请求方案
     },
     programChange (data) {
       this.programType = data
-      console.log(data)
     },
     baseChange (data) {
       this.baseType = data
       this.requestSelectBaseLandId(data) // 请求地块
-      console.log(data)
     },
     bagChange (data) {
       this.bagType = data
-      console.log(data)
     },
     massifChange (data) {
       this.massifType = data
-      console.log(data)
     },
     requestSelctProduct () {
       selectProFarmPlan().then(res => {
@@ -469,101 +456,6 @@ export default {
 }
 </script>
 
-<style scoped lang="less">
-.layOutContent {
-  position: relative;
-  padding: 24px 24px 0 24px;
-  background: #fff;
-  margin: 16px;
-  border-radius: 4px;
-}
-.unitLabel {
-  position: absolute;
-  right: -25px;
-  margin-top: 40px;
-}
-.treeContent {
-  display: flex;
-  padding-top: 30px;
-  /deep/.ant-checkbox-group-item {
-    display: block;
-  }
-  .readyTreeContent {
-    width: 15%;
-    border: 1px solid #d9d9d9;
-    padding: 10px;
-  }
-  .confirmTreeContent {
-    width: 15%;
-    border: 1px solid #d9d9d9;
-    padding: 10px;
-  }
-  .checkBtnGroup {
-    width: 65px;
-    margin: 0 30px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    .add-button {
-      margin-bottom: 30px;
-    }
-  }
-}
-.title-wrapper {
-  text-align: left;
-
-  .title-text {
-    font-size: 16px;
-    color: #333;
-    line-height: 22px;
-    margin-left: 8px;
-  }
-  .icon {
-    width: 2px;
-    height: 14px;
-    background: rgba(60, 140, 255, 1);
-    border-radius: 1px;
-    display: inline-block;
-  }
-}
-.addContent {
-  position: relative;
-  padding: 24px;
-  background: #fff;
-  min-height: 360px;
-  border-radius: 4px;
-
-  .detail-input-wrapper {
-    position: relative;
-    margin-bottom: 24px;
-
-    .detail-title {
-      position: absolute;
-      left: 0;
-      color: #333;
-      font-size: 14px;
-    }
-    /deep/.ant-calendar-picker {
-      width: 100% !important;
-    }
-    /deep/.ant-select-enabled {
-      margin-top: 30px;
-    }
-
-    .detail-input {
-      margin-top: 30px;
-    }
-  }
-}
-.btnGroup {
-  text-align: right;
-  margin: 16px;
-  .save-button {
-    margin-right: 15px;
-    background-color: #fff;
-    color: #333;
-    border-color: #d9d9d9;
-  }
-}
+<style scoped lang='less'>
+@import './css/addNewFarmPlan.less';
 </style>
