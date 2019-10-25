@@ -8,7 +8,12 @@
     </div>
     <div class="wrapper">
       <a-steps :current="current" :labelPlacement="vertical">
-        <a-step :labelPlacement="vertical" v-for="(item, index) in steps" :key="index" :title="item.title"/>
+        <a-step
+          :labelPlacement="vertical"
+          v-for="(item, index) in steps"
+          :key="index"
+          :title="item.title"
+        />
       </a-steps>
       <!--基本信息-->
       <div v-show="current === 0">
@@ -17,10 +22,7 @@
           <span class="title-text">基本信息</span>
         </div>
         <div class="detail-wrapper">
-          <a-form
-            :form="msgForm.form"
-            @submit="handleMsgSubmit"
-          >
+          <a-form :form="msgForm.form" @submit="handleMsgSubmit">
             <a-row>
               <a-col :span="11">
                 <div class="search-input-wrapper">
@@ -40,15 +42,17 @@
               <a-col :span="11">
                 <div class="search-input-wrapper">
                   <a-form-item :label="`产品品类`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
-                    <a-select class="detail-input" placeholder="请选择产品品类" style="width: 100%"
-                              @change="categoryChange"
-                              v-decorator="msgForm.productCategoryRule"
+                    <a-select
+                      class="detail-input"
+                      placeholder="请选择产品品类"
+                      style="width: 100%"
+                      @change="categoryChange"
+                      v-decorator="msgForm.productCategoryRule"
                     >
-                      <a-select-option v-for="(item,index) in productCategoryList"
-                                       :key="item.value"
-                      >
-                        {{item.label}}
-                      </a-select-option>
+                      <a-select-option
+                        v-for="(item) in productCategoryList"
+                        :key="item.value"
+                      >{{item.label}}</a-select-option>
                     </a-select>
                   </a-form-item>
                 </div>
@@ -56,15 +60,17 @@
               <a-col :span="11">
                 <div class="search-input-wrapper">
                   <a-form-item :label="`产品品种`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
-                    <a-select class="detail-input" placeholder="请选择产品品种" style="width: 100%"
-                              @change="breedChange"
-                              v-decorator="msgForm.productVarietyRule"
+                    <a-select
+                      class="detail-input"
+                      placeholder="请选择产品品种"
+                      style="width: 100%"
+                      @change="breedChange"
+                      v-decorator="msgForm.productVarietyRule"
                     >
-                      <a-select-option v-for="(item) in productVarietyList"
-                                       :key="item.value"
-                      >
-                        {{item.label}}
-                      </a-select-option>
+                      <a-select-option
+                        v-for="(item) in productVarietyList"
+                        :key="item.value"
+                      >{{item.label}}</a-select-option>
                     </a-select>
                   </a-form-item>
                 </div>
@@ -72,15 +78,17 @@
               <a-col :span="11">
                 <div class="search-input-wrapper">
                   <a-form-item :label="`方案权限`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
-                    <a-select class="detail-input" placeholder="请选择方案权限" style="width: 100%"
-                              @change="projectPowerChange"
-                              v-decorator="msgForm.projectPowerRule"
+                    <a-select
+                      class="detail-input"
+                      placeholder="请选择方案权限"
+                      style="width: 100%"
+                      @change="projectPowerChange"
+                      v-decorator="msgForm.projectPowerRule"
                     >
-                      <a-select-option v-for="(item) in projectPowerArr"
-                                       :key="item.value"
-                      >
-                        {{item.label}}
-                      </a-select-option>
+                      <a-select-option
+                        v-for="(item) in projectPowerArr"
+                        :key="item.value"
+                      >{{item.label}}</a-select-option>
                     </a-select>
                   </a-form-item>
                 </div>
@@ -88,16 +96,18 @@
               <a-col :span="11">
                 <div class="search-input-wrapper">
                   <a-form-item :label="`参与人`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
-                    <a-select class="detail-input" placeholder="请选择参与人" style="width: 100%"
-                              mode="multiple"
-                              @change="participantUserChange"
-                              v-decorator="msgForm.participantUserRule"
+                    <a-select
+                      class="detail-input"
+                      placeholder="请选择参与人"
+                      style="width: 100%"
+                      mode="multiple"
+                      @change="participantUserChange"
+                      v-decorator="msgForm.participantUserRule"
                     >
-                      <a-select-option v-for="(item) in participantUserIdArr"
-                                       :key="item.value"
-                      >
-                        {{item.label}}
-                      </a-select-option>
+                      <a-select-option
+                        v-for="(item) in participantUserIdArr"
+                        :key="item.value"
+                      >{{item.label}}</a-select-option>
                     </a-select>
                   </a-form-item>
                 </div>
@@ -141,7 +151,9 @@
                 <a-button type="primary">{{item.label}}</a-button>
               </div>
               <span @click="editCycle">
-                <a-button type="primary"><a-icon type="setting"/>编辑周期</a-button>
+                <a-button type="primary">
+                  <a-icon type="setting" />编辑周期
+                </a-button>
               </span>
             </a-col>
           </a-row>
@@ -153,13 +165,13 @@
             </a-col>
             <a-col :span="21">
               <div class="cycleForm">
-                <a-form :form="cycleForm.form" @submit="cycleSubmit" :label-col="{ span: 0 }"
-                        :wrapper-col="{ span: 3 }">
-                  <a-form-item
-                    v-for="(k, index) in cycleList"
-                    :key="index"
-                    :required="false"
-                  >
+                <a-form
+                  :form="cycleForm.form"
+                  @submit="cycleSubmit"
+                  :label-col="{ span: 0 }"
+                  :wrapper-col="{ span: 3 }"
+                >
+                  <a-form-item v-for="(k, index) in cycleList" :key="index" :required="false">
                     <div class="growthCycle">
                       <a-input-number
                         autocomplete="off"
@@ -180,13 +192,10 @@
         ]"
                       />
                     </div>
-
                   </a-form-item>
                 </a-form>
               </div>
-
             </a-col>
-
           </a-row>
         </div>
       </div>
@@ -197,12 +206,7 @@
           <span class="title-text">任务列表</span>
         </div>
         <div @click="addTask">
-          <a-button
-            type="primary"
-            class="add-button"
-          >
-            新增任务
-          </a-button>
+          <a-button type="primary" class="add-button">新增任务</a-button>
         </div>
 
         <a-table
@@ -211,12 +215,17 @@
           :dataSource="list"
           :style="{marginTop: '50px'}"
         >
-          <div slot="tableNongZi" slot-scope="record" class="tableLineCtr">
-            {{record[0] ? record[0].name + '-' + record[0].consumption + record[0].unit : ''}}
-          </div>
-          <div slot="executionCycle" :title="record" slot-scope="record" class="tableLineCtr">
-            {{record}}
-          </div>
+          <div
+            slot="tableNongZi"
+            slot-scope="record"
+            class="tableLineCtr"
+          >{{record[0] ? record[0].name + '-' + record[0].consumption + record[0].unit : ''}}</div>
+          <div
+            slot="executionCycle"
+            :title="record"
+            slot-scope="record"
+            class="tableLineCtr"
+          >{{record}}</div>
           <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
           <div slot="expandedRowRender" slot-scope="record" style="margin: 0" class="expendLine">
             <div class="expendContent" v-for="(item, index) in record.tableNongZi" :key="index">
@@ -225,56 +234,44 @@
               <div class="tableCtrol1">{{record.cycle}}</div>
               <div class="tableCtrol1">{{record.type}}</div>
               <div class="tableCtrol2">
-                <div :title="item.name + '-' + item.consumption + item.unit" class="textOverCtr">{{item.name}} - {{item.consumption}}{{item.unit}}</div>
+                <div
+                  :title="item.name + '-' + item.consumption + item.unit"
+                  class="textOverCtr"
+                >{{item.name}} - {{item.consumption}}{{item.unit}}</div>
               </div>
               <div class="textOverCtr" :title="record.executionCycle">{{record.executionCycle}}</div>
 
               <div :title="record.purpose" class="textOverCtr">{{record.purpose}}</div>
-              <div :title="record.cycleDescription" class="tableCtrol1 textOverCtr">{{record.cycleDescription}}</div>
+              <div
+                :title="record.cycleDescription"
+                class="tableCtrol1 textOverCtr"
+              >{{record.cycleDescription}}</div>
               <div></div>
-
             </div>
-
           </div>
-          <div
-            class="action"
-            slot="operation"
-            slot-scope="record"
-          >
+          <div class="action" slot="operation" slot-scope="record">
             <span @click="editAction(record)">编辑</span>
             <span @click="taskAction(1,record)">删除</span>
           </div>
-          <div class="textOverCtr" slot="purpose" slot-scope="text, record" :title="record.purpose">
-            {{record.purpose}}
-          </div>
-          <div class="textOverCtr" slot="cycleDescription" slot-scope="text, record"
-               :title="record.cycleDescription">{{record.cycleDescription}}
-          </div>
+          <div
+            class="textOverCtr"
+            slot="purpose"
+            slot-scope="text, record"
+            :title="record.purpose"
+          >{{record.purpose}}</div>
+          <div
+            class="textOverCtr"
+            slot="cycleDescription"
+            slot-scope="text, record"
+            :title="record.cycleDescription"
+          >{{record.cycleDescription}}</div>
         </a-table>
       </div>
-
     </div>
     <div class="steps-action">
-      <a-button
-        v-if="current < steps.length - 2"
-        type="primary" @click="next"
-      >
-        下一步
-      </a-button>
-      <a-button
-        v-if="current == steps.length - 2"
-        type="primary"
-        @click="commitTaskData"
-      >
-        提交方案
-      </a-button>
-      <a-button
-        v-if="current>0"
-        style="margin-left: 8px"
-        @click="prev"
-      >
-        上一步
-      </a-button>
+      <a-button v-if="current < steps.length - 2" type="primary" @click="next">下一步</a-button>
+      <a-button v-if="current == steps.length - 2" type="primary" @click="commitTaskData">提交方案</a-button>
+      <a-button v-if="current>0" style="margin-left: 8px" @click="prev">上一步</a-button>
     </div>
     <!--    编辑周期排序-->
     <div v-if="visible">
@@ -284,7 +281,7 @@
         :maskClosable="false"
         :keyboard="false"
         okText="确定"
-        cancelText='取消'
+        cancelText="取消"
         :visible="visible"
         @ok="handleOk(1)"
         :confirmLoading="confirmLoading"
@@ -299,17 +296,26 @@
           <a-col :span="19">
             <div class="growthCycle" v-for="(item,index) in arrList" :key="index">
               <a-button type="primary">{{item.label}}</a-button>
-              <div class="moneLabel" v-for="(item,moveIndex) in moveList" :key="moveIndex" @click="moveLabel(index,moveIndex)">
-                {{item.label}}
-              </div>
+              <div
+                class="moneLabel"
+                v-for="(item,moveIndex) in moveList"
+                :key="moveIndex"
+                @click="moveLabel(index,moveIndex)"
+              >{{item.label}}</div>
             </div>
           </a-col>
           <a-col :span="3">
-            <a-select placeholder="请选择" :disabled="selectList.length === 0 ? true : false" style="width: 120px"
-                      @select="handleChange">
-              <a-icon slot="suffixIcon" type="smile"/>
-              <a-select-option v-for="(item) in selectList" :key="JSON.stringify(item)">{{item.label}}
-              </a-select-option>
+            <a-select
+              placeholder="请选择"
+              :disabled="selectList.length === 0 ? true : false"
+              style="width: 120px"
+              @select="handleChange"
+            >
+              <a-icon slot="suffixIcon" type="smile" />
+              <a-select-option
+                v-for="(item) in selectList"
+                :key="JSON.stringify(item)"
+              >{{item.label}}</a-select-option>
             </a-select>
           </a-col>
         </a-row>
@@ -323,59 +329,62 @@
         :maskClosable="false"
         :keyboard="false"
         okText="确定"
-        cancelText='取消'
+        cancelText="取消"
         :visible="isAddTask"
         @ok="handleOk(2)"
         :confirmLoading="confirmLoading"
         @cancel="handleCancel(2)"
       >
         <a-row>
-          <a-form
-            :form="taskForm.form"
-            @submit="taskSubmit"
-          >
+          <a-form :form="taskForm.form" @submit="taskSubmit">
             <a-col :span="11">
               <a-form-item :label="`所属周期`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
-                <a-select class="detail-input" placeholder="请选择周期" style="width: 100%"
-                          @change="cycleChange"
-                          :disabled="checkIsEditTask"
-                          v-decorator="taskForm.cycleRule"
+                <a-select
+                  class="detail-input"
+                  placeholder="请选择周期"
+                  style="width: 100%"
+                  @change="cycleChange"
+                  :disabled="checkIsEditTask"
+                  v-decorator="taskForm.cycleRule"
                 >
-                  <a-select-option v-for="(item) in taskCycle"
-                                   :key="JSON.stringify(item)"
-                  >
-                    {{item.label}}
-                  </a-select-option>
+                  <a-select-option
+                    v-for="(item) in taskCycle"
+                    :key="JSON.stringify(item)"
+                  >{{item.label}}</a-select-option>
                 </a-select>
               </a-form-item>
             </a-col>
             <a-col :span="11">
               <a-form-item :label="`农事类型`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
-                <a-select class="detail-input" placeholder="请选择农事类型" style="width: 100%"
-                          @change="frameChange"
-                          :disabled="checkIsEditTask"
-                          v-decorator="taskForm.frameRule"
+                <a-select
+                  class="detail-input"
+                  placeholder="请选择农事类型"
+                  style="width: 100%"
+                  @change="frameChange"
+                  :disabled="checkIsEditTask"
+                  v-decorator="taskForm.frameRule"
                 >
-                  <a-select-option v-for="(item) in frameType"
-                                   :key="JSON.stringify(item)"
-                  >
-                    {{item.label}}
-                  </a-select-option>
+                  <a-select-option
+                    v-for="(item) in frameType"
+                    :key="JSON.stringify(item)"
+                  >{{item.label}}</a-select-option>
                 </a-select>
               </a-form-item>
             </a-col>
             <a-col :span="11">
               <a-form-item :label="`任务操作`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
-                <a-select class="detail-input" placeholder="请选择任务操作" style="width: 100%"
-                          :disabled="!isFrameType || checkIsEditTask"
-                          @change="actionChange"
-                          v-decorator="taskForm.actionRule"
+                <a-select
+                  class="detail-input"
+                  placeholder="请选择任务操作"
+                  style="width: 100%"
+                  :disabled="!isFrameType || checkIsEditTask"
+                  @change="actionChange"
+                  v-decorator="taskForm.actionRule"
                 >
-                  <a-select-option v-for="(item) in actionType"
-                                   :key="JSON.stringify(item)"
-                  >
-                    {{item.label}}
-                  </a-select-option>
+                  <a-select-option
+                    v-for="(item) in actionType"
+                    :key="JSON.stringify(item)"
+                  >{{item.label}}</a-select-option>
                 </a-select>
               </a-form-item>
             </a-col>
@@ -383,8 +392,12 @@
             <a-col :span="11">
               <a-row>
                 <a-col :span="6">
-                  <a-form-item style="text-align: right" :label="`执行周期(天):`" :label-col="{ span: 23 }"
-                               :wrapper-col="{ span: 1 }">
+                  <a-form-item
+                    style="text-align: right"
+                    :label="`执行周期(天):`"
+                    :label-col="{ span: 23 }"
+                    :wrapper-col="{ span: 1 }"
+                  >
                     <a-input
                       autocomplete="off"
                       style="display: none"
@@ -406,9 +419,7 @@
                     />
                   </a-form-item>
                 </a-col>
-                <a-col :span="1" class="splitLine">
-                  一
-                </a-col>
+                <a-col :span="1" class="splitLine">一</a-col>
                 <a-col :span="7">
                   <a-form-item :label-col="{ span: 0 }" :wrapper-col="{ span: 24 }">
                     <a-input-number
@@ -454,27 +465,23 @@
           <!--              />-->
           <!--            </div>-->
           <!--          </a-col>-->
-
         </a-row>
         <a-row>
           <div class="tableHead">
             <li v-for="(item,index) in tableHead" :key="index">{{item.label}}</li>
           </div>
           <div>
-            <a-select placeholder="请选择" class="tableSelect"
-                      :disabled="!isFrameType"
-                      v-model="nongziName"
-                      @change="nameChange">
-              <a-icon slot="suffixIcon" type="smile"/>
-              <a-select-option v-for="(item) in name" :key="JSON.stringify(item)">{{item.label}}
-              </a-select-option>
-            </a-select>
-            <a-input-number
-              autocomplete="off"
-              :min="1"
+            <a-select
+              placeholder="请选择"
               class="tableSelect"
-              v-model="consumption"
-            />
+              :disabled="!isFrameType"
+              v-model="nongziName"
+              @change="nameChange"
+            >
+              <a-icon slot="suffixIcon" type="smile" />
+              <a-select-option v-for="(item) in name" :key="JSON.stringify(item)">{{item.label}}</a-select-option>
+            </a-select>
+            <a-input-number autocomplete="off" :min="1" class="tableSelect" v-model="consumption" />
             <a-input
               autocomplete="off"
               placeholder="Basic usage"
@@ -510,7 +517,7 @@ import {
   getfarmingTypeList,
   getActionList,
   getMaterialList,
-  addNewTask,
+  // addNewTask,
   projectUser,
   editProjectMsg, checkProjectRepeat
 } from '@/api/projectCenter.js'
@@ -582,7 +589,7 @@ Vue.use(Input)
 Vue.use(Select)
 Vue.use(Table)
 export default {
-  data() {
+  data () {
     return {
       crumbsArr: [
         { name: '当前位置', back: false, path: '' },
@@ -733,7 +740,7 @@ export default {
   components: {
     crumbsNav
   },
-  mounted() {
+  mounted () {
     let self = this
     this.projectNameValidator = (rule, value, callback) => {
       this.projectNameRepeat = false
@@ -759,7 +766,7 @@ export default {
   },
   methods: {
     // 获取方案详情
-    async getProjectDetail() {
+    async getProjectDetail () {
       await this._getprojectUser()
       await this.getCategoryArr()
       await editProjectDetail(this.detail.solutionId).then((res) => {
@@ -774,7 +781,7 @@ export default {
       })
     },
     // 方案任务列表回填
-    setProjectTable(solutionPlanCycleList) {
+    setProjectTable (solutionPlanCycleList) {
       let self = this
       let tableList = []
       for (let i = 0; i < solutionPlanCycleList.length; i++) {
@@ -831,7 +838,7 @@ export default {
       }
     },
     // 基础信息数据回填
-    setProjectMsg(solutionPlan) {
+    setProjectMsg (solutionPlan) {
       let userArr = []
       for (let i = 0; i < solutionPlan.participantUserList.length; i++) {
         userArr.push(solutionPlan.participantUserList[i].userId)
@@ -860,7 +867,7 @@ export default {
       })
     },
     // 方案周期数据回填
-    setProjectCycle(solutionPlanCycleList) {
+    setProjectCycle (solutionPlanCycleList) {
       let cycleArr = []
       let cycleObj = {}
       this.dateType = solutionPlanCycleList[0].cycleUnit
@@ -885,7 +892,7 @@ export default {
       })
     },
     // 校验基础信息
-    handleMsgSubmit() {
+    handleMsgSubmit () {
       let self = this
       this.msgForm.form.validateFields((err, values) => {
         console.log(values)
@@ -917,7 +924,7 @@ export default {
       })
     },
     // 校验周期
-    cycleSubmit() {
+    cycleSubmit () {
       let self = this
       this.cycleForm.form.validateFields((err, values) => {
         console.log(this.cycleList)
@@ -946,7 +953,7 @@ export default {
       })
     },
     // 校验任务新增
-    taskSubmit() {
+    taskSubmit () {
       let self = this
       this.taskForm.form.validateFields((err, values) => {
         console.log(values)
@@ -1039,7 +1046,7 @@ export default {
       })
     },
     // 获取方案参与人
-    _getprojectUser() {
+    _getprojectUser () {
       this.participantUserIdArr = []
       projectUser().then((res) => {
         for (let i = 0; i < res.data.length; i++) {
@@ -1050,7 +1057,7 @@ export default {
         console.log(res)
       })
     },
-    formatDialogData() {
+    formatDialogData () {
       this.tableList = []
       this.tableProduction = {}
       this.consumption = ''
@@ -1059,10 +1066,10 @@ export default {
       this.maxActionType = ''
       this.cycleDesc = ''
     },
-    selectLabel(item) {
+    selectLabel (item) {
       console.log(item)
     },
-    getLifeCycleArr(code) {
+    getLifeCycleArr (code) {
       let self = this
       self.cycleList = []
       getLifeCycleList(code).then((res) => {
@@ -1076,7 +1083,7 @@ export default {
         }
       })
     },
-    getCategoryArr() {
+    getCategoryArr () {
       let self = this
       getCategoryList().then((res) => {
         for (let i = 0; i < res.data.length; i++) {
@@ -1085,7 +1092,7 @@ export default {
         }
       })
     },
-    getBreedArr(type) {
+    getBreedArr (type) {
       let self = this
       self.productVarietyList = []
       getBreedList(type).then((res) => {
@@ -1094,7 +1101,7 @@ export default {
         }
       })
     },
-    getFrameTypeArr() {
+    getFrameTypeArr () {
       let self = this
       getfarmingTypeList().then((res) => {
         for (let i = 0; i < res.data.length; i++) {
@@ -1103,7 +1110,7 @@ export default {
       })
       console.log(self.frameType)
     },
-    getActionTypeArr(code) {
+    getActionTypeArr (code) {
       let self = this
       self.actionType = []
       getActionList(code).then((res) => {
@@ -1115,7 +1122,7 @@ export default {
         }
       })
     },
-    getMaterialArr(code) {
+    getMaterialArr (code) {
       let self = this
       self.name = []
       getMaterialList(this.productVariety, code).then((res) => {
@@ -1134,7 +1141,7 @@ export default {
         this.tableProduction.materialId = self.name[0].materialId
       })
     },
-    categoryChange(value) {
+    categoryChange (value) {
       this.msgForm.isCategory = true
       this.productCategory = value
       this.list = []
@@ -1143,20 +1150,20 @@ export default {
       this.getBreedArr(value.toString())
       console.log(value)
     },
-    breedChange(item) {
+    breedChange (item) {
       console.log(item)
       this.getLifeCycleArr(item)
       this.productVariety = item
     },
     // 权限下拉框改变
-    projectPowerChange(value) {
+    projectPowerChange (value) {
       this.projectPower = value
     },
     // 参与人改变
-    participantUserChange(value) {
+    participantUserChange (value) {
       this.participantUser = value
     },
-    frameChange(data) {
+    frameChange (data) {
       this.isFrameType = true
       this.tableList = []
       let changeData = JSON.parse(data)
@@ -1166,13 +1173,13 @@ export default {
       this.getMaterialArr(changeData.value)
       console.log(changeData)
     },
-    actionChange(data) {
+    actionChange (data) {
       let changeData = JSON.parse(data)
       this.taskCacheList.taskAction = changeData.label
       this.actionId = changeData.value
       console.log(changeData)
     },
-    cycleChange(data) {
+    cycleChange (data) {
       let changeData = JSON.parse(data)
       this.taskCacheList.cycle = changeData.label
       this.lifeCycleId = changeData.value
@@ -1184,7 +1191,7 @@ export default {
     //     this.taskCacheList.purpose = changeData.label
     //     console.log(changeData)
     // },
-    nameChange(data) {
+    nameChange (data) {
       let changeData = JSON.parse(data)
       this.tableProduction.name = changeData.label
       this.tableProduction.materialId = changeData.materialId
@@ -1192,7 +1199,7 @@ export default {
       this.tableProduction.unit = changeData.unit
       console.log(changeData)
     },
-    confirmTable(type) {
+    confirmTable (type) {
       if (type === 1) {
         this.$set(this.tableProduction, 'consumption', this.consumption)
         let lineData = JSON.parse(JSON.stringify(this.tableProduction))
@@ -1200,10 +1207,10 @@ export default {
         this.tableList.push(lineData)
       }
     },
-    delTableLine(index) {
+    delTableLine (index) {
       this.tableList.splice(index, 1)
     },
-    editAction(record) {
+    editAction (record) {
       if (record.taskId) {
         this.checkIsEditTask = true
       } else {
@@ -1254,7 +1261,7 @@ export default {
              *        1：上移
              *        2：下移
              * */
-    taskAction(type, data) {
+    taskAction (type, data) {
       console.log(data)
       if (type === 1) {
         this.list.map((key, index) => {
@@ -1271,7 +1278,7 @@ export default {
         console.log('下移')
       }
     },
-    next() {
+    next () {
       if (this.current === 0) {
         this.handleMsgSubmit()
         return
@@ -1280,7 +1287,7 @@ export default {
         this.cycleSubmit()
       }
     },
-    handleChange(selectData) {
+    handleChange (selectData) {
       let data = JSON.parse(selectData)
       let self = this
       self.formatList.forEach((item) => {
@@ -1295,20 +1302,20 @@ export default {
         }
       })
     },
-    prev() {
+    prev () {
       this.current--
     },
-    checkRadio(data) {
+    checkRadio (data) {
       this.dateType = data.target.value
       console.log(data.target.value)
     },
-    editCycle() {
+    editCycle () {
       this.selectList = domUtil.compareArr(this.formatList, this.cycleList)
       console.log(this.selectList)
       this.arrList = JSON.parse(JSON.stringify(this.cycleList))
       this.visible = true
     },
-    handleOk(type) {
+    handleOk (type) {
       if (type === 1) {
         this.cycleList = this.arrList
         this.ModalText = 'The modal will be closed after two seconds'
@@ -1323,7 +1330,7 @@ export default {
 
       // this.confirmLoading = true;
     },
-    handleCancel(type) {
+    handleCancel (type) {
       console.log('Clicked cancel button')
       if (type === 1) {
         this.visible = false
@@ -1332,7 +1339,7 @@ export default {
         this.formatDialogData()
       }
     },
-    moveLabel(index, moveIndex) {
+    moveLabel (index, moveIndex) {
       console.log(index)
       console.log(moveIndex)
       if (moveIndex === 0) {
@@ -1350,7 +1357,7 @@ export default {
         console.log(this.selectList)
       }
     },
-    addTask() {
+    addTask () {
       this.checkIsEditTask = false
       this.isAddTask = true
       this.isAdd = true
@@ -1366,7 +1373,7 @@ export default {
       })
       console.log('新增任务')
     },
-    commitTaskData() {
+    commitTaskData () {
       const taskData = {
         taskList: this.taskList,
         solutionPlan: this.solutionPlan,
@@ -1386,293 +1393,291 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-  .crumbCtr{
-    height: 20px;
-    line-height: 20px;
-    margin-top: 20px;
-    margin-left: 16px;
-    text-align: left;
-  }
-  .tableLineCtr{
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 140px;
-  }
-  .ant-form-explain{
-    position: absolute;
-    height: 21px;
-    width: 200px;
-    color: #f5222d;
-  }
-  .textOverCtr {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 128px;
-  }
+.crumbCtr {
+  height: 20px;
+  line-height: 20px;
+  margin-top: 20px;
+  margin-left: 16px;
+  text-align: left;
+}
+.tableLineCtr {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 140px;
+}
+.ant-form-explain {
+  position: absolute;
+  height: 21px;
+  width: 200px;
+  color: #f5222d;
+}
+.textOverCtr {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 128px;
+}
 
-  .cycleForm {
-    /deep/ .ant-form-horizontal {
-      display: flex;
-      flex-wrap: wrap;
-    }
-  }
-
-  .splitLine {
-    text-align: center;
-    line-height: 35px;
-  }
-
-  .expendHead {
-    /*display: flex;*/
-    /*justify-content: start;*/
-  }
-
-  .expendHead > div {
-    height: 20px;
-    width: 160px;
-    padding: 16px 16px;
-    text-align: right;
-    display: inline-block;
-  }
-
-  .expendContent {
+.cycleForm {
+  /deep/ .ant-form-horizontal {
     display: flex;
-    /*justify-content: space-around;*/
-    height: 52px;
+    flex-wrap: wrap;
   }
+}
 
-  /*.tableCtrol1{*/
-  /*  !*height: 20px;*!*/
-  /*  line-height: 36px;*/
-  /*  width: 145px;*/
-  /*  !*display: inline-block;*!*/
-  /*  text-align: left;*/
-  /*}*/
-  /*.tableCtrol2{*/
-  /*  width: 217px;*/
-  /*}*/
-  .expendContent > div {
-    /*height: 20px;*/
-    width: 160px;
-    padding: 16px 16px;
-    /*text-align: right;*/
-    display: inline-block;
-  }
+.splitLine {
+  text-align: center;
+  line-height: 35px;
+}
 
-  .tableLine span {
-    display: inline-block;
-    width: 100px;
+.expendHead {
+  /*display: flex;*/
+  /*justify-content: start;*/
+}
+
+.expendHead > div {
+  height: 20px;
+  width: 160px;
+  padding: 16px 16px;
+  text-align: right;
+  display: inline-block;
+}
+
+.expendContent {
+  display: flex;
+  /*justify-content: space-around;*/
+  height: 52px;
+}
+
+/*.tableCtrol1{*/
+/*  !*height: 20px;*!*/
+/*  line-height: 36px;*/
+/*  width: 145px;*/
+/*  !*display: inline-block;*!*/
+/*  text-align: left;*/
+/*}*/
+/*.tableCtrol2{*/
+/*  width: 217px;*/
+/*}*/
+.expendContent > div {
+  /*height: 20px;*/
+  width: 160px;
+  padding: 16px 16px;
+  /*text-align: right;*/
+  display: inline-block;
+}
+
+.tableLine span {
+  display: inline-block;
+  width: 100px;
+  text-align: center;
+  line-height: 35px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tableSelect {
+  width: 80px;
+  margin-right: 20px;
+}
+
+.tableAction {
+  display: inline-block;
+  margin: 15px 0;
+}
+
+.tableAction span {
+  cursor: pointer;
+  color: #3c8cff;
+  margin-left: 13px;
+}
+
+.tableHead {
+  display: flex;
+}
+
+.tableHead li {
+  width: 100px;
+  height: 52px;
+  text-align: center;
+  line-height: 52px;
+  background-color: #fafafa;
+}
+
+.steps-content {
+  margin-top: 16px;
+  border: 1px dashed #e9e9e9;
+  border-radius: 6px;
+  background-color: #fafafa;
+  min-height: 200px;
+  text-align: center;
+  padding-top: 80px;
+}
+
+.lineCtr {
+  margin-bottom: 24px;
+}
+
+.add-button {
+  position: absolute;
+  right: 24px;
+}
+
+.action span {
+  width: 36px;
+  display: inline-block;
+  cursor: pointer;
+  color: #3c8cff;
+}
+
+.growthCycle {
+  display: inline-block;
+  margin: 10px 24px;
+  width: 100px;
+
+  .moneLabel {
+    color: #3c8cff;
     text-align: center;
-    line-height: 35px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .tableSelect {
-    width: 80px;
-    margin-right: 20px;
-  }
-
-  .tableAction {
-    display: inline-block;
-    margin: 15px 0;
-  }
-
-  .tableAction span {
     cursor: pointer;
-    color: #3C8CFF;
-    margin-left: 13px;
   }
 
-  .tableHead {
-    display: flex;
-  }
-
-  .tableHead li {
+  /deep/ .ant-btn-primary {
+    height: 24px;
     width: 100px;
-    height: 52px;
-    text-align: center;
-    line-height: 52px;
-    background-color: #FAFAFA;
   }
 
-  .steps-content {
-    margin-top: 16px;
-    border: 1px dashed #e9e9e9;
-    border-radius: 6px;
-    background-color: #fafafa;
-    min-height: 200px;
-    text-align: center;
-    padding-top: 80px;
-  }
+  /*/deep/.ant-input{*/
+  /*  width: 54px;*/
+  /*}*/
+}
 
-  .lineCtr {
+.dateTpyeRadio {
+  height: 28px;
+  width: 64px;
+  border-radius: 14px;
+  text-align: center;
+  line-height: 28px;
+  display: inline-block;
+  margin-right: 12px;
+  background-color: #f5f6fa;
+}
+
+.checkDateTpyeRadio {
+  height: 28px;
+  width: 64px;
+  border-radius: 14px;
+  text-align: center;
+  line-height: 28px;
+  display: inline-block;
+  margin-right: 12px;
+  background-color: #3c8cff;
+  color: #fff;
+}
+
+.step2-title {
+  line-height: 30px;
+}
+
+.overHidden {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.steps-action {
+  text-align: right;
+  margin: 16px;
+}
+
+.search-input-wrapper {
+  /*position: relative;*/
+  /*margin-bottom: 24px;*/
+
+  .search-title {
+    color: #333;
+    font-size: 14px;
     margin-bottom: 24px;
-  }
-
-  .add-button {
-    position: absolute;
-    right: 24px;
-  }
-
-  .action span {
-    width: 36px;
     display: inline-block;
-    cursor: pointer;
-    color: #3C8CFF;
+  }
+}
+
+.wrapper {
+  position: relative;
+  padding: 24px 24px 0 24px;
+  min-height: calc(100% - 80px);
+  background: #fff;
+  margin: 16px;
+  border-radius: 4px;
+
+  /deep/ .ant-steps-item-icon {
+    margin-left: 10px;
   }
 
-  .growthCycle {
-    display: inline-block;
-    margin: 10px 24px;
-    width: 100px;
-
-    .moneLabel {
-      color: #3C8CFF;
-      text-align: center;
-      cursor: pointer;
-    }
-
-    /deep/ .ant-btn-primary {
-      height: 24px;
-      width: 100px;
-    }
-
-    /*/deep/.ant-input{*/
-    /*  width: 54px;*/
-    /*}*/
+  /deep/ .ant-steps-item-content {
+    width: 100%;
   }
 
-  .dateTpyeRadio {
-    height: 28px;
-    width: 64px;
-    border-radius: 14px;
-    text-align: center;
-    line-height: 28px;
-    display: inline-block;
-    margin-right: 12px;
-    background-color: #F5F6FA;
+  /deep/ .ant-steps-item-tail {
+    top: 40px;
   }
 
-  .checkDateTpyeRadio {
-    height: 28px;
-    width: 64px;
-    border-radius: 14px;
-    text-align: center;
-    line-height: 28px;
-    display: inline-block;
-    margin-right: 12px;
-    background-color: #3C8CFF;
-    color: #fff;
+  /deep/ .ant-steps-item:nth-last-of-type(1) {
+    display: none;
   }
 
-  .step2-title {
-    line-height: 30px;
+  /deep/ .ant-steps-item-tail {
+    margin-left: 0;
   }
 
-  .overHidden {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+  .title-wrapper {
+    text-align: left;
 
-  .steps-action {
-    text-align: right;
-    margin: 16px;
-  }
-
-  .search-input-wrapper {
-    /*position: relative;*/
-    /*margin-bottom: 24px;*/
-
-    .search-title {
+    .title-text {
+      font-size: 16px;
       color: #333;
-      font-size: 14px;
-      margin-bottom: 24px;
+      line-height: 22px;
+      margin-left: 8px;
+    }
+
+    .icon {
+      width: 2px;
+      height: 14px;
+      background: rgba(60, 140, 255, 1);
+      border-radius: 1px;
       display: inline-block;
     }
-
   }
 
-  .wrapper {
-    position: relative;
-    padding: 24px 24px 0 24px;
-    min-height: calc(100% - 80px);
-    background: #fff;
-    margin: 16px;
-    border-radius: 4px;
+  /deep/ .ant-table-pagination {
+    display: none;
+  }
 
-    /deep/ .ant-steps-item-icon {
-      margin-left: 10px;
-    }
+  /deep/ .ant-table-wrapper {
+    overflow-y: scroll;
+    max-height: 500px;
+  }
 
-    /deep/ .ant-steps-item-content {
-      width: 100%;
-    }
+  .detail-wrapper {
+    margin-top: 25px;
+    text-align: left;
 
-    /deep/ .ant-steps-item-tail {
-      top: 40px;
-    }
+    .detail-item {
+      margin-bottom: 32px;
 
-    /deep/ .ant-steps-item:nth-last-of-type(1) {
-      display: none;
-    }
-
-    /deep/ .ant-steps-item-tail {
-      margin-left: 0;
-    }
-
-    .title-wrapper {
-      text-align: left;
-
-      .title-text {
-        font-size: 16px;
-        color: #333;
-        line-height: 22px;
-        margin-left: 8px;
+      .item-key {
+        font-size: 14px;
+        font-weight: 400;
+        color: #999;
       }
 
-      .icon {
-        width: 2px;
-        height: 14px;
-        background: rgba(60, 140, 255, 1);
-        border-radius: 1px;
-        display: inline-block;
-      }
-    }
-
-    /deep/ .ant-table-pagination {
-      display: none;
-    }
-
-    /deep/ .ant-table-wrapper {
-      overflow-y: scroll;
-      max-height: 500px;
-    }
-
-    .detail-wrapper {
-      margin-top: 25px;
-      text-align: left;
-
-      .detail-item {
-        margin-bottom: 32px;
-
-        .item-key {
-          font-size: 14px;
-          font-weight: 400;
-          color: #999;
-        }
-
-        .item-value {
-          color: #000;
-          font-size: 14px;
-          margin-left: 10px;
-        }
+      .item-value {
+        color: #000;
+        font-size: 14px;
+        margin-left: 10px;
       }
     }
   }
-
+}
 </style>

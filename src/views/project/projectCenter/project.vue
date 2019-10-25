@@ -47,9 +47,11 @@
                       { rules: [{ required: false, message: '' }] },
                     ]"
                   >
-                    <a-select-option v-for="(item, index) in statusArr" :key="item.value" :value="item.value">
-                      {{item.label}}
-                    </a-select-option>
+                    <a-select-option
+                      v-for="(item) in statusArr"
+                      :key="item.value"
+                      :value="item.value"
+                    >{{item.label}}</a-select-option>
                   </a-select>
                 </a-form-item>
               </a-col>
@@ -65,9 +67,11 @@
                       { rules: [{ required: false, message: '' }] },
                     ]"
                   >
-                    <a-select-option v-for="(item, index) in projectPowerArr" :key="item.value" :value="item.value">
-                      {{item.label}}
-                    </a-select-option>
+                    <a-select-option
+                      v-for="(item) in projectPowerArr"
+                      :key="item.value"
+                      :value="item.value"
+                    >{{item.label}}</a-select-option>
                   </a-select>
                 </a-form-item>
               </a-col>
@@ -75,22 +79,12 @@
           </a-form>
 
           <div>
-            <a-button
-              class="button"
-              @click="rest"
-            >重置</a-button>
-            <a-button
-              type="primary"
-              class="button"
-              @click="handleSearchClick"
-            >查询</a-button>
+            <a-button class="button" @click="rest">重置</a-button>
+            <a-button type="primary" class="button" @click="handleSearchClick">查询</a-button>
           </div>
         </div>
         <div class="table-wrapper">
-          <a-button
-            type="primary"
-            class="add-button"
-          >
+          <a-button type="primary" class="add-button">
             <router-link :to="{name: 'addNewProject'}">新增方案</router-link>
           </a-button>
           <div></div>
@@ -103,10 +97,7 @@
             @change="projectPageChange"
             :rowKey="record => record.greenhouseId"
           >
-            <span
-              slot="status"
-              slot-scope="text, record, index"
-            >
+            <span slot="status" slot-scope="text, record">
               <a-switch
                 checkedChildren="启用"
                 unCheckedChildren="禁用"
@@ -114,32 +105,16 @@
                 @change="statusChange(record)"
               />
             </span>
-            <span
-              slot="id"
-              slot-scope="text, record, index"
-            >{{index + 1}}</span>
-            <div
-              class="action"
-              slot="operation"
-              slot-scope="record,index"
-            >
-              <span
-                class="actionSpan"
-                @click="_publishTask(record)"
-              >
+            <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
+            <div class="action" slot="operation" slot-scope="record">
+              <span class="actionSpan" @click="_publishTask(record)">
                 <span>{{record.publishFlag === 'Y' ? '' : '发布'}}</span>
               </span>
-              <span
-                class="actionSpan"
-                @click="_copyProject(record)"
-              >拷贝</span>
+              <span class="actionSpan" @click="_copyProject(record)">拷贝</span>
               <span>
                 <router-link :to="{name: 'editProject', params: record}">编辑</router-link>
               </span>
-              <span
-                class="actionSpan"
-                @click="openDelDialog(record)"
-              >删除</span>
+              <span class="actionSpan" @click="openDelDialog(record)">删除</span>
               <span>
                 <router-link :to="{name: 'projectDetail', params: record}">查看</router-link>
               </span>
@@ -183,7 +158,7 @@ import {
   Button,
   Table,
   Select,
-    Form
+  Form
 } from 'ant-design-vue'
 
 Vue.use(Layout)
@@ -202,14 +177,14 @@ export default {
   components: {
     crumbsNav
   },
-  created() {},
-  async mounted() {
+  created () { },
+  async mounted () {
     await this.getProjectList()
     console.log(this.list)
   },
-  data() {
+  data () {
     return {
-        sreachFrom: this.$form.createForm(this),
+      sreachFrom: this.$form.createForm(this),
       crumbsArr: [
         { name: '当前位置', back: false, path: '' },
         { name: '生产管理', back: false, path: '' },
@@ -306,53 +281,53 @@ export default {
     }
   },
   methods: {
-      handleSearchClick(){
-          this.sreachFrom.validateFields((err, values) => {
-              console.log(values)
-              this.pagination.current = 1
-              this.searchParams.solutionScope = values.solutionScope ? values.solutionScope : '';
-              this.searchParams.status = values.status ? values.status : '';
-              this.searchParams.solutionName = values.solutionName ? values.solutionName : '';
-              this.searchParams.breedName = values.breedName ? values.breedName : '';
-              this.getProjectList();
-          })
-      },
-    //分页栏页数改变
-    projectPageChange(page) {
+    handleSearchClick () {
+      this.sreachFrom.validateFields((err, values) => {
+        console.log(err)
+        this.pagination.current = 1
+        this.searchParams.solutionScope = values.solutionScope ? values.solutionScope : ''
+        this.searchParams.status = values.status ? values.status : ''
+        this.searchParams.solutionName = values.solutionName ? values.solutionName : ''
+        this.searchParams.breedName = values.breedName ? values.breedName : ''
+        this.getProjectList()
+      })
+    },
+    // 分页栏页数改变
+    projectPageChange (page) {
       this.pagination.pageSize = page.pageSize
       this.pagination.current = page.current
       this.getProjectList()
     },
-    //查询方案列表
-    searchProjectList() {
+    // 查询方案列表
+    searchProjectList () {
       this.getProjectList()
     },
-    //拷贝方案
-    _copyProject(record) {
+    // 拷贝方案
+    _copyProject (record) {
       copyProject(record.solutionId).then(res => {
         if (res.success === 'Y') {
           this.getProjectList()
         }
       })
     },
-    rest() {
+    rest () {
       this.searchParams.breedName = ''
       this.searchParams.solutionScope = ''
       this.searchParams.status = ''
       this.searchParams.solutionName = ''
-      this.sreachFrom.resetFields();
-      this.getProjectList();
+      this.sreachFrom.resetFields()
+      this.getProjectList()
     },
-    //搜索栏状态改变
-    searchStatusChange(value) {
+    // 搜索栏状态改变
+    searchStatusChange (value) {
       this.searchParams.status = value
     },
-    //搜索栏权限改变
-    powerChange(value) {
+    // 搜索栏权限改变
+    powerChange (value) {
       this.searchParams.solutionScope = value
     },
-    //删除方案
-    delHandleOk() {
+    // 删除方案
+    delHandleOk () {
       this.delConfirmLoading = true
       delProjectTask(this.solutionId).then(res => {
         if (res.code === 200) {
@@ -362,14 +337,14 @@ export default {
         }
       })
     },
-    delHandleCancel() {
+    delHandleCancel () {
       this.delVisible = false
     },
-    openDelDialog(record) {
+    openDelDialog (record) {
       this.delVisible = true
       this.solutionId = record.solutionId
     },
-    _publishTask(record) {
+    _publishTask (record) {
       if (record.publishFlag === 'Y') {
         return
       }
@@ -379,7 +354,7 @@ export default {
         }
       })
     },
-    statusChange(record) {
+    statusChange (record) {
       let projectStatus = ''
       projectStatus = record.status === 'Y' ? 'N' : 'Y'
       editProjectStatus(record.solutionId, projectStatus).then(res => {
@@ -389,16 +364,16 @@ export default {
       })
       console.log(projectStatus)
     },
-    getProjectList() {
+    getProjectList () {
       let postData = this.searchParams
       postData.pageNo = this.pagination.current
       postData.pageSize = this.pagination.pageSize
       projectList(postData).then(res => {
         let unit = ''
         for (let i = 0; i < res.data.records.length; i++) {
-          if (res.data.records[i].cycleUnit == 3) {
+          if (res.data.records[i].cycleUnit === 3) {
             unit = '周'
-          } else if (res.data.records[i].cycleUnit == 5) {
+          } else if (res.data.records[i].cycleUnit === 5) {
             unit = '天'
           }
           res.data.records[i].cycleTotalLength =
@@ -411,14 +386,14 @@ export default {
         this.pagination.total = res.data.total
       })
     },
-    editProject(record) {
+    editProject (record) {
       this.$router.to({ name: 'productDetail', params: record })
     }
   }
 }
 </script>
 <style lang="less" scoped>
-.crumbCtr{
+.crumbCtr {
   height: 20px;
   line-height: 20px;
   margin-top: 20px;

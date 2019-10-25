@@ -2,10 +2,7 @@
 <template>
   <div>
     <a-breadcrumb style="text-align: left; height: 40px">
-      <a-breadcrumb-item
-        v-for="(item, index) in crumbsArr"
-        :key="index"
-      >
+      <a-breadcrumb-item v-for="(item, index) in crumbsArr" :key="index">
         <span
           :class="item.back ? 'backToPath' : ''"
           @click="backToList(item.back,item.path)"
@@ -17,7 +14,7 @@
 
 <script>
 import Vue from 'vue'
-import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
+// import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
 import { Breadcrumb } from 'ant-design-vue'
 Vue.use(Breadcrumb)
 export default {
@@ -31,11 +28,13 @@ export default {
      * */
     crumbsArr: {
       type: Array,
-      default: []
+      default: () => {
+        return []
+      }
     }
   },
   methods: {
-    backToList(back, router) {
+    backToList (back, router) {
       if (back) {
         this.$router.push({ path: router })
       }

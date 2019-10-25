@@ -34,8 +34,8 @@ module.exports = {
       "error",
       {
         // 单文件最大行数为600
-        max: 600,
-        skipComments: true
+        max: 2000,
+        skipComments: false
       }
     ],
     // radix: 'off', // parseInt 不是必须传入第二个参数
