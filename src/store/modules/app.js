@@ -91,7 +91,9 @@ const app = {
           { name: '方案市场' },
           { name: '方案市场详情' },
           { name: '知识问答' },
-          { name: '知识问答详情' }
+          { name: '知识问答详情' },
+          { name: '出库管理' },
+          { name: '生产批次管理' }
         ]
         resolve(auth)
       })
