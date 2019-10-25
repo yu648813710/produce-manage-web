@@ -181,6 +181,18 @@ export default {
       hidden: true,
       component: () => import('@/views/knowledgeQuiz/detail.vue'),
       meta: { name: '知识问答详情', icon: '' }
+    },
+    {
+      path: '/outgoingmanagement',
+      name: 'outgoingmanagement',
+      component: () => import('@/views/outgoingManagement/OutgoingManagement.vue'),
+      meta: { name: '出库管理', icon: '' }
+    },
+    {
+      path: '/productionbatchmanagement',
+      name: 'ProductionBatchManagement',
+      component: () => import('@/views/productionBatchManagement/ProductionBatchManagement.vue'),
+      meta: { name: '生产批次管理', icon: '' }
     }
   ]
 }
