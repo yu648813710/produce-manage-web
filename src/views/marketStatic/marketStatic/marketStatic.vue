@@ -15,7 +15,12 @@
     <div class="topContent">
       <div class="echartsBox">
         <div class="echartsLegend">
-          <div class="legendBox" v-for="(item,index) in lineLegend" :key="index" @click="changeLine(index)">
+          <div
+            class="legendBox"
+            v-for="(item,index) in lineLegend"
+            :key="index"
+            @click="changeLine(index)"
+          >
             <span class="legend" :class="lineIndex === index ? 'isSelect' : ''"></span>
             <span>{{item.label}}</span>
           </div>
@@ -26,11 +31,14 @@
         </div>
       </div>
       <div class="echartsBox echartLineFormat">
-        <div class="echartsXLine">
-
-        </div>
+        <div class="echartsXLine"></div>
         <div class="echartsLegend">
-          <div class="legendBox" v-for="(item,index) in lineLegend" :key="index" @click="changePrice(index)">
+          <div
+            class="legendBox"
+            v-for="(item,index) in lineLegend"
+            :key="index"
+            @click="changePrice(index)"
+          >
             <span class="legend" :class="priceIndex === index ? 'isSelect' : ''"></span>
             <span>{{item.label}}</span>
           </div>
@@ -46,24 +54,22 @@
           <div class="tableContent">
             <div v-for="(item, index) in columns" :key="index">{{item.title}}</div>
           </div>
-          <vue-seamless-scroll
-            :data="list"
-            :class-option="classOption"
-            style="overflow: hidden;"
-          >
+          <vue-seamless-scroll :data="list" :class-option="classOption" style="overflow: hidden;">
             <div class="tableBox">
               <div class="tableContent" v-for="(item, index) in list" :key="index">
                 <div>{{item.productType}}</div>
                 <div>{{item.cityName}}</div>
                 <div>{{item.productPrice}}</div>
-                <div v-if="item.periodRatio" :class="(item.periodRatio.indexOf('-')) ? 'greenLine' : 'redLine'">
+                <div
+                  v-if="item.periodRatio"
+                  :class="(item.periodRatio.indexOf('-')) ? 'greenLine' : 'redLine'"
+                >
                   <div>{{formatterRadio(item.periodRatio)}}</div>
                 </div>
                 <!--<div>{{item.sellAmount}}</div>-->
               </div>
             </div>
           </vue-seamless-scroll>
-
         </div>
       </div>
       <div class="echartsBox echartsBox2">
@@ -77,9 +83,9 @@
 </template>
 
 <script>
-import split_bg from '../ststic/split_bg.png'
+import splitBg from '../ststic/split_bg.png'
 import domUtil from '../../../utils/domUtil'
-import legend_circle from '../ststic/legend_circle.png'
+import legendCircle from '../ststic/legend_circle.png'
 import Vue from 'vue'
 import { Row, Col } from 'ant-design-vue'
 import { getLineData, getQipaoData, getTableData, getPieData } from '@/api/marketStatic.js'
@@ -88,15 +94,15 @@ Vue.use(Row)
 Vue.use(Col)
 export default {
   name: 'marketStatic',
-  data() {
+  data () {
     return {
       classOption: {
         direction: 1,
         step: 0.5,
         limitMoveNum: 6
       },
-      split_bg,
-      legend_circle,
+      splitBg,
+      legendCircle,
       lineLegend: [
         { label: '黑木耳' },
         { label: '玉木耳' },
@@ -153,7 +159,7 @@ export default {
       pieTotal: 0
     }
   },
-  mounted() {
+  mounted () {
     let self = this
     self.changeLine(0)
     self.changePrice(0)
@@ -163,17 +169,17 @@ export default {
       this.myChart.resize()
     })
   },
-  beforeDestroy() {
+  beforeDestroy () {
     clearInterval(this.setTime)
   },
   methods: {
-    formatterRadio(data) {
+    formatterRadio (data) {
       if (data.indexOf('-') >= 0) {
         return data.split('-')[1]
       }
       return data
     },
-    async changeLine(index) {
+    async changeLine (index) {
       this.lineIndex = index
       if (this.lineIndex === 0) {
         await this.setLineData('black_agaric')
@@ -183,7 +189,7 @@ export default {
         await this.setLineData('jin_agaric')
       }
     },
-    changePrice(index) {
+    changePrice (index) {
       this.priceIndex = index
       if (index === 0) {
         this.getPriceData('black_agaric')
@@ -195,7 +201,7 @@ export default {
         this.getPriceData('jin_agaric')
       }
     },
-    async getPriceData(type) {
+    async getPriceData (type) {
       await getQipaoData(type).then((res) => {
         let data = res.data
         if (res.data.length === 0) {
@@ -217,12 +223,12 @@ export default {
         }
       })
     },
-    setTableData() {
+    setTableData () {
       getTableData().then((res) => {
         this.list = res.data
       })
     },
-    getPieData() {
+    getPieData () {
       let self = this
       this.pieData = []
       this.pieTotal = 0
@@ -238,7 +244,7 @@ export default {
         }
       })
     },
-    async setLineData(type) {
+    async setLineData (type) {
       this.blackData = []
       this.lineTime = []
       let dateList = []
@@ -252,21 +258,21 @@ export default {
         this.initLineEcharts()
       })
     },
-    initLineEcharts() {
+    initLineEcharts () {
       let self = this
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(document.getElementById('myChart'))
       // 绘制图表
       echartsConfig.lineEchartsOption(myChart, self)
     },
-    initCycleEcharts() {
+    initCycleEcharts () {
       let self = this
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(document.getElementById('piceChart'))
       // 绘制图表
       echartsConfig.cycleEchartsOption(myChart, self)
     },
-    initLoudouEcharts() {
+    initLoudouEcharts () {
       let self = this
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(document.getElementById('barChart'))
@@ -278,187 +284,185 @@ export default {
 </script>
 
 <style scoped lang="less">
-  .echartsBox2{
-    overflow: hidden;
-  }
-  .seamless-warp {
-    height: 229px;
-    overflow: hidden;
-  }
-  .redLine{
-    color: #EB1451 !important;
-  }
-  .greenLine{
-    color: #00D098 !important;
-  }
-  .marketTitle{
+.echartsBox2 {
+  overflow: hidden;
+}
+.seamless-warp {
+  height: 229px;
+  overflow: hidden;
+}
+.redLine {
+  color: #eb1451 !important;
+}
+.greenLine {
+  color: #00d098 !important;
+}
+.marketTitle {
+  width: 100%;
+  height: 65px;
+  line-height: 65px;
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  color: #01fff4;
+  position: relative;
+}
+.titleLeft {
+  height: 65px;
+  margin-top: 16px;
+  background: url("../ststic/top_left.png") no-repeat;
+  background-size: 100%;
+}
+.tableBox {
+}
+.titleRight {
+  height: 65px;
+  margin-top: 16px;
+  background: url("../ststic/top_right.png") no-repeat;
+  background-size: 100%;
+}
+.splitImg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 96%;
+}
+.echarts {
+  width: 100%;
+  height: 100%;
+}
+.echartLineFormat {
+  position: relative;
+}
+.echartsXLine {
+  height: 1px;
+  position: absolute;
+  top: 264px;
+  left: 58px;
+  background-color: #fff;
+  width: 80%;
+}
+.marketContent {
+  height: 100%;
+  //min-width: 1280px;
+  overflow: auto;
+  background: url("../ststic/market_bg.png") no-repeat;
+  background-size: 100% 100%;
+  .marketTitle {
     width: 100%;
     height: 65px;
     line-height: 65px;
     text-align: center;
     font-size: 28px;
     font-weight: bold;
-    color: #01FFF4;
+    color: #01fff4;
     position: relative;
-  }
-  .titleLeft{
-    height: 65px;
-    margin-top: 16px;
-    background: url("../ststic/top_left.png") no-repeat;
-    background-size: 100%;
-  }
-  .tableBox{
-  }
-  .titleRight{
-    height: 65px;
-    margin-top: 16px;
-    background: url("../ststic/top_right.png") no-repeat;
-    background-size: 100%;
-  }
-  .splitImg{
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 96%;
-  }
-  .echarts {
-    width: 100%;
-    height: 100%;
-  }
-  .echartLineFormat{
-    position: relative;
-  }
-  .echartsXLine{
-    height: 1px;
-    position: absolute;
-    top: 264px;
-    left: 58px;
-    background-color: #fff;
-    width: 80%;
-  }
-  .marketContent {
-    height: 100%;
-    //min-width: 1280px;
-    overflow: auto;
-    background: url("../ststic/market_bg.png") no-repeat;
-    background-size: 100% 100%;
-    .marketTitle{
-      width: 100%;
+    .titleLeft {
+      width: 50%;
       height: 65px;
-      line-height: 65px;
-      text-align: center;
-      font-size: 28px;
-      font-weight: bold;
-      color: #01FFF4;
-      position: relative;
-      .titleLeft{
-        width: 50%;
-        height: 65px;
-        position: absolute;
-        top: 21px;
-        left: 250px;
-        background: url("../ststic/top_left.png") no-repeat;
-      }
-      .titleRight{
-        width: 50%;
-        height: 65px;
-        position: absolute;
-        top: 21px;
-        left: 810px;
-        background: url("../ststic/top_right.png") no-repeat;
-      }
+      position: absolute;
+      top: 21px;
+      left: 250px;
+      background: url("../ststic/top_left.png") no-repeat;
     }
-
-    .topContent {
-      width: 100%;
-      height: 354px;
-      display: -webkit-box;
-      flex-flow: nowrap;
-      .echartsBox {
-        position: relative;
-        margin: 1%;
-        width: 48%;
-        /*border-radius: 15px;*/
-        padding: 10px;
-        background: url('../ststic/split_bg.png') no-repeat;
-        background-size: 100% 99%;
-
-        .echartsLegend{
-          display: flex;
-          color: #fff;
-          position: absolute;
-          right: 10%;
-          width: 210px;
-          top: 33px;
-          .legendBox{
-            margin-right: 10px;
-            cursor: pointer;
-            .legend{
-              height: 12px;
-              width: 12px;
-              display: inline-block;
-              border: 3px solid #999999;
-              border-radius: 50%;
-              margin-right: 5px;
-            }
-          }
-          .isSelect{
-            border: 3px solid #00DCEB !important;
-          }
-
-        }
-        .echartsLabel {
-          display: inherit;
-          font-size: 20px;
-          font-weight: bold;
-          color: #FFD500;
-          text-align: left;
-          padding: 20px;
-        }
-
-        .echartsContent {
-          height: 220px;
-          overflow: hidden;
-
-          .tableContent {
-            display: flex;
-            flex-wrap: nowrap;
-            padding: 10px 0;
-          }
-          .tableContent:nth-of-type(odd){
-            background-color: #1F276D;
-          }
-          /deep/.g2-guide-html{
-            color: #fff;
-          }
-          .tableContent > div {
-            color: #fff;
-            width: 163px;
-          }
-
-          /deep/ .ant-table-thead > tr > th {
-            background-color: #04113e;
-            color: #fff;
-          }
-
-          /deep/ .ant-table-placeholder {
-            background-color: #04113e;
-            color: #fff;
-            border-bottom: none;
-          }
-
-          /deep/ .ant-table {
-            color: #fff;
-          }
-        }
-      }
-    }
-
-    .bottomContent {
-      height: 50%;
-      width: 100%;
-      min-height: 360px;
+    .titleRight {
+      width: 50%;
+      height: 65px;
+      position: absolute;
+      top: 21px;
+      left: 810px;
+      background: url("../ststic/top_right.png") no-repeat;
     }
   }
 
+  .topContent {
+    width: 100%;
+    height: 354px;
+    display: -webkit-box;
+    flex-flow: nowrap;
+    .echartsBox {
+      position: relative;
+      margin: 1%;
+      width: 48%;
+      /*border-radius: 15px;*/
+      padding: 10px;
+      background: url("../ststic/split_bg.png") no-repeat;
+      background-size: 100% 99%;
+
+      .echartsLegend {
+        display: flex;
+        color: #fff;
+        position: absolute;
+        right: 10%;
+        width: 210px;
+        top: 33px;
+        .legendBox {
+          margin-right: 10px;
+          cursor: pointer;
+          .legend {
+            height: 12px;
+            width: 12px;
+            display: inline-block;
+            border: 3px solid #999999;
+            border-radius: 50%;
+            margin-right: 5px;
+          }
+        }
+        .isSelect {
+          border: 3px solid #00dceb !important;
+        }
+      }
+      .echartsLabel {
+        display: inherit;
+        font-size: 20px;
+        font-weight: bold;
+        color: #ffd500;
+        text-align: left;
+        padding: 20px;
+      }
+
+      .echartsContent {
+        height: 220px;
+        overflow: hidden;
+
+        .tableContent {
+          display: flex;
+          flex-wrap: nowrap;
+          padding: 10px 0;
+        }
+        .tableContent:nth-of-type(odd) {
+          background-color: #1f276d;
+        }
+        /deep/.g2-guide-html {
+          color: #fff;
+        }
+        .tableContent > div {
+          color: #fff;
+          width: 163px;
+        }
+
+        /deep/ .ant-table-thead > tr > th {
+          background-color: #04113e;
+          color: #fff;
+        }
+
+        /deep/ .ant-table-placeholder {
+          background-color: #04113e;
+          color: #fff;
+          border-bottom: none;
+        }
+
+        /deep/ .ant-table {
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  .bottomContent {
+    height: 50%;
+    width: 100%;
+    min-height: 360px;
+  }
+}
 </style>

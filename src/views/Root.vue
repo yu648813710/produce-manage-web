@@ -3,7 +3,7 @@
     <div class="sider">
       <SideMenu></SideMenu>
     </div>
-     <div class="loadingContent" v-show="loading">
+    <div class="loadingContent" v-show="loading">
       <a-spin :spinning="loading" size="large" />
     </div>
     <div class="content">
@@ -16,8 +16,8 @@
 import { SideMenu } from '@/components'
 import Vue from 'vue'
 import { Spin } from 'ant-design-vue'
+import { mapState } from 'vuex' // mapActions, mapMutations
 Vue.use(Spin)
-import { mapState, mapActions, mapMutations } from 'vuex'
 export default {
   name: 'Root',
   components: { SideMenu },
@@ -27,20 +27,20 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-  .loadingContent{
-    position: absolute;
-    height: 100%;
-    width: calc( 100% - 240px );
-    right: 0;
-    top: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    background-color: rgba(0,0,0,0.1);
-  }
+.loadingContent {
+  position: absolute;
+  height: 100%;
+  width: calc(100% - 240px);
+  right: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.1);
+}
 
-  .Root {
+.Root {
   display: flex;
   height: 100%;
   overflow: hidden;
