@@ -1,6 +1,6 @@
 <template>
   <a-locale-provider :locale="zhCN">
-    <div id="app">
+    <div>
       <router-view />
     </div>
   </a-locale-provider>
@@ -24,7 +24,7 @@ export default {
   color: #2c3e50;
   height: 100%;
 }
-.ant-layout{
+.ant-layout {
   background: none !important;
 }
 </style>

@@ -13,6 +13,13 @@ module.exports = {
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
     ]
     config.plugins = [...config.plugins, ...plugins]
+    config.uglifyOptions = {
+      compress: {
+        warnings: false,
+        drop_debugger: true, // 关闭debug
+        drop_console: true // 关闭console
+      }
+    }
   },
   chainWebpack: config => {
     config.resolve.alias.set('@', resolve('src'))
@@ -94,10 +101,6 @@ module.exports = {
       }
     }
   },
-
-  // disable source map in production
   productionSourceMap: false,
-  lintOnSave: true,
-  // babel-loader no-ignore node_modules/*
-  transpileDependencies: []
+  lintOnSave: true
 }
