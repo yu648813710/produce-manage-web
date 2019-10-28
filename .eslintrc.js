@@ -24,7 +24,7 @@ module.exports = {
       }
     ],
     complexity: [
-      // 圈复杂度最大为10
+      // 圈复杂度最大为30
       "error",
       {
         max: 30
@@ -33,8 +33,8 @@ module.exports = {
     "max-lines": [
       "error",
       {
-        // 单文件最大行数为600
-        max: 2000,
+        // 单文件最大行数为 600
+        max: 600,
         skipComments: false
       }
     ],
