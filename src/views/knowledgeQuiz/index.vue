@@ -49,7 +49,7 @@
                   }]"
                   :placeholder="item.placeholder"
                 >
-                  <a-select-option v-for="i in item.arrs" :key="i.targetClazz">{{i.clazzName}}</a-select-option>
+                  <a-select-option v-for="i in item.arrs" :key="i.clazzName">{{i.clazzName}}</a-select-option>
                 </a-select>
                 <a-select
                   v-if="index === 3 || index === 4"
