@@ -1383,7 +1383,10 @@ export default {
         if (res.success === 'Y') {
           this.list = []
           this.taskCacheList = {}
+          this.$message.success('方案修改成功！')
           this.$router.push({ path: '/projectCenter' })
+        } else {
+          this.$message.error('方案修改失败！')
         }
         console.log(res)
       })
