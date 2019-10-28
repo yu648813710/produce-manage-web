@@ -44,7 +44,10 @@ export default {
   },
   methods: {
     toDetail (info) {
-      this.$router.push({ path: `/planMarketDetail/${info.solutionId}` })
+      this.$router.push({
+        name: 'planMarketDetail',
+        query: { 'solutionId': info.solutionId }
+      })
     },
     cmpTime (time) {
       return formDate.formDate(time)

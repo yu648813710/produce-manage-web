@@ -172,6 +172,8 @@ export default {
     },
     // 分页
     handleTableChange(pagination, filters, sorter) {
+      this.pagination.current = pagination.current
+      this.pagination.pageSize = pagination.pageSize
       let data = {
         pageNo: pagination.current,
         pageSize: pagination.pageSize

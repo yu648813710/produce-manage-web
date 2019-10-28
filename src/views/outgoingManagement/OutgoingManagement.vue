@@ -27,17 +27,11 @@
               </a-col>
               <a-col :span="8">
                 <a-form-item label="出库人">
-                  <a-select
-                    placeholder="请选择"
-                    :allowClear="true"
-                    style="width: 100%;"
-                    v-decorator="[
-                      'userId',
-                    ]"
-                    @change="getUserId"
-                  >
-                    <a-select-option v-for="item in userArray" :key="item.userId" :value="item.userId">{{item}}</a-select-option>
-                  </a-select>
+                  <a-input
+                    placeholder="请输入"
+                    autocomplete="off"
+                    v-model="userName"
+                  />
                 </a-form-item>
               </a-col>
               <a-col :span="8">
@@ -149,8 +143,7 @@ export default {
       loading: false,
       visible: false,
       deliveryTime: '', // 出库时间
-      userArray: [], // 用户
-      userId: '',
+      userName: '',
       allName: [], // 菌包
       fungusBagId: '',
       sreachForm: this.$form.createForm(this)
@@ -198,12 +191,6 @@ export default {
           }
         })
     },
-    // 获取用户
-    getUserId(value) {
-      if (value) {
-        this.userId = value
-      }
-    },
     // 获取菌包ID
     getFungusBagId(value) {
       if (value) {
@@ -216,7 +203,7 @@ export default {
         pageNo: 1,
         pageSize: 10,
         deliveryTime: this.deliveryTime,
-        userId: this.userId,
+        userName: this.userName,
         fungusBagId: this.fungusBagId // 菌包ID
       }
       this.getList(data)
@@ -230,6 +217,8 @@ export default {
     },
     // 分页
     handleTableChange(pagination, filters, sorter) {
+      this.pagination.current = pagination.current
+      this.pagination.pageSize = pagination.pageSize
       let data = {
         pageNo: pagination.current,
         pageSize: pagination.pageSize
@@ -240,7 +229,7 @@ export default {
     handleReset() {
       this.sreachForm.resetFields()
       this.deliveryTime = ''
-      this.userId = ''
+      this.userName = ''
       this.fungusBagId = ''
       // 获取列表
       let data = {
