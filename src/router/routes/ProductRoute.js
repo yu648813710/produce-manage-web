@@ -80,7 +80,7 @@ export default {
           meta: { name: '生长监控大屏', icon: '' }
         },
         {
-          path: 'warringList/:type',
+          path: 'warringList',
           name: 'warringList',
           hidden: true,
           component: () => import('@/views/Production/growthMonitore/warringList.vue'),
@@ -89,7 +89,7 @@ export default {
         {
           path: 'rulelist',
           name: 'rulelist',
-          hidden: true,
+          hidden: false,
           component: () => import('@/views/Production/RuleList/index.vue'),
           meta: { name: '加工车间预警规则列表', icon: '' }
         }
@@ -155,7 +155,7 @@ export default {
       meta: { name: '方案市场', icon: '' }
     },
     {
-      path: '/planMarketDetail/:solutionId',
+      path: '/planMarketDetail', // :solutionId
       name: 'planMarketDetail',
       hidden: true,
       component: () => import('@/views/planMarket/detail.vue'),
@@ -176,7 +176,7 @@ export default {
       meta: { name: '知识问答', icon: '' }
     },
     {
-      path: '/knowledgeQuizDetail/:questionId',
+      path: '/knowledgeQuizDetail',
       name: 'knowledgeQuizDetail',
       hidden: true,
       component: () => import('@/views/knowledgeQuiz/detail.vue'),

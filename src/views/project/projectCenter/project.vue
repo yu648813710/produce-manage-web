@@ -79,8 +79,8 @@
           </a-form>
 
           <div>
-            <a-button class="button" @click="rest">重置</a-button>
             <a-button type="primary" class="button" @click="handleSearchClick">查询</a-button>
+            <a-button class="button" @click="rest">重置</a-button>
           </div>
         </div>
         <div class="table-wrapper">
@@ -110,8 +110,8 @@
               <span class="actionSpan" @click="_publishTask(record)">
                 <span>{{record.publishFlag === 'Y' ? '' : '发布'}}</span>
               </span>
-              <span class="actionSpan" @click="_copyProject(record)">拷贝</span>
-              <span>
+              <span v-if="record.publishFlag === 'Y'" class="actionSpan" @click="_copyProject(record)">拷贝</span>
+              <span v-if="record.publishFlag !== 'Y'">
                 <router-link :to="{name: 'editProject', params: record}">编辑</router-link>
               </span>
               <span class="actionSpan" @click="openDelDialog(record)">删除</span>

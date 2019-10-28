@@ -122,7 +122,7 @@ export const removeWarning = (blockLandId) => {
 // 出库管理列表查询
 export const getOutgoingManagementList = (data) => {
   return axios({
-    url: `/produce/delivery/list/`,
+    url: `/produce/delivery/page/`,
     method: 'post',
     data
   })

@@ -20,7 +20,27 @@
                     rules: item.validators
                   }]"
                 />
-                <template v-else-if="index === 5 || index === 6">
+                <a-select
+                  v-if="index === 2 && item.arrs.length > 0"
+                  notFoundContent="未匹配到数据"
+                  v-decorator="[`select_${item.id}`, {
+                    rules: item.validators
+                  }]"
+                  :placeholder="item.placeholder"
+                >
+                  <a-select-option v-for="i in item.arrs" :key="i.clazzName">{{i.clazzName}}</a-select-option>
+                </a-select>
+                <a-select
+                  v-if="index === 3 || index === 4"
+                  notFoundContent="未匹配到数据"
+                  v-decorator="[`select_${item.id}`, {
+                    rules: item.validators
+                  }]"
+                  :placeholder="item.placeholder"
+                >
+                  <a-select-option v-for="i in item.arrs" :key="i.id">{{i.label}}</a-select-option>
+                </a-select>
+                <template v-else-if="index === 5">
                   <a-date-picker
                     :disabledDate="disabledStartDate"
                     style="width:45%"
@@ -36,31 +56,11 @@
                     style="width:45%"
                     mode="date"
                     format="YYYY-MM-DD HH:mm:ss"
-                    :placeholder="item.placeholder"
+                    :placeholder="item.coc.placeholder"
                     @change="handleEndOpenChange"
                     v-model="endDate"
                   />
                 </template>
-                <a-select
-                  v-if="index === 2 && item.arrs.length > 0"
-                  notFoundContent="未匹配到数据"
-                  v-decorator="[`select_${item.id}`, {
-                    rules: item.validators
-                  }]"
-                  :placeholder="item.placeholder"
-                >
-                  <a-select-option v-for="i in item.arrs" :key="i.targetClazz">{{i.clazzName}}</a-select-option>
-                </a-select>
-                <a-select
-                  v-if="index === 3 || index === 4"
-                  notFoundContent="未匹配到数据"
-                  v-decorator="[`select_${item.id}`, {
-                    rules: item.validators
-                  }]"
-                  :placeholder="item.placeholder"
-                >
-                  <a-select-option v-for="i in item.arrs" :key="i.id">{{i.label}}</a-select-option>
-                </a-select>
               </a-form-item>
             </a-col>
           </a-row>
@@ -161,7 +161,7 @@ export default {
   },
   computed: {
     count () {
-      return this.expand ? 6 : 3
+      return this.expand ? 7 : 3
     }
   },
   created () {
@@ -229,12 +229,18 @@ export default {
     },
 
     handleDetail (record) {
-      this.$router.push({ path: `/knowledgeQuizDetail/${record.question.questionId}` })
+      this.$router.push({
+        name: 'knowledgeQuizDetail',
+        query: { 'questionId': record.question.questionId }
+      })
+      // this.$router.push({ path: `/knowledgeQuizDetail/${record.question.questionId}` })
     },
 
     handleReset () {
       this.form.resetFields()
       this.fetchParams = {}
+      this.startDate = null
+      this.endDate = null
       this.fetchList(this.fetchParams)
     },
 
@@ -251,19 +257,21 @@ export default {
     /**
      * 日期
      */
-    disabledStartDate (startValue) {
-      const endValue = this.endValue
-      if (!startValue || !endValue) {
+    disabledStartDate (startDate) {
+      const endDate = this.endDate
+      console.log('+++++++++start：', startDate)
+      console.log('+++++++++end：', endDate)
+      if (!startDate || !endDate) {
         return false
       }
-      return startValue.valueOf() > endValue.valueOf()
+      return startDate.valueOf() > endDate.valueOf()
     },
-    disabledEndDate (endValue) {
-      const startValue = this.startValue
-      if (!endValue || !startValue) {
+    disabledEndDate (endDate) {
+      const startDate = this.startDate
+      if (!endDate || !startDate) {
         return false
       }
-      return startValue.valueOf() >= endValue.valueOf()
+      return startDate.valueOf() >= endDate.valueOf()
     },
     handleStartOpenChange (date, dateString) {
       this.startDate = date
