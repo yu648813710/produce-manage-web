@@ -1,6 +1,6 @@
 <template>
   <a-locale-provider :locale="zhCN">
-    <div>
+    <div id="app">
       <router-view />
     </div>
   </a-locale-provider>
