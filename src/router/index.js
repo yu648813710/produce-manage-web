@@ -32,7 +32,6 @@ router.beforeEach((to, form, next) => {
       /* 已有token */
       if (store.getters.routes) {
         /* 已获取菜单权限 */
-        console.log(to)
         next()
       } else {
         /* 未获取菜单权限 */
@@ -42,7 +41,7 @@ router.beforeEach((to, form, next) => {
           let MainRoute = DynamicRoute.find(v => v.path === '/')
           MainRoute.children.push(...routes)
           router.addRoutes(DynamicRoute)
-          next({ path: to.path })
+          next({ ...to })
         })
       }
     } else {

@@ -142,7 +142,7 @@ export default {
       pageSize: 10,
       total: 0,
       pagination: {},
-      questionId: this.$route.params.questionId,
+      questionId: '',
       replyList,
       questionInfo: {},
       isSpinning: false,
@@ -156,7 +156,12 @@ export default {
     }
   },
   created() {
-    this.fetchDetail()
+    this.questionId = this.$route.query.questionId
+    if (this.questionId) {
+      this.fetchDetail()
+    } else {
+      this.$message.error('详情ID为空！')
+    }
   },
   methods: {
     fetchDetail() {

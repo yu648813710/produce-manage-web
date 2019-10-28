@@ -117,7 +117,7 @@ export default {
         alignItems: 'flex-start'
 
       },
-      solutionId: this.$route.params.solutionId,
+      solutionId: '',
       pageNo: 1,
       pageSize: 10,
       pagination: { showQuickJumper: true, showSizeChanger: true },
@@ -125,7 +125,12 @@ export default {
     }
   },
   created () {
-    this.fetchInfos(this.solutionId)
+    this.solutionId = this.$route.query.solutionId
+    if (this.solutionId) {
+      this.fetchInfos(this.solutionId)
+    } else {
+      this.$message.error('详情ID为空！')
+    }
   },
   methods: {
     fetchInfos (solutionId) {
