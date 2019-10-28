@@ -43,8 +43,8 @@
           </ul>
         </template>
         <template v-else>
-          <div class="empty-list">
-            <span>暂无数据</span>
+          <div class="ant-table-placeholder">
+            暂无数据
           </div>
         </template>
       </div>
@@ -182,13 +182,13 @@ export default {
         ...params
       }
       planMarketList(postdata).then(res => {
-        if (res && res.success === 'Y') {
-          this.total = (res.data && res.data.total) || 0
-          this.collectionItems = (res.data && res.data.records) || []
-          return
-        }
-        this.collectionItems = []
-        message.error(res.message)
+        // if (res && res.success === 'Y') {
+        //   this.total = (res.data && res.data.total) || 0
+        //   this.collectionItems = (res.data && res.data.records) || []
+        //   return
+        // }
+        // this.collectionItems = []
+        // message.error(res.message)
       })
     },
 
@@ -251,7 +251,6 @@ export default {
       padding-left: 10px;
     }
     .empty-list {
-      height: 100px;
       background-color: #fff;
       display: flex;
       justify-content: center;
