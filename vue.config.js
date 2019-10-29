@@ -1,37 +1,13 @@
-const path = require('path')
 const webpack = require('webpack')
-
-function resolve(dir) {
-  return path.join(__dirname, dir)
-}
-
+let VUE_APP_EXCUTION = process.env.VUE_APP_EXCUTION
 module.exports = {
-  publicPath: process.env.VUE_APP_EXCUTION === 'fn' ? '/' : './',
+  publicPath: VUE_APP_EXCUTION === 'fn' ? '/' : './',
   configureWebpack: config => {
     let plugins = [
       // Ignore all locale files of moment.js
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
     ]
     config.plugins = [...config.plugins, ...plugins]
-  },
-  chainWebpack: config => {
-    config.resolve.alias.set('@', resolve('src'))
-
-    const svgRule = config.module.rule('svg')
-    svgRule.uses.clear()
-    svgRule
-      .oneOf('inline')
-      .resourceQuery(/inline/)
-      .use('vue-svg-icon-loader')
-      .loader('vue-svg-icon-loader')
-      .end()
-      .end()
-      .oneOf('external')
-      .use('file-loader')
-      .loader('file-loader')
-      .options({
-        name: 'assets/[name].[hash:8].[ext]'
-      })
   },
   css: {
     loaderOptions: {
@@ -94,10 +70,6 @@ module.exports = {
       }
     }
   },
-
-  // disable source map in production
   productionSourceMap: false,
-  lintOnSave: true,
-  // babel-loader no-ignore node_modules/*
-  transpileDependencies: []
+  lintOnSave: true
 }

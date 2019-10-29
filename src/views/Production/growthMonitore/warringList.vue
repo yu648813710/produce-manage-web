@@ -54,7 +54,7 @@
       <div class="table-wrapper">
         <a-table
           :scroll="{ x: 1080 }"
-          :columns="columns"
+          :columns="detail === 1 ? columns1 : columns2"
           :dataSource="list"
           :style="{marginTop: '50px'}"
           :loading="loading"
@@ -97,13 +97,56 @@ Vue.use(Select)
 Vue.use(Table)
 Vue.use(Row)
 Vue.use(Col)
+const columns1 = [
+  { title: '序号', scopedSlots: { customRender: 'id' }, align: 'center' },
+  { title: '基地名称', dataIndex: 'baseLandName' },
+  { title: '地块名称', dataIndex: 'blockLandName' },
+  { title: '湿度',
+    dataIndex: 'indicatorValue',
+    customRender: (text) => {
+      return text + '%'
+    }
+  },
+  {
+    title: '状态',
+    dataIndex: 'status',
+    customRender: (text) => {
+      if (text === 'normal') {
+        return '正常'
+      } else if (text === 'abnormal') {
+        return '异常'
+      }
+    }
+  },
+  { title: '异常原因', dataIndex: 'reason' }
+
+]
+const columns2 = [
+  { title: '序号', scopedSlots: { customRender: 'id' }, align: 'center' },
+  { title: '基地名称', dataIndex: 'baseLandName' },
+  { title: '地块名称', dataIndex: 'blockLandName' },
+  { title: '温度℃', dataIndex: 'indicatorValue' },
+  {
+    title: '状态',
+    dataIndex: 'status',
+    customRender: (text) => {
+      if (text === 'normal') {
+        return '正常'
+      } else if (text === 'abnormal') {
+        return '异常'
+      }
+    }
+  },
+  { title: '异常原因', dataIndex: 'reason' }
+
+]
 export default {
   components: {
     crumbsNav
   },
   data () {
     return {
-      detail: this.$route.params,
+      detail: this.$route.query.type,
       list: [],
       sreachFrom: this.$form.createForm(this),
       loading: false,
@@ -116,7 +159,8 @@ export default {
         total: 0,
         showTotal: total => `共 ${total} 条`
       },
-      columns: [],
+      columns1,
+      columns2,
       crumbsArr: [
         { name: '当前位置', back: false, path: '' },
         { name: '生产管理', back: false, path: '' },
@@ -125,54 +169,11 @@ export default {
       ]
     }
   },
-  mounted() {
-    console.log(this.$route.params)
+  beforeCreate() {
+    console.log( this.$route.query.type)
     if (this.$route.params.type === 1) {
-      this.columns = [
-        { title: '序号', scopedSlots: { customRender: 'id' }, align: 'center' },
-        { title: '基地名称', dataIndex: 'baseLandName' },
-        { title: '地块名称', dataIndex: 'blockLandName' },
-        { title: '湿度',
-          dataIndex: 'indicatorValue',
-          customRender: (text) => {
-            return text + '%'
-          }
-        },
-        {
-          title: '状态',
-          dataIndex: 'status',
-          customRender: (text) => {
-            if (text === 'normal') {
-              return '正常'
-            } else if (text === 'abnormal') {
-              return '异常'
-            }
-          }
-        },
-        { title: '异常原因', dataIndex: 'reason' }
-
-      ]
       this.getShiduData()
     } else if (this.$route.params.type === 2) {
-      this.columns = [
-        { title: '序号', scopedSlots: { customRender: 'id' }, align: 'center' },
-        { title: '基地名称', dataIndex: 'baseLandName' },
-        { title: '地块名称', dataIndex: 'blockLandName' },
-        { title: '温度℃', dataIndex: 'indicatorValue' },
-        {
-          title: '状态',
-          dataIndex: 'status',
-          customRender: (text) => {
-            if (text === 'normal') {
-              return '正常'
-            } else if (text === 'abnormal') {
-              return '异常'
-            }
-          }
-        },
-        { title: '异常原因', dataIndex: 'reason' }
-
-      ]
       this.getWenduData()
     }
   },
@@ -208,7 +209,11 @@ export default {
         type: 'temperature'
       }
       shiduData(postData, typeList).then((res) => {
-        this.list = res.data.records
+        if (res.code === 200 && res.data.records) {
+          this.list = res.data.records
+        } else {
+          this.list = []
+        }
         console.log(this.list)
       })
     }

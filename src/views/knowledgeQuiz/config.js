@@ -194,12 +194,12 @@ export const fields = [{
   id: 'creatStartDate',
   label: '创建日期',
   placeholder: '开始日期',
-  validators: validators['v-startDate']
-},
-{
-  id: 'creatEndDate',
-  label: '',
-  placeholder: '结束日期',
-  validators: validators['v-endDate']
+  validators: validators['v-startDate'],
+  coc: {
+    id: 'creatEndDate',
+    label: '',
+    placeholder: '结束日期',
+    validators: validators['v-endDate']
+  }
 }
 ]

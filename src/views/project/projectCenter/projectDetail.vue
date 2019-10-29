@@ -476,6 +476,7 @@ export default {
   }
 
   .detail-wrapper {
+    min-height: 360px;
     margin-top: 50px;
     text-align: left;
 

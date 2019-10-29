@@ -80,7 +80,7 @@ export default {
           meta: { name: '生长监控大屏', icon: '' }
         },
         {
-          path: 'warringList/:type',
+          path: 'warringList',
           name: 'warringList',
           hidden: true,
           component: () => import('@/views/Production/growthMonitore/warringList.vue'),

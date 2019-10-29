@@ -24,7 +24,15 @@ export default {
   color: #2c3e50;
   height: 100%;
 }
-.ant-layout{
+.ant-table-placeholder {
+  background: url('./assets/image/noData.png') no-repeat !important;
+  background-size: 172px !important;
+  height: 172px;
+  background-position: top !important;
+  line-height: 230px;
+  margin-top: 30px;
+}
+.ant-layout {
   background: none !important;
 }
 </style>
