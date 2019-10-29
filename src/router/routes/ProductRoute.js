@@ -193,6 +193,19 @@ export default {
       name: 'ProductionBatchManagement',
       component: () => import('@/views/productionBatchManagement/ProductionBatchManagement.vue'),
       meta: { name: '生产批次管理', icon: '' }
+    },
+    {
+      path: '/tobepurchased',
+      name: 'tobepurchased',
+      component: () => import('@/views/tobepurchased/TobePurchased.vue'),
+      meta: { name: '待采购管理', icon: '' }
+    },
+    {
+      path: '/tobepurchaseddateil',
+      name: 'TobePurchasedDateil',
+      hidden: true,
+      component: () => import('@/views/tobepurchased/TobePurchasedDateil.vue'),
+      meta: { name: '待采购管理详情', icon: '' }
     }
   ]
 }

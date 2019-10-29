@@ -170,7 +170,6 @@ export default {
     }
   },
   beforeCreate() {
-    console.log( this.$route.query.type)
     if (this.$route.params.type === 1) {
       this.getShiduData()
     } else if (this.$route.params.type === 2) {
