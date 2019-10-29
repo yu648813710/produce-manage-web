@@ -56,7 +56,7 @@
             <a-card class="reply-card">
               <span slot="title">▍<span>全部回复</span></span>
               <ul>
-                <ReplyRow v-for="item in replyList" :key="item.id" :info="item.answer"></ReplyRow>
+                <ReplyRow v-for="(item, i) in replyList" :key="'reply' + i" :info="item"></ReplyRow>
               </ul>
             </a-card>
           </div>

@@ -2,27 +2,31 @@
   <div class="reply-row">
     <a-layout>
       <a-row class="row">
-        <img class="user-icon" src="@/assets/image/user_easyicon.svg" :alt="info.createUser" />
-        <span class="user-name">{{info.createUser}}</span>
-        <span class="common-date">{{info.gmtCreate}}</span>
+        <img class="user-icon" src="@/assets/image/user_easyicon.svg" :alt="info.answerUserName" />
+        <span class="user-name">{{info.answerUserName}}</span>
+        <span class="common-date">{{(info.answer && info.answer.gmtCreate) || ''}}</span>
       </a-row>
       <a-row class="row">
-        <span>{{info.answerContent}}</span>
+        <span>{{(info.answer && info.answer.answerContent) || ''}}</span>
       </a-row>
-      <a-row v-if="info.filePaths && info.filePaths.length > 0" class="row">
-        <img class="common-img" v-for="item in info.filePaths" :key="item.id" :src="item.url" :alt="item.url">
+      <a-row v-if="info.pictureList && info.pictureList.length > 0" class="row">
+        <img class="common-img" v-for="(item, i) in info.pictureList" :key="i" :src="item" :alt="'加载中...' + i" @click="handlePreview(item)">
       </a-row>
     </a-layout>
+    <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
+      <img alt="example" style="width: 100%" :src="previewImage" />
+    </a-modal>
   </div>
 </template>
 <script>
 import Vue from 'vue'
-import { Col, Row, Button, Input, Layout } from 'ant-design-vue'
+import { Col, Row, Button, Input, Layout, Modal } from 'ant-design-vue'
 Vue.use(Col)
 Vue.use(Row)
 Vue.use(Button)
 Vue.use(Input)
 Vue.use(Layout)
+Vue.use(Modal)
 
 export default {
   name: 'replyRow',
@@ -35,7 +39,20 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      previewVisible: false,
+      previewImage: ''
+    }
+  },
+  methods: {
+    handleCancel() {
+      this.previewVisible = false
+    },
+
+    handlePreview(file) {
+      this.previewImage = file
+      this.previewVisible = true
+    }
   }
 }
 </script>
@@ -73,6 +90,7 @@ export default {
     width: 74px;
     height: 74px;
     margin-right: 16px;
+    cursor: pointer;
   }
 }
 </style>
