@@ -13,7 +13,7 @@
                   <a-button class="tag-btn" size="small" v-for="item in [{id: '000', type: 0, name: questionInfo.question.breedName},{id: '001', type: 1, name: questionInfo.question.targetClazz}]" :key="item.id" :style="{backgroundColor: cmpTagColor(item.type), color: '#fff'}">{{item.name}}</a-button>
               </template>
             </a-row>
-            <span slot="extra" style="color: #999">2019-10-22 15:45</span>
+            <span v-if="questionInfo.question" slot="extra" style="color: #999">{{questionInfo.question.gmtCreate}}</span>
             <a-spin :spinning="isRepling">
               <a-row class="edit-card-row">
                 <img class="edit-icon" src="@/assets/image/user_easyicon.svg" alt="用户">
@@ -41,7 +41,7 @@
                       </a-modal>
                     </a-row>
                     <a-row class="btns-block">
-                      <a-button style="margin-right: 12px">取消</a-button>
+                      <!-- <a-button style="margin-right: 12px">取消</a-button> -->
                       <a-button type="primary" @click.native="addReply">发布</a-button>
                     </a-row>
                   </div>
@@ -56,7 +56,7 @@
             <a-card class="reply-card">
               <span slot="title">▍<span>全部回复</span></span>
               <ul>
-                <ReplyRow v-for="item in replyList" :key="item.id" :info="item.answer"></ReplyRow>
+                <ReplyRow v-for="(item, i) in replyList" :key="'reply' + i" :info="item"></ReplyRow>
               </ul>
             </a-card>
           </div>
