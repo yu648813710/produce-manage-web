@@ -93,7 +93,9 @@ const app = {
           { name: '知识问答' },
           { name: '知识问答详情' },
           { name: '出库管理' },
-          { name: '生产批次管理' }
+          { name: '生产批次管理' },
+          { name: '待采购管理' },
+          { name: '待采购管理详情' }
         ]
         resolve(auth)
       })

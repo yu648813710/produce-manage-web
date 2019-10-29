@@ -142,3 +142,26 @@ export const getProductionBatchList = (data) => {
     data
   })
 }
+// 代采购列表
+export const getListwaitpurchase = (data) => {
+  return axios({
+    url: `/produce/purchase/listwaitpurchase/`,
+    method: 'post',
+    data
+  })
+}
+// 修改单个代采购列表状态
+export const setStatus = (bizId, purchaseStatus) => {
+  return axios({
+    url: `/produce/purchase/status/${bizId}?purchaseStatus=${Number(purchaseStatus)}`,
+    method: 'get'
+  })
+}
+// 批量操作修改农资
+export const setBatchStatus = (data) => {
+  return axios({
+    url: `/produce/purchase/batchstatus`,
+    method: 'PUT',
+    data
+  })
+}

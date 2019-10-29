@@ -66,6 +66,7 @@
         :loading="loading"
         :style="{marginTop: '50px'}"
         @change="setPageList"
+        :rowKey="(record, index) => index"
       >
         <span
           slot="id"
