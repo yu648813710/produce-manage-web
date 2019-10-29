@@ -80,7 +80,7 @@ export default {
           meta: { name: '生长监控大屏', icon: '' }
         },
         {
-          path: 'warringList/:type',
+          path: 'warringList',
           name: 'warringList',
           hidden: true,
           component: () => import('@/views/Production/growthMonitore/warringList.vue'),
@@ -89,7 +89,7 @@ export default {
         {
           path: 'rulelist',
           name: 'rulelist',
-          hidden: true,
+          hidden: false,
           component: () => import('@/views/Production/RuleList/index.vue'),
           meta: { name: '加工车间预警规则列表', icon: '' }
         }
@@ -155,7 +155,7 @@ export default {
       meta: { name: '方案市场', icon: '' }
     },
     {
-      path: '/planMarketDetail/:solutionId',
+      path: '/planMarketDetail', // :solutionId
       name: 'planMarketDetail',
       hidden: true,
       component: () => import('@/views/planMarket/detail.vue'),
@@ -176,11 +176,36 @@ export default {
       meta: { name: '知识问答', icon: '' }
     },
     {
-      path: '/knowledgeQuizDetail/:questionId',
+      path: '/knowledgeQuizDetail',
       name: 'knowledgeQuizDetail',
       hidden: true,
       component: () => import('@/views/knowledgeQuiz/detail.vue'),
       meta: { name: '知识问答详情', icon: '' }
+    },
+    {
+      path: '/outgoingmanagement',
+      name: 'outgoingmanagement',
+      component: () => import('@/views/outgoingManagement/OutgoingManagement.vue'),
+      meta: { name: '出库管理', icon: '' }
+    },
+    {
+      path: '/productionbatchmanagement',
+      name: 'ProductionBatchManagement',
+      component: () => import('@/views/productionBatchManagement/ProductionBatchManagement.vue'),
+      meta: { name: '生产批次管理', icon: '' }
+    },
+    {
+      path: '/tobepurchased',
+      name: 'tobepurchased',
+      component: () => import('@/views/tobepurchased/TobePurchased.vue'),
+      meta: { name: '待采购管理', icon: '' }
+    },
+    {
+      path: '/tobepurchaseddateil',
+      name: 'TobePurchasedDateil',
+      hidden: true,
+      component: () => import('@/views/tobepurchased/TobePurchasedDateil.vue'),
+      meta: { name: '待采购管理详情', icon: '' }
     }
   ]
 }

@@ -1,5 +1,6 @@
 import axios from 'axios'
-import notification from 'ant-design-vue/es/notification'
+// import notification from 'ant-design-vue/es/notification'
+import message from 'ant-design-vue/es/message'
 import store from '@/store'
 import { VueAxios } from './axios'
 
@@ -23,16 +24,10 @@ const err = (error) => {
   if (error.response) {
     const data = error.response.data
     if (error.response.status === 403) {
-      notification.error({
-        message: 'Forbidden',
-        description: data.message
-      })
+      message.success('测试全局提示')
     }
     if (error.response.status === 401 && !(data.result && data.result.isLogin)) {
-      notification.error({
-        message: 'Unauthorized',
-        description: 'Authorization verification failed'
-      })
+      message.success('测试全局提示')
     }
   }
   store.commit('UPDATE_LOADING', false)

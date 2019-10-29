@@ -11,11 +11,13 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 const requireContext = require.context('./routes', true, /\.js$/)
 const requireAll = context => context.keys().map(context)
 const ChildRoutes = []
-requireAll(requireContext).sort((a, b) => {
-  return a.default.sort - b.default.sort
-}).forEach(item => {
-  ChildRoutes.push(...item.default.routes)
-})
+requireAll(requireContext)
+  .sort((a, b) => {
+    return a.default.sort - b.default.sort
+  })
+  .forEach(item => {
+    ChildRoutes.push(...item.default.routes)
+  })
 
 Vue.use(Router)
 const router = new Router({
@@ -26,24 +28,28 @@ const router = new Router({
 })
 router.beforeEach((to, form, next) => {
   NProgress.start()
-  to.meta && (typeof to.meta.name !== 'undefined' && setDocumentTitle(`${to.meta.name} - ${domTitle}`))
+  to.meta &&
+    (typeof to.meta.name !== 'undefined' &&
+      setDocumentTitle(`${to.meta.name} - ${domTitle}`))
   if (store.getters.userToken) {
     if (to.path !== '/login') {
       /* 已有token */
       if (store.getters.routes) {
         /* 已获取菜单权限 */
-        console.log(to)
         next()
       } else {
         /* 未获取菜单权限 */
-        store.dispatch('GetUserInfo').then(authList => {
-          return store.dispatch('GenerateRoutes', { ChildRoutes, authList })
-        }).then(routes => {
-          let MainRoute = DynamicRoute.find(v => v.path === '/')
-          MainRoute.children.push(...routes)
-          router.addRoutes(DynamicRoute)
-          next({ path: to.path })
-        })
+        store
+          .dispatch('GetUserInfo')
+          .then(authList => {
+            return store.dispatch('GenerateRoutes', { ChildRoutes, authList })
+          })
+          .then(routes => {
+            let MainRoute = DynamicRoute.find(v => v.path === '/')
+            MainRoute.children.push(...routes)
+            router.addRoutes(DynamicRoute)
+            next({ ...to })
+          })
       }
     } else {
       next('/')

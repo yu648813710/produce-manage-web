@@ -229,7 +229,11 @@ export default {
     },
 
     handleDetail (record) {
-      this.$router.push({ path: `/knowledgeQuizDetail/${record.question.questionId}` })
+      this.$router.push({
+        name: 'knowledgeQuizDetail',
+        query: { 'questionId': record.question.questionId }
+      })
+      // this.$router.push({ path: `/knowledgeQuizDetail/${record.question.questionId}` })
     },
 
     handleReset () {

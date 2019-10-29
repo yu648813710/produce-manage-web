@@ -296,6 +296,7 @@ export default {
     // 重置
     restSearch () {
       this.searchForm.baseName = ''
+      this.getRuleList()
     },
     searchRuleList (page, current) {
       this.getRuleList()

@@ -1217,7 +1217,7 @@ export default {
         cycleList: this.cycleData
       }
       addNewTask(taskData).then((res) => {
-        if (res.code === 200) {
+        if (res.success === 'Y') {
           // if(res.message === '方案名称重复'){
           //     //汉字提示抽为常量
           //     this.projectNameRepeat = true;
@@ -1225,7 +1225,10 @@ export default {
           // }
           this.list = []
           this.taskCacheList = {}
+          this.$message.success('新增方案成功！')
           this.$router.push({ path: '/projectCenter' })
+        } else {
+          this.$message.error('新增方案失败！')
         }
         console.log(res)
       })

@@ -119,3 +119,49 @@ export const removeWarning = (blockLandId) => {
     method: 'get'
   })
 }
+// 出库管理列表查询
+export const getOutgoingManagementList = (data) => {
+  return axios({
+    url: `/produce/delivery/page/`,
+    method: 'post',
+    data
+  })
+}
+// 获登录用户企业下的菌包名称
+export const getAllName = () => {
+  return axios({
+    url: `/produce/fungusbag/getAllName`,
+    method: 'get'
+  })
+}
+// 获取生产批次管理列表
+export const getProductionBatchList = (data) => {
+  return axios({
+    url: `/produce/productionPatch/list/`,
+    method: 'post',
+    data
+  })
+}
+// 代采购列表
+export const getListwaitpurchase = (data) => {
+  return axios({
+    url: `/produce/purchase/listwaitpurchase/`,
+    method: 'post',
+    data
+  })
+}
+// 修改单个代采购列表状态
+export const setStatus = (bizId, purchaseStatus) => {
+  return axios({
+    url: `/produce/purchase/status/${bizId}?purchaseStatus=${Number(purchaseStatus)}`,
+    method: 'get'
+  })
+}
+// 批量操作修改农资
+export const setBatchStatus = (data) => {
+  return axios({
+    url: `/produce/purchase/batchstatus`,
+    method: 'PUT',
+    data
+  })
+}

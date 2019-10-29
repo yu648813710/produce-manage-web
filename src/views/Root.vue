@@ -3,8 +3,14 @@
     <div class="sider">
       <SideMenu></SideMenu>
     </div>
-    <div class="loadingContent" v-show="loading">
-      <a-spin :spinning="loading" size="large" />
+    <div
+      class="loadingContent"
+      v-show="loading"
+    >
+      <a-spin
+        :spinning="loading"
+        size="large"
+      />
     </div>
     <div class="content">
       <router-view></router-view>
@@ -20,6 +26,22 @@ import { mapState } from 'vuex' // mapActions, mapMutations
 Vue.use(Spin)
 export default {
   name: 'Root',
+  data() {
+    return {
+      success: 'success'
+    }
+  },
+  mounted() {
+    /**
+     * description: 全局提示配置项
+     * params: top(距离顶部距离)、maxCount(提示最大可展示*个)、duration(关闭时间)
+     */
+    this.$message.config({
+      top: ``,
+      duration: 2,
+      maxCount: 3
+    })
+  },
   components: { SideMenu },
   computed: {
     ...mapState(['loading'])
@@ -38,6 +60,15 @@ export default {
   align-items: center;
   z-index: 9999;
   background-color: rgba(0, 0, 0, 0.1);
+}
+
+.alertContent {
+  position: absolute;
+  width: calc(100% - 240px);
+  padding: 16px;
+  right: 0;
+  top: 0;
+  z-index: 999;
 }
 
 .Root {

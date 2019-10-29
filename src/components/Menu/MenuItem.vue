@@ -1,7 +1,9 @@
 <template functional>
   <a-sub-menu :key="props.menuInfo.name">
     <span slot="title">
-      <a-icon :type="props.menuInfo.meta.icon" />
+      <template v-if="props.menuInfo.meta.icon">
+        <a-icon :type="props.menuInfo.meta.icon" />
+      </template>
       <span>{{ props.menuInfo.meta.name }}</span>
     </span>
     <template v-for="item in props.menuInfo.children">
@@ -10,7 +12,9 @@
         v-show="!item.hidden"
         :key="item.name"
       >
-        <a-icon :type="item.meta.icon" />
+        <template v-if="item.meta.icon">
+          <a-icon :type="item.meta.icon" />
+        </template>
         <span>{{ item.meta.name }}</span>
       </a-menu-item>
       <menu-item
