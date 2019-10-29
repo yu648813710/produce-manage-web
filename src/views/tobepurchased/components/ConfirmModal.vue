@@ -84,7 +84,7 @@ export default {
           this.$message.error('请先选择农资！')
         }
       } else {
-        if (this.bizId && (this.purchaseStatus || this.purchaseStatus === 0)) {
+        if (this.bizId && this.purchaseStatus > 0) {
           setStatus(this.bizId, this.purchaseStatus)
             .then(res => {
               if (res.success === 'Y') {

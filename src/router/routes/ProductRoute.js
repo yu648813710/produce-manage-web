@@ -206,6 +206,19 @@ export default {
       hidden: true,
       component: () => import('@/views/tobepurchased/TobePurchasedDateil.vue'),
       meta: { name: '待采购管理详情', icon: '' }
+    },
+    {
+      path: '/bacteriabagtaskmanagement',
+      name: 'BacteriaBagTaskManagement',
+      component: () => import('@/views/bacteriaBagTaskManagement/BacteriaBagTaskManagement.vue'),
+      meta: { name: '菌包任务管理', icon: '' }
+    },
+    {
+      path: '/addbacteriabagtask',
+      name: 'AddBacteriaBagTask',
+      hidden: true,
+      component: () => import('@/views/bacteriaBagTaskManagement/AddBacteriaBagTask.vue'),
+      meta: { name: '新增菌包任务', icon: '' }
     }
   ]
 }

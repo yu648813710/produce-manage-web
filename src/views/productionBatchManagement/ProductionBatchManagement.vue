@@ -188,9 +188,11 @@ export default {
       this.productionPatchCode = ''
       // 获取列表
       let data = {
-        pageNo: this.pagination.current,
-        pageSize: this.pagination.pageSize
+        pageNo: 1,
+        pageSize: 10
       }
+      this.pagination.current = data.pageNo
+      this.pagination.pageSize = data.pageSize
       this.getList(data)
     }
   }

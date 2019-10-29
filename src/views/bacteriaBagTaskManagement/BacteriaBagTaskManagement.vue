@@ -1,6 +1,4 @@
-/**
-出库管理
-*/
+/**菌包任务管理 */
 <template>
   <div class="about">
     <a-layout>
@@ -11,27 +9,34 @@
         <div class="search-wrapper">
           <a-form
             :form="sreachForm"
-            @submit="sreachOutgoingManagement"
+            @submit="sreachTaskItem"
           >
             <a-row :gutter="40">
               <a-col :span="8">
-                <a-form-item label="出库时间">
-                  <a-date-picker
-                  placeholder="请选择"
-                  format="YYYY-MM-DD"
-                  v-decorator="[
-                      'deliveryTime',
+                <a-form-item label="所属车间">
+                  <a-select
+                    placeholder="请选择"
+                    :allowClear="true"
+                    style="width: 100%;"
+                    v-decorator="[
+                      'workshopId', {},
                     ]"
-                  @change="handleDateChange" style="width: 100%;"/>
+                  >
+                    <a-select-option v-for="item in workshopArr" :key="item.workshopId" :value="item.workshopId">{{item.workshopName}}</a-select-option>
+                  </a-select>
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item label="出库人">
-                  <a-input
-                    placeholder="请输入"
-                    autocomplete="off"
-                    v-model="userName"
+                <a-form-item label="日期范围">
+                  <a-range-picker
+                    @change="handleDateChange"
+                    v-decorator="[
+                      'time', {},
+                    ]"
+                    style="width: 100%;"
+                    format="YYYY-MM-DD"
                   />
+                  <!--  -->
                 </a-form-item>
               </a-col>
               <a-col :span="8">
@@ -41,11 +46,10 @@
                     :allowClear="true"
                     style="width: 100%;"
                     v-decorator="[
-                      'fungusBagId',
+                      'fungusProduceId',{},
                     ]"
-                    @change="getFungusBagId"
                   >
-                    <a-select-option v-for="(item) in allName" :key="item.fungusBagId" :value="item.fungusBagId">{{item.fungusBagName}}</a-select-option>
+                    <a-select-option v-for="item in fungusBagArr" :key="item.fungusBagId" :value="item.fungusBagId">{{item.fungusBagName}}</a-select-option>
                   </a-select>
                 </a-form-item>
               </a-col>
@@ -55,7 +59,7 @@
             <a-button
               type="primary"
               class="button"
-              @click="sreachOutgoingManagement"
+              @click="sreachTaskItem"
             >查询</a-button>
             <a-button
               class="button"
@@ -64,32 +68,48 @@
           </div>
         </div>
         <div class="table-wrapper">
+          <a-button
+            type="primary"
+            class="add-button"
+            @click="handleAddClick"
+          ><router-link :to="{name: 'AddBacteriaBagTask'}">新增任务</router-link></a-button>
           <a-table
             :columns="columns"
             :dataSource="list"
             :pagination="pagination"
             :loading="loading"
             @change="handleTableChange"
+            :style="{marginTop: '50px'}"
             :rowKey="(record, index) => index"
           >
-            <span
-              slot="id"
-              slot-scope="text, record, index"
-            >{{index + 1}}</span>
-            <!-- 时间戳转日期 -->
-            <span
-              slot="deliveryTime"
-              slot-scope="text, record"
-            >{{formDate(record.deliveryTime)}}</span>
+            <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
+            <span slot="operation" slot-scope="text">
+              <a-button type="link" :value="text">编辑</a-button>
+              <a-button type="link">查看</a-button>
+              <a-button type="link">删除</a-button>
+            </span>
           </a-table>
         </div>
       </a-layout-content>
     </a-layout>
+    <!-- 删除确认框 -->
+    <a-modal
+      :title="1"
+      :visible="visible"
+      @ok="handleOk"
+      @cancel="handleCancel"
+    >
+      <p></p>
+    </a-modal>
   </div>
 </template>
 <script>
 import Vue from 'vue'
-import CrumbsNav from '@/components/crumbsNav/CrumbsNav' // 面包屑
+import {
+  workshopList,
+  fungusproduceList,
+  getBacteriaBagTask
+} from '@/api/farmPlan.js'
 import {
   Layout,
   Breadcrumb,
@@ -104,12 +124,8 @@ import {
   Form,
   DatePicker
 } from 'ant-design-vue'
-import {
-  getAllName,
-  getOutgoingManagementList
-} from '@/api/farmPlan.js'
+import CrumbsNav from '@/components/crumbsNav/CrumbsNav' // 面包屑
 import { columns, crumbsArr } from './config.js'
-import domUtil from '@/utils/domUtil.js'
 Vue.use(Layout)
 Vue.use(Breadcrumb)
 Vue.use(Input)
@@ -123,9 +139,6 @@ Vue.use(Select)
 Vue.use(Form)
 Vue.use(DatePicker)
 export default {
-  components: {
-    CrumbsNav
-  },
   data() {
     return {
       list: [],
@@ -142,78 +155,99 @@ export default {
       },
       loading: false,
       visible: false,
-      deliveryTime: '', // 出库时间
-      userName: '',
-      allName: [], // 菌包
-      fungusBagId: '',
-      sreachForm: this.$form.createForm(this)
+      sreachForm: this.$form.createForm(this),
+      workshopId: '',
+      workshopArr: [],
+      startTime: '',
+      endTime: '',
+      fungusBagArr: [],
+      fungusProduceId: '',
+      title: '',
+      addVisible: false
     }
   },
-  component: {
-    // 'a-button': Button
+  components: {
+    CrumbsNav
   },
   created() {
-    // 获取列表
+    // 获取车间名称
+    this.getListUsable()
+    // 获取菌包名称
+    this.getAllName()
     let data = {
       pageNo: this.pagination.current,
       pageSize: this.pagination.pageSize
     }
     this.getList(data)
-    this.getAllName()
   },
   methods: {
+    // 获取车间名称
+    getListUsable () {
+      workshopList()
+        .then(res => {
+          if (res.success === 'Y') {
+            this.workshopArr = res.data || []
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+    },
+    // 时间选择
+    handleDateChange (e, test) {
+      const [startTime, endTime] = test
+      this.startTime = startTime
+      this.endTime = endTime
+    },
+    // 获取菌包名称
+    getAllName () {
+      fungusproduceList()
+        .then(res => {
+          if (res.success === 'true') {
+            this.fungusBagArr = res.data || []
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+    },
     // 获取列表
     getList(data) {
       this.loading = true
-      getOutgoingManagementList(data)
+      getBacteriaBagTask(data)
         .then(res => {
-          this.loading = false
           if (res.success === 'Y') {
             this.list = (res.data && res.data.records) || []
             this.pagination.total = (res.data && res.data.total) || 0
           } else {
             this.$message.error(res.message)
           }
+          this.loading = false
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error)
           this.loading = false
         })
     },
-    // 获取菌包名称
-    getAllName() {
-      getAllName()
-        .then(res => {
-          if (res.success === 'true') {
-            this.allName = res.data || []
-          } else {
-            this.$message.error(res.message)
-          }
-        })
-    },
-    // 获取菌包ID
-    getFungusBagId(value) {
-      if (value) {
-        this.fungusBagId = value
-      }
-    },
     // 查询方法
-    sreachOutgoingManagement() {
+    sreachTaskItem(e) {
+      this.sreachForm.validateFields((err, values) => {
+        console.log(err)
+        this.workshopId = values.workshopId
+        this.fungusProduceId = values.fungusProduceId
+      })
+      this.loading = true
       let data = {
-        pageNo: 1,
-        pageSize: 10,
-        deliveryTime: this.deliveryTime,
-        userName: this.userName,
-        fungusBagId: this.fungusBagId // 菌包ID
+        pageNo: this.pagination.current,
+        pageSize: this.pagination.pageSize,
+        workshopId: this.workshopId,
+        startTime: this.startTime,
+        endTime: this.endTime,
+        fungusProduceId: this.fungusProduceId
       }
       this.getList(data)
     },
-    formDate(data) {
-      return domUtil.formDate(data)
-    },
-    // 时间选择
-    handleDateChange (e, test) {
-      this.deliveryTime = test
+    // 新增任务
+    handleAddClick() {
+
     },
     // 分页
     handleTableChange(pagination, filters, sorter) {
@@ -225,19 +259,20 @@ export default {
       }
       this.getList(data)
     },
+    handleOk() {
+
+    },
+    handleCancel() {
+      this.visible = false
+    },
     // 重置
     handleReset() {
       this.sreachForm.resetFields()
-      this.deliveryTime = ''
-      this.userName = ''
-      this.fungusBagId = ''
-      // 获取列表
+      // 重新获取一遍列表
       let data = {
         pageNo: 1,
         pageSize: 10
       }
-      this.pagination.current = data.pageNo
-      this.pagination.pageSize = data.pageSize
       this.getList(data)
     }
   }
