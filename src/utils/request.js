@@ -1,5 +1,5 @@
 import axios from 'axios'
-import notification from 'ant-design-vue/es/notification'
+// import notification from 'ant-design-vue/es/notification'
 import message from 'ant-design-vue/es/message'
 import store from '@/store'
 import { VueAxios } from './axios'

@@ -1,10 +1,10 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import store from '@/store';
-import NProgress from 'nprogress'; // progress bar
-import 'nprogress/nprogress.css'; // progress bar style
-import { ConstantRoute, DynamicRoute } from './Route';
-import { setDocumentTitle, domTitle } from '@/utils/domUtil';
+import Vue from 'vue'
+import Router from 'vue-router'
+import store from '@/store'
+import NProgress from 'nprogress' // progress bar
+import 'nprogress/nprogress.css' // progress bar style
+import { ConstantRoute, DynamicRoute } from './Route'
+import { setDocumentTitle, domTitle } from '@/utils/domUtil'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
