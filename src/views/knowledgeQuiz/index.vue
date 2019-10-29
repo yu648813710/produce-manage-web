@@ -45,7 +45,7 @@
                     :disabledDate="disabledStartDate"
                     style="width:45%"
                     mode="date"
-                    format="YYYY-MM-DD HH:mm:ss"
+                    format="YYYY-MM-DD"
                     :placeholder="item.placeholder"
                     @change="handleStartOpenChange"
                     v-model="startDate"
@@ -55,7 +55,7 @@
                     :disabledDate="disabledEndDate"
                     style="width:45%"
                     mode="date"
-                    format="YYYY-MM-DD HH:mm:ss"
+                    format="YYYY-MM-DD"
                     :placeholder="item.coc.placeholder"
                     @change="handleEndOpenChange"
                     v-model="endDate"
@@ -259,8 +259,6 @@ export default {
      */
     disabledStartDate (startDate) {
       const endDate = this.endDate
-      console.log('+++++++++start：', startDate)
-      console.log('+++++++++end：', endDate)
       if (!startDate || !endDate) {
         return false
       }

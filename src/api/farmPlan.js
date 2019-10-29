@@ -142,3 +142,69 @@ export const getProductionBatchList = (data) => {
     data
   })
 }
+// 代采购列表
+export const getListwaitpurchase = (data) => {
+  return axios({
+    url: `/produce/purchase/listwaitpurchase/`,
+    method: 'post',
+    data
+  })
+}
+// 修改单个代采购列表状态
+export const setStatus = (bizId, purchaseStatus) => {
+  return axios({
+    url: `/produce/purchase/status/${bizId}?purchaseStatus=${Number(purchaseStatus)}`,
+    method: 'get'
+  })
+}
+// 批量操作修改农资
+export const setBatchStatus = (data) => {
+  return axios({
+    url: `/produce/purchase/batchstatus`,
+    method: 'PUT',
+    data
+  })
+}
+// 获取菌包任务管理的所属车间
+export const workshopList = () => {
+  return axios({
+    url: `/produce/workshop/list`,
+    method: 'get'
+  })
+}
+// 获取菌包任务管理的菌包名称
+export const fungusproduceList = () => {
+  return axios({
+    url: `/produce/fungusproduce/list`,
+    method: 'get'
+  })
+}
+// 获取菌包任务管理列表
+export const getBacteriaBagTask = (data) => {
+  return axios({
+    url: `/produce/fungus/task/page/`,
+    method: 'post',
+    data
+  })
+}
+// 获取菌包任务管理新增中的品类
+export const getCategory = () => {
+  return axios({
+    url: `/produce/product/category/`,
+    method: 'get'
+  })
+}
+// 获取菌包任务管理新增中的品种
+export const getBreedList = (categoryId) => {
+  return axios({
+    url: `/produce/product/breed/${categoryId}`,
+    method: 'get'
+  })
+}
+// // 获取菌包任务管理新增中的菌包列表
+// export const getFungusproduceList = () => {
+//   return axios({
+//     url: `produce/fungusproduce/list/`, // ${breedId}
+//     method: 'get'
+//   })
+// }

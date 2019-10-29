@@ -193,6 +193,32 @@ export default {
       name: 'ProductionBatchManagement',
       component: () => import('@/views/productionBatchManagement/ProductionBatchManagement.vue'),
       meta: { name: '生产批次管理', icon: '' }
+    },
+    {
+      path: '/tobepurchased',
+      name: 'tobepurchased',
+      component: () => import('@/views/tobepurchased/TobePurchased.vue'),
+      meta: { name: '待采购管理', icon: '' }
+    },
+    {
+      path: '/tobepurchaseddateil',
+      name: 'TobePurchasedDateil',
+      hidden: true,
+      component: () => import('@/views/tobepurchased/TobePurchasedDateil.vue'),
+      meta: { name: '待采购管理详情', icon: '' }
+    },
+    {
+      path: '/bacteriabagtaskmanagement',
+      name: 'BacteriaBagTaskManagement',
+      component: () => import('@/views/bacteriaBagTaskManagement/BacteriaBagTaskManagement.vue'),
+      meta: { name: '菌包任务管理', icon: '' }
+    },
+    {
+      path: '/addbacteriabagtask',
+      name: 'AddBacteriaBagTask',
+      hidden: true,
+      component: () => import('@/views/bacteriaBagTaskManagement/AddBacteriaBagTask.vue'),
+      meta: { name: '新增菌包任务', icon: '' }
     }
   ]
 }
