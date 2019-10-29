@@ -34,6 +34,7 @@
                     v-for="(selectItem,key,index) in item.selectData"
                     :key="index"
                     :value="selectItem"
+                    :getPopupContainer="triggerNode=>document.getElementById('from-box')"
                   >{{key}}</a-select-option>
                 </a-select>
               </a-form-item>
@@ -52,17 +53,18 @@
                 :label-col="{ span: 24 }"
                 :wrapper-col="{ span: 24 }"
               >
-              <a-select
+                <a-select
                   v-if="item.type==='select'"
                   :placeholder="item.placeholder"
-                  style="width: 100%"
                   v-model="item.data"
+                  :getPopupContainer="positonFn"
+                  style="width:100%"
                 >
-                <a-select-option
+                  <a-select-option
                     v-for="(selectItem,key,index) in item.selectData"
                     :key="index"
                     :value="selectItem"
-                >{{key}}</a-select-option>
+                  >{{key}}</a-select-option>
                 </a-select>
                 <a-input
                   autocomplete="off"
@@ -191,6 +193,9 @@ export default {
       this.searchForm.blockLandName = this.searchFormData[4].data
       this.searchForm.cycleName = this.searchFormData[5].data
       this.$emit('searchTask', this.searchForm)
+    },
+    positonFn(e) {
+      return document.querySelectorAll('.form')[0]
     }
   }
 }
@@ -200,6 +205,7 @@ export default {
   border-radius: 4px;
   background-color: white;
   padding: 27px 15px 21px 15px;
+  position: relative;
   .search-box {
     height: auto;
     overflow: hidden;

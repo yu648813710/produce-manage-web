@@ -97,7 +97,7 @@
           >{{text}}</div>
           <a
             slot="toDetail"
-            slot-scope=""
+            slot-scope
           >查看</a>
         </a-table>
       </div>
@@ -126,7 +126,7 @@ const columns = [
   { title: '状态', dataIndex: 'taskStatusName', key: 'taskStatusName' },
   { title: '执行周期', dataIndex: 'executeCycle', key: 'executeCycle' },
   { title: '任务开始时间', dataIndex: 'startTime', key: 'startTime' },
-  { title: '任务完成时间', dataIndex: 'finishTime', key: 'finishTime' },
+  { title: '任务结束时间', dataIndex: 'finishTime', key: 'finishTime' },
   { title: '负责人', dataIndex: 'assigner', key: 'assigner' },
   {
     title: '操作',
