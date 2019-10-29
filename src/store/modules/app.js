@@ -95,7 +95,9 @@ const app = {
           { name: '出库管理' },
           { name: '生产批次管理' },
           { name: '待采购管理' },
-          { name: '待采购管理详情' }
+          { name: '待采购管理详情' },
+          { name: '菌包任务管理' },
+          { name: '新增菌包任务' }
         ]
         resolve(auth)
       })
