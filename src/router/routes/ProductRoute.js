@@ -220,6 +220,26 @@ export default {
       hidden: true,
       component: () => import('@/views/purchaseManagement/detail'),
       meta: { name: '采购管理详情', icon: '' }
+    },
+    {
+      path: '/bacteriabagtaskmanagement',
+      name: 'BacteriaBagTaskManagement',
+      component: () => import('@/views/bacteriaBagTaskManagement/BacteriaBagTaskManagement.vue'),
+      meta: { name: '菌包任务管理', icon: '' }
+    },
+    {
+      path: '/addbacteriabagtask',
+      name: 'AddBacteriaBagTask',
+      hidden: true,
+      component: () => import('@/views/bacteriaBagTaskManagement/AddBacteriaBagTask.vue'),
+      meta: { name: '新增菌包任务', icon: '' }
+    },
+    {
+      path: '/bacteriabagtaskdateil',
+      name: 'BacteriaBagTaskDateil',
+      hidden: true,
+      component: () => import('@/views/bacteriaBagTaskManagement/BacteriaBagTaskDateil.vue'),
+      meta: { name: '菌包任务详情', icon: '' }
     }
   ]
 }

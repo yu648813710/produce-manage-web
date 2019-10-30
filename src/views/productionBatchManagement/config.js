@@ -1,6 +1,6 @@
 const columns = [
   { title: '序号', scopedSlots: { customRender: 'id' }, key: 'id' },
-  { title: '生产批次号', dataIndex: 'productionPatchCode', key: 'productionPatchCode' },
+  { title: '生产批次号', dataIndex: 'productionBatchCode', key: 'productionBatchCode' },
   { title: '产品名称', dataIndex: 'productName', key: 'productName' },
   { title: '采收人', dataIndex: 'harvester', key: 'harvester' },
   { title: '采摘量（斤）', dataIndex: 'amount', key: 'amount', align: 'center' }

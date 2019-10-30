@@ -137,7 +137,7 @@ export const getAllName = () => {
 // 获取生产批次管理列表
 export const getProductionBatchList = (data) => {
   return axios({
-    url: `/produce/productionPatch/list/`,
+    url: `/produce/productionBatch/list/`,
     method: 'post',
     data
   })
@@ -163,5 +163,84 @@ export const setBatchStatus = (data) => {
     url: `/produce/purchase/batchstatus`,
     method: 'PUT',
     data
+  })
+}
+// 获取菌包任务管理的所属车间
+export const workshopList = () => {
+  return axios({
+    url: `/produce/workshop/list/`,
+    method: 'get'
+  })
+}
+// 获取菌包任务管理的菌包名称
+export const fungusproduceList = () => {
+  return axios({
+    url: `/produce/fungusproduce/list`,
+    method: 'get'
+  })
+}
+// 获取菌包任务管理列表
+export const getBacteriaBagTask = (data) => {
+  return axios({
+    url: `/produce/fungus/task/page/`,
+    method: 'post',
+    data
+  })
+}
+// 获取菌包任务管理新增中的品类
+export const getCategory = () => {
+  return axios({
+    url: `/produce/product/category/`,
+    method: 'get'
+  })
+}
+// 获取菌包任务管理新增中的品种
+export const getBreedList = (categoryId) => {
+  return axios({
+    url: `/produce/product/breed/${categoryId}`,
+    method: 'get'
+  })
+}
+// 获取菌包任务管理新增中的菌包列表
+export const getFungusproduceList = (breedId) => {
+  return axios({
+    url: `produce/fungusproduce/list?breedId=${breedId}`,
+    method: 'get'
+  })
+}
+// 获取菌包任务管理新增中的生产操作
+export const actionList = () => {
+  return axios({
+    url: `/produce/action/list`,
+    method: 'get'
+  })
+}
+// 获取菌包任务管理新增中的负责人
+export const userList = () => {
+  return axios({
+    url: `/produce/user/list`,
+    method: 'get'
+  })
+}
+// 菌包任务管理的创建任务
+export const postFungusTask = (data) => {
+  return axios({
+    url: `/produce/fungus/task/`,
+    method: 'post',
+    data
+  })
+}
+// 菌包任务管理编辑或者获取详情
+export const getFungusTask = (bizId) => {
+  return axios({
+    url: `/produce/fungus/task/${bizId}`,
+    method: 'get'
+  })
+}
+// 菌包任务管理删除此任务
+export function deleteFungusTask(bizId) {
+  return axios({
+    url: `/produce/fungus/task/${bizId}`,
+    method: 'DELETE'
   })
 }

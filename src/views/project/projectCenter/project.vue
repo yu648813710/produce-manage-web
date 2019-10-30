@@ -14,6 +14,7 @@
               <a-col :span="8">
                 <a-form-item label="方案名称" :label-col="{ span: 24 }" :wrapper-col="{ span: 20 }">
                   <a-input
+                    maxLength="15"
                     autocomplete="off"
                     placeholder="请输入方案名称"
                     v-decorator="[
@@ -26,6 +27,7 @@
               <a-col :span="8">
                 <a-form-item label="产品品种" :label-col="{ span: 24 }" :wrapper-col="{ span: 20 }">
                   <a-input
+                    maxLength="15"
                     autocomplete="off"
                     placeholder="请输入产品品种"
                     v-decorator="[
@@ -51,7 +53,8 @@
                       v-for="(item) in statusArr"
                       :key="item.value"
                       :value="item.value"
-                    >{{item.label}}</a-select-option>
+                    >{{item.label}}
+                    </a-select-option>
                   </a-select>
                 </a-form-item>
               </a-col>
@@ -71,7 +74,8 @@
                       v-for="(item) in projectPowerArr"
                       :key="item.value"
                       :value="item.value"
-                    >{{item.label}}</a-select-option>
+                    >{{item.label}}
+                    </a-select-option>
                   </a-select>
                 </a-form-item>
               </a-col>
@@ -106,6 +110,9 @@
               />
             </span>
             <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
+            <span slot="cycleTotalLength" slot-scope="text, record">
+              {{ record.cycleTotalLength + (record.cycleUnit === '3' ? '周' : '天')}}
+            </span>
             <div class="action" slot="operation" slot-scope="record">
               <span class="actionSpan" @click="_publishTask(record)">
                 <span>{{record.publishFlag === 'Y' ? '' : '发布'}}</span>
@@ -132,6 +139,15 @@
       @cancel="delHandleCancel"
     >
       <p>是否删除该条方案？</p>
+    </a-modal>
+    <!--发布框-->
+    <a-modal
+      title="发布方案"
+      :visible="publishVelVisible"
+      @ok="publishHandleOk"
+      @cancel="publishHandleCancel"
+    >
+      <p>是否发布该方案？</p>
     </a-modal>
   </div>
 </template>
@@ -177,12 +193,13 @@ export default {
   components: {
     crumbsNav
   },
-  created () { },
-  async mounted () {
+  created() {
+  },
+  async mounted() {
     await this.getProjectList()
     console.log(this.list)
   },
-  data () {
+  data() {
     return {
       sreachFrom: this.$form.createForm(this),
       crumbsArr: [
@@ -203,6 +220,8 @@ export default {
       statusArr: [{ value: 'Y', label: '启用' }, { value: 'N', label: '禁用' }],
       list: [],
       delVisible: false,
+      publishVelVisible: false,
+      lineRecord: {},
       delConfirmLoading: false,
       solutionId: '',
       pagination: {
@@ -235,9 +254,7 @@ export default {
           title: '周期时长',
           dataIndex: 'cycleTotalLength',
           key: 'cycleTotalLength',
-          customRender: text => {
-            return text
-          }
+          scopedSlots: { customRender: 'cycleTotalLength' }
         },
         {
           title: '方案状态',
@@ -281,7 +298,7 @@ export default {
     }
   },
   methods: {
-    handleSearchClick () {
+    handleSearchClick() {
       this.sreachFrom.validateFields((err, values) => {
         console.log(err)
         this.pagination.current = 1
@@ -293,24 +310,27 @@ export default {
       })
     },
     // 分页栏页数改变
-    projectPageChange (page) {
+    projectPageChange(page) {
       this.pagination.pageSize = page.pageSize
       this.pagination.current = page.current
       this.getProjectList()
     },
     // 查询方案列表
-    searchProjectList () {
+    searchProjectList() {
       this.getProjectList()
     },
     // 拷贝方案
-    _copyProject (record) {
+    _copyProject(record) {
       copyProject(record.solutionId).then(res => {
         if (res.success === 'Y') {
+          this.$message.success('方案拷贝成功！')
           this.getProjectList()
+        } else {
+          this.$message.error('方案拷贝失败！')
         }
       })
     },
-    rest () {
+    rest() {
       this.searchParams.breedName = ''
       this.searchParams.solutionScope = ''
       this.searchParams.status = ''
@@ -319,136 +339,156 @@ export default {
       this.getProjectList()
     },
     // 搜索栏状态改变
-    searchStatusChange (value) {
+    searchStatusChange(value) {
       this.searchParams.status = value
     },
     // 搜索栏权限改变
-    powerChange (value) {
+    powerChange(value) {
       this.searchParams.solutionScope = value
     },
     // 删除方案
-    delHandleOk () {
+    delHandleOk() {
       this.delConfirmLoading = true
       delProjectTask(this.solutionId).then(res => {
-        if (res.code === 200) {
+        if (res.success === 'Y') {
+          this.$message.success('方案删除成功！')
           this.delVisible = false
           this.delConfirmLoading = false
           this.getProjectList()
+        } else {
+          this.$message.error('方案删除失败！')
         }
       })
     },
-    delHandleCancel () {
+    publishHandleCancel() {
+      this.publishVelVisible = false
+    },
+    delHandleCancel() {
       this.delVisible = false
     },
-    openDelDialog (record) {
+    openDelDialog(record) {
       this.delVisible = true
       this.solutionId = record.solutionId
     },
-    _publishTask (record) {
-      if (record.publishFlag === 'Y') {
+    publishHandleOk() {
+      if (this.lineRecord.publishFlag === 'Y') {
         return
       }
-      publishTask(record.solutionId).then(res => {
-        if (res.code === 200) {
+      publishTask(this.lineRecord.solutionId).then(res => {
+        if (res.success === 'Y') {
+          this.$message.success('方案发布成功！')
           this.getProjectList()
+        } else {
+          this.$message.error('方案发布失败！')
         }
+        this.publishVelVisible = false
       })
     },
-    statusChange (record) {
+    _publishTask(record) {
+      this.lineRecord = record
+      this.publishVelVisible = true
+    },
+    statusChange(record) {
       let projectStatus = ''
       projectStatus = record.status === 'Y' ? 'N' : 'Y'
       editProjectStatus(record.solutionId, projectStatus).then(res => {
-        if (res.code === 200) {
+        if (res.success === 'Y') {
+          this.$message.success('方案状态修改成功！')
           this.getProjectList()
+        } else {
+          this.$message.error('方案状态修改失败！')
         }
       })
       console.log(projectStatus)
     },
-    getProjectList () {
+    getProjectList() {
       let postData = this.searchParams
       postData.pageNo = this.pagination.current
       postData.pageSize = this.pagination.pageSize
       projectList(postData).then(res => {
         let unit = ''
         for (let i = 0; i < res.data.records.length; i++) {
-          if (res.data.records[i].cycleUnit === 3) {
+          if (res.data.records[ i ].cycleUnit === 3) {
             unit = '周'
-          } else if (res.data.records[i].cycleUnit === 5) {
+          } else if (res.data.records[ i ].cycleUnit === 5) {
             unit = '天'
           }
-          res.data.records[i].cycleTotalLength =
-            res.data.records[i].cycleTotalLength + unit
+          res.data.records[ i ].cycleTotalLength =
+            res.data.records[ i ].cycleTotalLength + unit
         }
         this.list = res.data.records
         for (let i = 0; i < this.list.length; i++) {
-          this.list[i].expertName = '张强'
+          this.list[ i ].expertName = '张强'
         }
         this.pagination.total = res.data.total
       })
     },
-    editProject (record) {
+    editProject(record) {
       this.$router.to({ name: 'productDetail', params: record })
     }
   }
 }
 </script>
 <style lang="less" scoped>
-.crumbCtr {
-  height: 20px;
-  line-height: 20px;
-  margin-top: 20px;
-  margin-left: 16px;
-  text-align: left;
-}
-.actionSpan {
-  color: #1890ff;
-  background-color: transparent;
-  cursor: pointer;
-}
-.search-title {
-  color: #333;
-  font-size: 14px;
-  display: inline-block;
-  line-height: 32px;
-  margin-bottom: 30px;
-  text-align: right;
-}
-.search-wrapper {
-  padding: 24px;
-  background: #fff;
-  margin-bottom: 10px;
-  height: 260px;
-  border-radius: 4px;
+  .crumbCtr {
+    height: 20px;
+    line-height: 20px;
+    margin-top: 20px;
+    margin-left: 16px;
+    text-align: left;
+  }
 
-  .search-input-wrapper {
-    position: relative;
-    margin-bottom: 24px;
+  .actionSpan {
+    color: #1890ff;
+    background-color: transparent;
+    cursor: pointer;
+  }
 
-    .search-input {
-      margin-top: 30px;
+  .search-title {
+    color: #333;
+    font-size: 14px;
+    display: inline-block;
+    line-height: 32px;
+    margin-bottom: 30px;
+    text-align: right;
+  }
+
+  .search-wrapper {
+    padding: 24px;
+    background: #fff;
+    margin-bottom: 10px;
+    height: 260px;
+    border-radius: 4px;
+
+    .search-input-wrapper {
+      position: relative;
+      margin-bottom: 24px;
+
+      .search-input {
+        margin-top: 30px;
+      }
+    }
+
+    .button {
+      margin: 0 5px;
     }
   }
 
-  .button {
-    margin: 0 5px;
-  }
-}
+  .table-wrapper {
+    position: relative;
+    padding: 24px;
+    background: #fff;
+    min-height: 360px;
+    border-radius: 4px;
 
-.table-wrapper {
-  position: relative;
-  padding: 24px;
-  background: #fff;
-  min-height: 360px;
-  border-radius: 4px;
+    .add-button {
+      position: absolute;
+      right: 24px;
+    }
 
-  .add-button {
-    position: absolute;
-    right: 24px;
+    .action span {
+      display: inline-block;
+      width: 35px;
+    }
   }
-
-  .action span {
-    display: inline-block;
-    width: 35px;
-  }
-}
 </style>

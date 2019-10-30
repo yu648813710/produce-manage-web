@@ -1,5 +1,5 @@
 /**
-周期信息详情页面
+地块监控列表页面
 */
 <template>
   <div>
@@ -9,12 +9,6 @@
     <div class="wrapper">
       <div class="search-wrapper">
         <a-row>
-<!--          <a-col :span="18">-->
-<!--            <div class="title-wrapper">-->
-<!--              <div class="icon"></div>-->
-<!--              <span class="title-text">地块监控列表</span>-->
-<!--            </div>-->
-<!--          </a-col>-->
           <a-form :form="sreachFrom" @submit="handleSearchClick">
             <a-row>
               <a-col :span="8">
@@ -43,18 +37,16 @@
               </a-col>
             </a-row>
           </a-form>
-          <!--        <a-col :span="6">-->
-          <!--          <a-input-->
-          <!--            placeholder="Basic usage"-->
-          <!--            class="tableSelect"-->
-          <!--          />-->
-          <!--        </a-col>-->
+          <div>
+            <a-button type="primary" class="button" @click="searchWarringList">查询</a-button>
+            <a-button class="button" @click="rest">重置</a-button>
+          </div>
         </a-row>
       </div>
       <div class="table-wrapper">
         <a-table
           :scroll="{ x: 1080 }"
-          :columns="detail === 1 ? columns1 : columns2"
+          :columns="columns"
           :dataSource="list"
           :style="{marginTop: '50px'}"
           :loading="loading"
@@ -65,14 +57,8 @@
           <div
             class="action"
             slot="operation"
-            slot-scope="record"
+            slot-scope=""
           >
-              <span>
-                <router-link :to="{name: 'projectDetail', params: record}">编辑</router-link>
-              </span>
-            <span>
-                <router-link :to="{name: 'projectDetail', params: record}">查看</router-link>
-              </span>
           </div>
         </a-table>
       </div>
@@ -82,7 +68,7 @@
 <script>
 import Vue from 'vue'
 import { Table, Row, Col, Steps, Radio, icon, Modal, Button, Input, Select, Form } from 'ant-design-vue'
-import { shiduData } from '@/api/productManage.js'
+import { shiduData, getTotalWarring } from '@/api/productManage.js'
 import crumbsNav from '@/components/crumbsNav/CrumbsNav'
 Vue.use(Row)
 Vue.use(Form)
@@ -140,6 +126,41 @@ const columns2 = [
   { title: '异常原因', dataIndex: 'reason' }
 
 ]
+const columns3 = [
+  { title: '序号', scopedSlots: { customRender: 'id' }, align: 'center' },
+  { title: '基地名称', dataIndex: 'baseLandName' },
+  { title: '地块名称', dataIndex: 'blockLandName' },
+  { title: '温度℃', dataIndex: 'temperature' },
+  { title: 'CO₂浓度', dataIndex: 'co2Concentration' },
+  { title: '湿度',
+    dataIndex: 'dampness',
+    customRender: (text) => {
+      return text + '%'
+    }
+  },
+  {
+    title: '状态',
+    dataIndex: 'status',
+    customRender: (text) => {
+      if (text === 'normal') {
+        return '正常'
+      } else if (text === 'abnormal') {
+        return '异常'
+      }
+    }
+  },
+  { title: '异常原因',
+    dataIndex: 'reason'
+    // customRender: (text) => {
+    //   if (text === 'normal') {
+    //     return '正常'
+    //   } else if (text === 'abnormal') {
+    //     return '异常'
+    //   }
+    // }
+  }
+
+]
 export default {
   components: {
     crumbsNav
@@ -149,6 +170,7 @@ export default {
       detail: this.$route.query.type,
       list: [],
       sreachFrom: this.$form.createForm(this),
+      listType: 0,
       loading: false,
       pagination: {
         current: 1,
@@ -161,6 +183,8 @@ export default {
       },
       columns1,
       columns2,
+      columns3,
+      columns: '',
       crumbsArr: [
         { name: '当前位置', back: false, path: '' },
         { name: '生产管理', back: false, path: '' },
@@ -169,19 +193,66 @@ export default {
       ]
     }
   },
-  beforeCreate() {
-    if (this.$route.params.type === 1) {
-      this.getShiduData()
-    } else if (this.$route.params.type === 2) {
-      this.getWenduData()
-    }
+  mounted() {
+    this.listType = this.$route.query.type
+    console.log(this.$route.query.type)
+    this.getTableData()
+    this.formatTableColumn()
   },
   methods: {
+    // 查询预警列表
+    searchWarringList() {
+      if (this.listType === 1 || this.listType === 2) {
+        this.columns = this.columns3
+        this.getTotalData(2)
+      }
+    },
+    formatTableColumn() {
+      /**
+       * listType === 1 湿度列表
+       * listType === 2 温度列表
+       * listType === 3 历史总累计列表
+       * listType === 4 今日新增总累计列表
+       */
+      if (this.listType === 1) {
+        this.columns = this.columns1
+      } else if (this.listType === 2) {
+        this.columns = this.columns2
+      } else if (this.listType === 3 || this.listType === 4) {
+        this.columns = this.columns3
+      }
+    },
+    getTableData() {
+      if (this.$route.query.type === 1) {
+        this.getShiduData()
+      } else if (this.$route.query.type === 2) {
+        this.getWenduData()
+      } else if (this.$route.query.type === 3) {
+        this.getTotalData(1)
+      } else if (this.$route.query.type === 4) {
+        this.getTotalData(2)
+      }
+    },
+    // 获取历史总累计预警
+    getTotalData(type) {
+      let postData = {
+        alarmType: '温度过高', // 预警类型查询 下拉框值默认为 温度过高 温度过低 湿度过高 湿度过低 二氧化碳过高 二氧化碳过低
+        inputContent: '', // 输入框的模糊查询地块或车间的名陈
+        pageNo: 1,
+        pageSize: 10
+      }
+      let typeList = {
+        massifType: 'gh',
+        type: type === 1 ? 'history' : 'realTime'
+      }
+      getTotalWarring(postData, typeList).then((res) => {
+
+      })
+    },
     getShiduData() {
       let postData = {
         pageNo: 1,
-        pageSize: 10,
-        value: ''
+        pageSize: 10
       }
       let typeList = {
         dikuai: 'gh',
@@ -200,8 +271,7 @@ export default {
     getWenduData() {
       let postData = {
         pageNo: 1,
-        pageSize: 10,
-        value: ''
+        pageSize: 10
       }
       let typeList = {
         dikuai: 'gh',

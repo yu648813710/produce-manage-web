@@ -31,8 +31,8 @@ export default {
         let aj = array1[j]
         let n = aj.value
         if (n === num) {
+          // eslint-disable-next-line no-return-assign
           isExist = true
-          break
         }
       }
       if (!isExist) {

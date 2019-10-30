@@ -176,7 +176,7 @@ export default {
       contentText: '确认采购农资？',
       selectedRowKeys: [],
       bizId: '',
-      purchaseStatus: 0,
+      purchaseStatus: 0, // 废弃：1, 待采购：2, 采购中：3, 已采购：4
       searchParam: { // 批量操作
         bizList: [],
         purchaseStatus: 0
@@ -231,12 +231,13 @@ export default {
     setStatus (record, to) {
       this.bizId = record.bizId
       this.isBatch = false
-      this.purchaseStatus = Number(record.purchaseStatus)
       if (to === 'Purchase') {
+        this.purchaseStatus = 3
         this.title = '确认采购'
         this.visible = true
         this.contentText = '确认采购农资？'
       } else {
+        this.purchaseStatus = 1
         this.title = '确认废弃'
         this.visible = true
         this.contentText = '确认废弃农资？'
@@ -251,9 +252,6 @@ export default {
       this.selectedRowKeys = selectedRowKeys
       this.isBatch = true
       let bizList = selectedRows.map((item, index) => {
-        if (index === 0) {
-          this.$set(this.searchParam, 'purchaseStatus', item.purchaseStatus)
-        }
         return item.bizId
       })
       this.$set(this.searchParam, 'bizList', bizList)
@@ -262,10 +260,12 @@ export default {
     batchOperation (to) {
       if (this.searchParam.bizList.length > 0) {
         if (to === 'batchPurchase') {
+          this.$set(this.searchParam, 'purchaseStatus', 3)
           this.title = '确认采购'
           this.visible = true
           this.contentText = '确认批量采购农资？'
         } else {
+          this.$set(this.searchParam, 'purchaseStatus', 1)
           this.title = '确认废弃'
           this.visible = true
           this.contentText = '确认批量废弃农资？'
@@ -280,7 +280,11 @@ export default {
       this.pagination.pageSize = pagination.pageSize
       let data = {
         pageNo: pagination.current,
-        pageSize: pagination.pageSize
+        pageSize: pagination.pageSize,
+        actionName: this.actionName,
+        farmingNum: this.farmingNum,
+        materialName: this.materialName,
+        planCycleName: this.planCycleName
       }
       this.getList(data)
     },
@@ -293,9 +297,11 @@ export default {
       this.planCycleName = ''
       // 获取列表
       let data = {
-        pageNo: this.pagination.current,
-        pageSize: this.pagination.pageSize
+        pageNo: 1,
+        pageSize: 10
       }
+      this.pagination.current = data.pageNo
+      this.pagination.pageSize = data.pageSize
       this.getList(data)
     }
   }
