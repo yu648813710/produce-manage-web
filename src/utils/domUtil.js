@@ -23,6 +23,7 @@ export const setDocumentTitle = function (title) {
 export default {
   compareArr (array2, array1) {
     let result = []
+    debugger
     for (let i = 0; i < array2.length; i++) {
       let obj = array2[i]
       let num = obj.value
@@ -30,9 +31,10 @@ export default {
       for (let j = 0; j < array1.length; j++) {
         let aj = array1[j]
         let n = aj.value
+        debugger
         if (n === num) {
+          // eslint-disable-next-line no-return-assign
           isExist = true
-          break
         }
       }
       if (!isExist) {
