@@ -110,6 +110,9 @@
               />
             </span>
             <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
+            <span slot="cycleTotalLength" slot-scope="text, record">
+              {{ record.cycleTotalLength + (record.cycleUnit === '3' ? '周' : '天')}}
+            </span>
             <div class="action" slot="operation" slot-scope="record">
               <span class="actionSpan" @click="_publishTask(record)">
                 <span>{{record.publishFlag === 'Y' ? '' : '发布'}}</span>
@@ -251,9 +254,7 @@ export default {
           title: '周期时长',
           dataIndex: 'cycleTotalLength',
           key: 'cycleTotalLength',
-          customRender: text => {
-            return text
-          }
+          scopedSlots: { customRender: 'cycleTotalLength' }
         },
         {
           title: '方案状态',

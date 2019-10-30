@@ -20,11 +20,11 @@
           <div class="warrningLabel">
             <div>
               <div class="warringTitle">总累计预警</div>
-              <div class="warringNum">{{totalWarring}}</div>
+              <div class="warringNum" @click="warringDetailList(3)">{{totalWarring}}</div>
             </div>
             <div>
               <div class="warringTitle">今日新增预警</div>
-              <div class="warringNum">{{newWarring}}</div>
+              <div class="warringNum" @click="warringDetailList(4)">{{newWarring}}</div>
             </div>
           </div>
           <div class="warringIMG">
@@ -143,17 +143,10 @@ export default {
       echartsConfig.pieEchartsOption(this.myChart, self)
     },
     warringDetailList(index) {
-      if (index === 1) {
-        this.$router.push({
-          name: 'warringList',
-          query: { 'type': 1 }
-        })
-      } else if (index === 2) {
-        this.$router.push({
-          name: 'warringList',
-          query: { 'type': 2 }
-        })
-      }
+      this.$router.push({
+        name: 'warringList',
+        query: { 'type': index }
+      })
     }
   }
 }

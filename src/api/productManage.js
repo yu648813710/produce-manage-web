@@ -33,6 +33,14 @@ export function shiduData(data, type) {
     data: data
   })
 }
+// 获取总累计预警 || 获取今日新增预警
+export function getTotalWarring(data, typeList) {
+  return axios({
+    url: `/produce/produce/monitor/warning/searchMonitorList/${typeList.massifType}/${typeList.type}`,
+    method: 'POST',
+    data: data
+  })
+}
 // 获取预警规则列表
 export function ruleList(type, data) {
   return axios({
