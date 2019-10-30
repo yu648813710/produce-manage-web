@@ -201,3 +201,37 @@ export function addKnowledgeQuizReply(data) {
     data
   })
 }
+
+// 采购管理列表
+export function purchaseManagementList(data) {
+  return axios({
+    url: '/produce/purchase/pagepurchase',
+    method: 'POST',
+    data
+  })
+}
+
+// 待采购详情
+export function toPurchaseDetail (bizId) {
+  return axios({
+    url: `/produce/purchase/waitpurchasedetail/${bizId}`,
+    method: 'GET'
+  })
+}
+
+// 更新采购状态
+export function updatePurchaseState (data) {
+  return axios({
+    url: `/produce/purchase`,
+    method: 'PUT',
+    data
+  })
+}
+
+// 查询农事计划编号
+export function getMaterialNumList (farmingNum) {
+  return axios({
+    url: `/produce/farmPlan/list?farmingNum=${farmingNum}`,
+    method: 'GET'
+  })
+}

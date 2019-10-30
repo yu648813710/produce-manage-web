@@ -100,34 +100,7 @@ const breadcrumbs = [
   { name: '详情', back: false, path: '' }
 ]
 
-const replyList = [
-  {
-    id: '000',
-    userIcon: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg',
-    userName: '罗沈季',
-    date: '2019-10-22 16:21',
-    desc: '这只是一段文字介绍，这只是一段文字介绍',
-    imgs: [
-      { id: '000', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg' },
-      { id: '001', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg' },
-      { id: '002', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg' },
-      { id: '003', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg' }
-    ]
-  },
-  {
-    id: '001',
-    userIcon: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg',
-    userName: '薛灵灵',
-    date: '2019-10-22 16:21',
-    desc: '这只是一段文字介绍，这只是一段文字介绍',
-    imgs: [
-      { id: '000', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg' },
-      { id: '001', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg' },
-      { id: '002', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg' },
-      { id: '003', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg' }
-    ]
-  }
-]
+const replyList = []
 
 export default {
   name: 'knowledgeQuizDetail',
