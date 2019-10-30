@@ -9,11 +9,21 @@
       @click="gotoRoute"
     >
       <template v-for="item in menuList">
-        <a-menu-item v-if="!item.children" v-show="!item.hidden" :key="item.name">
-          <a-icon :type="item.meta.icon" />
+        <a-menu-item
+          v-if="!item.children"
+          v-show="!item.hidden"
+          :key="item.name"
+        >
+          <template v-if="item.meta.icon">
+            <a-icon :type="item.meta.icon" />
+          </template>
           <span>{{item.meta.name}}</span>
         </a-menu-item>
-        <menu-item v-else :menuInfo="item" :key="item.name" />
+        <menu-item
+          v-else
+          :menuInfo="item"
+          :key="item.name"
+        />
       </template>
     </a-menu>
   </div>
@@ -23,7 +33,7 @@ import MenuItem from './MenuItem.vue'
 import { mapGetters } from 'vuex'
 export default {
   name: 'SideMenu',
-  data () {
+  data() {
     return {
       collapsed: false
     }
@@ -35,11 +45,11 @@ export default {
     ...mapGetters({
       menuList: 'routes'
     }),
-    selectedKeys () {
+    selectedKeys() {
       let matched = this.$route.matched
       return [matched[matched.length - 1].name]
     },
-    openKeys () {
+    openKeys() {
       let matched = this.$route.matched
       return matched
         .filter((item, index) => index !== 0 && index !== matched.length - 1)
@@ -47,7 +57,7 @@ export default {
     }
   },
   methods: {
-    gotoRoute (menu) {
+    gotoRoute(menu) {
       this.$router.push({ name: menu.key })
     }
   }

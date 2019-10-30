@@ -3,8 +3,14 @@
     <div class="sider">
       <SideMenu></SideMenu>
     </div>
-    <div class="loadingContent" v-show="loading">
-      <a-spin :spinning="loading" size="large" />
+    <div
+      class="loadingContent"
+      v-show="loading"
+    >
+      <a-spin
+        :spinning="loading"
+        size="large"
+      />
     </div>
     <div class="content">
       <router-view></router-view>
@@ -56,7 +62,7 @@ export default {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-.alertContent{
+.alertContent {
   position: absolute;
   width: calc(100% - 240px);
   padding: 16px;
