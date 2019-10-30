@@ -360,8 +360,8 @@ export default {
         }
       })
     },
-    publishHandleCancel(){
-      this.publishVelVisible = false;
+    publishHandleCancel() {
+      this.publishVelVisible = false
     },
     delHandleCancel() {
       this.delVisible = false
@@ -386,7 +386,7 @@ export default {
     },
     _publishTask(record) {
       this.lineRecord = record
-      this.publishVelVisible = true;
+      this.publishVelVisible = true
     },
     statusChange(record) {
       let projectStatus = ''
@@ -407,7 +407,7 @@ export default {
       postData.pageSize = this.pagination.pageSize
       projectList(postData).then(res => {
         let unit = ''
-        for ( let i = 0; i < res.data.records.length; i++ ) {
+        for (let i = 0; i < res.data.records.length; i++) {
           if (res.data.records[ i ].cycleUnit === 3) {
             unit = '周'
           } else if (res.data.records[ i ].cycleUnit === 5) {
@@ -417,7 +417,7 @@ export default {
             res.data.records[ i ].cycleTotalLength + unit
         }
         this.list = res.data.records
-        for ( let i = 0; i < this.list.length; i++ ) {
+        for (let i = 0; i < this.list.length; i++) {
           this.list[ i ].expertName = '张强'
         }
         this.pagination.total = res.data.total
