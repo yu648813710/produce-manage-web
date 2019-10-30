@@ -188,7 +188,7 @@ export default {
           return
         }
         this.collectionItems = []
-        message.error(res.message)
+        this.$message.error(res.message)
       })
     },
 

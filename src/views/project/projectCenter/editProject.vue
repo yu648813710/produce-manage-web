@@ -1097,8 +1097,8 @@ export default {
         }
       })
     },
-    //校验农资新增
-    unitSubmit(){
+    // 校验农资新增
+    unitSubmit() {
       this.unitForm.validateFields((err, values) => {
         if (!err) {
           this.$set(this.tableProduction, 'consumption', values.consumption)
@@ -1188,7 +1188,7 @@ export default {
           } else if (!this.isAdd) {
             let nongzi = []
             // 过滤除自身以外的任务
-            let singleList = this.list.filter( (data) => {
+            let singleList = this.list.filter((data) => {
               return data.index === self.tableDataID
             })
             console.log(singleList[0])
@@ -1410,7 +1410,7 @@ export default {
     },
     confirmTable (type) {
       if (type === 1) {
-        this.unitSubmit();
+        this.unitSubmit()
       }
     },
     delTableLine (index) {
@@ -1497,7 +1497,6 @@ export default {
     handleChange (selectData) {
       let data = JSON.parse(selectData)
       let self = this
-      debugger
       self.formatList.forEach((item) => {
         if (item.value === data.value) {
           self.selectList.forEach((selectItem, index) => {
@@ -1506,7 +1505,6 @@ export default {
               console.log(selectItem)
             }
           })
-          debugger
           let holdDom = document.getElementsByClassName('ant-select-selection__placeholder')[0]
           this.cycleSelectValue = '请选择'
           holdDom.style.display = 'block'
@@ -1527,7 +1525,7 @@ export default {
       console.log(data.target.value)
     },
     editCycle () {
-      let self = this;
+      let self = this
       self.cycleForm.form.validateFields((err, values) => {
         if (!err) {
           for (let i = 0; i < self.cycleList.length; i++) {

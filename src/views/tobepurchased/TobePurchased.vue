@@ -280,7 +280,11 @@ export default {
       this.pagination.pageSize = pagination.pageSize
       let data = {
         pageNo: pagination.current,
-        pageSize: pagination.pageSize
+        pageSize: pagination.pageSize,
+        actionName: this.actionName,
+        farmingNum: this.farmingNum,
+        materialName: this.materialName,
+        planCycleName: this.planCycleName
       }
       this.getList(data)
     },

@@ -221,7 +221,10 @@ export default {
       this.pagination.pageSize = pagination.pageSize
       let data = {
         pageNo: pagination.current,
-        pageSize: pagination.pageSize
+        pageSize: pagination.pageSize,
+        deliveryTime: this.deliveryTime,
+        userName: this.userName,
+        fungusBagId: this.fungusBagId // 菌包ID
       }
       this.getList(data)
     },

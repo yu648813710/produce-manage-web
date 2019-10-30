@@ -219,6 +219,13 @@ export default {
       hidden: true,
       component: () => import('@/views/bacteriaBagTaskManagement/AddBacteriaBagTask.vue'),
       meta: { name: '新增菌包任务', icon: '' }
+    },
+    {
+      path: '/bacteriabagtaskdateil',
+      name: 'BacteriaBagTaskDateil',
+      hidden: true,
+      component: () => import('@/views/bacteriaBagTaskManagement/BacteriaBagTaskDateil.vue'),
+      meta: { name: '菌包任务详情', icon: '' }
     }
   ]
 }

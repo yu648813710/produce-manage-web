@@ -57,7 +57,7 @@
           <div
             class="action"
             slot="operation"
-            slot-scope="record"
+            slot-scope=""
           >
           </div>
         </a-table>
@@ -150,7 +150,7 @@ const columns3 = [
     }
   },
   { title: '异常原因',
-    dataIndex: 'reason',
+    dataIndex: 'reason'
     // customRender: (text) => {
     //   if (text === 'normal') {
     //     return '正常'
