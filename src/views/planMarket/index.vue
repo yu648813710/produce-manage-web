@@ -66,7 +66,7 @@
 import MyBreadCrumb from '@/components/crumbsNav/CrumbsNav'
 import CollectionItem from './CollectionItem'
 import Vue from 'vue'
-import { Form, Col, Row, Button, Input, Layout, Pagination } from 'ant-design-vue'
+import { Form, Col, Row, Button, Input, Layout, Pagination, message } from 'ant-design-vue'
 import { planMarketList } from '@/api/productManage'
 Vue.use(Form)
 Vue.use(Col)
@@ -182,13 +182,13 @@ export default {
         ...params
       }
       planMarketList(postdata).then(res => {
-        // if (res && res.success === 'Y') {
-        //   this.total = (res.data && res.data.total) || 0
-        //   this.collectionItems = (res.data && res.data.records) || []
-        //   return
-        // }
-        // this.collectionItems = []
-        // message.error(res.message)
+        if (res && res.success === 'Y') {
+          this.total = (res.data && res.data.total) || 0
+          this.collectionItems = (res.data && res.data.records) || []
+          return
+        }
+        this.collectionItems = []
+        message.error(res.message)
       })
     },
 
