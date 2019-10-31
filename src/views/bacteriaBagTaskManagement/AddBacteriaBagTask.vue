@@ -181,48 +181,54 @@
                           >
                           <div class="task-time-box" v-for="(item, index) in dayTime" :key="index">
                             <span>
-                              第<a-input class="day-input" size="small"
-                              v-decorator="[
-                                `taskStartTime_${index}`,
-                                { rules: [{ required: true, message: '请输入开始时间天数' }] },
-                              ]"/>天
+                              第
+                              <a-form-item style="display:inline-block;">
+                                <a-input class="day-input" size="small"
+                                v-decorator="[
+                                  `taskStartTime_${index}`,
+                                  { rules: [{ required: true, message: '请输入开始天数' }] },
+                                ]"/>
+                              </a-form-item>
+                              天
                             </span>
                             <span class="day-to"></span>
                             <span>
-                              第<a-input class="day-input" size="small"
-                              v-decorator="[
-                                `taskEndTime_${index}`,
-                                { rules: [{ required: true, message: '请输入结束时间天数' }] },
-                              ]"/>天
+                              第
+                              <a-form-item  style="display:inline-block;">
+                                <a-input class="day-input" size="small"
+                                v-decorator="[
+                                  `taskEndTime_${index}`,
+                                  { rules: [{ required: true, message: '请输入结束天数' }] },
+                                ]"/>
+                              </a-form-item>
+                              天
                             </span>
                           </div>
                         </a-form-item>
                       </a-col>
                       <a-col :span="14">
                         <a-form-item
-                          label="负责人"
-                          :label-col="{ span: 2 }"
-                          :wrapper-col="{ span: 22 }"
+                            :label-col="{ span: 2 }"
+                            :wrapper-col="{ span: 22 }"
+                            v-for="(itemNum, index) in 10" :key="'assigner'+itemNum"
                           >
-                          <div v-for="(item, index) in assignerRules" :key="index">
-                            <a-select
-                              class="assigner-select"
-                              placeholder="请选择"
-                              :allowClear="true"
-                              style="width: 100%;"
-                              v-decorator="[
-                                `assignerId_${index}`,
-                                {
-                                  rules: [{
-                                    required: true,
-                                    message: '请选择负责人'
-                                  }],
-                                },
-                              ]"
-                            >
-                              <a-select-option v-for="item in assignerArray" :key="item.userId" :value="item.userId">{{item.userName}}</a-select-option>
-                            </a-select>
-                          </div>
+                          <span v-if="index === 0" slot="label">负责人</span>
+                          <a-select
+                            placeholder="请选择"
+                            :allowClear="true"
+                            style="width: 100%;"
+                            v-decorator="[
+                              `assignerId_${index}`,
+                              {
+                                rules: [{
+                                  required: true,
+                                  message: `请选择负责人`
+                                }],
+                              },
+                            ]"
+                          >
+                            <a-select-option v-for="item in assignerArray" :key="item.userId" :value="item.userId">{{item.userName}}</a-select-option>
+                          </a-select>
                         </a-form-item>
                       </a-col>
                     </a-row>
@@ -270,7 +276,7 @@ import {
 } from 'ant-design-vue'
 import CrumbsNav from '@/components/crumbsNav/CrumbsNav' // 面包屑
 import moment from 'moment'
-import { addTaskCrumbs, stepsArray, dayTime, assignerRules } from './config.js'
+import { addTaskCrumbs, stepsArray, dayTime } from './config.js'
 import { getCategory, getBreedList, getFungusproduceList, workshopList, actionList, userList, postFungusTask, getFungusTask } from '@/api/farmPlan.js'
 Vue.use(Layout)
 Vue.use(Steps)
@@ -288,8 +294,8 @@ export default {
   data () {
     return {
       addTaskCrumbs,
-      addFormOne: this.$form.createForm(this),
-      addFormTwo: this.$form.createForm(this),
+      addFormOne: this.$form.createForm(this), // 第一步的from表单校验
+      addFormTwo: this.$form.createForm(this), // 第二步的from表单校验
       current: 0,
       steps: stepsArray,
       bizId: '',
@@ -306,7 +312,6 @@ export default {
       assignerId: '',
       actionArray: [], // 生产操作列表
       dayTime, // 操作时长
-      assignerRules,
       actionTasks: [] // 生产操作
     }
   },
@@ -483,7 +488,7 @@ export default {
             .then(res => {
               if (res.success === 'Y') {
                 this.$router.push({ name: 'BacteriaBagTaskManagement' })
-                this.$message.success('任务生成成功！')
+                this.$message.success(res.message)
               } else {
                 this.$message.error(res.message)
               }
@@ -566,13 +571,12 @@ export default {
           margin-bottom: 39px;
         }
         .action-text:first-child{
-          margin-top: 10px;
+          margin-top: 12px;
         }
         .task-time-box{
           display: flex;
           justify-content: flex-start;
           align-items: center;
-          margin-bottom: 24px;
           .day-input{
             width: 72px;
             height: 24px;
@@ -584,14 +588,12 @@ export default {
             width: 24px;
             height: 1px;
             margin: 0 16px;
+            margin-bottom: 20px;
             background: #ddd;
           }
         }
         .task-time-box:first-child{
           margin-top: 4px;
-        }
-        .assigner-select{
-          margin-bottom: 27px;
         }
       }
       .button {

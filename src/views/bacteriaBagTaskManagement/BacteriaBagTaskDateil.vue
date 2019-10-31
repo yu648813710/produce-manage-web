@@ -82,7 +82,9 @@
     </div>
     <!-- 查看的模态框 -->
     <operation-modal
+    v-if="visible"
     :visible="visible"
+    :instId="instId"
     @operationModalOk="operationModalOk"
     ></operation-modal>
   </div>
@@ -121,7 +123,8 @@ export default {
         startTime: '',
         endTime: '',
         actionTasks: []
-      } // 详情
+      }, // 详情
+      instId: '' // 获取操作详情的id
     }
   },
   created () {
@@ -143,8 +146,13 @@ export default {
         })
     },
     // 点击查看
-    handleOpenModal () {
-      this.visible = true
+    handleOpenModal (record) {
+      if (record.instId) {
+        this.visible = true
+        this.instId = record.instId
+      } else {
+        this.$message.error('操作ID为空，无法获取操作详情')
+      }
     },
     operationModalOk (val) {
       this.visible = val
