@@ -199,6 +199,8 @@ export default {
   methods: {
     // 获取列表
     getList(data) {
+      this.pagination.current = data.pageNo
+      this.pagination.pageSize = data.pageSize
       this.loading = true
       getListwaitpurchase(data)
         .then(res => {
