@@ -245,6 +245,7 @@ export default {
     handleAddClick () {
       this.visible = true
       this.isEdit = false
+      this.dataEdit = {}
       this.modalTitle = '新建预警'
     },
     // 分页点击事件
@@ -264,6 +265,7 @@ export default {
     editTaskShow (data) {
       this.isEdit = true
       this.modalTitle = '编辑预警规则'
+      console.log(data)
       this.dataEdit = data
       this.visible = true
     },

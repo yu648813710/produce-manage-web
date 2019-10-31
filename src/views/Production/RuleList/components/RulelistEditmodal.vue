@@ -191,17 +191,20 @@ export default {
     }
   },
   created () {
-    this.getListUsable()
+    // this.getListUsable()
   },
   mounted () {
-    if (Object.keys(this.dataEdit).length > 0) {
-      this.ruleForm.setFieldsValue({
-        temperatureInf: this.dataEdit.temperatureInf,
-        temperatureSup: this.dataEdit.temperatureSup,
-        dampnessInf: this.dataEdit.dampnessInf,
-        dampnessSup: this.dataEdit.dampnessSup,
-        co2ConcentrationInf: this.dataEdit.co2ConcentrationInf,
-        co2ConcentrationSup: this.dataEdit.co2ConcentrationSup
+    if (Object.keys(this.dataEdit).length > 0 && this.isEdit) {
+      this.$nextTick(() => {
+        this.ruleForm.setFieldsValue({
+          temperatureInf: this.dataEdit.temperatureInf,
+          temperatureSup: this.dataEdit.temperatureSup,
+          dampnessInf: this.dataEdit.dampnessInf,
+          dampnessSup: this.dataEdit.dampnessSup,
+          co2ConcentrationInf: this.dataEdit.co2ConcentrationInf,
+          co2ConcentrationSup: this.dataEdit.co2ConcentrationSup
+        })
+        this.userId = this.dataEdit.principalUser
       })
     }
   },
@@ -212,13 +215,13 @@ export default {
         .then(res => {
           if (res.success === 'Y') {
             this.shopNameArr = res.data
-            if (this.isEdit) {
-              res.data.forEach((item) => {
-                if (item.workshopId === this.dataEdit.blockLandId) {
-                  this.userId = item.principalUser
-                }
-              })
-            }
+            // if (this.isEdit) {
+            //   res.data.forEach((item) => {
+            //     if (item.workshopId === this.dataEdit.blockLandId) {
+            //       this.userId = item.principalUser
+            //     }
+            //   })
+            // }
           }
         })
     },
