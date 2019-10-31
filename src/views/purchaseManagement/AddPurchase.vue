@@ -184,21 +184,16 @@ export default {
     fetchMaterialNumList(farmingNum) {
       getMaterialNumList(farmingNum).then(res => {
         this.currentFarmingPlanId = null
-        this.fields[0].arr = [
-          {
-            farmingPlanId: 'b49eb570f6f3451cb75adca44fb0d845',
-            farmingNum: 'ME20190927032900020'
-          },
-          {
-            farmingPlanId: '621680f1aed2aa4e70abb88a07589a68e774',
-            farmingNum: 'ME20190927041800030'
-          },
-          {
-            farmingPlanId: 'afaee477896f467cad34c38f6b93b9d5',
-            farmingNum: 'ME20190927192300060'
-          }
-        ]
-        // this.fields[0].arr = (res && res.data) || []
+        /**
+         * 测试数据
+          this.fields[0].arr = [
+            {
+              farmingPlanId: 'b49eb570f6f3451cb75adca44fb0d845',
+              farmingNum: 'ME20190927032900020'
+            }
+          ]
+         */
+        this.fields[0].arr = (res && res.data) || []
       })
     },
 
