@@ -80,12 +80,10 @@
                 <span class="detail-title">计划开始时间</span>
                 <a-date-picker
                   class="detail-input"
-                  showTime
                   format="YYYY-MM-DD"
                   placeholder="请选择时间"
                   :disabledDate="disabledDateFn"
                   @change="onTimeChange"
-                  @ok="onOk"
                 />
               </div>
             </a-col>
@@ -212,11 +210,11 @@
         </div>
       </a-layout-content>
     </a-layout>
+    <add-farm-plan-list :query-task-data="queryTaskData" />
     <div class="btnGroup">
       <a-button
         type="primary"
         class="save-button"
-        @click="save"
       >
         <router-link :to="{name: 'farmPlan'}">取消</router-link>
       </a-button>
@@ -230,6 +228,8 @@
 </template>
 
 <script>
+import { createUuid } from '@/utils/common.js'
+
 import {
   selectProFarmPlan,
   selectSolutionFarmPlan,
@@ -238,6 +238,8 @@ import {
   selectBaseLandIdFarmPlan,
   addFarmPlan
 } from '@/api/farmPlan.js'
+
+import AddFarmPlanList from './components/AddFarmPlanList'
 
 import moment from 'moment'
 import Vue from 'vue'
@@ -274,6 +276,9 @@ const readyValue = []
 const checkValue = []
 export default {
   name: 'baseDetail',
+  components: {
+    AddFarmPlanList
+  },
   watch: {},
   data() {
     return {
@@ -297,21 +302,31 @@ export default {
       checkAllBlank: false,
       indeterminateBlank: true,
       checkAllBlankCanle: false,
-      indeterminateBlankCanle: true
+      indeterminateBlankCanle: true,
+      tempPlanId: '', // 页面唯一id
+      queryTaskData: {
+        planStartTime: '', // 计划开始日期
+        solutionId: '', // 方案id
+        tempPlanId: '', // 页面生成的唯一id
+        changeFlag: 'Y'
+      }
     }
   },
   created() {
     this.requestSelctProduct() // 请求方案
     this.requestSelectBaseland() // 请求基地
     this.requestSelectFungusbag() // 请求菌包
+    this.tempPlanId = createUuid()
+    this.queryTaskData.tempPlanId = this.tempPlanId
   },
   methods: {
     moment,
     onTimeChange(value, dateString) {
       this.startDate = dateString
-    },
-    onOk(value) {
-      console.log('onOk: ', value)
+      console.log(dateString === this.queryTaskData.planStartTime)
+      this.queryTaskData.changeFlag =
+        dateString === this.queryTaskData.planStartTime ? 'N' : 'Y'
+      this.queryTaskData.planStartTime = dateString
     },
     readyCheckChange(value) {
       this.readyValue = value
@@ -329,25 +344,30 @@ export default {
       this.checkAllBlankCanle = value.length === this.checkOptions.length
     },
     confirmCheck() {
-      let checkData = []
+      let checkData = this.checkOptions
       this.readyValue.map(id => {
-        this.readyOptions.map(res => {
+        this.readyOptions.map((res, index) => {
           if (res.blockLandId === id) {
             checkData.push(res)
+            this.readyOptions.splice(index, 1)
           }
         })
       })
-      this.calcBlankArea(this.readyValue)
-      this.checkOptions = checkData
-    },
-    calcBlankArea(val) {
-      let result_ = 0
-      val.map(id => {
-        this.readyOptions.map(res => {
-          if (res.blockLandId === id) {
-            result_ += parseFloat(res.blockLandArea)
+      checkData.map((res, index) => {
+        this.readyValue.map((resReady, resIndex) => {
+          if (resReady === res.blockLandId) {
+            this.readyValue.splice(resIndex, 1)
           }
         })
+      })
+      this.checkAllBlank = false
+      this.checkOptions = checkData
+      this.calcBlankArea()
+    },
+    calcBlankArea() {
+      let result_ = 0
+      this.checkOptions.map(res => {
+        result_ += parseFloat(res.blockLandArea)
       })
       this.farmArea = result_
     },
@@ -362,13 +382,9 @@ export default {
       let checkedVal = []
       this.checkValue.map((id, idIndex) => {
         checkedVal.push(id)
-        this.readyValue.map((res, resIndex) => {
-          if (res === id) {
-            this.readyValue.splice(resIndex, 1)
-          }
-        })
         this.checkOptions.map((res, resIndex) => {
           if (res.blockLandId === id) {
+            this.readyOptions.push(res)
             this.checkOptions.splice(resIndex, 1)
           }
         })
@@ -381,8 +397,8 @@ export default {
       this.checkValue = checkedVal
       this.checkAllBlank = false
       this.checkAllBlankCanle = false
+      this.calcBlankArea()
     },
-    async save() {},
     submit() {
       let massifType = []
       for (let i = 0; i < this.checkOptions.length; i++) {
@@ -438,6 +454,7 @@ export default {
     },
     programChange(data) {
       this.programType = data
+      this.queryTaskData.solutionId = data
     },
     baseChange(data) {
       this.baseType = data
@@ -493,12 +510,13 @@ export default {
         indeterminateBlank: false,
         checkAllBlank: e.target.checked
       })
+      console.log(this.readyValue)
     },
     onCheckAllChangeBlankCanle(e) {
       let self_ = this
       Object.assign(this, {
         checkValue: e.target.checked
-          ? self_.readyOptions.map(item => item.blockLandId)
+          ? self_.checkOptions.map(item => item.blockLandId)
           : [],
         indeterminateBlankCanle: false,
         checkAllBlankCanle: e.target.checked

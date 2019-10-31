@@ -14,22 +14,12 @@
       </div>
       <div class="item">
         <p>
-          <span>农事计划编号：</span>
-          {{detailData.farmingNum?detailData.farmingNum:'--'}}
-        </p>
-        <p>
           <span>农事操作：</span>
           {{detailData.actionName?detailData.actionName:'--'}}
         </p>
-      </div>
-      <div class="item">
         <p>
           <span>农事类型：</span>
           {{detailData.farmingTypeName?detailData.farmingTypeName:'--'}}
-        </p>
-        <p>
-          <span>所属地块：</span>
-          {{detailData.farmBizName?detailData.farmBizName:'--'}}
         </p>
       </div>
       <div class="item">

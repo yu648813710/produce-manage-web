@@ -208,3 +208,21 @@ export const getBreedList = (categoryId) => {
 //     method: 'get'
 //   })
 // }
+
+// 农事计划新增时的任务列表
+export const getFarmplanSolutionTaskList = (data) => {
+  return axios({
+    url: `/produce/farmPlan/solution/task`,
+    method: 'post',
+    data
+  })
+}
+
+// 农事计划新增时的任务修改提交
+export const editFarmplanSolutionTaskList = (data) => {
+  return axios({
+    url: `/produce/farmPlan/task/temp`,
+    method: 'patch',
+    data
+  })
+}
