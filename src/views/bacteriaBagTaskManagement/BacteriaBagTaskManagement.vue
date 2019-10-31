@@ -212,6 +212,8 @@ export default {
     },
     // 获取列表
     getList(data) {
+      this.pagination.current = data.pageNo
+      this.pagination.pageSize = data.pageSize
       this.loading = true
       getBacteriaBagTask(data)
         .then(res => {
@@ -304,6 +306,8 @@ export default {
     handleReset() {
       this.sreachForm.resetFields()
       // 重新获取一遍列表
+      this.pagination.current = 1
+      this.pagination.pageSize = 10
       let data = {
         pageNo: 1,
         pageSize: 10

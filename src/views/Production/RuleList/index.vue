@@ -198,15 +198,15 @@ export default {
   methods: {
     // 获取列表
     getTableList (data) {
+      this.pagination.current = data.pageNo
+      this.pagination.pageSize = data.pageSize
       this.loading = true
       searchWarningList(data)
         .then(res => {
           this.loading = false
           if (res.success === 'Y') {
-            this.list = res.data && res.data.records
-            this.pagination = {
-              total: res.data.total
-            }
+            this.list = (res.data && res.data.records) || []
+            this.pagination.total = (res.data && res.data.total) || 0
           } else {
             this.$message.error(res.message)
           }
@@ -279,6 +279,8 @@ export default {
     // 重置
     handleReset () {
       this.sreachForm.resetFields()
+      this.pagination.current = 1
+      this.pagination.pageSize = 10
       // 查询方法
       let data = {
         inputContent: '',
