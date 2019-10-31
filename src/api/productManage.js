@@ -209,3 +209,62 @@ export function addKnowledgeQuizReply(data) {
     data
   })
 }
+
+// 采购管理列表
+export function purchaseManagementList(data) {
+  return axios({
+    url: '/produce/purchase/pagepurchase',
+    method: 'POST',
+    data
+  })
+}
+
+// 待采购详情
+export function toPurchaseDetail (bizId) {
+  return axios({
+    url: `/produce/purchase/waitpurchasedetail/${bizId}`,
+    method: 'GET'
+  })
+}
+
+// 更新采购状态
+export function updatePurchaseState (data) {
+  return axios({
+    url: `/produce/purchase`,
+    method: 'PUT',
+    data
+  })
+}
+
+// 查询农事计划编号
+export function getMaterialNumList (farmingNum) {
+  return axios({
+    url: `/produce/farmPlan/list?farmingNum=${farmingNum}`,
+    method: 'GET'
+  })
+}
+
+// 查询周期、农事类型、农事操作
+export function getMaterialCycleTypeActionList (planId) {
+  return axios({
+    url: `/produce/farmPlan/task/listTask?planId=${planId}`,
+    method: 'GET'
+  })
+}
+
+// 查询农资列表
+export function getMaterialAgricultural (farmingTypeId) {
+  return axios({
+    url: `/produce/material/farming?farmingTypeId=${farmingTypeId}`,
+    method: 'GET'
+  })
+}
+
+// 新增农资
+export function addMaterialAgricultural (data) {
+  return axios({
+    url: `/produce/purchase`,
+    method: 'POST',
+    data
+  })
+}

@@ -918,7 +918,6 @@ export default {
     // 编辑周期后，周期数据回填
     setProjectCycle () {
       let cycleObj = {}
-      debugger
       for (let i = 0; i < this.cycleList.length; i++) {
         cycleObj[i] = this.$form.createFormField({
           value: (this.cycleList[i].cycleLength)
@@ -1035,7 +1034,7 @@ export default {
           } else if (!this.isAdd) {
             let nongzi = []
             // 过滤除自身以外的任务
-            let singleList = this.list.filter( (data) => {
+            let singleList = this.list.filter((data) => {
               return data.index === self.tableDataID
             })
             console.log(singleList)

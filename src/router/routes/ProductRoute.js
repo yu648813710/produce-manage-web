@@ -213,6 +213,20 @@ export default {
       meta: { name: '待采购管理详情', icon: '', parentMenuName: 'tobepurchased' }
     },
     {
+      path: '/purchaseManagement',
+      name: 'purchaseManagement',
+      hidden: false,
+      component: () => import('@/views/purchaseManagement'),
+      meta: { name: '采购管理', icon: '' }
+    },
+    {
+      path: '/purchaseMngDetail',
+      name: 'purchaseMngDetail',
+      hidden: true,
+      component: () => import('@/views/purchaseManagement/detail'),
+      meta: { name: '采购管理详情', icon: '' }
+    },
+    {
       path: '/bacteriabagtaskmanagement',
       name: 'BacteriaBagTaskManagement',
       component: () => import('@/views/bacteriaBagTaskManagement/BacteriaBagTaskManagement.vue'),
@@ -224,6 +238,13 @@ export default {
       hidden: true,
       component: () => import('@/views/bacteriaBagTaskManagement/AddBacteriaBagTask.vue'),
       meta: { name: '新增菌包任务', icon: '' }
+    },
+    {
+      path: '/bacteriabagtaskdateil',
+      name: 'BacteriaBagTaskDateil',
+      hidden: true,
+      component: () => import('@/views/bacteriaBagTaskManagement/BacteriaBagTaskDateil.vue'),
+      meta: { name: '菌包任务详情', icon: '' }
     }
   ]
 }
