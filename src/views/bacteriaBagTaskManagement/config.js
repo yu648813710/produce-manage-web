@@ -72,47 +72,5 @@ const dayTime = [
   { dayStart: 46, dayEnd: 47 },
   { dayStart: 48, dayEnd: 48 }
 ]
-// 负责人选择框数组
-const assignerRules = [
-  [{
-    required: true,
-    message: '请选择负责人0'
-  }],
-  [{
-    required: true,
-    message: '请选择负责人1'
-  }],
-  [{
-    required: true,
-    message: '请选择负责人2'
-  }],
-  [{
-    required: true,
-    message: '请选择负责人3'
-  }],
-  [{
-    required: true,
-    message: '请选择负责人4'
-  }],
-  [{
-    required: true,
-    message: '请选择负责人5'
-  }],
-  [{
-    required: true,
-    message: '请选择负责人6'
-  }],
-  [{
-    required: true,
-    message: '请选择负责人7'
-  }],
-  [{
-    required: true,
-    message: '请选择负责人8'
-  }],
-  [{
-    required: true,
-    message: '请选择负责人9'
-  }]
-]
-export { columns, dateilColumns, crumbsArr, addTaskCrumbs, dateilCrumbsArr, stepsArray, dayTime, assignerRules }
+
+export { columns, dateilColumns, crumbsArr, addTaskCrumbs, dateilCrumbsArr, stepsArray, dayTime }
