@@ -16,7 +16,7 @@
             <span v-if="questionInfo.question" slot="extra" style="color: #999">{{questionInfo.question.gmtCreate}}</span>
             <a-spin :spinning="isRepling">
               <a-row class="edit-card-row">
-                <img class="edit-icon" src="@/assets/image/user_easyicon.svg" alt="用户">
+                <img class="edit-icon" src="./static/user_easyicon.svg" alt="用户">
                 <div class="commen-block">
                   <a-textarea class="textarea" placeholder="请输入评论/回复" maxlength="500" :autosize="{minRows: 4, mxRows: 6}" v-model="answerContent" @change="handleReply"></a-textarea>
                   <div class="imgs-btns-block">
