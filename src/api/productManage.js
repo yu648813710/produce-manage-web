@@ -235,3 +235,28 @@ export function getMaterialNumList (farmingNum) {
     method: 'GET'
   })
 }
+
+// 查询周期、农事类型、农事操作
+export function getMaterialCycleTypeActionList (planId) {
+  return axios({
+    url: `/produce/farmPlan/task/listTask?planId=${planId}`,
+    method: 'GET'
+  })
+}
+
+// 查询农资列表
+export function getMaterialAgricultural (farmingTypeId) {
+  return axios({
+    url: `/produce/material/farming?farmingTypeId=${farmingTypeId}`,
+    method: 'GET'
+  })
+}
+
+// 新增农资
+export function addMaterialAgricultural (data) {
+  return axios({
+    url: `/produce/purchase`,
+    method: 'POST',
+    data
+  })
+}
