@@ -2,6 +2,8 @@
   <a-modal
     :width="800"
     :maskClosable="false"
+    :destroyOnClose="true"
+    :confirmLoading="confirmLoading"
     :maskStyle="{background: 'transparent'}"
     v-model="isVisiable"
     @ok="handleOk"
@@ -30,50 +32,66 @@
             />
             <a-row v-else-if="index === 5">
               <a-form-item
-                :style="{display: 'inline-block', width: 'calc(50% - 22px)' }"
+                :style="{display: 'inline-block', width: 'calc(100% - 50px)' }"
                 class="inline-form-item"
               >
                 <a-input
                   autocomplete="off"
                   :placeholder="item.placeholder"
                   v-decorator="[`field_${item.id}`, {
-                    rules: item.validators,
-                    getValueFromEvent: (event) => {
-                        return event.target.value.replace(/^(0+)|[^\d]+/g,'')
-                    },
+                    rules: item.validators
                   }]"
                 ></a-input>
               </a-form-item>
-              <span :style="{display: 'inline-block', width: '24px', textAlign: 'center' }">✲</span>
-              <a-form-item
-                :style="{display: 'inline-block', width: 'calc(50% - 22px)' }"
-                class="inline-form-item"
-              >
-                <a-input
-                  autocomplete="off"
-                  :placeholder="item.coc.placeholder"
-                  v-decorator="[`field_${item.coc.id}`, {
-                    rules: item.coc.validators,
-                    getValueFromEvent: (event) => {
-                        return event.target.value.replace(/^(0+)|[^\d]+/g,'')
-                    },
-                  }]"
-                ></a-input>
-              </a-form-item>
-              <span :style="{display: 'inline-block', width: '20px'}">cm</span>
+              <span :style="{display: 'inline-block', minWidth: '24px', textAlign: 'center' }">{{unitName}}</span>
             </a-row>
             <a-auto-complete
               v-else-if="index === 0"
               :allowClear="true"
-              :dataSource="item.arr"
               @search="handleSearchFarmingNum"
               @select="handleSelectFarmingNum"
               :filterOption="filterOption"
-              placeholder="input here"
+              :placeholder="item.placeholder"
               v-decorator="[`select_${item.id}`, {
                 rules: item.validators
               }]"
-            />
+              @blur="handleBlur"
+            >
+              <template slot="dataSource">
+                <a-select-option v-for="dsitem in item.arr" :key="dsitem.farmingPlanId">{{dsitem.farmingNum}}</a-select-option>
+              </template>
+            </a-auto-complete>
+            <a-select
+              v-else-if="index === 1 && currentFarmingPlanId !== null"
+              notFoundContent="未匹配到数据"
+              v-decorator="[`select_${item.id}`, {
+                  rules: item.validators
+                }]"
+              :placeholder="item.placeholder"
+            >
+              <a-select-option v-for="sitem in item.arr" :key="sitem.cycleName">{{sitem.cycleName}}</a-select-option>
+            </a-select>
+            <a-select
+              v-else-if="index === 2 && currentFarmingPlanId !== null"
+              notFoundContent="未匹配到数据"
+              v-decorator="[`select_${item.id}`, {
+                  rules: item.validators
+                }]"
+              :placeholder="item.placeholder"
+              @change="(e, node) => handleFarmingType(e, node)"
+            >
+              <a-select-option v-for="sitem in item.arr" :key="sitem.farmingTypeId" :instId="sitem.instId">{{sitem.farmingTypeName}}</a-select-option>
+            </a-select>
+            <a-select
+              v-else-if="index === 3 && currentFarmingPlanId !== null"
+              notFoundContent="未匹配到数据"
+              v-decorator="[`select_${item.id}`, {
+                  rules: item.validators
+                }]"
+              :placeholder="item.placeholder"
+            >
+              <a-select-option v-for="sitem in item.arr" :key="sitem.actionId">{{sitem.actionName}}</a-select-option>
+            </a-select>
             <a-select
               v-else
               notFoundContent="未匹配到数据"
@@ -81,9 +99,9 @@
                   rules: item.validators
                 }]"
               :placeholder="item.placeholder"
-              @change="(e) => handleFarmingNum(e)"
+              @change="(e, it) => handleFarmingAgricultural(e, it)"
             >
-              <a-select-option v-for="sitem in item.arr" :key="sitem.id">{{sitem.label}}</a-select-option>
+              <a-select-option v-for="sitem in item.arr" :key="sitem.materialId" :unitName="sitem.unitName" :unitId="sitem.unitId">{{sitem.materialName}}</a-select-option>
             </a-select>
           </a-form-item>
         </a-col>
@@ -96,7 +114,10 @@ import Vue from 'vue'
 import { Input, Row, Col, Button, Table, Form, Modal, DatePicker, AutoComplete } from 'ant-design-vue'
 import { columns, fields } from './config'
 import {
-  getMaterialNumList
+  getMaterialNumList,
+  getMaterialCycleTypeActionList,
+  getMaterialAgricultural,
+  addMaterialAgricultural
 } from '@/api/productManage.js'
 Vue.use(Input)
 Vue.use(Row)
@@ -121,13 +142,15 @@ export default {
       fields,
       form: this.$form.createForm(this, { name: 'addPurchase' }),
       isVisiable: false,
+      confirmLoading: false,
       iserror: false,
       errorMsg: '',
-      isToChooseImg: true
+      currentFarmingPlanId: null,
+      unitName: '-',
+      unitId: '',
+      materialName: '',
+      instId: ''
     }
-  },
-  created () {
-    // this.fetchPrdPL()
   },
   watch: {
     isVisiable (oval, nval) {
@@ -137,63 +160,125 @@ export default {
     }
   },
   methods: {
-    // fetchPrdPL () {
-    //   getProductCategory().then(res => {
-    //     if (res && res.code === 200) {
-    //       if (res.data && res.data.length > 0) {
-    //         fields[1].arr = res.data
-    //       }
-    //     }
-    //   })
-    // },
+    addMaterial (params) {
+      let self = this
+      self.confirmLoading = true
+      addMaterialAgricultural(params).then(res => {
+        if (res && res.success === 'Y') {
+          self.confirmLoading = false
+          self.isVisiable = false
+          self.$message.success(res.message)
+          self.$emit('refresh')
+          return
+        }
+        setTimeout(() => {
+          self.confirmLoading = false
+        }, 5000)
+        self.$message.error(res.message)
+      })
+    },
 
-    // fetchPrdPZ (categoryId) {
-    //   getProductBreed(categoryId).then(res => {
-    //     if (res && res.code === 200) {
-    //       if (res.data && res.data.length > 0) {
-    //         fields[2].arr = res.data
-    //       }
-    //     }
-    //   })
-    // },
-
-    // fetchAddFungus (params) {
-    //   let postData = {
-    //     ...params
-    //   }
-    //   addFungusBag(postData).then(res => {
-    //     this.tipConfirm(res.success, res.message)
-    //     if (res && res.success === 'Y') {
-    //       this.isVisiable = false
-    //       return
-    //     }
-    //     this.errorMsg = res.message || ''
-    //     this.iserror = true
-    //   })
-    // },
-
+    /**
+     * 查询农事计划编号
+     */
     fetchMaterialNumList(farmingNum) {
       getMaterialNumList(farmingNum).then(res => {
-        this.fields[0].arr = ['000', '111', '222', '333', 'sss']
-        // this.fields[0].arr = (res && res.data) || []
+        this.currentFarmingPlanId = null
+        /**
+         * 测试数据
+          this.fields[0].arr = [
+            {
+              farmingPlanId: 'b49eb570f6f3451cb75adca44fb0d845',
+              farmingNum: 'ME20190927032900020'
+            }
+          ]
+         */
+        this.fields[0].arr = (res && res.data) || []
+      })
+    },
+
+    fetchMaterialAgriculturalBy_farmingTypeId (farmingTypeId) {
+      getMaterialAgricultural(farmingTypeId).then(res => {
+        if (res && res.success === 'Y') {
+          if (this.iserror) this.handleErrorX()
+          let dt = res.data || []
+          this.fields[4].arr = dt
+          return
+        }
+        this.showError('此农事类型下暂无农资')
+      })
+    },
+
+    /**
+     * 查询周期、农事类型、农事操作
+     */
+    fetchMaterialCycleTypeActionListBy_farmingPlanId (farmingPlanId) {
+      getMaterialCycleTypeActionList(farmingPlanId).then(res => {
+        if (res && res.success === 'Y') {
+          if (this.iserror) this.handleErrorX()
+          let dt = res.data || []
+          let cycleList = []
+          let farmingTypeList = []
+          let farmingActionList = []
+          let cycleMap = new Map()
+          dt.forEach(item => {
+            if (!cycleMap.has(item.cycleName)) {
+              cycleMap.set(item.cycleName, item.cycleName)
+              let pm = {
+                cycleId: item.cycleId || '',
+                cycleName: item.cycleName || ''
+              }
+              cycleList.push(pm)
+            }
+            if (!cycleMap.has(item.farmingTypeId)) {
+              cycleMap.set(item.farmingTypeId, item.farmingTypeId)
+              let pm = {
+                farmingTypeId: item.farmingTypeId || '',
+                farmingTypeName: item.farmingTypeName || '',
+                instId: item.instId
+              }
+              farmingTypeList.push(pm)
+            }
+            if (!cycleMap.has(item.actionId)) {
+              cycleMap.set(item.actionId, item.actionId)
+              let pm = {
+                actionId: item.actionId || '',
+                actionName: item.actionName || ''
+              }
+              farmingActionList.push(pm)
+            }
+          })
+          this.fields[1].arr = cycleList || []
+          this.fields[2].arr = farmingTypeList || []
+          this.fields[3].arr = farmingActionList || []
+          return
+        }
+        this.showError('此农事计划编号下暂无农事任务')
       })
     },
 
     handleSearchFarmingNum(value) {
       this.fetchMaterialNumList(value)
-      // this.fields[0].arr = !value ? [] : [value, value + value, value + value + value]
     },
     handleSelectFarmingNum(value, e) {
-      console.log('onSelect', value)
-      console.log('onSelect-e', e)
+      this.currentFarmingPlanId = value
+      this.fetchMaterialCycleTypeActionListBy_farmingPlanId(value)
+      if (this.iserror) this.handleErrorX()
     },
 
     filterOption(input, option) {
-      console.log('input:', input)
-      console.log('filter:', option)
       return (
         option.componentOptions.children[0] ? option.componentOptions.children[0].text.toUpperCase().indexOf(input.toUpperCase()) >= 0 : ''
       )
+    },
+
+    showError (msg) {
+      this.errorMsg = msg
+      this.iserror = true
+    },
+
+    handleErrorX () {
+      this.iserror = false
     },
 
     tipConfirm (tag, msg) {
@@ -214,16 +299,22 @@ export default {
       return startDate.valueOf() > nowDate.valueOf()
     },
 
-    handleErrorX () {
-      this.iserror = false
-    },
-
     handleBlur (e) {
-      this.checkPrdName(e.target.value)
+      console.log('blur:', e)
+      if (this.currentFarmingPlanId === null) {
+        this.showError('请选择有效的农事计划编号')
+      }
     },
 
-    handleFarmingNum (e) {
-      console.log('eeeee:', e)
+    handleFarmingType (id, node) {
+      this.fetchMaterialAgriculturalBy_farmingTypeId(id)
+      this.instId = (node && node.data && node.data.attrs && node.data.attrs.instId) || '-'
+    },
+
+    handleFarmingAgricultural(e, node) {
+      this.materialName = (node && node.componentOptions && node.componentOptions.children[0] && node.componentOptions.children[0].text) || ''
+      this.unitName = (node && node.data && node.data.attrs && node.data.attrs.unitName) || '-'
+      this.unitId = (node && node.data && node.data.attrs && node.data.attrs.unitId) || ''
     },
 
     showModel () {
@@ -232,22 +323,20 @@ export default {
 
     handleOk (e) {
       e.preventDefault()
-      this.form.validateFields((err, values) => {
-        console.log('fields:', values)
+      this.form.validateFields((err, values, e) => {
         if (!err) {
           const params = {
-            fungusBagName: values.field_fungusBagName,
-            categoryId: values.select_categoryId,
-            breedId: values.select_breedId,
-            thirdCompanyName: values.field_thirdCompanyName,
-            productionTime: values.picker_productionTime.format('YYYY-MM-DD HH:mm:ss'),
-            deliveryTime: values.picker_deliveryTime.format('YYYY-MM-DD HH:mm:ss'),
-            diameter: values.field_diameter,
-            height: values.field_height,
-            amount: values.field_amount
+            materialDosage: values.field_useLevel,
+            materialDesc: values.field_materialDesc,
+            instId: this.instId,
+            materialUsage: values.field_usage,
+            materialId: values.select_cooFramingMaterials,
+            materialName: this.materialName,
+            materialUnitId: this.unitId,
+            materialUnitName: this.unitName
           }
-          console.log('pm:', params)
-          // this.fetchAddFungus(params)
+          console.log('params:', params)
+          this.addMaterial(params)
         }
       })
     }

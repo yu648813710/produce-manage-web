@@ -68,13 +68,14 @@ export const columns = [{
 //   callback()
 // }
 
-// const validatorBaseRegex = (rule, value, callback) => {
-//   let regex = /^(0|[1-9][0-9]*)$/
-//   if (!regex.test(value)) {
-//     callback(new Error('请输入整数'))
-//   }
-//   callback()
-// }
+// 验证有1-3位小数的正实数
+const validatorBaseRegex = (rule, value, callback) => {
+  let regex = /^[0-9]+(.[0-9]{1,3})?$/
+  if (!regex.test(value)) {
+    callback(new Error('请输入数字(精确到小数点后三位)'))
+  }
+  callback()
+}
 
 const validators = {
   'v-farmingNum': [{
@@ -82,7 +83,7 @@ const validators = {
     message: '请关联农事计划编号'
   }],
   'v-assCycle': [{
-    required: true,
+    required: false,
     message: '请关联周期'
   }],
   'v-assSoilType': [{
@@ -100,10 +101,10 @@ const validators = {
   'v-useLevel': [{
     required: true,
     message: '请输入用量'
-  }],
+  }, { validator: validatorBaseRegex }],
   'v-useLevelUnit': [{
     required: true,
-    message: 'ppx'
+    message: ''
   }],
   'v-usage': [{
     required: true,
@@ -120,67 +121,41 @@ export const fields = [{
   label: '关联农事计划编号',
   placeholder: '请选择农事计划编号',
   validators: validators['v-farmingNum'],
-  arr: [
-    { id: '000', label: 'num000', value: 'val000' },
-    { id: '001', label: 'num001', value: 'val001' },
-    { id: '002', label: 'num002', value: 'val002' }
-  ]
+  arr: []
 },
 {
   id: 'assCycle',
   label: '关联周期',
   placeholder: '请选择周期',
   validators: validators['v-assCycle'],
-  arr: [
-    { id: '000', label: 'cyc000', value: 'val000' },
-    { id: '001', label: 'cyc001', value: 'val001' },
-    { id: '002', label: 'cyc002', value: 'val002' }
-  ]
+  arr: []
 },
 {
   id: 'assSoilType',
   label: '关联农事类型',
   placeholder: '请选择农事类型',
   validators: validators['v-assSoilType'],
-  arr: [
-    { id: '000', label: 'typ000', value: 'val000' },
-    { id: '001', label: 'typ001', value: 'val001' },
-    { id: '002', label: 'typ002', value: 'val002' }
-  ]
+  arr: []
 },
 {
   id: 'assFramingAction',
   label: '关联农事操作',
   placeholder: '请关联农事操作',
   validators: validators['v-assFramingAction'],
-  arr: [
-    { id: '000', label: 'aci000', value: 'val000' },
-    { id: '001', label: 'aci001', value: 'val001' },
-    { id: '002', label: 'aci002', value: 'val002' }
-  ]
+  arr: []
 },
 {
   id: 'cooFramingMaterials',
   label: '选择农资',
   placeholder: '请选择农资',
   validators: validators['v-cooFramingMaterials'],
-  arr: [
-    { id: '000', label: 'mat000', value: 'val000' },
-    { id: '001', label: 'mat001', value: 'val001' },
-    { id: '002', label: 'mat002', value: 'val002' }
-  ]
+  arr: []
 },
 {
   id: 'useLevel',
   label: '用量',
   placeholder: '请输入用量',
-  validators: validators['v-useLevel'],
-  coc: {
-    id: 'useLevelUnit',
-    label: '',
-    placeholder: 'px',
-    validators: validators['v-useLevelUnit']
-  }
+  validators: validators['v-useLevel']
 },
 {
   id: 'usage',
