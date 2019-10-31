@@ -26,7 +26,6 @@ export default {
       },
       tooltip: {
         formatter(params) {
-          console.log(params)
           return '类型:' + params.name + '</br>' + params.percent + '%'
         }
       },
@@ -67,7 +66,6 @@ export default {
               '#F7A95D',
               '#F7DB6B'
             ]
-            console.log(params)
             if (params.dataIndex === 0) {
               return colorList[0]
             } else if (params.dataIndex === 1) {

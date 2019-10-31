@@ -63,9 +63,8 @@
           @change="warringListPageChange"
           :rowKey="record => record.greenhouseId"
         >
-          <span class="alarmCtr" slot="status"
-                slot-scope="text, record">{{record.status === 'normal' ? '正常' : '异常'}}</span>
-          <span class="alarmCtr" slot="reason" slot-scope="text, record" :title="formatWarringReason(record.reason)">
+          <span class="alarmCtr" slot="status" slot-scope="text, record">{{record.status === 'normal' ? '正常' : '异常'}}</span>
+          <span class="alarmCtr" slot="reason" slot-scope="text, record" :title="formatWarringReason(record.reason)" >
             {{formatWarringReason(record.reason)}}
           </span>
           <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
@@ -153,12 +152,22 @@ const columns3 = [
   {
     title: '状态',
     dataIndex: 'status',
-    scopedSlots: { customRender: 'status' }
+    scopedSlots: { customRender: 'status' },
+    // customRender: (text) => {
+    //   if (text === 'normal') {
+    //     return '正常'
+    //   } else if (text === 'abnormal') {
+    //     return '异常'
+    //   }
+    // }
   },
   {
     title: '异常原因',
     dataIndex: 'reason',
-    scopedSlots: { customRender: 'reason' }
+    scopedSlots: { customRender: 'reason' },
+    // customRender: (text) => {
+    //   return JSON.parse(text)
+    // }
   }
 
 ]
@@ -205,26 +214,26 @@ export default {
     }
   },
   mounted() {
-    this.listType = this.$route.query.type ? this.$route.query.type : 3
-    console.log(this.$route.query.type)
+    this.listType = this.$route.query.type ? this.$route.query.type : 4
+    console.log(this.listType)
     this.getTableData()
     // this.formatTableColumn()
   },
   methods: {
+    // 重置查询条件
+    restSearch() {
+      this.sreachFrom.resetFields()
+      this.searchWarringList()
+    },
     formatWarringReason(reson) {
       let data = JSON.parse(reson)
       let formatReson = ''
       for (let i = 0; i < data.length; i++) {
         // eslint-disable-next-line no-unused-expressions
-        formatReson += data[ i ] + ' '
+        formatReson += data[i] + ' '
       }
       console.log(formatReson)
       return formatReson
-    },
-    // 重置查询条件
-    restSearch() {
-      this.sreachFrom.resetFields()
-      this.searchWarringList()
     },
     warringListPageChange(page) {
       this.pagination.pageSize = page.pageSize
@@ -239,9 +248,9 @@ export default {
         this.baseLandName = values.baseLandName ? values.baseLandName : ''
         this.warringType = values.warringType ? values.warringType : ''
       })
-      if (this.listType === 1 || this.listType === 2 || this.listType === '1' || this.listType === '2') {
+      if (this.listType === 1 || this.listType === 2 || this.listType === 4) {
         this.getTotalData(null, 2)
-      } else if (this.listType === 3 || this.listType === 5 || this.listType === 6 || this.listType === '3' || this.listType === '5' || this.listType === '6') {
+      } else if (this.listType === 3 || this.listType === 5 || this.listType === 6) {
         this.getTotalData(null, 1)
       }
     },
@@ -367,7 +376,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-  .alarmCtr {
+  .alarmCtr{
     color: red;
     max-width: 140px;
     overflow: hidden;
@@ -375,7 +384,6 @@ export default {
     white-space: nowrap;
     display: inline-block;
   }
-
   .search-wrapper {
     background: #fff;
     margin-bottom: 10px;
