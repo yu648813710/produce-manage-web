@@ -208,6 +208,20 @@ export default {
       meta: { name: '待采购管理详情', icon: '' }
     },
     {
+      path: '/purchaseManagement',
+      name: 'purchaseManagement',
+      hidden: false,
+      component: () => import('@/views/purchaseManagement'),
+      meta: { name: '采购管理', icon: '' }
+    },
+    {
+      path: '/purchaseMngDetail',
+      name: 'purchaseMngDetail',
+      hidden: true,
+      component: () => import('@/views/purchaseManagement/detail'),
+      meta: { name: '采购管理详情', icon: '' }
+    },
+    {
       path: '/bacteriabagtaskmanagement',
       name: 'BacteriaBagTaskManagement',
       component: () => import('@/views/bacteriaBagTaskManagement/BacteriaBagTaskManagement.vue'),
