@@ -129,20 +129,19 @@ export default {
       harvester: ''
     }
   },
-  component: {
-    // 'a-button': Button
-  },
   created() {
     // 获取列表
     let data = {
-      pageNo: this.pagination.current,
-      pageSize: this.pagination.pageSize
+      pageNo: 1,
+      pageSize: 10
     }
     this.getList(data)
   },
   methods: {
     // 获取列表
     getList(data) {
+      this.pagination.current = data.pageNo
+      this.pagination.pageSize = data.pageSize
       this.loading = true
       getProductionBatchList(data)
         .then(res => {
@@ -176,7 +175,10 @@ export default {
       this.pagination.pageSize = pagination.pageSize
       let data = {
         pageNo: pagination.current,
-        pageSize: pagination.pageSize
+        pageSize: pagination.pageSize,
+        harvester: this.harvester,
+        productName: this.productName,
+        productionPatchCode: this.productionPatchCode // 菌包ID
       }
       this.getList(data)
     },

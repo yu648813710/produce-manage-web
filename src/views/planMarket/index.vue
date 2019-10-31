@@ -182,13 +182,13 @@ export default {
         ...params
       }
       planMarketList(postdata).then(res => {
-        // if (res && res.success === 'Y') {
-        //   this.total = (res.data && res.data.total) || 0
-        //   this.collectionItems = (res.data && res.data.records) || []
-        //   return
-        // }
-        // this.collectionItems = []
-        // message.error(res.message)
+        if (res && res.success === 'Y') {
+          this.total = (res.data && res.data.total) || 0
+          this.collectionItems = (res.data && res.data.records) || []
+          return
+        }
+        this.collectionItems = []
+        this.$message.error(res.message)
       })
     },
 

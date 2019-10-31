@@ -137,7 +137,7 @@ export const getAllName = () => {
 // 获取生产批次管理列表
 export const getProductionBatchList = (data) => {
   return axios({
-    url: `/produce/productionPatch/list/`,
+    url: `/produce/productionBatch/list/`,
     method: 'post',
     data
   })
@@ -168,7 +168,7 @@ export const setBatchStatus = (data) => {
 // 获取菌包任务管理的所属车间
 export const workshopList = () => {
   return axios({
-    url: `/produce/workshop/list`,
+    url: `/produce/workshop/list/`,
     method: 'get'
   })
 }
@@ -201,18 +201,39 @@ export const getBreedList = (categoryId) => {
     method: 'get'
   })
 }
-// // 获取菌包任务管理新增中的菌包列表
-// export const getFungusproduceList = () => {
-//   return axios({
-//     url: `produce/fungusproduce/list/`, // ${breedId}
-//     method: 'get'
-//   })
-// }
-
 // 农事计划新增时的任务列表
 export const getFarmplanSolutionTaskList = (data) => {
   return axios({
     url: `/produce/farmPlan/solution/task`,
+    method: 'post',
+    data
+  })
+}
+// 获取菌包任务管理新增中的菌包列表
+export const getFungusproduceList = (breedId) => {
+  return axios({
+    url: `produce/fungusproduce/list?breedId=${breedId}`,
+    method: 'get'
+  })
+}
+// 获取菌包任务管理新增中的生产操作
+export const actionList = () => {
+  return axios({
+    url: `/produce/action/list`,
+    method: 'get'
+  })
+}
+// 获取菌包任务管理新增中的负责人
+export const userList = () => {
+  return axios({
+    url: `/produce/user/list`,
+    method: 'get'
+  })
+}
+// 菌包任务管理的创建任务
+export const postFungusTask = (data) => {
+  return axios({
+    url: `/produce/fungus/task/`,
     method: 'post',
     data
   })
@@ -224,5 +245,26 @@ export const editFarmplanSolutionTaskList = (data) => {
     url: `/produce/farmPlan/task/temp`,
     method: 'patch',
     data
+  })
+}
+// 菌包任务管理编辑或者获取详情
+export const getFungusTask = (bizId) => {
+  return axios({
+    url: `/produce/fungus/task/${bizId}`,
+    method: 'get'
+  })
+}
+// 菌包任务管理删除此任务
+export function deleteFungusTask (bizId) {
+  return axios({
+    url: `/produce/fungus/task/${bizId}`,
+    method: 'DELETE'
+  })
+}
+// 菌包任务管理详情的操作详情接口
+export const getTaskOption = (instId) => {
+  return axios({
+    url: `/produce/fungus/task/${instId}`,
+    method: 'get'
   })
 }

@@ -17,7 +17,7 @@ export default {
       name: 'Check',
       hidden: true,
       component: () => import('@/views/Production/Check.vue'),
-      meta: { name: '菌包详情', icon: '' }
+      meta: { name: '菌包详情', icon: '', parentMenuName: 'BaseList' }
     },
 
     {
@@ -82,9 +82,14 @@ export default {
         {
           path: 'warringList',
           name: 'warringList',
-          hidden: true,
           component: () => import('@/views/Production/growthMonitore/warringList.vue'),
-          meta: { name: '生长监控预警', icon: '' }
+          meta: { name: '预警汇总列表-地块', icon: '', parentMenuName: 'growthMonitore' }
+        },
+        {
+          path: 'warringnewlist',
+          name: 'warringnewlist',
+          component: () => import('@/views/Production/growthMonitore/warringNewList.vue'),
+          meta: { name: '预警列表-地块', icon: '', parentMenuName: 'growthMonitore' }
         },
         {
           path: 'rulelist',
@@ -112,7 +117,7 @@ export default {
       name: 'farmPlanDetail',
       hidden: true,
       component: () => import('@/views/farmPlan/farmPlanDetail.vue'),
-      meta: { name: '农事计划详情', icon: '' }
+      meta: { name: '农事计划详情', icon: '', parentMenuName: 'farmPlan' }
     },
     {
       path: '/addNewFarmPlan',
@@ -139,7 +144,7 @@ export default {
       name: 'projectDetail',
       hidden: true,
       component: () => import('@/views/project/projectCenter/projectDetail.vue'),
-      meta: { name: '方案详情', icon: '' }
+      meta: { name: '方案详情', icon: '', parentMenuName: 'projectCenter' }
     },
     {
       path: '/addNewProject',
@@ -159,7 +164,7 @@ export default {
       name: 'planMarketDetail',
       hidden: true,
       component: () => import('@/views/planMarket/detail.vue'),
-      meta: { name: '方案市场详情', icon: '' }
+      meta: { name: '方案市场详情', icon: '', parentMenuName: 'planMarketDetail' }
     },
     {
       path: '/editProject',
@@ -180,7 +185,7 @@ export default {
       name: 'knowledgeQuizDetail',
       hidden: true,
       component: () => import('@/views/knowledgeQuiz/detail.vue'),
-      meta: { name: '知识问答详情', icon: '' }
+      meta: { name: '知识问答详情', icon: '', parentMenuName: 'knowledgeQuiz' }
     },
     {
       path: '/outgoingmanagement',
@@ -205,7 +210,21 @@ export default {
       name: 'TobePurchasedDateil',
       hidden: true,
       component: () => import('@/views/tobepurchased/TobePurchasedDateil.vue'),
-      meta: { name: '待采购管理详情', icon: '' }
+      meta: { name: '待采购管理详情', icon: '', parentMenuName: 'tobepurchased' }
+    },
+    {
+      path: '/purchaseManagement',
+      name: 'purchaseManagement',
+      hidden: false,
+      component: () => import('@/views/purchaseManagement'),
+      meta: { name: '采购管理', icon: '' }
+    },
+    {
+      path: '/purchaseMngDetail',
+      name: 'purchaseMngDetail',
+      hidden: true,
+      component: () => import('@/views/purchaseManagement/detail'),
+      meta: { name: '采购管理详情', icon: '' }
     },
     {
       path: '/bacteriabagtaskmanagement',
@@ -219,6 +238,13 @@ export default {
       hidden: true,
       component: () => import('@/views/bacteriaBagTaskManagement/AddBacteriaBagTask.vue'),
       meta: { name: '新增菌包任务', icon: '' }
+    },
+    {
+      path: '/bacteriabagtaskdateil',
+      name: 'BacteriaBagTaskDateil',
+      hidden: true,
+      component: () => import('@/views/bacteriaBagTaskManagement/BacteriaBagTaskDateil.vue'),
+      meta: { name: '菌包任务详情', icon: '' }
     }
   ]
 }

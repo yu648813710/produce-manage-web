@@ -2,7 +2,7 @@
   <div class="reply-row">
     <a-layout>
       <a-row class="row">
-        <img class="user-icon" src="@/assets/image/user_easyicon.svg" :alt="info.answerUserName" />
+        <img class="user-icon" src="./static/user_easyicon.svg" :alt="info.answerUserName" />
         <span class="user-name">{{info.answerUserName}}</span>
         <span class="common-date">{{(info.answer && info.answer.gmtCreate) || ''}}</span>
       </a-row>

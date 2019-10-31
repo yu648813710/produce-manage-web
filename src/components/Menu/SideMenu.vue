@@ -3,7 +3,7 @@
     <a-menu
       mode="inline"
       theme="dark"
-      :defaultSelectedKeys="selectedKeys"
+      :selectedKeys="selectedKeys"
       :defaultOpenKeys="openKeys"
       :inlineCollapsed="collapsed"
       @click="gotoRoute"
@@ -15,7 +15,7 @@
           :key="item.name"
         >
           <template v-if="item.meta.icon">
-            <a-icon :type="item.meta.icon" />
+            <a-icon :type="item.meta.icon"/>
           </template>
           <span>{{item.meta.name}}</span>
         </a-menu-item>
@@ -31,11 +31,14 @@
 <script>
 import MenuItem from './MenuItem.vue'
 import { mapGetters } from 'vuex'
+
 export default {
   name: 'SideMenu',
   data() {
     return {
-      collapsed: false
+      collapsed: false,
+      selectMenuName: '',
+      isFirstInPage: true
     }
   },
   components: {
@@ -46,8 +49,23 @@ export default {
       menuList: 'routes'
     }),
     selectedKeys() {
+      debugger
       let matched = this.$route.matched
-      return [matched[matched.length - 1].name]
+      let showMenu = matched[ matched.length - 1 ].name
+      let isHidden = false
+      this.menuList.forEach((item, index) => {
+        if (item.name === showMenu) {
+          isHidden = item.hidden
+        }
+      })
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      if (this.isFirstInPage && isHidden){
+        this.selectMenuName = matched[ matched.length - 1 ].meta.parentMenuName ? matched[ matched.length - 1 ].meta.parentMenuName : [matched[ matched.length - 1 ].name]
+      } else if (!this.isFirstInPage || !isHidden){
+        this.selectMenuName = isHidden ? this.selectMenuName : [matched[ matched.length - 1 ].name]
+      }
+      this.isFirstInPage = false
+      return this.selectMenuName
     },
     openKeys() {
       let matched = this.$route.matched

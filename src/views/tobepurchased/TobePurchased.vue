@@ -199,6 +199,8 @@ export default {
   methods: {
     // 获取列表
     getList(data) {
+      this.pagination.current = data.pageNo
+      this.pagination.pageSize = data.pageSize
       this.loading = true
       getListwaitpurchase(data)
         .then(res => {
@@ -280,7 +282,11 @@ export default {
       this.pagination.pageSize = pagination.pageSize
       let data = {
         pageNo: pagination.current,
-        pageSize: pagination.pageSize
+        pageSize: pagination.pageSize,
+        actionName: this.actionName,
+        farmingNum: this.farmingNum,
+        materialName: this.materialName,
+        planCycleName: this.planCycleName
       }
       this.getList(data)
     },

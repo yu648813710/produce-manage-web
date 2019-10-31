@@ -20,11 +20,11 @@
           <div class="warrningLabel">
             <div>
               <div class="warringTitle">总累计预警</div>
-              <div class="warringNum">{{totalWarring}}</div>
+              <div class="warringNum1" @click="warringDetailList(3)">{{totalWarring}}</div>
             </div>
             <div>
               <div class="warringTitle">今日新增预警</div>
-              <div class="warringNum">{{newWarring}}</div>
+              <div class="warringNum2">{{newWarring}}</div>
             </div>
           </div>
           <div class="warringIMG">
@@ -34,14 +34,14 @@
                 @click="warringDetailList(2)"
               >
                 <router-link :to="{name: 'massifDetail'}"></router-link>
-                <div :title="'新增' + warring1 + '条预警'">新增{{warring1}}条预警</div>
+                <div :title="'新增' + newTemperatureWarring + '条预警'">新增{{newTemperatureWarring}}条预警</div>
                 <div>温度预警</div>
               </div>
               <div
                 class="warring2"
                 @click="warringDetailList(1)"
               >
-                <div :title="'新增' + warring2 + '条预警'">新增{{warring2}}条预警</div>
+                <div :title="'新增' + newDampnessWarring + '条预警'">新增{{newDampnessWarring}}条预警</div>
                 <div>湿度预警</div>
               </div>
               <div class="pointLine1"></div>
@@ -96,7 +96,10 @@ export default {
     return {
       totalWarring: 0,
       newWarring: 0,
-      warring1: 0,
+      historyTemperatureWarring: 0,
+      historydampnessWarring: 0,
+      newTemperatureWarring: 0,
+      newDampnessWarring: 0,
       warring2: 0,
       inUseHouse: 0,
       inUseMassif: 0,
@@ -123,16 +126,18 @@ export default {
     getGrowthData() {
       growthData('gh').then(res => {
         this.totalWarring = res.data.alarmHistoryTotal
-        this.newWarring = res.data.temperatureHistoryCount // 温度新增
         this.inUseMassif = res.data.landOpenAirCount // 地块数量
         this.inUseHouse = res.data.landGreenhousesCount // 大棚数量
-        this.warring1 = res.data.temperatureNewCount // 新增温度数量
-        this.warring2 = res.data.dampnessNewCount // 新增湿度数量
-        this.newWarring = this.warring1 + this.warring2
-        this.pieData[1].value = this.warring1
-        this.pieData[0].value = this.warring2
+        this.historyTemperatureWarring = res.data.temperatureHistoryCount // 历史温度数量
+        this.historydampnessWarring = res.data.dampnessHistoryCount // 历史湿度数量
+        this.newTemperatureWarring = res.data.temperatureNewCount // 新增温度数量
+        this.newDampnessWarring = res.data.dampnessNewCount // 新增湿度数量
+        this.warring2 = res.data.dampnessHistoryCount // 历史湿度数量
+        this.newWarring = this.newTemperatureWarring + this.newDampnessWarring
+        this.pieData[1].value = this.historyTemperatureWarring
+        this.pieData[0].value = this.historydampnessWarring
         this.initPieEcharts()
-        console.log(res)
+        console.log(this.pieData)
       })
     },
     initPieEcharts() {
@@ -141,19 +146,31 @@ export default {
       this.myChart = this.$echarts.init(document.getElementById('pieEcharts'))
       // 绘制图表
       echartsConfig.pieEchartsOption(this.myChart, self)
-    },
-    warringDetailList(index) {
-      if (index === 1) {
-        this.$router.push({
-          name: 'warringList',
-          query: { 'type': 1 }
-        })
-      } else if (index === 2) {
-        this.$router.push({
-          name: 'warringList',
-          query: { 'type': 2 }
+      if(this.myChart){
+        this.myChart.on('click', (params) => {
+          if (params.name === '温度') {
+            this.warringDetailList(5)
+          } else if (params.name === '湿度') {
+            this.warringDetailList(6)
+          }
+          console.log(params)
         })
       }
+    },
+    warringDetailList(index) {
+      if (index === 3 || index === 5 || index === 6) {
+        this.$router.push({
+          path: 'warringList',
+          query: { 'type': index }
+        })
+        console.log(this.$route.matched)
+      } else if (index === 1 || index === 2) {
+        this.$router.push({
+          path: 'warringnewlist',
+          query: { 'type': index },
+        })
+      }
+
     }
   }
 }
@@ -201,18 +218,6 @@ export default {
     background: url('./ststic/split_bg.png') no-repeat;
     background-size: 100% 100%;
     position: relative;
-    .warringNum1 {
-      position: absolute;
-      color: #fff;
-      top: 100px;
-      left: 56px;
-    }
-    .warringNum2 {
-      position: absolute;
-      color: #fff;
-      top: 100px;
-      left: 219px;
-    }
     .staticLabel {
       width: 140px;
       height: 22px;
@@ -273,7 +278,14 @@ export default {
         color: rgba(255, 213, 0, 1);
         line-height: 25px;
       }
-      .warringNum {
+      .warringNum1 {
+        font-size: 20px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 1);
+        line-height: 28px;
+        cursor: pointer;
+      }
+      .warringNum2 {
         font-size: 20px;
         font-weight: 500;
         color: rgba(255, 255, 255, 1);

@@ -33,6 +33,22 @@ export function shiduData(data, type) {
     data: data
   })
 }
+// 获取温度 || 湿度 单类型总累计预警
+export function getSingleTypeData(data, typeList) {
+  return axios({
+    url: `/produce/produce/monitor/warning/searchAllAlarmsHistory/${typeList.massifType}/${typeList.type}`,
+    method: 'POST',
+    data: data
+  })
+}
+// 获取总累计预警 || 获取今日新增预警
+export function getTotalWarring(data, typeList) {
+  return axios({
+    url: `/produce/produce/monitor/warning/searchMonitorList/${typeList.massifType}/${typeList.alarmType}/${typeList.staticType}`,
+    method: 'POST',
+    data: data
+  })
+}
 // 获取预警规则列表
 export function ruleList(type, data) {
   return axios({
@@ -189,6 +205,65 @@ export function knowledgeQuizDetail(data) {
 export function addKnowledgeQuizReply(data) {
   return axios({
     url: `/solution/loresupervise/`,
+    method: 'POST',
+    data
+  })
+}
+
+// 采购管理列表
+export function purchaseManagementList(data) {
+  return axios({
+    url: '/produce/purchase/pagepurchase',
+    method: 'POST',
+    data
+  })
+}
+
+// 待采购详情
+export function toPurchaseDetail (bizId) {
+  return axios({
+    url: `/produce/purchase/waitpurchasedetail/${bizId}`,
+    method: 'GET'
+  })
+}
+
+// 更新采购状态
+export function updatePurchaseState (data) {
+  return axios({
+    url: `/produce/purchase`,
+    method: 'PUT',
+    data
+  })
+}
+
+// 查询农事计划编号
+export function getMaterialNumList (farmingNum) {
+  return axios({
+    url: `/produce/farmPlan/list?farmingNum=${farmingNum}`,
+    method: 'GET'
+  })
+}
+
+// 查询周期、农事类型、农事操作
+export function getMaterialCycleTypeActionList (planId) {
+  return axios({
+    url: `/produce/farmPlan/task/listTask?planId=${planId}`,
+    method: 'GET'
+  })
+}
+
+// 查询农资列表
+export function getMaterialAgricultural (farmingTypeId) {
+  return axios({
+    url: `/produce/material/farming?farmingTypeId=${farmingTypeId}`,
+    method: 'GET'
+  })
+}
+
+// 新增农资
+export function addMaterialAgricultural (data) {
+  return axios({
+    url: `/produce/purchase`,
     method: 'POST',
     data
   })

@@ -49,7 +49,7 @@
                       'fungusProduceId',{},
                     ]"
                   >
-                    <a-select-option v-for="item in fungusBagArr" :key="item.fungusBagId" :value="item.fungusBagId">{{item.fungusBagName}}</a-select-option>
+                    <a-select-option v-for="item in fungusBagArr" :key="item.bizId" :value="item.bizId">{{item.fungusProduceName}}</a-select-option>
                   </a-select>
                 </a-form-item>
               </a-col>
@@ -71,7 +71,6 @@
           <a-button
             type="primary"
             class="add-button"
-            @click="handleAddClick"
           ><router-link :to="{name: 'AddBacteriaBagTask'}">新增任务</router-link></a-button>
           <a-table
             :columns="columns"
@@ -83,10 +82,12 @@
             :rowKey="(record, index) => index"
           >
             <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
-            <span slot="operation" slot-scope="text">
-              <a-button type="link" :value="text">编辑</a-button>
-              <a-button type="link">查看</a-button>
-              <a-button type="link">删除</a-button>
+            <span slot="operation" slot-scope="text, record">
+              <!-- 未开始支持编辑 -->
+              <a-button type="link" @click="editTask(record.bizId)" v-if="Number(record.taskStatus) === 1">编辑</a-button>
+              <a-button type="link" style="padding:0;" @click="handleOpenDatell(record.bizId)">查看</a-button>
+              <!-- 未开始与已完成支持编辑 -->
+              <a-button type="link" @click="handleDeleteChange(record.bizId)" v-if="Number(record.taskStatus) === 1 || Number(record.taskStatus) === 4">删除</a-button>
             </span>
           </a-table>
         </div>
@@ -94,12 +95,12 @@
     </a-layout>
     <!-- 删除确认框 -->
     <a-modal
-      :title="1"
+      title="删除任务"
       :visible="visible"
       @ok="handleOk"
       @cancel="handleCancel"
     >
-      <p></p>
+      <p>是否删除此任务信息？</p>
     </a-modal>
   </div>
 </template>
@@ -108,7 +109,8 @@ import Vue from 'vue'
 import {
   workshopList,
   fungusproduceList,
-  getBacteriaBagTask
+  getBacteriaBagTask,
+  deleteFungusTask
 } from '@/api/farmPlan.js'
 import {
   Layout,
@@ -162,8 +164,7 @@ export default {
       endTime: '',
       fungusBagArr: [],
       fungusProduceId: '',
-      title: '',
-      addVisible: false
+      deleteBizId: ''
     }
   },
   components: {
@@ -202,7 +203,7 @@ export default {
     getAllName () {
       fungusproduceList()
         .then(res => {
-          if (res.success === 'true') {
+          if (res.success === 'Y') {
             this.fungusBagArr = res.data || []
           } else {
             this.$message.error(res.message)
@@ -211,6 +212,8 @@ export default {
     },
     // 获取列表
     getList(data) {
+      this.pagination.current = data.pageNo
+      this.pagination.pageSize = data.pageSize
       this.loading = true
       getBacteriaBagTask(data)
         .then(res => {
@@ -245,22 +248,56 @@ export default {
       }
       this.getList(data)
     },
-    // 新增任务
-    handleAddClick() {
-
+    // 编辑任务
+    editTask (bizId) {
+      this.$router.push({
+        name: 'AddBacteriaBagTask',
+        query: { 'bizId': bizId }
+      })
+    },
+    // 查看详情
+    handleOpenDatell (bizId) {
+      this.$router.push({
+        name: 'BacteriaBagTaskDateil',
+        query: { 'bizId': bizId }
+      })
     },
     // 分页
     handleTableChange(pagination, filters, sorter) {
       this.pagination.current = pagination.current
       this.pagination.pageSize = pagination.pageSize
       let data = {
-        pageNo: pagination.current,
-        pageSize: pagination.pageSize
+        pageNo: this.pagination.current,
+        pageSize: this.pagination.pageSize,
+        workshopId: this.workshopId,
+        startTime: this.startTime,
+        endTime: this.endTime,
+        fungusProduceId: this.fungusProduceId
       }
       this.getList(data)
     },
+    // 删除出现确认框
+    handleDeleteChange (bizId) {
+      if (bizId) {
+        this.deleteBizId = bizId
+        this.visible = true
+      }
+    },
+    // 确认删除
     handleOk() {
-
+      deleteFungusTask(this.deleteBizId)
+        .then(res => {
+          this.visible = false
+          if (res.success === 'Y') {
+            let data = {
+              pageNo: 1,
+              pageSize: 10
+            }
+            this.getList(data)
+          } else {
+            this.$message.error(res.message)
+          }
+        })
     },
     handleCancel() {
       this.visible = false
@@ -269,6 +306,8 @@ export default {
     handleReset() {
       this.sreachForm.resetFields()
       // 重新获取一遍列表
+      this.pagination.current = 1
+      this.pagination.pageSize = 10
       let data = {
         pageNo: 1,
         pageSize: 10

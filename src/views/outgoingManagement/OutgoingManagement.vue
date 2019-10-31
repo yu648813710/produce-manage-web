@@ -164,6 +164,8 @@ export default {
   methods: {
     // 获取列表
     getList(data) {
+      this.pagination.current = data.pageNo
+      this.pagination.pageSize = data.pageSize
       this.loading = true
       getOutgoingManagementList(data)
         .then(res => {
@@ -221,7 +223,10 @@ export default {
       this.pagination.pageSize = pagination.pageSize
       let data = {
         pageNo: pagination.current,
-        pageSize: pagination.pageSize
+        pageSize: pagination.pageSize,
+        deliveryTime: this.deliveryTime,
+        userName: this.userName,
+        fungusBagId: this.fungusBagId // 菌包ID
       }
       this.getList(data)
     },

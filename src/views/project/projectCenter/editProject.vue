@@ -12,8 +12,7 @@
           :labelPlacement="vertical"
           v-for="(item, index) in steps"
           :key="index"
-          :title="item.title"
-        />
+          :title="item.title"></a-step>
       </a-steps>
       <!--基本信息-->
       <div v-show="current === 0">
@@ -28,6 +27,7 @@
                 <div class="search-input-wrapper">
                   <a-form-item :label="`方案名称`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
                     <a-input
+                      maxLength="15"
                       autocomplete="off"
                       v-decorator="msgForm.projectNameRule"
                       placeholder="请输入方案名称"
@@ -150,11 +150,11 @@
               <div class="growthCycle" v-for="(item,index) in cycleList" :key="index">
                 <a-button type="primary">{{item.label}}</a-button>
               </div>
-              <span @click="editCycle">
+              <div class="editCycleBtn" @click="editCycle">
                 <a-button type="primary">
                   <a-icon type="setting" />编辑周期
                 </a-button>
-              </span>
+              </div>
             </a-col>
           </a-row>
           <a-row class="lineCtr">
@@ -176,15 +176,15 @@
                       <a-input-number
                         autocomplete="off"
                         :min="1"
+                        maxLength="15"
+                        :precision="0.1"
                         class="search-input"
                         v-decorator="[
           `${index}`,
           {
-          validateTrigger: ['change', 'blur'],
             rules: [
               {
                 required: true,
-                whitespace: true,
                 message: '请输入周期时长',
               },
             ],
@@ -294,21 +294,34 @@
             </div>
           </a-col>
           <a-col :span="19">
-            <div class="growthCycle" v-for="(item,index) in arrList" :key="index">
-              <a-button type="primary">{{item.label}}</a-button>
-              <div
-                class="moneLabel"
-                v-for="(item,moveIndex) in moveList"
-                :key="moveIndex"
-                @click="moveLabel(index,moveIndex)"
-              >{{item.label}}</div>
+            <div class="cycleContent">
+              <div class="growthCycle" v-for="(item,index) in arrList" :key="index">
+                <a-button type="primary">{{item.label}}</a-button>
+                <div v-if="index !== 0 && (index+1) !== arrList.length">
+                  <div class="moneLabel" v-for="(item,moveIndex) in moveList" :key="moveIndex" @click="moveLabel(index,item.index)">
+                    {{item.label}}
+                  </div>
+                </div>
+                <div v-if="index === 0">
+                  <div class="moneLabel" v-for="(item,moveIndex) in moveList1" :key="moveIndex" @click="moveLabel(index,item.index)">
+                    {{item.label}}
+                  </div>
+                </div>
+                <div v-if="(index+1) === arrList.length">
+                  <div class="moneLabel" v-for="(item,moveIndex) in moveList2" :key="moveIndex" @click="moveLabel(index,item.index)">
+                    {{item.label}}
+                  </div>
+                </div>
+              </div>
+
             </div>
           </a-col>
           <a-col :span="3">
             <a-select
               placeholder="请选择"
-              :disabled="selectList.length === 0 ? true : false"
+              :disabled="selectList.length === 0"
               style="width: 120px"
+              :value="cycleSelectValue"
               @select="handleChange"
             >
               <a-icon slot="suffixIcon" type="smile" />
@@ -336,7 +349,7 @@
         @cancel="handleCancel(2)"
       >
         <a-row>
-          <a-form :form="taskForm.form" @submit="taskSubmit">
+          <a-form :form="taskForm.form" @submit="taskSubmit" class="dialogForm">
             <a-col :span="11">
               <a-form-item :label="`所属周期`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
                 <a-select
@@ -356,6 +369,7 @@
             </a-col>
             <a-col :span="11">
               <a-form-item :label="`农事类型`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
+                <!--                  :getPopupContainer="frameTypeSelect"-->
                 <a-select
                   class="detail-input"
                   placeholder="请选择农事类型"
@@ -398,7 +412,10 @@
                     :label-col="{ span: 23 }"
                     :wrapper-col="{ span: 1 }"
                   >
-                    <a-input
+                    <a-input-number
+                      :min="1"
+                      maxLength="15"
+                      :precision="0.1"
                       autocomplete="off"
                       style="display: none"
                       v-decorator="taskForm.actionInputRule"
@@ -412,6 +429,7 @@
                     <a-input-number
                       autocomplete="off"
                       :min="1"
+                      maxLength="15"
                       style="width: 100%"
                       v-decorator="taskForm.minActionRule"
                       placeholder="请输入开始周期"
@@ -425,6 +443,7 @@
                     <a-input-number
                       autocomplete="off"
                       :min="1"
+                      maxLength="15"
                       style="width: 100%"
                       v-decorator="taskForm.maxActionRule"
                       placeholder="请输入结束周期"
@@ -432,11 +451,15 @@
                     />
                   </a-form-item>
                 </a-col>
+                <div class="cycleSelectCheck">
+                  <div class="ant-form-explain" v-if="cycleLengthError">{{cycleErrorMsg}}</div>
+                </div>
               </a-row>
             </a-col>
             <a-col :span="11">
               <a-form-item :label="`用途`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
                 <a-input
+                  maxLength="15"
                   autocomplete="off"
                   v-decorator="taskForm.purposeRule"
                   placeholder="请输入用途"
@@ -447,6 +470,7 @@
             <a-col :span="11">
               <a-form-item :label="`农事描述`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
                 <a-input
+                  maxLength="15"
                   autocomplete="off"
                   v-decorator="taskForm.cycleDescRule"
                   placeholder="请输入农事描述"
@@ -466,40 +490,82 @@
           <!--            </div>-->
           <!--          </a-col>-->
         </a-row>
-        <a-row>
+        <a-row style="width: 550px;">
           <div class="tableHead">
-            <li v-for="(item,index) in tableHead" :key="index">{{item.label}}</li>
+            <a-col :span="6" v-for="(item,index) in tableHead" :key="index">
+              <li>{{item.label}}</li>
+            </a-col>
           </div>
           <div>
-            <a-select
-              placeholder="请选择"
-              class="tableSelect"
-              :disabled="!isFrameType"
-              v-model="nongziName"
-              @change="nameChange"
-            >
-              <a-icon slot="suffixIcon" type="smile" />
-              <a-select-option v-for="(item) in name" :key="JSON.stringify(item)">{{item.label}}</a-select-option>
-            </a-select>
-            <a-input-number autocomplete="off" :min="1" class="tableSelect" v-model="consumption" />
-            <a-input
-              autocomplete="off"
-              placeholder="Basic usage"
-              class="tableSelect"
-              v-model="unit"
-            />
-            <div class="tableAction">
-              <span @click="confirmTable(1)">确定</span>
-              <span @click="confirmTable(2)">取消</span>
-            </div>
+            <a-form :form="unitForm" @submit="unitSubmit">
+              <a-col :span="6">
+                <a-form-item>
+                  <a-select
+                    @change="nameChange"
+                    class="tableSelect"
+                    placeholder="请选择"
+                    :allowClear="true"
+                    style="width: 100px"
+                    v-decorator="[
+                      'nongziName',
+                      { rules: [{ required: true, message: '请选择农资种类' }] },
+                    ]"
+                  >
+                    <a-select-option v-for="(item) in name" :key="JSON.stringify(item)">
+                      {{item.label}}
+                    </a-select-option>
+                  </a-select>
+                </a-form-item>
+              </a-col>
+              <a-col :span="6">
+                <a-form-item
+                  :label="``"
+                >
+                  <a-input-number
+                    autocomplete="off"
+                    :min="1"
+                    maxLength="15"
+                    v-decorator="[
+                    `consumption`,
+                    {
+                      rules: [{required: true, message: '请输入农资用量' }]
+                    }
+                  ]"
+                    placeholder="请输入农资用量"
+                  />
+                </a-form-item>
+              </a-col>
+
+              <a-col :span="6">
+                <a-input
+                  maxLength="15"
+                  :disabled="true"
+                  autocomplete="off"
+                  class="tableSelect"
+                  v-model="unit"
+                />
+              </a-col>
+            </a-form>
+            <a-col :span="6">
+              <div class="tableAction">
+                <span @click="confirmTable(1)">确定</span>
+                <span @click="confirmTable(2)">取消</span>
+              </div>
+            </a-col>
           </div>
-          <div>
-            <li v-for="(item,index) in tableList" :key="index" class="tableLine">
+          <div v-for="(item,index) in tableList" :key="index" class="tableLine">
+            <a-col :span="6">
               <span :title="item.name">{{item.name}}</span>
+            </a-col>
+            <a-col :span="6">
               <span :title="item.consumption">{{item.consumption}}</span>
+            </a-col>
+            <a-col :span="6">
               <span :title="item.unit">{{item.unit}}</span>
+            </a-col>
+            <a-col :span="6">
               <span style="color: #3C8CFF;cursor: pointer" @click="delTableLine(index)">删除</span>
-            </li>
+            </a-col>
           </div>
         </a-row>
       </a-modal>
@@ -608,6 +674,8 @@ export default {
         form: this.$form.createForm(this),
         isCategory: false
       },
+      cycleSelectValue: '请选择',
+      unitForm: this.$form.createForm(this),
       isFrameType: false,
       taskForm: {
         form: this.$form.createForm(this),
@@ -624,6 +692,8 @@ export default {
       cycleForm: {
         form: this.$form.createForm(this)
       },
+      cycleLengthError: false,
+      cycleErrorMsg: '',
       columns: [
         { title: '序号', dataIndex: 'id', key: 'id', width: 160, columnTitle: 'id', scopedSlots: { customRender: 'id' } },
         { title: '任务操作', dataIndex: 'taskAction', key: 'taskAction', width: 160, columnTitle: 'taskAction' },
@@ -696,13 +766,22 @@ export default {
       taskCycle: [],
       cycleData: [],
       lifeCycleId: '',
+      taskSingleCycle: 0,
       visible: false,
       confirmLoading: false,
       ModalText: 'Content of the modal',
       moveList: [
-        { label: '前移', index: 1, type: '准备期' },
-        { label: '后移', index: 2, type: '准备期' },
-        { label: '删除', index: 3, type: '准备期' }
+        { label: '前移', index: 0, type: '准备期' },
+        { label: '后移', index: 1, type: '准备期' },
+        { label: '删除', index: 2, type: '准备期' }
+      ],
+      moveList2: [
+        { label: '前移', index: 0, type: '准备期' },
+        { label: '删除', index: 2, type: '准备期' }
+      ],
+      moveList1: [
+        { label: '后移', index: 1, type: '准备期' },
+        { label: '删除', index: 2, type: '准备期' }
       ],
       arrList: [],
       dateList: ['cycleDate0', 'cycleDate1', 'cycleDate2'],
@@ -730,18 +809,49 @@ export default {
       tableProduction: {},
       tableList: [],
       checkIsEditTask: false,
-      tableDataID: 0,
+      tableDataID: 0, // 前端缓存列表数据的唯一标识码
       taskList: [],
       purpose: '',
       projectNameRepeat: false,
-      projectNameValidator: ''
+      projectNameValidator: '',
+      taskCycleTotalLength: 0,
+      haveTaskCycleTotalLength: 0,
+      cycleTotalLength: 0
     }
   },
   components: {
     crumbsNav
   },
+  watch: {
+    cycleTotalLength (oval, nval) {
+      // this.taskList = []
+      // this.list = []
+      this.taskCycleTotalLength = this.dateType === '3' ? oval * 1 * 7 : oval * 1
+    },
+    isAdd (oval, nval) {
+      this.cycleLengthError = false
+    }
+  },
   mounted () {
     let self = this
+    this.cycleSelectValidator = (rule, value, callback) => {
+      this.cycleLengthError = false
+      callback()
+    }
+    this.taskForm.minActionRule = [`minActionType`, {
+      rules: [{
+        required: true,
+        message: '请输入开始周期'
+      }, { validator: self.cycleSelectValidator }]
+    }
+    ]
+    this.taskForm.maxActionRule = [`maxActionType`, {
+      rules: [{
+        required: true,
+        message: '请输入结束周期'
+      }, { validator: self.cycleSelectValidator }]
+    }
+    ]
     this.projectNameValidator = (rule, value, callback) => {
       this.projectNameRepeat = false
       callback()
@@ -765,6 +875,9 @@ export default {
     // this.getMaterialArr();
   },
   methods: {
+    frameTypeSelect(e) {
+      return document.querySelectorAll('.dialogForm')[0]
+    },
     // 获取方案详情
     async getProjectDetail () {
       await this._getprojectUser()
@@ -793,13 +906,18 @@ export default {
             self.taskCacheList.cycleDescription = values.taskDescription
             self.taskCacheList.cycleDesc = values.taskDescription
             self.taskCacheList.purpose = values.taskUse
-            self.taskCacheList.taskCycle = JSON.stringify({ label: solutionPlanCycleList[i].lifeCycleName, value: solutionPlanCycleList[i].lifeCycleId })
+            self.taskCacheList.taskCycle = JSON.stringify({
+              label: solutionPlanCycleList[i].lifeCycleName,
+              value: solutionPlanCycleList[i].lifeCycleId,
+              cycleLength: solutionPlanCycleList[i].cycleUnit === '3' ? solutionPlanCycleList[i].cycleLength * 1 * 7 : solutionPlanCycleList[i].cycleLength * 1
+            })
             self.taskCacheList.cycle = solutionPlanCycleList[i].lifeCycleName
             self.taskCacheList.tableNongZi = values.cycleTaskMaterials
             self.taskCacheList.frameType = JSON.stringify({ value: values.farmingTypeId, label: values.farmingTypeName })
             self.taskCacheList.type = values.farmingTypeName
             self.taskCacheList.actionType = JSON.stringify({ value: values.actionId, label: values.actionName })
             self.taskCacheList.taskAction = values.actionName
+            self.taskCacheList.cycleLength = (values.taskEndDay * 1 - values.taskStartDay * 1) + 1
             self.taskCacheList.minActionType = values.taskStartDay
             self.taskCacheList.maxActionType = values.taskEndDay
             self.taskCacheList.executionCycle = '第' + values.taskStartDay + '天' + '-' + '第' + values.taskEndDay + '天'
@@ -866,12 +984,28 @@ export default {
         }
       })
     },
+    // 编辑周期后，周期数据回填
+    setEditProjectCycle () {
+      let cycleObj = {}
+      for (let i = 0; i < this.cycleList.length; i++) {
+        cycleObj[i] = this.$form.createFormField({
+          value: (this.cycleList[i].cycleLength)
+        })
+      }
+      console.log(cycleObj)
+      this.cycleForm.form = this.$form.createForm(this, {
+        mapPropsToFields: () => {
+          return cycleObj
+        }
+      })
+    },
     // 方案周期数据回填
     setProjectCycle (solutionPlanCycleList) {
       let cycleArr = []
       let cycleObj = {}
       this.dateType = solutionPlanCycleList[0].cycleUnit
       for (let i = 0; i < solutionPlanCycleList.length; i++) {
+        this.cycleTotalLength += solutionPlanCycleList[i].cycleLength * 1
         cycleObj[i] = this.$form.createFormField({
           value: (solutionPlanCycleList[i].cycleLength).toString()
         })
@@ -881,6 +1015,7 @@ export default {
           label: solutionPlanCycleList[i].lifeCycleName,
           duration: ''
         })
+        this.formatList = this.cycleList
         cycleArr.push(cycleObj)
         console.log(cycleObj)
       }
@@ -939,16 +1074,37 @@ export default {
               planCycleId: this.cycleList[i].planCycleId
             })
             this.cycleList[i].direction = i
+            // this.cycleList[i].cycleLength = values[i]
             this.taskCycle.push(
-              { label: this.cycleList[i].label, value: this.cycleList[i].value }
+              { label: this.cycleList[i].label, value: this.cycleList[i].value, cycleLength: this.dateType === '3' ? values[i] * 1 * 7 : values[i] }
             )
           }
           console.log(stepCycleList)
-          this.formatList = JSON.parse(JSON.stringify(this.cycleList))
+          // this.formatList = JSON.parse(JSON.stringify(this.cycleList))
           this.cycleData = stepCycleList
+          let totalLength = 0
+          for (let i = 0; i < this.cycleData.length; i++) {
+            totalLength += this.cycleData[i].cycleLength
+          }
+          if (this.cycleTotalLength !== totalLength) {
+            this.taskList = []
+            this.list = []
+            this.cycleTotalLength = totalLength
+          }
           self.current++
           console.log(stepCycleList)
           console.log(values)
+        }
+      })
+    },
+    // 校验农资新增
+    unitSubmit() {
+      this.unitForm.validateFields((err, values) => {
+        if (!err) {
+          this.$set(this.tableProduction, 'consumption', values.consumption)
+          let lineData = JSON.parse(JSON.stringify(this.tableProduction))
+          console.log(this.tableList)
+          this.tableList.push(lineData)
         }
       })
     },
@@ -958,8 +1114,25 @@ export default {
       this.taskForm.form.validateFields((err, values) => {
         console.log(values)
         if (!err) {
+          if (values.minActionType * 1 > values.maxActionType * 1) {
+            this.cycleLengthError = true
+            this.cycleErrorMsg = '开始周期不可大于结束周期'
+            return
+          }
+          this.haveTaskCycleTotalLength = 0
           if (this.isAdd) {
             let nongzi = []
+            // 计算列表中已添加任务的总时长
+            for (let i = 0; i < self.list.length; i++) {
+              self.haveTaskCycleTotalLength += self.list[i].cycleLength
+            }
+            // 计算新增任务时该任务的时长+已添加任务时长  是否大于周期总时长
+            let taskTotalLength = (values.maxActionType * 1 - values.minActionType * 1) + 1 + this.haveTaskCycleTotalLength
+            if (taskTotalLength > self.taskCycleTotalLength) {
+              this.cycleLengthError = true
+              this.cycleErrorMsg = '您填写的时长已超出周期总时长'
+              return
+            }
             for (let i = 0; i < this.tableList.length; i++) {
               nongzi.push({
                 materialDosage: this.tableList[i].consumption,
@@ -979,11 +1152,13 @@ export default {
             })
             console.log(self.taskList)
             self.taskCacheList.taskId = ''
+            self.taskCacheList.cycleLength = self.taskSingleCycle
             self.taskCacheList.cycleDescription = values.cycleDesc
             self.taskCacheList.cycleDesc = values.cycleDesc
             self.taskCacheList.purpose = values.purpose
             self.taskCacheList.taskCycle = values.taskCycle
             self.taskCacheList.frameType = values.frameType
+            self.taskCacheList.cycleLength = (values.maxActionType * 1 - values.minActionType * 1) + 1
             self.taskCacheList.actionType = values.actionType
             self.taskCacheList.minActionType = values.minActionType
             self.taskCacheList.maxActionType = values.maxActionType
@@ -999,12 +1174,36 @@ export default {
             console.log(self.list)
             console.log(self.tableList)
             console.log(self.taskList)
+            // 重置任务弹窗
             this.formatDialogData()
             this.taskCacheList = {}
+            // // 计算该周期剩余时长
+            // this.taskCycle.forEach((item, index) => {
+            //   if (item.value === self.lifeCycleId) {
+            //     this.taskCycle[index].cycleLength = this.taskSingleCycle - (values.maxActionType * 1 - values.minActionType * 1 + 1)
+            //   }
+            // })
             self.isAddTask = false
             console.log(values)
           } else if (!this.isAdd) {
             let nongzi = []
+            // 过滤除自身以外的任务
+            let singleList = this.list.filter((data) => {
+              return data.index === self.tableDataID
+            })
+            console.log(singleList[0])
+            // 计算列表中已添加任务的总时长
+            for (let i = 0; i < this.list.length; i++) {
+              this.haveTaskCycleTotalLength += this.list[i].cycleLength
+            }
+            this.haveTaskCycleTotalLength -= singleList[0].cycleLength
+            // 计算新增任务时该任务的时长+已添加任务时长  是否大于周期总时长
+            let taskTotalLength = (values.maxActionType * 1 - values.minActionType * 1) + 1 + this.haveTaskCycleTotalLength
+            if (taskTotalLength > this.taskCycleTotalLength) {
+              this.cycleLengthError = true
+              this.cycleErrorMsg = '您填写的时长已超出周期总时长'
+              return
+            }
             for (let i = 0; i < this.tableList.length; i++) {
               nongzi.push({
                 taskMaterialId: this.tableList[i].taskMaterialId ? this.tableList[i].taskMaterialId : '',
@@ -1024,6 +1223,7 @@ export default {
             self.taskCacheList.cycleDescription = values.cycleDesc
             self.taskCacheList.cycleDesc = values.cycleDesc
             self.taskCacheList.purpose = values.purpose
+            self.taskCacheList.cycleLength = (values.maxActionType * 1 - values.minActionType * 1) + 1
             self.taskCacheList.taskCycle = values.taskCycle
             self.taskCacheList.frameType = values.frameType
             self.taskCacheList.actionType = values.actionType
@@ -1033,6 +1233,7 @@ export default {
             self.taskCacheList.type = JSON.parse(values.frameType).label
             self.taskCacheList.cycle = JSON.parse(values.taskCycle).label
             self.taskCacheList.taskAction = JSON.parse(values.actionType).label
+            // 重新封装列表行数据 taskCacheList 前端缓存的列表数据
             let lineData = JSON.parse(JSON.stringify(this.taskCacheList))
             lineData.tableNongZi = self.tableList
             self.list[self.tableDataID] = lineData
@@ -1040,6 +1241,12 @@ export default {
             console.log(self.list)
             this.formatDialogData()
             this.taskCacheList = {}
+            // // 计算该周期剩余时长
+            // this.taskCycle.forEach((item, index) => {
+            //   if (item.value === self.lifeCycleId) {
+            //     this.taskCycle[index].cycleLength = this.taskSingleCycle - (values.maxActionType * 1 - values.minActionType * 1 + 1)
+            //   }
+            // })
             self.isAddTask = false
           }
         }
@@ -1059,6 +1266,7 @@ export default {
     },
     formatDialogData () {
       this.tableList = []
+      this.cycleLengthError = false
       this.tableProduction = {}
       this.consumption = ''
       this.unit = ''
@@ -1134,11 +1342,11 @@ export default {
             materialId: res.data[i].materialId
           })
         }
-        this.nongziName = self.name[0].label
-        this.unit = self.name[0].unit
-        this.tableProduction.name = self.name[0].label
-        this.tableProduction.unit = self.name[0].unit
-        this.tableProduction.materialId = self.name[0].materialId
+        // this.nongziName = self.name[0].label
+        // this.unit = self.name[0].unit
+        // this.tableProduction.name = self.name[0].label
+        // this.tableProduction.unit = self.name[0].unit
+        // this.tableProduction.materialId = self.name[0].materialId
       })
     },
     categoryChange (value) {
@@ -1183,6 +1391,7 @@ export default {
       let changeData = JSON.parse(data)
       this.taskCacheList.cycle = changeData.label
       this.lifeCycleId = changeData.value
+      this.taskSingleCycle = changeData.cycleLength
       console.log(changeData)
     },
     // useChange(data) {
@@ -1201,10 +1410,7 @@ export default {
     },
     confirmTable (type) {
       if (type === 1) {
-        this.$set(this.tableProduction, 'consumption', this.consumption)
-        let lineData = JSON.parse(JSON.stringify(this.tableProduction))
-        console.log(this.tableList)
-        this.tableList.push(lineData)
+        this.unitSubmit()
       }
     },
     delTableLine (index) {
@@ -1216,6 +1422,7 @@ export default {
       } else {
         this.checkIsEditTask = false
       }
+      this.taskSingleCycle = record.cycleLength
       this.tableDataID = record.index
       this.tableList = record.tableNongZi
       this.taskForm.form = this.$form.createForm(this, {
@@ -1298,6 +1505,9 @@ export default {
               console.log(selectItem)
             }
           })
+          let holdDom = document.getElementsByClassName('ant-select-selection__placeholder')[0]
+          this.cycleSelectValue = '请选择'
+          holdDom.style.display = 'block'
           self.arrList.push(item)
         }
       })
@@ -1306,14 +1516,27 @@ export default {
       this.current--
     },
     checkRadio (data) {
-      this.dateType = data.target.value
+      if (this.dateType !== data) {
+        this.taskList = []
+        this.list = []
+        this.dateType = data.target.value
+      }
+
       console.log(data.target.value)
     },
     editCycle () {
-      this.selectList = domUtil.compareArr(this.formatList, this.cycleList)
-      console.log(this.selectList)
-      this.arrList = JSON.parse(JSON.stringify(this.cycleList))
-      this.visible = true
+      let self = this
+      self.cycleForm.form.validateFields((err, values) => {
+        if (!err) {
+          for (let i = 0; i < self.cycleList.length; i++) {
+            self.cycleList[i].cycleLength = values[i]
+          }
+        }
+      })
+      self.selectList = domUtil.compareArr(self.formatList, self.cycleList)
+      console.log(self.selectList)
+      self.arrList = JSON.parse(JSON.stringify(self.cycleList))
+      self.visible = true
     },
     handleOk (type) {
       if (type === 1) {
@@ -1322,6 +1545,7 @@ export default {
         this.list = []
         this.taskList = []
         this.taskCacheList = []
+        this.setEditProjectCycle()
         this.visible = false
       } else if (type === 2) {
         this.taskSubmit()
@@ -1342,15 +1566,9 @@ export default {
     moveLabel (index, moveIndex) {
       console.log(index)
       console.log(moveIndex)
-      if (moveIndex === 0) {
-        if ((index + 1) === this.arrList.length) {
-          return
-        }
+      if (moveIndex === 1) {
         domUtil.swapItems(this.arrList, index, index + 1)
-      } else if (moveIndex === 1) {
-        if (index === 0) {
-          return
-        }
+      } else if (moveIndex === 0) {
         domUtil.swapItems(this.arrList, index, index - 1)
       } else if (moveIndex === 2) {
         this.selectList.push(this.arrList.splice(index, 1)[0])
@@ -1358,6 +1576,7 @@ export default {
       }
     },
     addTask () {
+      this.name = []
       this.checkIsEditTask = false
       this.isAddTask = true
       this.isAdd = true
@@ -1396,6 +1615,19 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+  .cycleSelectCheck{
+    .ant-form-explain {
+      position: absolute;
+      height: 21px;
+      width: 200px;
+      color: #f5222d;
+      left: 130px;
+      top: 40px;
+    }
+  }
+  .dialogForm{
+    position: relative;
+  }
 .crumbCtr {
   height: 20px;
   line-height: 20px;
@@ -1470,11 +1702,17 @@ export default {
   /*text-align: right;*/
   display: inline-block;
 }
-
+.tableLine{
+  display: flex;
+  width: 581px;
+  /deep/ .ant-col-6{
+    height: 50px;
+  }
+}
 .tableLine span {
   display: inline-block;
   width: 100px;
-  text-align: center;
+  text-align: left;
   line-height: 35px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1499,6 +1737,7 @@ export default {
 
 .tableHead {
   display: flex;
+  background-color: #fafafa;
 }
 
 .tableHead li {
@@ -1534,10 +1773,19 @@ export default {
   cursor: pointer;
   color: #3c8cff;
 }
-
+.editCycleBtn{
+  position: absolute;
+  right: 0px;
+  top: -60px;
+}
+.cycleContent{
+  display: flex;
+  justify-content: left;
+  flex-wrap: wrap;
+}
 .growthCycle {
   display: inline-block;
-  margin: 10px 24px;
+  margin: 10px;
   width: 100px;
 
   .moneLabel {

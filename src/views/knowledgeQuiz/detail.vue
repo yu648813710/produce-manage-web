@@ -16,12 +16,14 @@
             <span v-if="questionInfo.question" slot="extra" style="color: #999">{{questionInfo.question.gmtCreate}}</span>
             <a-spin :spinning="isRepling">
               <a-row class="edit-card-row">
-                <img class="edit-icon" src="@/assets/image/user_easyicon.svg" alt="用户">
+                <img class="edit-icon" src="./static/user_easyicon.svg" alt="用户">
                 <div class="commen-block">
                   <a-textarea class="textarea" placeholder="请输入评论/回复" maxlength="500" :autosize="{minRows: 4, mxRows: 6}" v-model="answerContent" @change="handleReply"></a-textarea>
                   <div class="imgs-btns-block">
                     <a-row class="imgs-block">
-                      <img class="edit-img" v-for="im in fileList" :key="im.uid"  :src="im.url" alt="上传中..." @click="handlePreview(im)">
+                      <template v-for="im in fileList">
+                        <img v-if="im.url" class="edit-img" :key="im.uid"  :src="im.url" alt="上传中..." @click="handlePreview(im)">
+                      </template>
                       <a-upload
                         :customRequest="selfUpload"
                         :beforeUpload="beforeUpload"
@@ -31,7 +33,7 @@
                         @preview="handlePreview"
                         @change="handleChange"
                       >
-                        <div v-if="fileList.length < 9">
+                        <div v-if="fileList.length < 5">
                           <a-icon :type="uploadLoading ? 'loading' : 'plus'" />
                           <div class="ant-upload-text">上传</div>
                         </div>
@@ -100,34 +102,7 @@ const breadcrumbs = [
   { name: '详情', back: false, path: '' }
 ]
 
-const replyList = [
-  {
-    id: '000',
-    userIcon: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg',
-    userName: '罗沈季',
-    date: '2019-10-22 16:21',
-    desc: '这只是一段文字介绍，这只是一段文字介绍',
-    imgs: [
-      { id: '000', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg' },
-      { id: '001', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg' },
-      { id: '002', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg' },
-      { id: '003', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg' }
-    ]
-  },
-  {
-    id: '001',
-    userIcon: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg',
-    userName: '薛灵灵',
-    date: '2019-10-22 16:21',
-    desc: '这只是一段文字介绍，这只是一段文字介绍',
-    imgs: [
-      { id: '000', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg' },
-      { id: '001', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg' },
-      { id: '002', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg' },
-      { id: '003', url: 'http://img.redocn.com/sheji/20171013/BG1kejifengbeijingsucai_8786105.jpg' }
-    ]
-  }
-]
+const replyList = []
 
 export default {
   name: 'knowledgeQuizDetail',
@@ -189,7 +164,9 @@ export default {
       let files = []
       this.isRepling = true
       this.fileList.forEach(item => {
-        files.push(item.url)
+        if (item.url && item.url !== null) {
+          files.push(item.url)
+        }
       })
       let params = {
         answerContent: this.answerContent,
