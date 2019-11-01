@@ -305,6 +305,10 @@ export default {
     // 重置
     handleReset() {
       this.sreachForm.resetFields()
+      this.workshopId = ''
+      this.startTime = ''
+      this.endTime = ''
+      this.fungusProduceId = ''
       // 重新获取一遍列表
       this.pagination.current = 1
       this.pagination.pageSize = 10

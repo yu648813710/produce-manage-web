@@ -130,6 +130,7 @@
                                 ],
                               },
                             ]"
+                            @change="changeWorkshop"
                           >
                             <a-select-option v-for="item in workshopArray" :key="item.workshopId" :value="item.workshopId">{{item.workshopName}}</a-select-option>
                           </a-select>
@@ -312,7 +313,10 @@ export default {
       assignerId: '',
       actionArray: [], // 生产操作列表
       dayTime, // 操作时长
-      actionTasks: [] // 生产操作
+      actionTasks: [], // 生产操作
+      editCategoryId: '', // 品类ID
+      editBreedId: '', // 品种id
+      editWorkshopId: '' // 编辑的车间
     }
   },
   created() {
@@ -344,6 +348,15 @@ export default {
     // 获取品种
     getBreedList (value) {
       if (value) {
+        // 如果品类有修改清空品种和菌包内的数据 让其重新选择
+        if (this.editCategoryId !== value) {
+          this.editCategoryId = value
+          this.addFormOne.setFieldsValue({
+            breedId: '',
+            fungusProduceId: ''
+          })
+          this.actionTasks = [] // 将第二步的值设置为默认数据
+        }
         getBreedList(value)
           .then(res => {
             if (res.success === 'Y') {
@@ -357,6 +370,14 @@ export default {
     // 选择品种获取菌包
     getBizIdList (value) {
       if (value) {
+        // 如果品种有修改清空菌包内的数据 让其重新选择
+        if (this.editBreedId !== value) {
+          this.editBreedId = value
+          this.addFormOne.setFieldsValue({
+            fungusProduceId: ''
+          })
+          this.actionTasks = [] // 将第二步的值设置为默认数据
+        }
         // 获取菌包
         getFungusproduceList(value)
           .then(res => {
@@ -378,6 +399,16 @@ export default {
             this.$message.error(res.message)
           }
         })
+    },
+    // 选择车间
+    changeWorkshop (value) {
+      if (value) {
+        // 如果车间有修改清空第二步的值
+        if (this.editWorkshopId !== value) {
+          this.editWorkshopId = value
+          this.actionTasks = [] // 将第二步的值设置为默认数据
+        }
+      }
     },
     // 时间选择
     datePickerChange (e, value) {
@@ -434,6 +465,7 @@ export default {
             this.dayTime.forEach((item, index) => {
               obj[`taskStartTime_${index}`] = item.dayStart
               obj[`taskEndTime_${index}`] = item.dayEnd
+              obj[`assignerId_${index}`] = ''
             })
             this.$nextTick(() => {
               this.addFormTwo.setFieldsValue(obj)
@@ -501,14 +533,17 @@ export default {
       getFungusTask(bizId)
         .then(res => {
           if (res.success === 'Y') {
-            // 获取品种
+            // 根据品类获取品种
             if (res.data && res.data.categoryId) {
+              this.editCategoryId = res.data.categoryId
               this.getBreedList(res.data.categoryId)
             }
-            // 获取菌包名称
+            // 根据品种获取菌包名称
             if (res.data && res.data.breedId) {
+              this.editBreedId = res.data.breedId
               this.getBizIdList(res.data.breedId)
             }
+            this.editWorkshopId = (res.data && res.data.workshopId) || ''
             this.addFormOne.setFieldsValue({
               categoryId: (res.data && res.data.categoryId) || '',
               breedId: (res.data && res.data.breedId) || '',

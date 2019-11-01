@@ -300,7 +300,6 @@ export default {
     },
 
     handleBlur (e) {
-      console.log('blur:', e)
       if (this.currentFarmingPlanId === null) {
         this.showError('请选择有效的农事计划编号')
       }
@@ -326,6 +325,7 @@ export default {
       this.form.validateFields((err, values, e) => {
         if (!err) {
           const params = {
+            planId: values.select_farmingNum,
             materialDosage: values.field_useLevel,
             materialDesc: values.field_materialDesc,
             instId: this.instId,
