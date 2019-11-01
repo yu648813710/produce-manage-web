@@ -146,7 +146,7 @@ export default {
       this.myChart = this.$echarts.init(document.getElementById('pieEcharts'))
       // 绘制图表
       echartsConfig.pieEchartsOption(this.myChart, self)
-      if(this.myChart){
+      if (this.myChart) {
         this.myChart.on('click', (params) => {
           if (params.name === '温度') {
             this.warringDetailList(5)
@@ -167,10 +167,9 @@ export default {
       } else if (index === 1 || index === 2) {
         this.$router.push({
           path: 'warringnewlist',
-          query: { 'type': index },
+          query: { 'type': index }
         })
       }
-
     }
   }
 }

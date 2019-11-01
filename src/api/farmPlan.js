@@ -264,7 +264,7 @@ export function deleteFungusTask (bizId) {
 // 菌包任务管理详情的操作详情接口
 export const getTaskOption = (instId) => {
   return axios({
-    url: `/produce/fungus/task/${instId}`,
+    url: `/produce/fungus/task/option/${instId}`,
     method: 'get'
   })
 }
