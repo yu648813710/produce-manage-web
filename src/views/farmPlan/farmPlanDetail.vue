@@ -36,6 +36,14 @@
           <a-col
             :span="12"
             class="detail-item"
+            v-if="detail.solutionValue"
+          >
+            <span class="item-key">企业名称：</span>
+            <span class="item-value">{{detail.solutionValue.companyName}}</span>
+          </a-col>
+          <a-col
+            :span="12"
+            class="detail-item"
             v-if="detail.baseLandValue"
           >
             <span class="item-key">种植基地：</span>
@@ -59,13 +67,9 @@
           <a-col
             :span="12"
             class="detail-item"
-            v-if="detail.taskEntitys"
           >
             <span class="item-key">生长周期：</span>
-            <span
-              class="item-value"
-              v-if="detail.taskEntitys[0]"
-            >{{detail.taskEntitys[0].taskParam.cycleName}}</span>
+            <span class="item-value">{{detail.cycleName}}</span>
           </a-col>
         </a-row>
       </div>
@@ -76,6 +80,12 @@
         <span class="title-text">任务列表</span>
       </div>
       <div class="table-wrapper">
+        <div class="block-box">
+          <a-button
+            type="primary"
+            class="add-button"
+          >添加临时任务</a-button>
+        </div>
         <a-table
           :columns="columns"
           :dataSource="listData.records"
@@ -97,44 +107,30 @@
           >{{text}}</div>
           <a
             slot="toDetail"
-            slot-scope
+            slot-scope="text, record"
+            @click="showPlanDetail(record.instId)"
           >查看</a>
         </a-table>
       </div>
     </div>
+    <TaskLPlanDetail
+      :detail-show="plandDetailShow"
+      :detail-data="detailPlanData"
+      @hiddenDetailTask="plandDetailHidden"
+    />
   </div>
 </template>
 <script>
 import Vue from 'vue'
-import { Row, Col } from 'ant-design-vue'
+import { Row, Col, Modal } from 'ant-design-vue'
 import { farmPlanDetail, farmPlanDetailList } from '@/api/farmPlan.js'
-const columns = [
-  {
-    title: '序号',
-    dataIndex: 'instId',
-    scopedSlots: { customRender: 'instId' }
-  },
-  { title: '农事操作', dataIndex: 'actionName', key: 'actionName' },
-  { title: '所属周期', dataIndex: 'cycleName', key: 'cycleName' },
-  { title: '农事类型', dataIndex: 'farmingTypeName', key: 'farmingTypeName' },
-  {
-    title: '使用农资',
-    dataIndex: 'useMatetial',
-    width: '200px',
-    scopedSlots: { customRender: 'useMatetial' }
-  },
-  { title: '状态', dataIndex: 'taskStatusName', key: 'taskStatusName' },
-  { title: '执行周期', dataIndex: 'executeCycle', key: 'executeCycle' },
-  { title: '任务开始时间', dataIndex: 'startTime', key: 'startTime' },
-  { title: '任务结束时间', dataIndex: 'finishTime', key: 'finishTime' },
-  { title: '负责人', dataIndex: 'assigner', key: 'assigner' },
-  {
-    title: '操作',
-    scopedSlots: { customRender: 'toDetail' }
-  }
-]
+import { getTaskDetail } from '@/api/productManage.js'
+import TaskLPlanDetail from './components/TaskLPlanDetail'
+import { tableDetailColumuns } from './config'
 Vue.use(Row)
 Vue.use(Col)
+Vue.use(Modal)
+const columns = tableDetailColumuns
 export default {
   data() {
     return {
@@ -150,8 +146,13 @@ export default {
         total: 0,
         showTotal: total => `共 ${total} 条`
       },
-      planId: ''
+      planId: '',
+      plandDetailShow: false,
+      detailPlanData: {}
     }
+  },
+  components: {
+    TaskLPlanDetail
   },
   created() {
     this.planId = this.$route.params.id
@@ -174,7 +175,6 @@ export default {
       }
       farmPlanDetailList(id, data).then(res => {
         if (res.success === 'Y') {
-          console.log(res.data)
           this.listData = res.data
           this.pagination.total = res.data.total
           this.pagination.current = data.pageNo
@@ -187,6 +187,20 @@ export default {
       let current = e.current
       let pageSize = e.pageSize
       this.getDetailListInfo(this.planId, current, pageSize)
+    },
+    showPlanDetail(id) {
+      this.plandDetailShow = true
+      this.getPlanDetailData(id)
+    },
+    plandDetailHidden() {
+      this.plandDetailShow = false
+    },
+    getPlanDetailData(id) {
+      getTaskDetail(id).then(res => {
+        if (res.success === 'Y') {
+          this.detailPlanData = res.data
+        }
+      })
     }
   }
 }
@@ -255,5 +269,14 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.add-button {
+  float: right;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+.block-box {
+  overflow: hidden;
+  height: auto;
 }
 </style>

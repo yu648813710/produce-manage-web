@@ -201,6 +201,14 @@ export const getBreedList = (categoryId) => {
     method: 'get'
   })
 }
+// 农事计划新增时的任务列表
+export const getFarmplanSolutionTaskList = (data) => {
+  return axios({
+    url: `/produce/farmPlan/solution/task`,
+    method: 'post',
+    data
+  })
+}
 // 获取菌包任务管理新增中的菌包列表
 export const getFungusproduceList = (breedId) => {
   return axios({
@@ -230,6 +238,15 @@ export const postFungusTask = (data) => {
     data
   })
 }
+
+// 农事计划新增时的任务修改提交
+export const editFarmplanSolutionTaskList = (data) => {
+  return axios({
+    url: `/produce/farmPlan/task/temp`,
+    method: 'patch',
+    data
+  })
+}
 // 菌包任务管理编辑或者获取详情
 export const getFungusTask = (bizId) => {
   return axios({
@@ -238,7 +255,7 @@ export const getFungusTask = (bizId) => {
   })
 }
 // 菌包任务管理删除此任务
-export function deleteFungusTask(bizId) {
+export function deleteFungusTask (bizId) {
   return axios({
     url: `/produce/fungus/task/${bizId}`,
     method: 'DELETE'

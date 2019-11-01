@@ -3,7 +3,7 @@ const tableColumns = [
     title: '序号',
     scopedSlots: { customRender: 'id' },
     align: 'center',
-    width: 60
+    width: 80
   },
   { title: '农事计划编号', dataIndex: 'farmingNum' },
   {

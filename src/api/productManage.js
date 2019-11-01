@@ -33,10 +33,18 @@ export function shiduData(data, type) {
     data: data
   })
 }
+// 获取温度 || 湿度 单类型总累计预警
+export function getSingleTypeData(data, typeList) {
+  return axios({
+    url: `/produce/produce/monitor/warning/searchAllAlarmsHistory/${typeList.massifType}/${typeList.type}`,
+    method: 'POST',
+    data: data
+  })
+}
 // 获取总累计预警 || 获取今日新增预警
 export function getTotalWarring(data, typeList) {
   return axios({
-    url: `/produce/produce/monitor/warning/searchMonitorList/${typeList.massifType}/${typeList.type}`,
+    url: `/produce/produce/monitor/warning/searchMonitorList/${typeList.massifType}/${typeList.alarmType}/${typeList.staticType}`,
     method: 'POST',
     data: data
   })
