@@ -42,83 +42,91 @@
         <!-- 温度 -->
         <a-form-item
           label="温度"
+          style="margin-bottom: 0;"
           :label-col="{ span: 5 }"
           :wrapper-col="{ span: 16 }"
           >
-          <a-input
-            autocomplete="off"
-            style="width:42%;"
-            v-decorator="[
-              'temperatureInf',
-              {rules: [{ required: true, message: '请输入温度!' },
-              { validator: (rule, value, cb) => this.isInputTemperatureInf(rule, value, cb) }]}
-            ]"
-            :min="0"
-          />
+          <a-form-item style="display: inline-block;">
+            <a-input
+              autocomplete="off"
+              v-decorator="[
+                'temperatureInf',
+                {rules: [{ required: true, message: '请输入温度!' },
+                { validator: (rule, value, cb) => this.isInputTemperatureInf(rule, value, cb) }]}
+              ]"
+              :min="0"
+            />
+          </a-form-item>
           <span style="padding:0 2%;">-</span>
-          <a-input
-            autocomplete="off"
-            style="width:42%;"
-            v-decorator="[
-              'temperatureSup',
-              {rules: [{ required: true, message: '请输入温度!' },
-              { validator: (rule, value, cb) => this.isInputTemperatureSup(rule, value, cb) }]}
-            ]"
-            :min="0"
-          />
+          <a-form-item style="display: inline-block;">
+            <a-input
+              autocomplete="off"
+              v-decorator="[
+                'temperatureSup',
+                {rules: [{ required: true, message: '请输入温度!' },
+                { validator: (rule, value, cb) => this.isInputTemperatureSup(rule, value, cb) }]}
+              ]"
+              :min="0"
+            />
+          </a-form-item>
           <span style="padding:0 1%;">℃</span>
         </a-form-item>
         <!-- 湿度 -->
         <a-form-item
           label="湿度"
+          style="margin-bottom: 0;"
           :label-col="{ span: 5 }"
           :wrapper-col="{ span: 16 }"
           >
           <!-- 不能用数字标签 -->
-          <a-input
-            autocomplete="off"
-            style="width:42%;"
-            v-decorator="[
-              'dampnessInf',
-              {rules: [{ required: true, message: '请输入湿度!' },
-              { validator: (rule, value, cb) => this.isInputDampnessInf(rule, value, cb) }]}
-            ]"
-            :min="0"
-          />
+          <a-form-item style="display: inline-block;">
+            <a-input
+              autocomplete="off"
+              v-decorator="[
+                'dampnessInf',
+                {rules: [{ required: true, message: '请输入湿度!' },
+                { validator: (rule, value, cb) => this.isInputDampnessInf(rule, value, cb) }]}
+              ]"
+              :min="0"
+            />
+          </a-form-item>
           <span style="padding:0 2%;">-</span>
-          <a-input
-            autocomplete="off"
-            style="width:42%;"
-            v-decorator="[
-              'dampnessSup',
-              {rules: [{ required: true, message: '请输入湿度!' },
-              { validator: (rule, value, cb) => this.isInputDampnessSup(rule, value, cb) }]}
-            ]"
-            :min="0"
-          />
+          <a-form-item style="display: inline-block;">
+            <a-input
+              autocomplete="off"
+              v-decorator="[
+                'dampnessSup',
+                {rules: [{ required: true, message: '请输入湿度!' },
+                { validator: (rule, value, cb) => this.isInputDampnessSup(rule, value, cb) }]}
+              ]"
+              :min="0"
+            />
+          </a-form-item>
           <span style="padding:0 1%;">%</span>
         </a-form-item>
         <!-- 二氧化碳 -->
         <a-form-item
           label="二氧化碳"
+          style="margin-bottom: 0;"
           :label-col="{ span: 5 }"
           :wrapper-col="{ span: 16 }"
           >
-          <a-input
-            autocomplete="off"
-            style="width:42%;"
-            v-decorator="[
-              'co2ConcentrationInf',
-              {rules: [{ required: true, message: '请输入二氧化碳!' },
-              { validator: (rule, value, cb) => this.isInputCo2ConcentrationInf(rule, value, cb) }]}
-            ]"
-            :min="0"
-            maxlength="4"
-          />
+          <a-form-item style="display: inline-block;">
+            <a-input
+              autocomplete="off"
+              v-decorator="[
+                'co2ConcentrationInf',
+                {rules: [{ required: true, message: '请输入二氧化碳!' },
+                { validator: (rule, value, cb) => this.isInputCo2ConcentrationInf(rule, value, cb) }]}
+              ]"
+              :min="0"
+              maxlength="4"
+            />
+          </a-form-item>
           <span style="padding:0 2%;">-</span>
+          <a-form-item style="display: inline-block;">
           <a-input
             autocomplete="off"
-            style="width:42%;"
             v-decorator="[
               'co2ConcentrationSup',
               {rules: [{ required: true, message: '请输入二氧化碳!' },
@@ -126,6 +134,7 @@
             ]"
             :min="0"
           />
+          </a-form-item>
           <span style="padding:0 1%;">ppm</span>
         </a-form-item>
         <!-- 负责人 -->
@@ -301,53 +310,89 @@ export default {
     },
     // 温度
     isInputTemperatureInf (rule, value, callback) {
-      if ((value || value === 0) && value <= 100 && value > -100) {
+      if (!isNaN(value) && value <= 100 && value > -100) {
         this[rule.field] = value
-        callback()
-      } else {
+        if (this.temperatureSup && value > this.temperatureSup) {
+          callback(new Error('左侧数值不能大于右侧数值'))
+        } else {
+          callback()
+        }
+      } else if (value) {
         callback(new Error('温度应小于等于100℃大于-100℃'))
+      } else {
+        callback(new Error(' '))
       }
     },
     isInputTemperatureSup (rule, value, callback) {
-      if ((value || value === 0) && value <= 100 && value > -100) {
+      if (!isNaN(value) && value <= 100 && value > -100) {
         this[rule.field] = value
-        callback()
-      } else {
+        if (this.temperatureInf && this.temperatureInf > value) {
+          callback(new Error('左侧数值不能大于右侧数值'))
+        } else {
+          callback()
+        }
+      } else if (value) {
         callback(new Error('温度应小于等于100℃大于-100℃'))
+      } else {
+        callback(new Error(' '))
       }
     },
     // 湿度
     isInputDampnessInf (rule, value, callback) {
-      if ((value || value === 0) && value > 0 && value <= 100) {
+      if (!isNaN(value) && value > 0 && value <= 100) {
         this[rule.field] = value
-        callback()
-      } else {
+        if (this.dampnessSup && value > this.dampnessSup) {
+          callback(new Error('左侧数值不能大于右侧数值'))
+        } else {
+          callback()
+        }
+      } else if (value) {
         callback(new Error('湿度应大于0小于等于100%'))
+      } else {
+        callback(new Error(' '))
       }
     },
     isInputDampnessSup (rule, value, callback) {
-      if ((value || value === 0) && value > 0 && value <= 100) {
+      if (!isNaN(value) && value > 0 && value <= 100) {
         this[rule.field] = value
-        callback()
-      } else {
+        if (this.dampnessInf && this.dampnessInf > value) {
+          callback(new Error('左侧数值不能大于右侧数值'))
+        } else {
+          callback()
+        }
+      } else if (value) {
         callback(new Error('湿度应大于0小于等于100%'))
+      } else {
+        callback(new Error(' '))
       }
     },
     // 二氧化碳
     isInputCo2ConcentrationInf (rule, value, callback) {
-      if ((value || value === 0) && value > 0 && value < 10000) {
+      if (!isNaN(value) && value > 0 && value < 10000) {
         this[rule.field] = value
-        callback()
-      } else {
+        if (this.co2ConcentrationSup && value > this.co2ConcentrationSup) {
+          callback(new Error('左侧数值不能大于右侧数值'))
+        } else {
+          callback()
+        }
+      } else if (value) {
         callback(new Error('二氧化碳最小值应大于等于0'))
+      } else {
+        callback(new Error(' '))
       }
     },
     isInputCo2ConcentrationSup (rule, value, callback) {
-      if ((value || value === 0) && value > 0 && value < 10000) {
+      if (!isNaN(value) && value > 0 && value < 10000) {
         this[rule.field] = value
-        callback()
-      } else {
+        if (this.co2ConcentrationInf && this.co2ConcentrationInf > value) {
+          callback(new Error('左侧数值不能大于右侧数值'))
+        } else {
+          callback()
+        }
+      } else if (value) {
         callback(new Error('二氧化碳最大值应小于等于9999'))
+      } else {
+        callback(new Error(' '))
       }
     }
   }
