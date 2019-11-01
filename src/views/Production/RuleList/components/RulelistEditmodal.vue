@@ -192,7 +192,8 @@ export default {
     }
   },
   created () {
-    // this.getListUsable()
+    // 获取加工车间
+    this.getListUsable()
   },
   mounted () {
     if (Object.keys(this.dataEdit).length > 0 && this.isEdit) {
@@ -216,6 +217,8 @@ export default {
         .then(res => {
           if (res.success === 'Y') {
             this.shopNameArr = res.data
+          } else {
+            this.$message.error(res.message)
           }
         })
     },
