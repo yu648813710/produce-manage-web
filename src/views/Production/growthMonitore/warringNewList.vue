@@ -152,7 +152,7 @@ const columns3 = [
   {
     title: '状态',
     dataIndex: 'status',
-    scopedSlots: { customRender: 'status' },
+    scopedSlots: { customRender: 'status' }
     // customRender: (text) => {
     //   if (text === 'normal') {
     //     return '正常'
@@ -164,7 +164,7 @@ const columns3 = [
   {
     title: '异常原因',
     dataIndex: 'reason',
-    scopedSlots: { customRender: 'reason' },
+    scopedSlots: { customRender: 'reason' }
     // customRender: (text) => {
     //   return JSON.parse(text)
     // }
