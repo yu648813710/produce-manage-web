@@ -186,7 +186,7 @@ export default {
     getAllName() {
       getAllName()
         .then(res => {
-          if (res.success === 'true') {
+          if (res.success === 'Y') {
             this.allName = res.data || []
           } else {
             this.$message.error(res.message)
