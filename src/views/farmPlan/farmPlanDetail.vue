@@ -84,6 +84,7 @@
           <a-button
             type="primary"
             class="add-button"
+            @click="showAddDetailTask"
           >添加临时任务</a-button>
         </div>
         <a-table
@@ -113,18 +114,34 @@
         </a-table>
       </div>
     </div>
+    <!-- 任务详情 -->
     <TaskLPlanDetail
       :detail-show="plandDetailShow"
       :detail-data="detailPlanData"
       @hiddenDetailTask="plandDetailHidden"
+    />
+    <!-- 新增临时任务弹窗 -->
+    <task-detail-add-task
+      :add-show="addTaskShow"
+      :formData="addFormData"
+      @hiddenAddDetailTask="hiddenAddDetailTask"
+      @addTaskSbumit="addTaskSbumit"
     />
   </div>
 </template>
 <script>
 import Vue from 'vue'
 import { Row, Col, Modal } from 'ant-design-vue'
-import { farmPlanDetail, farmPlanDetailList } from '@/api/farmPlan.js'
-import { getTaskDetail } from '@/api/productManage.js'
+import TaskDetailAddTask from './components/TaskDetailAddTask'
+import {
+  farmPlanDetail,
+  farmPlanDetailList,
+  getLifecycle,
+  getFarmingType,
+  getCction,
+  addFarmPlanTask
+} from '@/api/farmPlan.js'
+import { getTaskDetail, getMaterial, getUtil } from '@/api/productManage.js'
 import TaskLPlanDetail from './components/TaskLPlanDetail'
 import { tableDetailColumuns } from './config'
 Vue.use(Row)
@@ -148,22 +165,29 @@ export default {
       },
       planId: '',
       plandDetailShow: false,
-      detailPlanData: {}
+      detailPlanData: {},
+      addTaskShow: false,
+      addFormData: {}
     }
   },
   components: {
-    TaskLPlanDetail
+    TaskLPlanDetail,
+    TaskDetailAddTask
   },
   created() {
     this.planId = this.$route.params.id
     this.getDetailInfo(this.planId)
     this.getDetailListInfo(this.planId)
+    this.getMaterialData()
+    this.getUtilData()
+    this.getLifecycleData()
+    this.getFarmingTypeData()
+    this.getCctionData()
   },
   methods: {
     getDetailInfo(id) {
       farmPlanDetail(id).then(res => {
         if (res.success === 'Y') {
-          console.log(res.data)
           this.detail = res.data
         }
       })
@@ -199,6 +223,67 @@ export default {
       getTaskDetail(id).then(res => {
         if (res.success === 'Y') {
           this.detailPlanData = res.data
+        }
+      })
+    },
+    // 隐藏临时任务的弹窗
+    hiddenAddDetailTask() {
+      this.addTaskShow = false
+    },
+    // 显示临时任务的弹窗
+    showAddDetailTask() {
+      this.addTaskShow = true
+    },
+    // 临时任务的提交
+    addTaskSbumit(data) {
+      data.farmingPlanId = this.planId
+      addFarmPlanTask(data).then(res => {
+        if (res.success && res.success === 'Y') {
+          this.getDetailListInfo(this.planId)
+          this.hiddenAddDetailTask()
+          this.$message.success(res.message)
+          return false
+        }
+        this.$message.error(res.message)
+      })
+    },
+    // 获取农资物料
+    getMaterialData() {
+      getMaterial().then(res => {
+        if (res.success === 'Y') {
+          this.addFormData.materialData = res.data
+        }
+      })
+    },
+    // 获取农资单位
+    getUtilData() {
+      getUtil().then(res => {
+        if (res.success === 'Y') {
+          this.addFormData.utilData = res.data
+        }
+      })
+    },
+    // 获取周期
+    getLifecycleData() {
+      getLifecycle().then(res => {
+        if (res.success === 'Y') {
+          this.addFormData.lifecycleData = res.data
+        }
+      })
+    },
+    // 获取类型
+    getFarmingTypeData() {
+      getFarmingType().then(res => {
+        if (res.success === 'Y') {
+          this.addFormData.farmingTypeData = res.data
+        }
+      })
+    },
+    // 获取操作
+    getCctionData() {
+      getCction().then(res => {
+        if (res.success === 'Y') {
+          this.addFormData.cationData = res.data
         }
       })
     }
