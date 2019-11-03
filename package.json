@@ -7,6 +7,7 @@
     "serve:test": "vue-cli-service serve --mode test",
     "serve:fn": "vue-cli-service serve --mode fn",
     "build": "vue-cli-service build",
+    "build:fn": "vue-cli-service build --mode fn",
     "build:test": "vue-cli-service build --mode test",
     "build:prd": "vue-cli-service build --mode prd",
     "lint": "vue-cli-service lint",
