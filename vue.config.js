@@ -1,13 +1,40 @@
 const webpack = require('webpack')
-let VUE_APP_EXCUTION = process.env.VUE_APP_EXCUTION
+let VUE_APP_EXCUTION = process.env.VUE_APP_EXCUTION // 环境变量
+
+const CompressionWebpackPlugin = require('compression-webpack-plugin') // 打包使用的插件
+const productionGzipExtensions = ['js', 'css'] // 打包文件类型
+
 module.exports = {
   publicPath: VUE_APP_EXCUTION === 'fn' ? '/' : './',
   configureWebpack: config => {
     let plugins = [
-      // Ignore all locale files of moment.js
+      // 忽略所有的本地 moment 文件
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
     ]
+    if (VUE_APP_EXCUTION !== 'fn') {
+      // 如果是生产环境打包，那就压缩处理
+      plugins.push(new CompressionWebpackPlugin({
+        algorithm: 'gzip',
+        test: new RegExp('\\.(' + productionGzipExtensions.join('|') + ')$'),
+        threshold: 10240,
+        minRatio: 0.8
+      }))
+    }
     config.plugins = [...config.plugins, ...plugins]
+
+    // 配置打包
+    config.optimization = {
+      splitChunks: {
+        minSize: 1000000, // 模块大于 1m 会被抽离到公共模块
+        maxSize: 2000000, // 单个文件最大的size 2m
+        minChunks: 2, // 模块出现 2 次就会被抽离到公共模块
+        maxAsyncRequests: 5, //异步模块，一次最多只能被加载5个
+        maxInitialRequests: 3, //入口模块最多只能加载3个
+        automaticNameDelimiter: '~', // 打包文件自定义的链接符
+        name: true,
+        chunks: 'async', // initial(初始块)、async(按需加载块)、all(默认，全部块)
+      }
+    }
   },
   css: {
     loaderOptions: {
@@ -22,6 +49,14 @@ module.exports = {
         },
         javascriptEnabled: true
       }
+    }
+  },
+  chainWebpack: (config) => {
+    // 打包分析插件
+    if (VUE_APP_EXCUTION !== 'fn') {
+      config
+        .plugin('webpack-bundle-analyzer')
+        .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
     }
   },
   devServer: {
