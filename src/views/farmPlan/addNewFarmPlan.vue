@@ -103,6 +103,8 @@
                   <a-select-option
                     v-for="(item) in frameBagArr"
                     :key="item.fungusBagId"
+                    :value="item.fungusBagId"
+                    :amount="item.amount"
                   >{{item.fungusBagName}}</a-select-option>
                 </a-select>
               </div>
@@ -117,6 +119,7 @@
                   autocomplete="off"
                   placeholder="Basic usage"
                   class="detail-input"
+                  disabled
                   v-model="bagVal"
                 />
               </div>
@@ -460,8 +463,9 @@ export default {
       this.baseType = data
       this.requestSelectBaseLandId(data) // 请求地块
     },
-    bagChange(data) {
+    bagChange(data, amount) {
       this.bagType = data
+      this.bagVal = amount.data.attrs.amount
     },
     massifChange(data) {
       this.massifType = data

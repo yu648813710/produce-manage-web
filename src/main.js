@@ -27,8 +27,6 @@ import G2 from '@antv/g2'
 
 import DataSet from '@antv/data-set'
 
-import ECharts from 'vue-echarts'
-
 import 'echarts/lib/chart/bar'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/chart/line'
