@@ -1,12 +1,13 @@
 const webpack = require('webpack')
 let VUE_APP_EXCUTION = process.env.VUE_APP_EXCUTION // 环境变量
-
 const CompressionWebpackPlugin = require('compression-webpack-plugin') // 打包使用的插件
 const productionGzipExtensions = ['js', 'css'] // 打包文件类型
-
 module.exports = {
   publicPath: VUE_APP_EXCUTION === 'fn' ? '/' : './',
   configureWebpack: config => {
+    console.log('111111')
+    console.log(process.env.NODE_ENV)
+    console.log(process.env)
     let plugins = [
       // 忽略所有的本地 moment 文件
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
@@ -53,7 +54,7 @@ module.exports = {
   },
   chainWebpack: (config) => {
     // 打包分析插件
-    if (VUE_APP_EXCUTION !== 'fn') {
+    if (process.env.VUE_APP_IS_ANALYZER === true) {
       config
         .plugin('webpack-bundle-analyzer')
         .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
