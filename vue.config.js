@@ -28,11 +28,11 @@ module.exports = {
         minSize: 1000000, // 模块大于 1m 会被抽离到公共模块
         maxSize: 2000000, // 单个文件最大的size 2m
         minChunks: 2, // 模块出现 2 次就会被抽离到公共模块
-        maxAsyncRequests: 5, //异步模块，一次最多只能被加载5个
-        maxInitialRequests: 3, //入口模块最多只能加载3个
+        maxAsyncRequests: 5, // 异步模块，一次最多只能被加载5个
+        maxInitialRequests: 3, // 入口模块最多只能加载3个
         automaticNameDelimiter: '~', // 打包文件自定义的链接符
         name: true,
-        chunks: 'async', // initial(初始块)、async(按需加载块)、all(默认，全部块)
+        chunks: 'async' // initial(初始块)、async(按需加载块)、all(默认，全部块)
       }
     }
   },

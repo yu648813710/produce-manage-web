@@ -1,3 +1,4 @@
+<!-- eslint-disable -->
 /**
 添加方案页面
 */
@@ -575,6 +576,7 @@
   </div>
 </template>
 <script>
+/* eslint-disable-line */
 import crumbsNav from '@/components/crumbsNav/CrumbsNav'
 import Vue from 'vue'
 import domUtil from '../../../utils/domUtil'
@@ -1487,6 +1489,7 @@ export default {
     }
   }
 }
+/* eslint-enable-line */
 </script>
 <style lang="less" scoped>
   .cycleSelectCheck{
