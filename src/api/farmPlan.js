@@ -268,3 +268,33 @@ export const getTaskOption = (instId) => {
     method: 'get'
   })
 }
+// 农事计划任务详情 新增临时任务 选择时的周期列表
+export const getLifecycle = () => {
+  return axios({
+    url: `/produce/lifecycle/`,
+    method: 'get'
+  })
+}
+// 农事计划任务详情 新增临时任务 选择时的类型列表
+export const getFarmingType = () => {
+  return axios({
+    url: `/produce/farmingType/`,
+    method: 'POST'
+  })
+}
+// 农事计划任务详情 新增临时任务 选择时的操作列表
+export const getCction = () => {
+  return axios({
+    url: `/produce/action/`,
+    method: 'get'
+  })
+}
+
+// 农事计划任务详情添加临时任务
+export const addFarmPlanTask = (data) => {
+  return axios({
+    url: `/produce/farmPlan/task/create`,
+    method: 'POST',
+    data
+  })
+}

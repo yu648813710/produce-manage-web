@@ -38,9 +38,6 @@ Vue.use(scroll)
 Vue.prototype.$echarts = echarts
 moment.locale('zh-cn')
 
-// mock数据
-// import './mock/mock'
-
 Vue.use(Icon)
 Vue.use(InputNumber)
 Vue.use(LocaleProvider)
