@@ -1,12 +1,13 @@
 const webpack = require('webpack')
 let VUE_APP_EXCUTION = process.env.VUE_APP_EXCUTION // 环境变量
-
 const CompressionWebpackPlugin = require('compression-webpack-plugin') // 打包使用的插件
 const productionGzipExtensions = ['js', 'css'] // 打包文件类型
-
 module.exports = {
   publicPath: VUE_APP_EXCUTION === 'fn' ? '/' : './',
   configureWebpack: config => {
+    console.log('111111')
+    console.log(process.env.NODE_ENV)
+    console.log(process.env)
     let plugins = [
       // 忽略所有的本地 moment 文件
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
@@ -28,11 +29,11 @@ module.exports = {
         minSize: 1000000, // 模块大于 1m 会被抽离到公共模块
         maxSize: 2000000, // 单个文件最大的size 2m
         minChunks: 2, // 模块出现 2 次就会被抽离到公共模块
-        maxAsyncRequests: 5, //异步模块，一次最多只能被加载5个
-        maxInitialRequests: 3, //入口模块最多只能加载3个
+        maxAsyncRequests: 5, // 异步模块，一次最多只能被加载5个
+        maxInitialRequests: 3, // 入口模块最多只能加载3个
         automaticNameDelimiter: '~', // 打包文件自定义的链接符
         name: true,
-        chunks: 'async', // initial(初始块)、async(按需加载块)、all(默认，全部块)
+        chunks: 'async' // initial(初始块)、async(按需加载块)、all(默认，全部块)
       }
     }
   },
@@ -53,7 +54,7 @@ module.exports = {
   },
   chainWebpack: (config) => {
     // 打包分析插件
-    if (VUE_APP_EXCUTION !== 'fn') {
+    if (process.env.VUE_APP_IS_ANALYZER === true) {
       config
         .plugin('webpack-bundle-analyzer')
         .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
