@@ -15,7 +15,7 @@
             <a-input
               placeholder="请输入"
               autocomplete="off"
-              maxLength="10"
+              maxLength="15"
               v-decorator="[
                 'productName',
                 { rules: [{ required: true, message: '请输入商品名称' },
@@ -54,6 +54,7 @@
             <a-input
               placeholder="请输入"
               autocomplete="off"
+              maxLength="15"
               v-decorator="[
                 'productionCompany',
                 { rules: [{ required: true, message: '请输入生产企业' }] },
@@ -80,6 +81,7 @@
                 <a-input
                   placeholder="请输入具体地址"
                   autocomplete="off"
+                  maxLength="15"
                   v-decorator="[
                     'address',
                     { rules: [{ required: true, message: '请输入具体地址' }] },
@@ -90,6 +92,8 @@
           </a-row>
 					<a-form-item label="生产日期" :label-col="{ span: 7 }" :wrapper-col="{ span: 12 }">
             <a-date-picker
+              format="YYYY-MM-DD"
+              :disabledDate="disabledDate"
               v-decorator="[
                 'productionDate',
                 {
@@ -201,10 +205,7 @@ export default {
           productCategoryCode: this.isEditObj.productCategoryCode || 'C00001', // '品类id',
           productBreedCode: this.isEditObj.productBreedCode || 'B00002', // '品种id',
           productionCompany: this.isEditObj.productionCompany, // '生产企业',
-          // provinceCode: this.isEditObj.baseAddress[0], // '省份code',
-          // cityCode: this.isEditObj.baseAddress[1], // '市code',
-          // areaCode: this.isEditObj.baseAddress[2], // '区县code',
-          // townCode: this.isEditObj.baseAddress[3], // '乡镇code'
+          baseAddress: [610000, 611000, 611026, 611026109], // 省市县镇回显
           address: this.isEditObj.address, // '地址(某某村)'
           productionDate: moment(this.isEditObj.productionDate || '', 'YYYY-MM-DD'), // '2019-11-05', // 生产日期
           expiryTime: this.isEditObj.expiryTime // '保质期',
@@ -246,6 +247,10 @@ export default {
           })
       }
     },
+    disabledDate(current) {
+      // Can not select days before today and today
+      return current && current > moment().endOf('day')
+    },
     // 选择日期
     datePickerChange(e, value) {
       if (value) {
@@ -258,9 +263,11 @@ export default {
         this.picturePath = path
       }
     },
+    // 新增或者编辑的确认事件
     handleModalOk() {
       this.isImgPath = true
       this.modalForm.validateFields((err, values) => {
+        console.log(values)
         if (!err) {
           if (!this.picturePath) {
             this.isImgPath = false
@@ -268,8 +275,8 @@ export default {
             // 发送请求
             let data = {
               productName: values.productName, // '产品名称',
-              productCategoryCode: values.productCategoryCode || 'C00001', // '品类id',
-              productBreedCode: values.productBreedCode || 'B00002', // '品种id',
+              productCategoryCode: values.productCategoryCode, // '品类id',
+              productBreedCode: values.productBreedCode, // '品种id',
               productionCompany: values.productionCompany, // '生产企业',
               provinceCode: values.baseAddress[0], // '省份code',
               cityCode: values.baseAddress[1], // '市code',
@@ -288,6 +295,11 @@ export default {
                   if (src.success === 'Y') {
                     this.$emit('handleCloseModal', false)
                     this.$message.success(src.message)
+                    let data = {
+                      pageNo: 1,
+                      pageSize: 10
+                    }
+                    this.$parent.getList(data)
                   } else {
                     this.$message.error(src.message)
                   }
@@ -298,6 +310,11 @@ export default {
                 .then(src => {
                   if (src.success === 'Y') {
                     this.$emit('handleCloseModal', false)
+                    let data = {
+                      pageNo: 1,
+                      pageSize: 10
+                    }
+                    this.$parent.getList(data)
                     this.$message.success(src.message)
                   } else {
                     this.$message.error(src.message)
@@ -308,6 +325,7 @@ export default {
         }
       })
     },
+    // 取消事件
     handleModalCancel() {
       this.$emit('handleCloseModal', false)
     }

@@ -331,3 +331,10 @@ export const editTracesource = (data) => {
     data
   })
 }
+// 溯源获取详情页面
+export const getTracesourceDetail = (productId) => {
+  return axios({
+    url: `/${productId}`,
+    method: 'get'
+  })
+}

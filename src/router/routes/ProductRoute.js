@@ -251,6 +251,13 @@ export default {
       name: 'TraceabilityOfCultivation',
       component: () => import('@/views/traceabilityOfCultivation/TraceabilityOfCultivation.vue'),
       meta: { name: '木耳栽培过程溯源', icon: '' }
+    },
+    {
+      path: '/detailtraceabilityofcultivation',
+      name: 'DetailTraceabilityOfCultivation',
+      hidden: true,
+      component: () => import('@/views/traceabilityOfCultivation/DetailTraceabilityOfCultivation.vue'),
+      meta: { name: '木耳溯源信息维护', icon: '' }
     }
   ]
 }
