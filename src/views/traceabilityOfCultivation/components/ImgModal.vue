@@ -1,6 +1,6 @@
 <template>
   <a-modal
-    :title="Title"
+    :title="title"
     :visible="visible"
     :width="240"
     :footer="null"
@@ -11,7 +11,7 @@
         <img
           style="width: 200px;height: 200px"
           :src="src"
-          :alt="Title"
+          :alt="title"
         />
       </div>
     </div>
@@ -24,7 +24,7 @@ import { Modal } from 'ant-design-vue'
 Vue.use(Modal)
 export default {
   props: {
-    Title: {
+    title: {
       type: String,
       default: '',
       required: true
