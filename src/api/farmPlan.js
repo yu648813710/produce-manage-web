@@ -1,4 +1,13 @@
 import { axios } from '@/utils/request'
+// VUE_APP_BASE_API = http://106.38.53.203:12825
+// 上传图片
+export function uploadImage(data) {
+  return axios({
+    url: '/produce/oss/fileUpload',
+    method: 'POST',
+    data: data
+  })
+}
 // 获取农事计划列表
 export function farmPlanList (data) {
   return axios({
@@ -294,6 +303,30 @@ export const getCction = () => {
 export const addFarmPlanTask = (data) => {
   return axios({
     url: `/produce/farmPlan/task/create`,
+    method: 'POST',
+    data
+  })
+}
+// 获取栽培过程溯源列表
+export const getTracingToTheSource = (data) => {
+  return axios({
+    url: `/produce/tracesource/pages`,
+    method: 'POST',
+    data
+  })
+}
+// 新增溯源商品
+export const tracesource = (data) => {
+  return axios({
+    url: `/produce/tracesource`,
+    method: 'POST',
+    data
+  })
+}
+// 编辑溯源商品
+export const editTracesource = (data) => {
+  return axios({
+    url: `/produce/tracesource`,
     method: 'POST',
     data
   })

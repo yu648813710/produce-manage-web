@@ -297,6 +297,7 @@ export default {
                     pageSize: 10
                   }
                   this.$parent.getTableList(parentData)
+                  this.$message.success(res.message)
                 } else {
                   this.$message.error(res.message)
                 }
