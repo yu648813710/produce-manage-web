@@ -5,9 +5,6 @@ const productionGzipExtensions = ['js', 'css'] // 打包文件类型
 module.exports = {
   publicPath: VUE_APP_EXCUTION === 'fn' ? '/' : './',
   configureWebpack: config => {
-    console.log('111111')
-    console.log(process.env.NODE_ENV)
-    console.log(process.env)
     let plugins = [
       // 忽略所有的本地 moment 文件
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
