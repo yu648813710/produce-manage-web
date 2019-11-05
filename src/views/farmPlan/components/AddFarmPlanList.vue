@@ -82,10 +82,10 @@
 <script>
 import Vue from 'vue'
 import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
-import { Form, message } from 'ant-design-vue'
+import { Form, message, Table, Modal } from 'ant-design-vue'
 import {
-  deleteTask,
-  getTaskDetail,
+  deleteTemTask,
+  getTaskTemDetail,
   getMaterial,
   getUtil
 } from '@/api/productManage.js'
@@ -97,6 +97,8 @@ import { tableColumns } from './../config'
 import TaskDetail from './TaskDetail'
 import EditTask from './EditTask'
 Vue.use(Form)
+Vue.use(Table)
+Vue.use(Modal)
 Vue.prototype.$message = message
 export default {
   name: 'GreenHouseList',
@@ -155,15 +157,21 @@ export default {
     getTaskManageList(query) {
       let queryData_ = query
       getFarmplanSolutionTaskList(queryData_).then(res => {
-        if (res.code === 200) {
+        if (!(res && res.success)) {
+          return false
+        }
+        if (res.success === 'Y') {
           this.equipmentList = res.data
         }
       })
     },
     // 删除任务
     deleteTask() {
-      deleteTask(this.taskID).then(res => {
-        if (res.code !== 200) {
+      deleteTemTask(this.taskID, this.queryTaskData.tempPlanId).then(res => {
+        if (!(res && res.success)) {
+          return false
+        }
+        if (res.success !== 'Y') {
           return false
         }
         this.hiddenDeleteModal()
@@ -173,8 +181,11 @@ export default {
     },
     // 请求详情数据
     getTaskDetailData(id) {
-      getTaskDetail(id).then(res => {
-        if (res.code === 200) {
+      getTaskTemDetail(id, this.queryTaskData.tempPlanId).then(res => {
+        if (!(res && res.success)) {
+          return false
+        }
+        if (res.success === 'Y') {
           this.detailTaskData = res.data
         }
       })
@@ -200,8 +211,11 @@ export default {
     // 点击修改
     editTaskShow(id) {
       this.editTaskShowState = true
-      getTaskDetail(id).then(res => {
-        if (res.code === 200) {
+      getTaskTemDetail(id, this.queryTaskData.tempPlanId).then(res => {
+        if (!(res && res.success)) {
+          return false
+        }
+        if (res.success === 'Y') {
           this.detailTaskData = res.data
         }
       })
@@ -213,7 +227,10 @@ export default {
     // 请求单位
     getUtilData() {
       getUtil().then(res => {
-        if (res.code !== 200) {
+        if (!(res && res.success)) {
+          return false
+        }
+        if (res.success !== 'Y') {
           return false
         }
         this.utilData = res.data
@@ -222,7 +239,10 @@ export default {
     // 请求农资
     getMaterialData() {
       getMaterial().then(res => {
-        if (res.code !== 200) {
+        if (!(res && res.success)) {
+          return false
+        }
+        if (res.success !== 'Y') {
           return false
         }
         this.materialData = res.data
@@ -231,7 +251,11 @@ export default {
     // 提交编辑
     editSbumit(e) {
       e.planStartTime = this.queryTaskData.planStartTime
+      e.planId = this.queryTaskData.tempPlanId
       editFarmplanSolutionTaskList(e).then(res => {
+        if (!(res && res.success)) {
+          return false
+        }
         this.tipMessage(res.success, res.message)
         if (res.success === 'Y') {
           this.getTaskManageList(this.queryTaskData)

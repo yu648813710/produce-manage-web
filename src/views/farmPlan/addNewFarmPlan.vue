@@ -7,218 +7,263 @@
           <span class="title-text">新增农事计划</span>
         </div>
         <div class="addContent">
-          <a-row>
-            <a-col :span="11">
-              <div class="detail-input-wrapper">
-                <span class="detail-title">选择产品</span>
-                <a-select
-                  class="detail-input"
-                  placeholder="请选择"
-                  style="width: 100%"
-                  @change="frameChange"
+          <a-form
+            :form="addForm"
+            @submit="submit"
+          >
+            <a-row>
+              <a-col :span="11">
+                <a-form-item
+                  label="选择产品"
+                  :label-col="{ span: 24 }"
+                  :wrapper-col="{ span: 24 }"
                 >
-                  <a-icon
-                    slot="suffixIcon"
-                    type="smile"
-                  />
-                  <a-select-option
-                    v-for="(item) in frameTypeArr"
-                    :id="item.breedId"
-                    :key="item.productId+','+item.breedId"
-                  >{{item.productName}}</a-select-option>
-                </a-select>
-              </div>
-            </a-col>
-            <a-col
-              :span="11"
-              :offset="2"
-            >
-              <div class="detail-input-wrapper">
-                <span class="detail-title">选择种植方案</span>
-                <a-select
-                  class="detail-input"
-                  placeholder="请选择"
-                  style="width: 100%"
-                  @change="programChange"
-                >
-                  <a-icon
-                    slot="suffixIcon"
-                    type="smile"
-                  />
-                  <a-select-option
-                    v-for="(item) in frameProgramArr"
-                    :key="item.solutionId"
-                  >{{item.solutionName}}</a-select-option>
-                </a-select>
-              </div>
-            </a-col>
-            <a-col :span="11">
-              <div class="detail-input-wrapper">
-                <span class="detail-title">选择基地</span>
-                <a-select
-                  class="detail-input"
-                  placeholder="请选择"
-                  style="width: 100%"
-                  @change="baseChange"
-                >
-                  <a-icon
-                    slot="suffixIcon"
-                    type="smile"
-                  />
-                  <a-select-option
-                    v-for="(item) in frameBaseArr"
-                    :key="item.baseLandId"
-                  >{{item.baseLandName}}</a-select-option>
-                </a-select>
-              </div>
-            </a-col>
-            <a-col
-              :span="11"
-              :offset="2"
-            >
-              <div class="detail-input-wrapper">
-                <span class="detail-title">计划开始时间</span>
-                <a-date-picker
-                  class="detail-input"
-                  format="YYYY-MM-DD"
-                  placeholder="请选择时间"
-                  :disabledDate="disabledDateFn"
-                  @change="onTimeChange"
-                />
-              </div>
-            </a-col>
-            <a-col :span="11">
-              <div class="detail-input-wrapper">
-                <span class="detail-title">选择菌包</span>
-                <a-select
-                  class="detail-input"
-                  placeholder="请选择"
-                  style="width: 100%"
-                  @change="bagChange"
-                >
-                  <a-icon
-                    slot="suffixIcon"
-                    type="smile"
-                  />
-                  <a-select-option
-                    v-for="(item) in frameBagArr"
-                    :key="item.fungusBagId"
-                    :value="item.fungusBagId"
-                    :amount="item.amount"
-                  >{{item.fungusBagName}}</a-select-option>
-                </a-select>
-              </div>
-            </a-col>
-            <a-col
-              :span="11"
-              :offset="2"
-            >
-              <div class="detail-input-wrapper">
-                <span class="detail-title">菌包数量</span>
-                <a-input
-                  autocomplete="off"
-                  placeholder="Basic usage"
-                  class="detail-input"
-                  disabled
-                  v-model="bagVal"
-                />
-              </div>
-            </a-col>
-            <a-col :span="24">
-              <div
-                class="detail-input-wrapper"
-                style="text-align: left"
+                  <a-select
+                    placeholder="请选择"
+                    class="detail-input"
+                    style="width: 100%"
+                    @change="frameChange"
+                    v-decorator="[
+                    'productValue',
+                    {rules: [{ required: true, message: '请选择产品!' }]}]"
+                  >
+                    <a-icon
+                      slot="suffixIcon"
+                      type="smile"
+                    />
+                    <a-select-option
+                      v-for="(item) in frameTypeArr"
+                      :id="item.breedId"
+                      :key="item.productId+','+item.breedId"
+                    >{{item.productName}}</a-select-option>
+                  </a-select>
+                </a-form-item>
+              </a-col>
+              <a-col
+                :span="11"
+                :offset="2"
               >
-                <span class="detail-title">选择地块</span>
-                <div class="treeContent">
-                  <div class="readyTreeContent">
-                    <a-row>
-                      <a-col :span="24">
-                        <a-checkbox
-                          :indeterminate="indeterminateBlank"
-                          @change="onCheckAllChangeBlank"
-                          :checked="checkAllBlank"
-                        >可选</a-checkbox>
-                      </a-col>
-                      <a-checkbox-group
-                        @change="readyCheckChange"
-                        v-model="readyValue"
-                      >
-                        <a-col
-                          v-for="(item,index) in readyOptions"
-                          :span="24"
-                          :key="index"
-                        >
-                          <a-checkbox :value="item.blockLandId">{{item.blockLandName}}</a-checkbox>
+                <a-form-item
+                  label="选择种植方案"
+                  :label-col="{ span: 24 }"
+                  :wrapper-col="{ span: 24 }"
+                >
+                  <a-select
+                    class="detail-input"
+                    placeholder="请选择"
+                    style="width: 100%"
+                    @change="programChange"
+                    v-decorator="[
+                    'solutionValue',
+                    {rules: [{ required: true, message: '请选择种植方案!' }]}]"
+                  >
+                    <a-icon
+                      slot="suffixIcon"
+                      type="smile"
+                    />
+                    <a-select-option
+                      v-for="(item) in frameProgramArr"
+                      :key="item.solutionId"
+                    >{{item.solutionName}}</a-select-option>
+                  </a-select>
+                </a-form-item>
+              </a-col>
+              <a-col :span="11">
+                <a-form-item
+                  label="选择基地"
+                  :label-col="{ span: 24 }"
+                  :wrapper-col="{ span: 24 }"
+                >
+                  <a-select
+                    class="detail-input"
+                    placeholder="请选择"
+                    style="width: 100%"
+                    @change="baseChange"
+                    v-decorator="[
+                    'baseLandValue',
+                    {rules: [{ required: true, message: '请选择基地!' }]}]"
+                  >
+                    <a-icon
+                      slot="suffixIcon"
+                      type="smile"
+                    />
+                    <a-select-option
+                      v-for="(item) in frameBaseArr"
+                      :key="item.baseLandId"
+                    >{{item.baseLandName}}</a-select-option>
+                  </a-select>
+                </a-form-item>
+              </a-col>
+              <a-col
+                :span="11"
+                :offset="2"
+              >
+                <a-form-item
+                  label="计划开始时间"
+                  :label-col="{ span: 24 }"
+                  :wrapper-col="{ span: 24 }"
+                >
+                  <a-date-picker
+                    class="detail-input"
+                    format="YYYY-MM-DD"
+                    placeholder="请选择时间"
+                    :disabledDate="disabledDateFn"
+                    style="width: 100%"
+                    @change="onTimeChange"
+                    v-decorator="[
+                    'planStartTime',
+                    {rules: [{ required: true, message: '请选择时间!' }]}]"
+                  />
+                </a-form-item>
+              </a-col>
+              <a-col :span="11">
+                <a-form-item
+                  label="选择出库批次"
+                  :label-col="{ span: 24 }"
+                  :wrapper-col="{ span: 24 }"
+                >
+                  <a-select
+                    class="detail-input"
+                    placeholder="请选择"
+                    style="width: 100%"
+                    @change="bagChange"
+                    v-decorator="[
+                    'seedValue',
+                    {rules: [{ required: true, message: '请选择菌包!' }]}]"
+                  >
+                    <a-icon
+                      slot="suffixIcon"
+                      type="smile"
+                    />
+                    <a-select-option
+                      v-for="(item) in frameBagArr"
+                      :key="item.fungusBagId"
+                      :value="item.fungusBagId"
+                      :amount="item.amount"
+                    >{{item.deliveryCode}}</a-select-option>
+                  </a-select>
+                </a-form-item>
+              </a-col>
+              <a-col
+                :span="11"
+                :offset="2"
+              >
+                <a-form-item
+                  label="菌包数量"
+                  :label-col="{ span: 24 }"
+                  :wrapper-col="{ span: 24 }"
+                  v-decorator="['seedUnit']"
+                >
+                  <a-input
+                    autocomplete="off"
+                    placeholder="Basic usage"
+                    class="detail-input"
+                    disabled
+                    v-model="bagVal"
+                  />
+                </a-form-item>
+              </a-col>
+              <a-col :span="24">
+                <div
+                  class="detail-input-wrapper"
+                  style="text-align: left"
+                >
+                  <span class="detail-title">选择地块</span>
+                  <div class="treeContent">
+                    <div class="readyTreeContent">
+                      <a-row>
+                        <a-col :span="24">
+                          <a-checkbox
+                            :indeterminate="indeterminateBlank"
+                            @change="onCheckAllChangeBlank"
+                            :checked="checkAllBlank"
+                          >可选</a-checkbox>
                         </a-col>
-                      </a-checkbox-group>
-                    </a-row>
-                  </div>
-                  <div class="checkBtnGroup">
-                    <div>
-                      <a-button
-                        type="primary"
-                        class="add-button"
-                        @click="confirmCheck"
-                      >选择</a-button>
-                    </div>
-                    <div>
-                      <a-button
-                        type="primary"
-                        class="add-button"
-                        @click="cancleCheck"
-                      >取消</a-button>
-                    </div>
-                  </div>
-                  <div class="confirmTreeContent">
-                    <a-row>
-                      <a-col :span="24">
-                        <a-checkbox
-                          :indeterminate="indeterminateBlankCanle"
-                          @change="onCheckAllChangeBlankCanle"
-                          :checked="checkAllBlankCanle"
-                        >可选</a-checkbox>
-                      </a-col>
-                      <a-checkbox-group
-                        @change="confirmCheckChange"
-                        v-model="checkValue"
-                      >
-                        <a-col
-                          v-for="(item,index) in checkOptions"
-                          :span="24"
-                          :key="index"
+                        <a-checkbox-group
+                          @change="readyCheckChange"
+                          v-model="readyValue"
                         >
-                          <a-checkbox :value="item.blockLandId">{{item.blockLandName}}</a-checkbox>
-                        </a-col>
-                      </a-checkbox-group>
-                    </a-row>
+                          <a-col
+                            v-for="(item,index) in readyOptions"
+                            :span="24"
+                            :key="index"
+                          >
+                            <a-checkbox :value="item.blockLandId">{{item.blockLandName}}</a-checkbox>
+                          </a-col>
+                        </a-checkbox-group>
+                      </a-row>
+                    </div>
+                    <div class="checkBtnGroup">
+                      <div>
+                        <a-button
+                          type="primary"
+                          class="add-button"
+                          @click="confirmCheck"
+                        >选择</a-button>
+                      </div>
+                      <div>
+                        <a-button
+                          type="primary"
+                          class="add-button"
+                          @click="cancleCheck"
+                        >取消</a-button>
+                      </div>
+                    </div>
+                    <div class="confirmTreeContent">
+                      <a-row>
+                        <a-form-item
+                          :label-col="{ span: 24 }"
+                          :wrapper-col="{ span: 24 }"
+                        >
+                          <a-col :span="24">
+                            <a-checkbox
+                              :indeterminate="indeterminateBlankCanle"
+                              @change="onCheckAllChangeBlankCanle"
+                              :checked="checkAllBlankCanle"
+                            >可选</a-checkbox>
+                          </a-col>
+                          <a-checkbox-group
+                            @change="confirmCheckChange"
+                            v-decorator="['baseLandVals']"
+                          >
+                            <a-col
+                              v-for="(item,index) in checkOptions"
+                              :span="24"
+                              :key="index"
+                            >
+                              <a-checkbox :value="item.blockLandId">{{item.blockLandName}}</a-checkbox>
+                            </a-col>
+                          </a-checkbox-group>
+                        </a-form-item>
+                      </a-row>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </a-col>
-            <a-col :span="6">
-              <div class="detail-input-wrapper">
-                <span class="detail-title">种植面积</span>
-                <a-input
-                  autocomplete="off"
-                  placeholder="Basic usage"
-                  class="detail-input"
-                  v-model="farmArea"
-                  disabled
-                />
-                <span class="unitLabel">亩</span>
-              </div>
-            </a-col>
-          </a-row>
+              </a-col>
+              <a-col :span="6">
+                <a-form-item
+                  label="种植面积"
+                  :label-col="{ span: 24 }"
+                  :wrapper-col="{ span: 24 }"
+                >
+                  <a-input
+                    autocomplete="off"
+                    placeholder="Basic usage"
+                    class="detail-input"
+                    v-model="farmArea"
+                    disabled
+                  />
+                  <span class="unitLabel">亩</span>
+                </a-form-item>
+              </a-col>
+            </a-row>
+          </a-form>
         </div>
       </a-layout-content>
     </a-layout>
     <add-farm-plan-list :query-task-data="queryTaskData" />
     <div class="btnGroup">
-      <a-button
-        type="primary"
-        class="save-button"
-      >
+      <a-button class="save-button">
         <router-link :to="{name: 'farmPlan'}">取消</router-link>
       </a-button>
       <a-button
@@ -229,10 +274,8 @@
     </div>
   </div>
 </template>
-
 <script>
 import { createUuid } from '@/utils/common.js'
-
 import {
   selectProFarmPlan,
   selectSolutionFarmPlan,
@@ -241,19 +284,14 @@ import {
   selectBaseLandIdFarmPlan,
   addFarmPlan
 } from '@/api/farmPlan.js'
-
 import AddFarmPlanList from './components/AddFarmPlanList'
-
 import moment from 'moment'
 import Vue from 'vue'
 import {
-  Table,
+  Form,
   Row,
   Col,
-  Steps,
   Radio,
-  icon,
-  Modal,
   Button,
   Input,
   Select,
@@ -261,22 +299,16 @@ import {
   Checkbox,
   Layout
 } from 'ant-design-vue'
-const readyOptions = []
+Vue.use(Form)
 Vue.use(Layout)
 Vue.use(Row)
 Vue.use(Col)
-Vue.use(Steps)
 Vue.use(Radio)
-Vue.use(icon)
-Vue.use(Modal)
 Vue.use(Button)
 Vue.use(Input)
 Vue.use(Select)
-Vue.use(Table)
 Vue.use(DatePicker)
 Vue.use(Checkbox)
-const readyValue = []
-const checkValue = []
 export default {
   name: 'baseDetail',
   components: {
@@ -285,14 +317,13 @@ export default {
   watch: {},
   data() {
     return {
-      readyOptions,
-      checkOptions: [],
-      frameTypeArr: [{ label: '木耳', value: 1 }],
-      frameProgramArr: [{ label: '种植方案', value: 1 }],
-      frameBaseArr: [{ label: '种植基地', value: 1 }],
-      frameBagArr: [{ label: '菌包类型', value: 1 }],
-      frameMassifArr: [{ label: '地块类型', value: 1 }],
-      farmArea: '',
+      readyOptions: [], // 可选择数据
+      checkOptions: [], // 已选择数据
+      frameTypeArr: [], // 产品种类渲染数据
+      frameProgramArr: [], // 种植方案渲染数据
+      frameBaseArr: [], // 基地渲染数据
+      frameBagArr: [], // 菌包渲染数据
+      farmArea: '', // 种植面积
       frameType: {}, // 产品选择值
       programType: null,
       baseType: null,
@@ -300,8 +331,8 @@ export default {
       massifType: null,
       startDate: '',
       bagVal: '',
-      readyValue,
-      checkValue,
+      readyValue: [], // 可选择的地块值
+      checkValue: [], // 已经选择的地块值
       checkAllBlank: false,
       indeterminateBlank: true,
       checkAllBlankCanle: false,
@@ -312,7 +343,8 @@ export default {
         solutionId: '', // 方案id
         tempPlanId: '', // 页面生成的唯一id
         changeFlag: 'Y'
-      }
+      },
+      addForm: this.$form.createForm(this, { name: 'addForm' })
     }
   },
   created() {
@@ -326,7 +358,6 @@ export default {
     moment,
     onTimeChange(value, dateString) {
       this.startDate = dateString
-      console.log(dateString === this.queryTaskData.planStartTime)
       this.queryTaskData.changeFlag =
         dateString === this.queryTaskData.planStartTime ? 'N' : 'Y'
       this.queryTaskData.planStartTime = dateString
@@ -340,7 +371,7 @@ export default {
     },
     confirmCheckChange(value) {
       this.checkValue = value
-
+      this.addForm.setFieldsValue({ baseLandVals: value })
       this.indeterminateBlankCanle =
         !!value.length && value.length < this.checkOptions.length
 
@@ -398,11 +429,26 @@ export default {
         })
       })
       this.checkValue = checkedVal
+      this.addForm.setFieldsValue({ baseLandVals: checkedVal })
       this.checkAllBlank = false
       this.checkAllBlankCanle = false
       this.calcBlankArea()
     },
     submit() {
+      this.addForm.validateFields((err, values) => {
+        if (this.checkOptions.length === 0) {
+          this.addForm.setFields({
+            baseLandVals: { errors: [{ message: '请选择地块!' }] }
+          })
+        } else {
+          this.addForm.setFields({ baseLandVals: { errors: [] } })
+        }
+        if (!err) {
+          this.submitDataSet()
+        }
+      })
+    },
+    submitDataSet() {
       let massifType = []
       for (let i = 0; i < this.checkOptions.length; i++) {
         massifType.push(this.checkOptions[i].value)
@@ -454,6 +500,7 @@ export default {
       this.frameType.productId = dataArr[0]
       this.frameType.breedId = dataArr[1]
       this.requestSelectSolution(this.frameType.breedId) // 请求方案
+      this.addForm.setFieldsValue({ solutionValue: undefined })
     },
     programChange(data) {
       this.programType = data
@@ -514,7 +561,6 @@ export default {
         indeterminateBlank: false,
         checkAllBlank: e.target.checked
       })
-      console.log(this.readyValue)
     },
     onCheckAllChangeBlankCanle(e) {
       let self_ = this
@@ -525,6 +571,7 @@ export default {
         indeterminateBlankCanle: false,
         checkAllBlankCanle: e.target.checked
       })
+      this.addForm.setFieldsValue({ baseLandVals: this.checkValue })
     },
     requestAddFarmPlan(data) {
       addFarmPlan(data).then(res => {
@@ -532,11 +579,17 @@ export default {
           this.$router.push('/farmPlan')
         }
       })
+    },
+    baseLandRules(rule, value, callback) {
+      if (this.checkOptions.length === 0) {
+        callback(rule.message)
+        return false
+      }
+      callback()
     }
   }
 }
 </script>
-
 <style scoped lang='less'>
 @import './css/addNewFarmPlan.less';
 </style>
