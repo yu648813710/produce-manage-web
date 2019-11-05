@@ -245,6 +245,12 @@ export default {
       hidden: true,
       component: () => import('@/views/bacteriaBagTaskManagement/BacteriaBagTaskDateil.vue'),
       meta: { name: '菌包任务详情', icon: '' }
+    },
+    {
+      path: '/traceabilityofcultivation',
+      name: 'TraceabilityOfCultivation',
+      component: () => import('@/views/traceabilityOfCultivation/TraceabilityOfCultivation.vue'),
+      meta: { name: '木耳栽培过程溯源', icon: '' }
     }
   ]
 }
