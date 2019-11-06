@@ -327,6 +327,28 @@ export const tracesource = (data) => {
 export const editTracesource = (data) => {
   return axios({
     url: `/produce/tracesource`,
+    method: 'put',
+    data
+  })
+}
+// 溯源获取详情页面
+export const getTracesourceDetail = (productId) => {
+  return axios({
+    url: `/produce/tracesource/preview/${productId}`,
+    method: 'get'
+  })
+}
+// 启用禁用开关组件
+export const triggerSwitch = (productId, status) => {
+  return axios({
+    url: `/produce/tracesource/${productId}/${status}`,
+    method: 'put'
+  })
+}
+// 关联批次号
+export const batchCode = (productId, data) => {
+  return axios({
+    url: `/produce/tracesource/batchCode/${productId}`,
     method: 'POST',
     data
   })

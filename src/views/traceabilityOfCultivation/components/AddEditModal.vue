@@ -15,7 +15,7 @@
             <a-input
               placeholder="请输入"
               autocomplete="off"
-              maxLength="10"
+              maxLength="15"
               v-decorator="[
                 'productName',
                 { rules: [{ required: true, message: '请输入商品名称' },
@@ -54,6 +54,7 @@
             <a-input
               placeholder="请输入"
               autocomplete="off"
+              maxLength="15"
               v-decorator="[
                 'productionCompany',
                 { rules: [{ required: true, message: '请输入生产企业' }] },
@@ -80,6 +81,7 @@
                 <a-input
                   placeholder="请输入具体地址"
                   autocomplete="off"
+                  maxLength="15"
                   v-decorator="[
                     'address',
                     { rules: [{ required: true, message: '请输入具体地址' }] },
@@ -90,6 +92,8 @@
           </a-row>
 					<a-form-item label="生产日期" :label-col="{ span: 7 }" :wrapper-col="{ span: 12 }">
             <a-date-picker
+              format="YYYY-MM-DD"
+              :disabledDate="disabledDate"
               v-decorator="[
                 'productionDate',
                 {
@@ -113,7 +117,7 @@
                   style="width:100%;"
                   v-decorator="[
                     'expiryTime',
-                    { rules: [{ required: true, message: '请输入保质期' }] },
+                    { rules: [{ required: true, message: '请输入有效的保质期天数',type: 'number' }] },
                   ]"
                 />
               </a-col>
@@ -123,6 +127,20 @@
             </a-row>
 					</a-form-item>
           <a-form-item label="木耳图片" :label-col="{ span: 7 }" :wrapper-col="{ span: 12 }">
+            <a-input
+              style="display: none"
+              v-decorator="[
+                `baseImg`,
+                {
+                  rules: [
+                    {
+                      required: true,
+                      message: '请上传木耳图片'
+                    }
+                  ]
+                }
+              ]"
+            />
             <upload-component
               :disabled="false"
               :selfImgUrl="picturePath"
@@ -130,7 +148,7 @@
               @haveUploadImg="haveUploadImg"
             ></upload-component>
             <p>建议图片尺寸3CM * 3CM</p>
-            <p v-if="!isImgPath" style="color:red;">请上传车间图片</p>
+            <p v-if="!isImgPath" style="color:red;">请上传木耳图片</p>
 					</a-form-item>
 				</a-form>
 			</div>
@@ -195,19 +213,25 @@ export default {
   },
   mounted() {
     if (Object.keys(this.isEditObj).length > 0) {
+      if (this.isEditObj.productCategoryCode) {
+        this.getBreedList(this.isEditObj.productCategoryCode)
+      }
       this.$nextTick(() => {
         this.modalForm.setFieldsValue({
           productName: this.isEditObj.productName, // '产品名称',
-          productCategoryCode: this.isEditObj.productCategoryCode || 'C00001', // '品类id',
-          productBreedCode: this.isEditObj.productBreedCode || 'B00002', // '品种id',
+          productCategoryCode: this.isEditObj.productCategoryCode, // '品类id',
+          productBreedCode: this.isEditObj.productBreedCode, // '品种id',
           productionCompany: this.isEditObj.productionCompany, // '生产企业',
-          // provinceCode: this.isEditObj.baseAddress[0], // '省份code',
-          // cityCode: this.isEditObj.baseAddress[1], // '市code',
-          // areaCode: this.isEditObj.baseAddress[2], // '区县code',
-          // townCode: this.isEditObj.baseAddress[3], // '乡镇code'
+          baseAddress: [
+            this.isEditObj.provinceCode ? Number(this.isEditObj.provinceCode) : '',
+            this.isEditObj.cityCode ? Number(this.isEditObj.cityCode) : '',
+            this.isEditObj.areaCode ? Number(this.isEditObj.areaCode) : '',
+            this.isEditObj.townCode ? Number(this.isEditObj.townCode) : ''
+          ], // 省市县镇回显
           address: this.isEditObj.address, // '地址(某某村)'
           productionDate: moment(this.isEditObj.productionDate || '', 'YYYY-MM-DD'), // '2019-11-05', // 生产日期
-          expiryTime: this.isEditObj.expiryTime // '保质期',
+          baseImg: this.isEditObj.productPicture,
+          expiryTime: Number(this.isEditObj.expiryTime) // '保质期',
         })
         this.picturePath = this.isEditObj.productPicture
       })
@@ -246,6 +270,10 @@ export default {
           })
       }
     },
+    disabledDate(current) {
+      // Can not select days before today and today
+      return current && current > moment().endOf('day')
+    },
     // 选择日期
     datePickerChange(e, value) {
       if (value) {
@@ -256,11 +284,16 @@ export default {
     haveUploadImg(path) {
       if (path) {
         this.picturePath = path
+        this.modalForm.setFieldsValue({
+          baseImg: path
+        })
       }
     },
+    // 新增或者编辑的确认事件
     handleModalOk() {
       this.isImgPath = true
       this.modalForm.validateFields((err, values) => {
+        console.log(values)
         if (!err) {
           if (!this.picturePath) {
             this.isImgPath = false
@@ -268,8 +301,8 @@ export default {
             // 发送请求
             let data = {
               productName: values.productName, // '产品名称',
-              productCategoryCode: values.productCategoryCode || 'C00001', // '品类id',
-              productBreedCode: values.productBreedCode || 'B00002', // '品种id',
+              productCategoryCode: values.productCategoryCode, // '品类id',
+              productBreedCode: values.productBreedCode, // '品种id',
               productionCompany: values.productionCompany, // '生产企业',
               provinceCode: values.baseAddress[0], // '省份code',
               cityCode: values.baseAddress[1], // '市code',
@@ -282,12 +315,22 @@ export default {
             }
             if (this.isEdit) {
               // 编辑溯源
-              data.productId = this.isEditObj.productId
+              if (this.isEditObj.productId) {
+                data.productId = this.isEditObj.productId
+              } else {
+                this.$message.error('主键ID为空无法编辑！')
+                return
+              }
               editTracesource(data)
                 .then(src => {
                   if (src.success === 'Y') {
                     this.$emit('handleCloseModal', false)
                     this.$message.success(src.message)
+                    let data = {
+                      pageNo: 1,
+                      pageSize: 10
+                    }
+                    this.$parent.getList(data)
                   } else {
                     this.$message.error(src.message)
                   }
@@ -298,6 +341,11 @@ export default {
                 .then(src => {
                   if (src.success === 'Y') {
                     this.$emit('handleCloseModal', false)
+                    let data = {
+                      pageNo: 1,
+                      pageSize: 10
+                    }
+                    this.$parent.getList(data)
                     this.$message.success(src.message)
                   } else {
                     this.$message.error(src.message)
@@ -308,6 +356,7 @@ export default {
         }
       })
     },
+    // 取消事件
     handleModalCancel() {
       this.$emit('handleCloseModal', false)
     }

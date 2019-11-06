@@ -72,6 +72,18 @@
             :rowKey="(record, index) => index"
           >
             <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
+            <!-- 商品名称 -->
+            <span slot="productName" slot-scope="text, record" class="tableLineCtr" :title="record.productName">
+              {{record.productName}}
+            </span>
+            <!-- 生产地 -->
+            <span slot="address" slot-scope="text, record" class="tableLineCtr" :title="record.address">
+              {{record.address}}
+            </span>
+            <!-- 生产企业 -->
+            <span slot="productionCompany" slot-scope="text, record" class="tableLineCtr" :title="record.productionCompany">
+              {{record.productionCompany}}
+            </span>
             <!-- 木耳图片 -->
             <span slot="productPicture" slot-scope="text, record" @click="showImgModal(record.productPicture, 'url')">
               <img style="width: 30px;height: 30px" :src="record.productPicture" alt="木耳图片">
@@ -81,16 +93,18 @@
               <img style="width: 30px;height: 30px" :src="decode(record.qrcodeId)" alt="">
             </span>
             <span slot="status" slot-scope="text, record">
-              <!-- record.status === 'n' ? '禁用' : '启用' -->
-              <a-switch checkedChildren="启用" unCheckedChildren="禁用" :checked="record.status === 'y'" @click="triggerSwitch"/>
+              <!-- record.status === 'N' ? '禁用' : '启用' @click="triggerSwitch"-->
+              <a-switch checkedChildren="启用" unCheckedChildren="禁用" :checked="record.status === 'Y'" @change="(val) => triggerSwitch(val, record.productId)" />
             </span>
             <span slot="operation" slot-scope="text, record">
-              <a-button type="link">打印</a-button>
-              <a-button type="link"  style="padding:0;">查看</a-button>
-              <span v-if="record.status === 'n'">
-                <a-button type="link" @click="handleOpenEdit(record)">编辑产品</a-button>
-                <a-button type="link" v-if="record.productionBatchCode" @click="handleOpenRelation(record)" style="padding:0;">重新关联</a-button>
-                <a-button type="link" v-else @click="handleOpenRelation(record)" style="padding:0;">关联批次</a-button>
+              <a-button type="link" @click="showPrintModal(record.qrcodeId)">打印</a-button>
+              <router-link :to="{name: 'DetailTraceabilityOfCultivation', params: {productId: record.productId}}">
+                <a-button type="link"  style="padding:0;">查看</a-button>
+              </router-link>
+              <span v-if="record.status === 'N'">
+                <a-button type="link" @click="handleOpenEdit(record)">编辑商品</a-button>
+                <a-button type="link" v-if="record.productionBatchCode" @click="handleOpenRelation(record.productId)" style="padding:0;">重新关联</a-button>
+                <a-button type="link" v-else @click="handleOpenRelation(record.productId)" style="padding:0;">关联批次</a-button>
               </span>
             </span>
           </a-table>
@@ -109,6 +123,7 @@
     <!-- 关联批次号 -->
     <relation-modal
       :visible="relationVisible"
+      :productId="productId"
       @relationModal="relationModal"
     ></relation-modal>
     <!-- 图片放大模态框 -->
@@ -116,8 +131,15 @@
       :visible="imgVisible"
       :src="imgSrc"
       :title="imgTitle"
+      :modalWidth="modalWidth"
       @hideImgModal="hideImgModal"
     ></img-modal>
+    <!-- 打印模态框 -->
+    <printing-modal
+      :printVisible="printVisible"
+      :decodeImg="decodeImg"
+      @printHideModal="printHideModal"
+    ></printing-modal>
   </div>
 </template>
 <script>
@@ -126,6 +148,7 @@ import CrumbsNav from '@/components/crumbsNav/CrumbsNav' // 面包屑
 import AddEditModal from './components/AddEditModal.vue'
 import RelationModal from './components/RelationModal.vue'
 import ImgModal from './components/ImgModal.vue'
+import PrintingModal from './components/PrintingModal.vue'
 import {
   Layout,
   Breadcrumb,
@@ -141,7 +164,8 @@ import {
   Switch
 } from 'ant-design-vue'
 import {
-  getTracingToTheSource
+  getTracingToTheSource,
+  triggerSwitch
 } from '@/api/farmPlan.js'
 import { columns, crumbsArr } from './config.js'
 Vue.use(Layout)
@@ -161,14 +185,15 @@ export default {
     CrumbsNav,
     AddEditModal,
     RelationModal,
-    ImgModal
+    ImgModal,
+    PrintingModal
   },
   data() {
     return {
       list: [],
       columns,
       crumbsArr,
-      upDownStatue: true,
+      upDownStatue: false,
       pagination: {
         current: 1,
         pageSize: 10,
@@ -191,8 +216,11 @@ export default {
       relationVisible: false,
       imgVisible: false,
       imgSrc: '',
-      imgTitle: ''
-
+      imgTitle: '',
+      printVisible: false, // 打印模态框
+      decodeImg: '',
+      modalWidth: 240,
+      productId: ''
     }
   },
   created() {
@@ -206,8 +234,6 @@ export default {
   methods: {
     // 获取列表
     getList(data) {
-      this.pagination.current = data.pageNo
-      this.pagination.pageSize = data.pageSize
       this.loading = true
       getTracingToTheSource(data)
         .then(res => {
@@ -226,6 +252,8 @@ export default {
     },
     // 查询方法
     searchProductlst() {
+      this.pagination.current = 1
+      this.pagination.pageSize = 10
       let data = {
         pageNo: 1,
         pageSize: 10,
@@ -263,10 +291,10 @@ export default {
       this.visible = true
       this.isEdit = true
       this.isEditObj = { ...record }
-      console.log(this.isEditObj)
     },
     // 关联批次号
-    handleOpenRelation(record) {
+    handleOpenRelation(productId) {
+      this.productId = productId
       this.relationVisible = true
     },
     // 关闭关联批次号的模态框
@@ -279,16 +307,18 @@ export default {
     },
     // 图片
     decode(base64) {
-      return 'data:image/png;base64,' + base64.qrcodeId
+      return 'data:image/png;base64,' + base64
     },
     // 图片方大模态框
     showImgModal (url, to) {
       if (to === 'url') {
         this.imgSrc = url
         this.imgTitle = '木耳图片'
+        this.modalWidth = 400
       } else {
         this.imgSrc = this.decode(url)
         this.imgTitle = '溯源二维码'
+        this.modalWidth = 240
       }
       this.imgVisible = true
     },
@@ -296,9 +326,34 @@ export default {
     hideImgModal (val) {
       this.imgVisible = val
     },
+    // 打印模态框打开
+    showPrintModal(qrcodeId) {
+      this.decodeImg = this.decode(qrcodeId)
+      this.printVisible = true
+    },
+    // 打印模态框关闭
+    printHideModal (val) {
+      this.printVisible = val
+    },
     // 开关切换
-    triggerSwitch (checked, event) {
-      console.log(checked, event)
+    triggerSwitch (checked, productId) {
+      // checked ==true就是要改成 'Y'
+      let status = checked ? 'Y' : 'N'
+      triggerSwitch(productId, status)
+        .then(res => {
+          if (res.success === 'Y') {
+            this.$message.success(res.message)
+            let data = {
+              pageNo: 1,
+              pageSize: 10
+            }
+            this.pagination.current = data.pageNo
+            this.pagination.pageSize = data.pageSize
+            this.getList(data)
+          } else {
+            this.$message.error(res.message)
+          }
+        })
     },
     // 重置
     handleReset() {
@@ -355,5 +410,12 @@ export default {
     position: absolute;
     right: 24px;
   }
+}
+.tableLineCtr {
+  display: inline-block;
+  width: 120px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>
