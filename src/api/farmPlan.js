@@ -327,7 +327,7 @@ export const tracesource = (data) => {
 export const editTracesource = (data) => {
   return axios({
     url: `/produce/tracesource`,
-    method: 'POST',
+    method: 'put',
     data
   })
 }
@@ -336,5 +336,13 @@ export const getTracesourceDetail = (productId) => {
   return axios({
     url: `/${productId}`,
     method: 'get'
+  })
+}
+// 关联批次号
+export const batchCode = (productId, data) => {
+  return axios({
+    url: `/produce/tracesource/batchCode/${productId}`,
+    method: 'POST',
+    data
   })
 }

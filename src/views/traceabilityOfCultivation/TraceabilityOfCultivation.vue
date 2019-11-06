@@ -72,6 +72,18 @@
             :rowKey="(record, index) => index"
           >
             <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
+            <!-- 商品名称 -->
+            <span slot="productName" slot-scope="text, record" class="tableLineCtr" :title="record.productName">
+              {{record.productName}}
+            </span>
+            <!-- 生产地 -->
+            <span slot="address" slot-scope="text, record" class="tableLineCtr" :title="record.address">
+              {{record.address}}
+            </span>
+            <!-- 生产企业 -->
+            <span slot="productionCompany" slot-scope="text, record" class="tableLineCtr" :title="record.productionCompany">
+              {{record.productionCompany}}
+            </span>
             <!-- 木耳图片 -->
             <span slot="productPicture" slot-scope="text, record" @click="showImgModal(record.productPicture, 'url')">
               <img style="width: 30px;height: 30px" :src="record.productPicture" alt="木耳图片">
@@ -81,7 +93,7 @@
               <img style="width: 30px;height: 30px" :src="decode(record.qrcodeId)" alt="">
             </span>
             <span slot="status" slot-scope="text, record">
-              <!-- record.status === 'n' ? '禁用' : '启用' -->
+              <!-- record.status === 'N' ? '禁用' : '启用' -->
               <a-switch checkedChildren="启用" unCheckedChildren="禁用" :checked="record.status === 'Y'" @click="triggerSwitch"/>
             </span>
             <span slot="operation" slot-scope="text, record">
@@ -91,8 +103,8 @@
               </router-link>
               <span v-if="record.status === 'N'">
                 <a-button type="link" @click="handleOpenEdit(record)">编辑商品</a-button>
-                <a-button type="link" v-if="record.productionBatchCode" @click="handleOpenRelation(record)" style="padding:0;">重新关联</a-button>
-                <a-button type="link" v-else @click="handleOpenRelation(record)" style="padding:0;">关联批次</a-button>
+                <a-button type="link" v-if="record.productionBatchCode" @click="handleOpenRelation(record.productId)" style="padding:0;">重新关联</a-button>
+                <a-button type="link" v-else @click="handleOpenRelation(record.productId)" style="padding:0;">关联批次</a-button>
               </span>
             </span>
           </a-table>
@@ -111,6 +123,7 @@
     <!-- 关联批次号 -->
     <relation-modal
       :visible="relationVisible"
+      :productId="productId"
       @relationModal="relationModal"
     ></relation-modal>
     <!-- 图片放大模态框 -->
@@ -118,6 +131,7 @@
       :visible="imgVisible"
       :src="imgSrc"
       :title="imgTitle"
+      :modalWidth="modalWidth"
       @hideImgModal="hideImgModal"
     ></img-modal>
     <!-- 打印模态框 -->
@@ -203,8 +217,9 @@ export default {
       imgSrc: '',
       imgTitle: '',
       printVisible: false, // 打印模态框
-      decodeImg: ''
-
+      decodeImg: '',
+      modalWidth: 240,
+      productId: ''
     }
   },
   created() {
@@ -277,7 +292,8 @@ export default {
       this.isEditObj = { ...record }
     },
     // 关联批次号
-    handleOpenRelation(record) {
+    handleOpenRelation(productId) {
+      this.productId = productId
       this.relationVisible = true
     },
     // 关闭关联批次号的模态框
@@ -297,9 +313,11 @@ export default {
       if (to === 'url') {
         this.imgSrc = url
         this.imgTitle = '木耳图片'
+        this.modalWidth = 400
       } else {
         this.imgSrc = this.decode(url)
         this.imgTitle = '溯源二维码'
+        this.modalWidth = 240
       }
       this.imgVisible = true
     },
@@ -375,5 +393,12 @@ export default {
     position: absolute;
     right: 24px;
   }
+}
+.tableLineCtr {
+  display: inline-block;
+  width: 120px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>
