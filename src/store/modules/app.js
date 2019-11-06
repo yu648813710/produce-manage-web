@@ -100,7 +100,9 @@ const app = {
           { name: '采购管理详情' },
           { name: '菌包任务管理' },
           { name: '新增菌包任务' },
-          { name: '菌包任务详情' }
+          { name: '菌包任务详情' },
+          { name: '临时工管理' },
+          { name: '临时工详情' }
         ]
         resolve(auth)
       })

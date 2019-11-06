@@ -240,6 +240,19 @@ export default {
       hidden: true,
       component: () => import('@/views/bacteriaBagTaskManagement/BacteriaBagTaskDateil.vue'),
       meta: { name: '菌包任务详情', icon: '' }
-    }
+    },
+    {
+      path: '/tempWorkerManage',
+      name: 'TempWorkerManage',
+      component: () => import('@/views/tempWorkerManage/TempWorkerManage.vue'),
+      meta: { name: '临时工管理', icon: '' }
+    },
+    {
+      path: '/tempWorkerDetail',
+      name: 'TempWorkerDetail',
+      hidden: true,
+      component: () => import('@/views/tempWorkerManage/TempWorkerDetail.vue'),
+      meta: { name: '临时工详情', icon: '' }
+    },
   ]
 }

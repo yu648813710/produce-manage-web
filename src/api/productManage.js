@@ -235,3 +235,64 @@ export function getMaterialNumList (farmingNum) {
     method: 'GET'
   })
 }
+// 查询临时工列表
+export function getTempWorkerList (data) {
+  return axios({
+    url: `/produce/temp/page`,
+    method: 'POST',
+    data
+  })
+}
+// 临时工新增
+export function addTempWorker (data) {
+  return axios({
+    url: `/produce/temp/`,
+    method: 'PUT',
+    data
+  })
+}
+// 临时工编辑
+export function editTempWorker (data) {
+  return axios({
+    url: `/produce/temp/`,
+    method: 'patch',
+    data
+  })
+}
+// 临时工删除
+export function delTempWorker (tempWorkerId) {
+  return axios({
+    url: `produce/temp/${tempWorkerId}`,
+    method: 'delete'
+  })
+}
+// 临时工在职状态更新
+export function changeJobStatus (data) {
+  return axios({
+    url: `/produce/temp/status/job`,
+    method: 'patch',
+    data
+  })
+}
+// 临时工查看详情
+export function detailTempWorker (tempWorkerId) {
+  return axios({
+    url: `/produce/temp/${tempWorkerId}`,
+    method: 'GET'
+  })
+}
+// 临时工任务列表查询
+export function getTaskList (data) {
+  return axios({
+    url: `produce/temp/task/page `,
+    method: 'POST',
+    data
+  })
+}
+// 临时工任务详情
+export function detailTask (instId) {
+  return axios({
+    url: `/produce/temp//task/${instId} `,
+    method: 'GET'
+  })
+}
