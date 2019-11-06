@@ -3,7 +3,7 @@
     <a-menu
       mode="inline"
       theme="dark"
-      :defaultSelectedKeys="selectedKeys"
+      :selectedKeys="selectedKeys"
       :defaultOpenKeys="openKeys"
       :inlineCollapsed="collapsed"
       @click="gotoRoute"
@@ -31,11 +31,14 @@
 <script>
 import MenuItem from './MenuItem.vue'
 import { mapGetters } from 'vuex'
+
 export default {
   name: 'SideMenu',
   data() {
     return {
-      collapsed: false
+      collapsed: false,
+      selectMenuName: '',
+      isFirstInPage: true
     }
   },
   components: {

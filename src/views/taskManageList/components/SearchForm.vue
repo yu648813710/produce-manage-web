@@ -28,13 +28,13 @@
                   v-if="item.type==='select'"
                   :placeholder="item.placeholder"
                   style="width: 100%"
+                  :getPopupContainer="positonFn"
                   v-model="item.data"
                 >
                   <a-select-option
                     v-for="(selectItem,key,index) in item.selectData"
                     :key="index"
                     :value="selectItem"
-                    :getPopupContainer="triggerNode=>document.getElementById('from-box')"
                   >{{key}}</a-select-option>
                 </a-select>
               </a-form-item>

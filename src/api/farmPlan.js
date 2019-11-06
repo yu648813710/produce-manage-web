@@ -1,4 +1,13 @@
 import { axios } from '@/utils/request'
+// VUE_APP_BASE_API = http://106.38.53.203:12825
+// 上传图片
+export function uploadImage(data) {
+  return axios({
+    url: '/produce/oss/fileUpload',
+    method: 'POST',
+    data: data
+  })
+}
 // 获取农事计划列表
 export function farmPlanList (data) {
   return axios({
@@ -201,6 +210,14 @@ export const getBreedList = (categoryId) => {
     method: 'get'
   })
 }
+// 农事计划新增时的任务列表
+export const getFarmplanSolutionTaskList = (data) => {
+  return axios({
+    url: `/produce/farmPlan/solution/task`,
+    method: 'post',
+    data
+  })
+}
 // 获取菌包任务管理新增中的菌包列表
 export const getFungusproduceList = (breedId) => {
   return axios({
@@ -230,6 +247,15 @@ export const postFungusTask = (data) => {
     data
   })
 }
+
+// 农事计划新增时的任务修改提交
+export const editFarmplanSolutionTaskList = (data) => {
+  return axios({
+    url: `/produce/farmPlan/task/temp`,
+    method: 'patch',
+    data
+  })
+}
 // 菌包任务管理编辑或者获取详情
 export const getFungusTask = (bizId) => {
   return axios({
@@ -238,9 +264,85 @@ export const getFungusTask = (bizId) => {
   })
 }
 // 菌包任务管理删除此任务
-export function deleteFungusTask(bizId) {
+export function deleteFungusTask (bizId) {
   return axios({
     url: `/produce/fungus/task/${bizId}`,
     method: 'DELETE'
+  })
+}
+// 菌包任务管理详情的操作详情接口
+export const getTaskOption = (instId) => {
+  return axios({
+    url: `/produce/fungus/task/option/${instId}`,
+    method: 'get'
+  })
+}
+// 农事计划任务详情 新增临时任务 选择时的周期列表
+export const getLifecycle = () => {
+  return axios({
+    url: `/produce/lifecycle/`,
+    method: 'get'
+  })
+}
+// 农事计划任务详情 新增临时任务 选择时的类型列表
+export const getFarmingType = () => {
+  return axios({
+    url: `/produce/farmingType/`,
+    method: 'POST'
+  })
+}
+// 农事计划任务详情 新增临时任务 选择时的操作列表
+export const getCction = () => {
+  return axios({
+    url: `/produce/action/`,
+    method: 'get'
+  })
+}
+
+// 农事计划任务详情添加临时任务
+export const addFarmPlanTask = (data) => {
+  return axios({
+    url: `/produce/farmPlan/task/create`,
+    method: 'POST',
+    data
+  })
+}
+// 获取栽培过程溯源列表
+export const getTracingToTheSource = (data) => {
+  return axios({
+    url: `/produce/tracesource/pages`,
+    method: 'POST',
+    data
+  })
+}
+// 新增溯源商品
+export const tracesource = (data) => {
+  return axios({
+    url: `/produce/tracesource`,
+    method: 'POST',
+    data
+  })
+}
+// 编辑溯源商品
+export const editTracesource = (data) => {
+  return axios({
+    url: `/produce/tracesource`,
+    method: 'put',
+    data
+  })
+}
+// 溯源获取详情页面
+export const getTracesourceDetail = (productId) => {
+  return axios({
+    url: `/${productId}`,
+    method: 'get'
+  })
+}
+// 关联批次号
+export const batchCode = (productId, data) => {
+  return axios({
+    url: `/produce/tracesource/batchCode/${productId}`,
+    method: 'POST',
+    data
   })
 }

@@ -36,17 +36,11 @@
               </a-col>
               <a-col :span="8">
                 <a-form-item label="菌包名称">
-                  <a-select
-                    placeholder="请选择"
-                    :allowClear="true"
-                    style="width: 100%;"
-                    v-decorator="[
-                      'fungusBagId',
-                    ]"
-                    @change="getFungusBagId"
-                  >
-                    <a-select-option v-for="(item) in allName" :key="item.fungusBagId" :value="item.fungusBagId">{{item.fungusBagName}}</a-select-option>
-                  </a-select>
+                  <a-input
+                    placeholder="请输入"
+                    autocomplete="off"
+                    v-model="fungusBagName"
+                  />
                 </a-form-item>
               </a-col>
             </a-row>
@@ -105,7 +99,6 @@ import {
   DatePicker
 } from 'ant-design-vue'
 import {
-  getAllName,
   getOutgoingManagementList
 } from '@/api/farmPlan.js'
 import { columns, crumbsArr } from './config.js'
@@ -144,13 +137,9 @@ export default {
       visible: false,
       deliveryTime: '', // 出库时间
       userName: '',
-      allName: [], // 菌包
-      fungusBagId: '',
+      fungusBagName: '', // 菌包
       sreachForm: this.$form.createForm(this)
     }
-  },
-  component: {
-    // 'a-button': Button
   },
   created() {
     // 获取列表
@@ -159,11 +148,12 @@ export default {
       pageSize: this.pagination.pageSize
     }
     this.getList(data)
-    this.getAllName()
   },
   methods: {
     // 获取列表
     getList(data) {
+      this.pagination.current = data.pageNo
+      this.pagination.pageSize = data.pageSize
       this.loading = true
       getOutgoingManagementList(data)
         .then(res => {
@@ -180,23 +170,6 @@ export default {
           this.loading = false
         })
     },
-    // 获取菌包名称
-    getAllName() {
-      getAllName()
-        .then(res => {
-          if (res.success === 'true') {
-            this.allName = res.data || []
-          } else {
-            this.$message.error(res.message)
-          }
-        })
-    },
-    // 获取菌包ID
-    getFungusBagId(value) {
-      if (value) {
-        this.fungusBagId = value
-      }
-    },
     // 查询方法
     sreachOutgoingManagement() {
       let data = {
@@ -204,7 +177,7 @@ export default {
         pageSize: 10,
         deliveryTime: this.deliveryTime,
         userName: this.userName,
-        fungusBagId: this.fungusBagId // 菌包ID
+        fungusBagName: this.fungusBagName // 菌包名称
       }
       this.getList(data)
     },
@@ -224,7 +197,7 @@ export default {
         pageSize: pagination.pageSize,
         deliveryTime: this.deliveryTime,
         userName: this.userName,
-        fungusBagId: this.fungusBagId // 菌包ID
+        fungusBagName: this.fungusBagName // 菌包ID
       }
       this.getList(data)
     },
@@ -233,7 +206,7 @@ export default {
       this.sreachForm.resetFields()
       this.deliveryTime = ''
       this.userName = ''
-      this.fungusBagId = ''
+      this.fungusBagName = ''
       // 获取列表
       let data = {
         pageNo: 1,
