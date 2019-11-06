@@ -159,7 +159,7 @@ export default {
       list: [],
       columns,
       crumbsArr,
-      upDownStatue: true,
+      upDownStatue: false,
       pagination: {
         current: 1,
         pageSize: 10,
