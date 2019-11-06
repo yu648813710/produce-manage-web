@@ -149,7 +149,7 @@ Vue.use(Button)
 Vue.use(Modal)
 export default {
   components: {
-    CrumbsNav,
+    CrumbsNav
   },
   data() {
     return {

@@ -192,7 +192,7 @@ export default {
         showQuickJumper: true,
         showSizeChanger: true,
         total: 0,
-        showTotal: total => `共 ${ total } 条`
+        showTotal: total => `共 ${total} 条`
       },
       loading: false,
       searchForm: this.$form.createForm(this),
@@ -248,6 +248,7 @@ export default {
     },
     // 查询方法
     searchList() {
+      // eslint-disable-next-line handle-callback-err
       this.searchForm.validateFields((err, values) => {
         this.searchParams.jobStatus = values.jobStatus
         this.searchParams.povertyStatus = values.povertyStatus
