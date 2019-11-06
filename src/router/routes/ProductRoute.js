@@ -258,6 +258,19 @@ export default {
       hidden: true,
       component: () => import('@/views/traceabilityOfCultivation/DetailTraceabilityOfCultivation.vue'),
       meta: { name: '木耳溯源信息维护', icon: '' }
+    },
+    {
+      path: '/tempWorkerManage',
+      name: 'TempWorkerManage',
+      component: () => import('@/views/tempWorkerManage/TempWorkerManage.vue'),
+      meta: { name: '临时工管理', icon: '' }
+    },
+    {
+      path: '/tempWorkerDetail',
+      name: 'TempWorkerDetail',
+      hidden: true,
+      component: () => import('@/views/tempWorkerManage/TempWorkerDetail.vue'),
+      meta: { name: '临时工详情', icon: '' }
     }
   ]
 }
