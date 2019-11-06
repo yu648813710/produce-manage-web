@@ -120,9 +120,9 @@ export default {
       if (!isJPG) {
         this.$message.error('请上传 jpg 或 png 格式的图片')
       }
-      const isLt2M = file.size / 1024 / 1024 < 2
+      const isLt2M = file.size / 1024 / 1024 < 5
       if (!isLt2M) {
-        this.$message.error('图片大小必须小于 2MB!')
+        this.$message.error('图片大小必须小于 5MB!')
       }
       return isJPG && isLt2M
     }

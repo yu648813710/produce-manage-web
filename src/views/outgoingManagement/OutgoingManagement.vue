@@ -39,7 +39,7 @@
                   <a-input
                     placeholder="请输入"
                     autocomplete="off"
-                    v-model="name"
+                    v-model="fungusBagName"
                   />
                 </a-form-item>
               </a-col>
@@ -137,7 +137,7 @@ export default {
       visible: false,
       deliveryTime: '', // 出库时间
       userName: '',
-      name: '', // 菌包
+      fungusBagName: '', // 菌包
       sreachForm: this.$form.createForm(this)
     }
   },
@@ -177,7 +177,7 @@ export default {
         pageSize: 10,
         deliveryTime: this.deliveryTime,
         userName: this.userName,
-        name: this.name // 菌包ID
+        fungusBagName: this.fungusBagName // 菌包名称
       }
       this.getList(data)
     },
@@ -197,7 +197,7 @@ export default {
         pageSize: pagination.pageSize,
         deliveryTime: this.deliveryTime,
         userName: this.userName,
-        fungusBagId: this.fungusBagId // 菌包ID
+        fungusBagName: this.fungusBagName // 菌包ID
       }
       this.getList(data)
     },
@@ -206,7 +206,7 @@ export default {
       this.sreachForm.resetFields()
       this.deliveryTime = ''
       this.userName = ''
-      this.fungusBagId = ''
+      this.fungusBagName = ''
       // 获取列表
       let data = {
         pageNo: 1,

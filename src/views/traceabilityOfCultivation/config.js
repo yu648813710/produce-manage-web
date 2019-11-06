@@ -1,9 +1,9 @@
 const columns = [
   { title: '序号', scopedSlots: { customRender: 'id' }, key: 'id' },
-  { title: '商品名称', dataIndex: 'productName', key: 'productName' },
+  { title: '商品名称', scopedSlots: { customRender: 'productName' }, key: 'productName' },
   { title: '产品品种', dataIndex: 'productBreed', key: 'productBreed' },
-  { title: '生产地', dataIndex: 'address', key: 'address' },
-  { title: '生产企业', dataIndex: 'productionCompany', key: 'productionCompany' },
+  { title: '生产地', scopedSlots: { customRender: 'address' }, key: 'address' },
+  { title: '生产企业', scopedSlots: { customRender: 'productionCompany' }, key: 'productionCompany' },
   { title: '生产日期', dataIndex: 'productionDate', key: 'productionDate' },
   { title: '保质期(天)', dataIndex: 'expiryTime', key: 'expiryTime' },
   { title: '木耳图片', scopedSlots: { customRender: 'productPicture' }, key: 'productPicture', align: 'center' },

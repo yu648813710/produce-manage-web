@@ -2,18 +2,16 @@
   <a-modal
     :title="title"
     :visible="visible"
-    :width="240"
+    :width="modalWidth + 50"
     :footer="null"
     @cancel="handleCancel"
     >
-    <div class="decodeContent">
-      <div class="deodeImgContent">
-        <img
-          style="width: 200px;height: 200px"
-          :src="src"
-          :alt="title"
-        />
-      </div>
+    <div class="decodeContent" :style="{width:modalWidth ? modalWidth + 'px' : '240px'}">
+      <img
+        :style="{width:modalWidth ? modalWidth + 'px' : '240px'}"
+        :src="src"
+        :alt="title"
+      />
     </div>
   </a-modal>
 </template>
@@ -38,6 +36,11 @@ export default {
       type: String,
       default: '',
       required: true
+    },
+    modalWidth: {
+      type: Number,
+      default: 240,
+      required: true
     }
   },
   methods: {
@@ -50,11 +53,9 @@ export default {
 
 <style lang="less" scoped>
 .decodeContent {
-  height: 200px;
-  width: 200px;
-  .deodeImgContent {
-    height: 200px;
-    width: 200px;
+  height: auto;
+  img{
+    background-size: 100% 100%;
   }
 }
 </style>

@@ -117,7 +117,7 @@
                   style="width:100%;"
                   v-decorator="[
                     'expiryTime',
-                    { rules: [{ required: true, message: '请输入保质期' }] },
+                    { rules: [{ required: true, message: '请输入有效的保质期天数',type: 'number' }] },
                   ]"
                 />
               </a-col>
@@ -127,6 +127,20 @@
             </a-row>
 					</a-form-item>
           <a-form-item label="木耳图片" :label-col="{ span: 7 }" :wrapper-col="{ span: 12 }">
+            <a-input
+              style="display: none"
+              v-decorator="[
+                `baseImg`,
+                {
+                  rules: [
+                    {
+                      required: true,
+                      message: '请上传木耳图片'
+                    }
+                  ]
+                }
+              ]"
+            />
             <upload-component
               :disabled="false"
               :selfImgUrl="picturePath"
@@ -134,7 +148,7 @@
               @haveUploadImg="haveUploadImg"
             ></upload-component>
             <p>建议图片尺寸3CM * 3CM</p>
-            <p v-if="!isImgPath" style="color:red;">请上传车间图片</p>
+            <p v-if="!isImgPath" style="color:red;">请上传木耳图片</p>
 					</a-form-item>
 				</a-form>
 			</div>
@@ -199,16 +213,25 @@ export default {
   },
   mounted() {
     if (Object.keys(this.isEditObj).length > 0) {
+      if (this.isEditObj.productCategoryCode) {
+        this.getBreedList(this.isEditObj.productCategoryCode)
+      }
       this.$nextTick(() => {
         this.modalForm.setFieldsValue({
           productName: this.isEditObj.productName, // '产品名称',
-          productCategoryCode: this.isEditObj.productCategoryCode || 'C00001', // '品类id',
-          productBreedCode: this.isEditObj.productBreedCode || 'B00002', // '品种id',
+          productCategoryCode: this.isEditObj.productCategoryCode, // '品类id',
+          productBreedCode: this.isEditObj.productBreedCode, // '品种id',
           productionCompany: this.isEditObj.productionCompany, // '生产企业',
-          baseAddress: [610000, 611000, 611026, 611026109], // 省市县镇回显
+          baseAddress: [
+            this.isEditObj.provinceCode ? Number(this.isEditObj.provinceCode) : '',
+            this.isEditObj.cityCode ? Number(this.isEditObj.cityCode) : '',
+            this.isEditObj.areaCode ? Number(this.isEditObj.areaCode) : '',
+            this.isEditObj.townCode ? Number(this.isEditObj.townCode) : ''
+          ], // 省市县镇回显
           address: this.isEditObj.address, // '地址(某某村)'
           productionDate: moment(this.isEditObj.productionDate || '', 'YYYY-MM-DD'), // '2019-11-05', // 生产日期
-          expiryTime: this.isEditObj.expiryTime // '保质期',
+          baseImg: this.isEditObj.productPicture,
+          expiryTime: Number(this.isEditObj.expiryTime) // '保质期',
         })
         this.picturePath = this.isEditObj.productPicture
       })
@@ -261,6 +284,9 @@ export default {
     haveUploadImg(path) {
       if (path) {
         this.picturePath = path
+        this.modalForm.setFieldsValue({
+          baseImg: path
+        })
       }
     },
     // 新增或者编辑的确认事件
@@ -289,7 +315,12 @@ export default {
             }
             if (this.isEdit) {
               // 编辑溯源
-              data.productId = this.isEditObj.productId
+              if (this.isEditObj.productId) {
+                data.productId = this.isEditObj.productId
+              } else {
+                this.$message.error('主键ID为空无法编辑！')
+                return
+              }
               editTracesource(data)
                 .then(src => {
                   if (src.success === 'Y') {
