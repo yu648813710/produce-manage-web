@@ -334,8 +334,15 @@ export const editTracesource = (data) => {
 // 溯源获取详情页面
 export const getTracesourceDetail = (productId) => {
   return axios({
-    url: `/${productId}`,
+    url: `/produce/tracesource/preview/${productId}`,
     method: 'get'
+  })
+}
+// 启用禁用开关组件
+export const triggerSwitch = (productId, status) => {
+  return axios({
+    url: `/produce/tracesource/${productId}/${status}`,
+    method: 'put'
   })
 }
 // 关联批次号

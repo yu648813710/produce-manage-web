@@ -76,7 +76,7 @@
 export default {
   data() {
     return {
-      ruleForm: this.$form.createForm(this),
+      ruleForm: this.$form.createForm(this)
     }
   },
   props: {

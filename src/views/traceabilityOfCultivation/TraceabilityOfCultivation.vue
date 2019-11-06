@@ -93,8 +93,8 @@
               <img style="width: 30px;height: 30px" :src="decode(record.qrcodeId)" alt="">
             </span>
             <span slot="status" slot-scope="text, record">
-              <!-- record.status === 'N' ? '禁用' : '启用' -->
-              <a-switch checkedChildren="启用" unCheckedChildren="禁用" :checked="record.status === 'Y'" @click="triggerSwitch"/>
+              <!-- record.status === 'N' ? '禁用' : '启用' @click="triggerSwitch"-->
+              <a-switch checkedChildren="启用" unCheckedChildren="禁用" :checked="record.status === 'Y'" @change="(val) => triggerSwitch(val, record.productId)" />
             </span>
             <span slot="operation" slot-scope="text, record">
               <a-button type="link" @click="showPrintModal(record.qrcodeId)">打印</a-button>
@@ -164,7 +164,8 @@ import {
   Switch
 } from 'ant-design-vue'
 import {
-  getTracingToTheSource
+  getTracingToTheSource,
+  triggerSwitch
 } from '@/api/farmPlan.js'
 import { columns, crumbsArr } from './config.js'
 Vue.use(Layout)
@@ -335,8 +336,24 @@ export default {
       this.printVisible = val
     },
     // 开关切换
-    triggerSwitch (checked, event) {
-      console.log(checked, event)
+    triggerSwitch (checked, productId) {
+      // checked ==true就是要改成 'Y'
+      let status = checked ? 'Y' : 'N'
+      triggerSwitch(productId, status)
+        .then(res => {
+          if (res.success === 'Y') {
+            this.$message.success(res.message)
+            let data = {
+              pageNo: 1,
+              pageSize: 10
+            }
+            this.pagination.current = data.pageNo
+            this.pagination.pageSize = data.pageSize
+            this.getList(data)
+          } else {
+            this.$message.error(res.message)
+          }
+        })
     },
     // 重置
     handleReset() {
