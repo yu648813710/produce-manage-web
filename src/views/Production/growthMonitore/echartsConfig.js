@@ -18,7 +18,7 @@ export default {
         y: '30',
         data: self.pieData,
         icon: 'circle',
-        itemGap: 70,
+        itemGap: self.pieData.length === 2 ? 70 : 30,
         textStyle: {
           color: '#94B1EE',
           fontSize: 16
