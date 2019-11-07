@@ -55,7 +55,7 @@
       <div class="table-wrapper">
         <a-table
           :scroll="{ x: 1080 }"
-          :columns="columns3"
+          :columns="columns"
           :dataSource="list"
           :style="{marginTop: '50px'}"
           :loading="loading"
@@ -93,51 +93,7 @@ Vue.use(Select)
 Vue.use(Table)
 Vue.use(Row)
 Vue.use(Col)
-const columns1 = [
-  { title: '序号', scopedSlots: { customRender: 'id' }, align: 'center' },
-  { title: '基地名称', dataIndex: 'baseLandName' },
-  { title: '地块名称', dataIndex: 'blockLandName' },
-  {
-    title: '湿度',
-    dataIndex: 'indicatorValue',
-    customRender: (text) => {
-      return text + '%'
-    }
-  },
-  {
-    title: '状态',
-    dataIndex: 'status',
-    customRender: (text) => {
-      if (text === 'normal') {
-        return '正常'
-      } else if (text === 'abnormal') {
-        return '异常'
-      }
-    }
-  },
-  { title: '异常原因', dataIndex: 'reason' }
-
-]
-const columns2 = [
-  { title: '序号', scopedSlots: { customRender: 'id' }, align: 'center' },
-  { title: '基地名称', dataIndex: 'baseLandName' },
-  { title: '地块名称', dataIndex: 'blockLandName' },
-  { title: '温度℃', dataIndex: 'indicatorValue' },
-  {
-    title: '状态',
-    dataIndex: 'status',
-    customRender: (text) => {
-      if (text === 'normal') {
-        return '正常'
-      } else if (text === 'abnormal') {
-        return '异常'
-      }
-    }
-  },
-  { title: '异常原因', dataIndex: 'reason' }
-
-]
-const columns3 = [
+const columns = [
   { title: '序号', scopedSlots: { customRender: 'id' }, align: 'center' },
   { title: '基地名称', dataIndex: 'baseLandName' },
   { title: '地块名称', dataIndex: 'blockLandName' },
@@ -192,10 +148,7 @@ export default {
         total: 0,
         showTotal: total => `共 ${total} 条`
       },
-      columns1,
-      columns2,
-      columns3,
-      columns: '',
+      columns,
       crumbsArr: [
         { name: '当前位置', back: false, path: '' },
         { name: '生产管理', back: false, path: '' },
@@ -239,13 +192,13 @@ export default {
         this.baseLandName = values.baseLandName ? values.baseLandName : ''
         this.warringType = values.warringType ? values.warringType : ''
       })
-      if (this.listType === 1 || this.listType === 2 || this.listType === '1' || this.listType === '2') {
+      if (+this.listType === 1 || +this.listType === 2 ) {
         this.getTotalData(null, 2)
       } else if (this.listType === 3 || this.listType === 5 || this.listType === 6 || this.listType === '3' || this.listType === '5' || this.listType === '6') {
         this.getTotalData(null, 1)
       }
     },
-    formatTableColumn() {
+    getTableData() {
       /**
        * listType === 1 湿度列表
        * listType === 2 温度列表
@@ -254,15 +207,6 @@ export default {
        * listType === 5 历史总累计温度列表
        * listType === 6 历史总累计湿度列表
        */
-      if (this.listType === 1 || this.listType === 6) {
-        this.columns = this.columns1
-      } else if (this.listType === 2 || this.listType === 5) {
-        this.columns = this.columns2
-      } else if (this.listType === 3 || this.listType === 4) {
-        this.columns = this.columns3
-      }
-    },
-    getTableData() {
       if (this.listType === 1 || this.listType === '1') {
         this.getTotalData(1, 2) // 获取新增湿度总列表
       } else if (this.listType === 2 || this.listType === '2') {
@@ -293,11 +237,15 @@ export default {
         console.log(res)
       })
     },
-    // 获取历史总累计预警
-    getTotalData(alarmType, staticType) { // type === 1 历史总列表 type === 2 新增总列表
+    /**
+     * 获取历史总累计预警
+     * alarmType === 1 湿度 alarmType === 2 temperature
+     * staticType === 1 历史总列表 staticType === 2 新增总列表
+     */
+    getTotalData(alarmType, staticType) {
       let postData = {
-        inputContent: this.baseLandName, // 预警类型查询 下拉框值默认为 温度过高 温度过低 湿度过高 湿度过低 二氧化碳过高 二氧化碳过低
-        alarmType: this.warringType, // 输入框的模糊查询地块或车间的名陈
+        inputContent: this.baseLandName, // 输入框的模糊查询地块或车间的名陈
+        alarmType: this.warringType, // 预警类型查询 下拉框值默认为 温度过高 温度过低 湿度过高 湿度过低 二氧化碳过高 二氧化碳过低
         pageNo: this.pagination.current,
         pageSize: this.pagination.pageSize
       }
@@ -316,28 +264,12 @@ export default {
         }
       }
       getTotalWarring(postData, typeList).then((res) => {
-        if (res.code === 200 && res.success === 'Y') {
-          this.pagination.total = res.data.total
-          this.list = res.data.records
-        } else {
-          this.list = []
-          this.pagination.total = 0
+        if (res.success === 'Y') {
+          this.pagination.total = (res && res.data && res.data.total) || 0
+          // res && res.data && res.data.total
+          this.list = res.data.records ? res.data.records : []
         }
         console.log(res)
-      })
-    },
-    getShiduData() {
-      let postData = {
-        pageNo: 1,
-        pageSize: 10
-      }
-      let typeList = {
-        dikuai: 'gh',
-        type: 'dampness'
-      }
-      shiduData(postData, typeList).then((res) => {
-        console.log(res)
-        this.list = res.data.records
       })
     },
     handleSearchClick() {
@@ -345,24 +277,6 @@ export default {
         console.log(err, values)
       })
     },
-    getWenduData() {
-      let postData = {
-        pageNo: 1,
-        pageSize: 10
-      }
-      let typeList = {
-        dikuai: 'gh',
-        type: 'temperature'
-      }
-      shiduData(postData, typeList).then((res) => {
-        if (res.code === 200 && res.data.records) {
-          this.list = res.data.records
-        } else {
-          this.list = []
-        }
-        console.log(this.list)
-      })
-    }
   }
 }
 </script>
