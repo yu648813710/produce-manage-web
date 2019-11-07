@@ -491,7 +491,8 @@ export default {
         planStartTime: that.startDate,
         plantValue: {
           amount: that.farmArea
-        }
+        },
+        tempPlanId: this.tempPlanId // 页面临时id
       }
       this.requestAddFarmPlan(postData)
     },
