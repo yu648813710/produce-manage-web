@@ -122,7 +122,7 @@ export default {
       pieData: [
         { name: '湿度', value: 0, key: 'dampness' },
         { name: '温度', value: 0, key: 'temperature' },
-        { name: '二氧化碳', value: 12331, key: 'co2Count' },
+        { name: '二氧化碳', value: 12331, key: 'co2Count' }
       ],
       timer: '',
       crumbsArr: [
@@ -143,7 +143,7 @@ export default {
     clearInterval(this.timer)
   },
   methods: {
-    checkConpanyType(){
+    checkConpanyType() {
       if (this.componenyType === 0) {
         this.pieData.forEach((item, index) => {
           if (item.key === 'co2Count') {
