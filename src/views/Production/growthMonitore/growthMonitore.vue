@@ -44,16 +44,29 @@
                 <div :title="'新增' + newDampnessWarring + '条预警'">新增{{newDampnessWarring}}条预警</div>
                 <div>湿度预警</div>
               </div>
+              <div
+                v-if="componenyType !== 0"
+                class="warring3"
+                @click="warringDetailList(8)"
+              >
+                <router-link :to="{name: 'massifDetail'}"></router-link>
+                <div :title="'新增' + co2NewCount + '条预警'">新增{{co2NewCount}}条预警</div>
+                <div>二氧化碳预警</div>
+              </div>
               <div class="pointLine1"></div>
               <div class="pointLine2"></div>
               <div class="pointLine3"></div>
               <div class="pointLine4"></div>
+              <div v-if="componenyType !== 0">
+                <div class="pointLine5"></div>
+                <div class="pointLine6"></div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </a-row>
-    <a-row>
+    <a-row style="margin-bottom: 25px;">
       <div class="warringStaticContent">
         <div class="staticEchart">
           <div class="staticLabel">累计预警详情</div>
@@ -94,17 +107,23 @@ export default {
   },
   data() {
     return {
+      componenyType: 0,
       totalWarring: 0,
       newWarring: 0,
       historyTemperatureWarring: 0,
       historydampnessWarring: 0,
       newTemperatureWarring: 0,
+      co2NewCount: 0,
       newDampnessWarring: 0,
       warring2: 0,
       inUseHouse: 0,
       inUseMassif: 0,
       myChart: '',
-      pieData: [{ name: '湿度', value: 0, key: 'dampness' }, { name: '温度', value: 0, key: 'temperature' }],
+      pieData: [
+        { name: '湿度', value: 0, key: 'dampness' },
+        { name: '温度', value: 0, key: 'temperature' },
+        { name: '二氧化碳', value: 12331, key: 'co2Count' }
+      ],
       timer: '',
       crumbsArr: [
         { name: '当前位置', back: false, path: '' },
@@ -116,6 +135,7 @@ export default {
   },
   created() {},
   mounted() {
+    this.checkConpanyType()
     this.getGrowthData()
     this.timer = setInterval(this.getGrowthData, 300000)
   },
@@ -123,6 +143,15 @@ export default {
     clearInterval(this.timer)
   },
   methods: {
+    checkConpanyType() {
+      if (this.componenyType === 0) {
+        this.pieData.forEach((item, index) => {
+          if (item.key === 'co2Count') {
+            this.pieData.splice(index, 1)
+          }
+        })
+      }
+    },
     getGrowthData() {
       growthData('gh').then(res => {
         this.totalWarring = res.data.alarmHistoryTotal
@@ -131,6 +160,7 @@ export default {
         this.historyTemperatureWarring = res.data.temperatureHistoryCount // 历史温度数量
         this.historydampnessWarring = res.data.dampnessHistoryCount // 历史湿度数量
         this.newTemperatureWarring = res.data.temperatureNewCount // 新增温度数量
+        this.co2NewCount = res.data.co2NewCount ? res.data.co2NewCount : 0 // 新增二氧化碳数量
         this.newDampnessWarring = res.data.dampnessNewCount // 新增湿度数量
         this.warring2 = res.data.dampnessHistoryCount // 历史湿度数量
         this.newWarring = this.newTemperatureWarring + this.newDampnessWarring
@@ -152,19 +182,21 @@ export default {
             this.warringDetailList(5)
           } else if (params.name === '湿度') {
             this.warringDetailList(6)
+          } else if (params.name === '二氧化碳') {
+            this.warringDetailList(7)
           }
           console.log(params)
         })
       }
     },
     warringDetailList(index) {
-      if (index === 3 || index === 5 || index === 6) {
+      if (index === 3 || index === 5 || index === 6 || index === 7) {
         this.$router.push({
           path: 'warringList',
           query: { 'type': index }
         })
         console.log(this.$route.matched)
-      } else if (index === 1 || index === 2) {
+      } else if (index === 1 || index === 2 || index === 8) {
         this.$router.push({
           path: 'warringnewlist',
           query: { 'type': index }
@@ -210,7 +242,7 @@ export default {
   width: 100%;
   display: flex;
   justify-content: space-around;
-  margin-top: 30px;
+  margin-top: 60px;
   .staticEchart {
     height: 168px;
     width: 514px;
@@ -260,6 +292,7 @@ export default {
     //border: 1px dashed #01FFF4;
     background: url('./ststic/middle_img.png') no-repeat;
     background-size: 900px 427px;
+    background-position: 0 40px;
     display: flex;
     flex-wrap: wrap;
     .warrningLabel {
@@ -307,6 +340,7 @@ export default {
           text-align: left;
           line-height: 20px;
           left: -94px;
+          top: 46px;
           cursor: pointer;
           padding: 12px;
         }
@@ -330,7 +364,19 @@ export default {
           text-align: left;
           line-height: 20px;
           right: -24px;
-          top: 34px;
+          top: 76px;
+          cursor: pointer;
+          padding: 12px;
+        }
+        .warring3 {
+          height: 60px;
+          width: 112px;
+          background-color: #ffd500;
+          position: absolute;
+          text-align: left;
+          line-height: 20px;
+          left: -12px;
+          top: -54px;
           cursor: pointer;
           padding: 12px;
         }
@@ -340,7 +386,24 @@ export default {
           background-color: #ffd500;
           position: absolute;
           left: 17px;
-          top: 27px;
+          top: 75px;
+        }
+        .pointLine5{
+          height: 2px;
+          width: 30px;
+          background-color: #ffd500;
+          position: absolute;
+          left: 99px;
+          top: -24px;
+        }
+        .pointLine6 {
+          height: 2px;
+          width: 100px;
+          background-color: #ffd500;
+          position: absolute;
+          transform: rotate(80deg);
+          left: 88px;
+          top: 24px;
         }
         .pointLine2 {
           height: 2px;
@@ -349,7 +412,7 @@ export default {
           position: absolute;
           transform: rotate(80deg);
           left: 6px;
-          top: 75px;
+          top: 124px;
         }
         .pointLine3 {
           height: 2px;
@@ -357,7 +420,7 @@ export default {
           background-color: #ffd500;
           position: absolute;
           right: 88px;
-          top: 64px;
+          top: 108px;
         }
         .pointLine4 {
           height: 2px;
@@ -366,7 +429,7 @@ export default {
           position: absolute;
           transform: rotate(-80deg);
           right: 76px;
-          top: 114px;
+          top: 157px;
         }
       }
     }
