@@ -39,7 +39,7 @@
             v-if="detail.solutionValue"
           >
             <span class="item-key">企业名称：</span>
-            <span class="item-value">{{detail.solutionValue.companyName}}</span>
+            <span class="item-value">{{detail.companyName}}</span>
           </a-col>
           <a-col
             :span="12"
