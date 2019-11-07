@@ -61,7 +61,7 @@ export default {
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       if (this.isFirstInPage && isHidden){
         this.selectMenuName = matched[ matched.length - 1 ].meta.parentMenuName ? matched[ matched.length - 1 ].meta.parentMenuName : [matched[ matched.length - 1 ].name]
-      } else if (!this.isFirstInPage || !isHidden){
+      } else if (!this.isFirstInPage || !isHidden) {
         this.selectMenuName = isHidden ? this.selectMenuName : [matched[ matched.length - 1 ].name]
       }
       this.isFirstInPage = false
