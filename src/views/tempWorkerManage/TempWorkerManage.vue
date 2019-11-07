@@ -106,14 +106,14 @@
               <a-switch
                 checkedChildren="在职"
                 unCheckedChildren="离职"
-                :checked="record.jobStatus === '在职'"
+                :checked="record.jobStatus === 'ON_WORK'"
                 @change="handleChangeStatus(record)"
               />
             </span>
             <span slot="operation" slot-scope="text, record">
               <a-button type="link" @click="toDetail(record)">查看</a-button>
               <a-button type="link" @click="handelEdit(record)" style="padding:0;">编辑</a-button>
-              <a-button type="link" @click="handelDelete(record)" v-if="record.jobStatus==='离职'">删除</a-button>
+              <a-button type="link" @click="handelDelete(record)" v-if="record.jobStatus==='N'">删除</a-button>
             </span>
           </a-table>
         </div>
@@ -303,7 +303,7 @@ export default {
     handleChangeStatus(record) {
       let data = {
         tempWorkerId: record.tempWorkerId,
-        jobStatus: record.jobStatus === '离职' ? '在职' : '离职'
+        jobStatus: record.jobStatus === 'NO_WORK' ? 'ON_WORK' : 'NO_WORK'
       }
       changeJobStatus(data)
         .then(res => {

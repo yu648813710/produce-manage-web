@@ -64,8 +64,8 @@
           :help="validate.povertyStatus ? '请选择是否为贫困户!' : '' "
         >
           <a-radio-group name="radioGroup" v-model="data.povertyStatus">
-            <a-radio value="是">是</a-radio>
-            <a-radio value="否">否</a-radio>
+            <a-radio value="Y">是</a-radio>
+            <a-radio value="N">否</a-radio>
           </a-radio-group>
         </a-form-item>
       </a-form>
@@ -76,7 +76,7 @@
 export default {
   data() {
     return {
-      ruleForm: this.$form.createForm(this),
+      ruleForm: this.$form.createForm(this)
     }
   },
   props: {
