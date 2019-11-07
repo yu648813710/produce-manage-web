@@ -9,10 +9,17 @@
     <div class="wrapper">
       <div class="search-wrapper">
         <a-row>
-          <a-form :form="sreachFrom" @submit="handleSearchClick">
+          <a-form
+            :form="sreachFrom"
+            @submit="handleSearchClick"
+          >
             <a-row>
               <a-col :span="8">
-                <a-form-item label="地块名称" :label-col="{ span: 24 }" :wrapper-col="{ span: 20 }">
+                <a-form-item
+                  label="地块名称"
+                  :label-col="{ span: 24 }"
+                  :wrapper-col="{ span: 20 }"
+                >
                   <a-input
                     autocomplete="off"
                     placeholder="请输入地块名称"
@@ -24,7 +31,11 @@
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item label="异常原因" :label-col="{ span: 24 }" :wrapper-col="{ span: 20 }">
+                <a-form-item
+                  label="异常原因"
+                  :label-col="{ span: 24 }"
+                  :wrapper-col="{ span: 20 }"
+                >
                   <a-select
                     placeholder="请选择异常原因"
                     :allowClear="true"
@@ -39,23 +50,29 @@
                       v-for="(item, index) in alarmTypeArr"
                       :key="index"
                       :value="item.value"
-                    >{{item.label}}
-                    </a-select-option>
+                    >{{item.label}}</a-select-option>
                   </a-select>
                 </a-form-item>
               </a-col>
             </a-row>
           </a-form>
           <div>
-            <a-button type="primary" class="button" @click="searchWarringList">查询</a-button>
-            <a-button class="button" @click="restSearch">重置</a-button>
+            <a-button
+              type="primary"
+              class="button"
+              @click="searchWarringList"
+            >查询</a-button>
+            <a-button
+              class="button"
+              @click="restSearch"
+            >重置</a-button>
           </div>
         </a-row>
       </div>
       <div class="table-wrapper">
         <a-table
           :scroll="{ x: 1080 }"
-          :columns="columns3"
+          :columns="columns"
           :dataSource="list"
           :style="{marginTop: '50px'}"
           :loading="loading"
@@ -63,12 +80,21 @@
           @change="warringListPageChange"
           :rowKey="record => record.greenhouseId"
         >
-          <span class="alarmCtr" slot="status"
-                slot-scope="text, record">{{record.status === 'normal' ? '正常' : '异常'}}</span>
-          <span class="alarmCtr" slot="reason" slot-scope="text, record" :title="formatWarringReason(record.reason)">
-            {{formatWarringReason(record.reason)}}
-          </span>
-          <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
+          <span
+            class="alarmCtr"
+            slot="status"
+            slot-scope="text, record"
+          >{{record.status === 'normal' ? '正常' : '异常'}}</span>
+          <span
+            class="alarmCtr"
+            slot="reason"
+            slot-scope="text, record"
+            :title="formatWarringReason(record.reason)"
+          >{{formatWarringReason(record.reason)}}</span>
+          <span
+            slot="id"
+            slot-scope="text, record, index"
+          >{{index + 1}}</span>
         </a-table>
       </div>
     </div>
@@ -76,8 +102,20 @@
 </template>
 <script>
 import Vue from 'vue'
-import { Table, Row, Col, Steps, Radio, icon, Modal, Button, Input, Select, Form } from 'ant-design-vue'
-import { shiduData, getTotalWarring, getSingleTypeData } from '@/api/productManage.js'
+import {
+  Table,
+  Row,
+  Col,
+  Steps,
+  Radio,
+  icon,
+  Modal,
+  Button,
+  Input,
+  Select,
+  Form
+} from 'ant-design-vue'
+import { getTotalWarring, getSingleTypeData } from '@/api/productManage.js'
 import crumbsNav from '@/components/crumbsNav/CrumbsNav'
 
 Vue.use(Row)
@@ -93,51 +131,7 @@ Vue.use(Select)
 Vue.use(Table)
 Vue.use(Row)
 Vue.use(Col)
-const columns1 = [
-  { title: '序号', scopedSlots: { customRender: 'id' }, align: 'center' },
-  { title: '基地名称', dataIndex: 'baseLandName' },
-  { title: '地块名称', dataIndex: 'blockLandName' },
-  {
-    title: '湿度',
-    dataIndex: 'indicatorValue',
-    customRender: (text) => {
-      return text + '%'
-    }
-  },
-  {
-    title: '状态',
-    dataIndex: 'status',
-    customRender: (text) => {
-      if (text === 'normal') {
-        return '正常'
-      } else if (text === 'abnormal') {
-        return '异常'
-      }
-    }
-  },
-  { title: '异常原因', dataIndex: 'reason' }
-
-]
-const columns2 = [
-  { title: '序号', scopedSlots: { customRender: 'id' }, align: 'center' },
-  { title: '基地名称', dataIndex: 'baseLandName' },
-  { title: '地块名称', dataIndex: 'blockLandName' },
-  { title: '温度℃', dataIndex: 'indicatorValue' },
-  {
-    title: '状态',
-    dataIndex: 'status',
-    customRender: (text) => {
-      if (text === 'normal') {
-        return '正常'
-      } else if (text === 'abnormal') {
-        return '异常'
-      }
-    }
-  },
-  { title: '异常原因', dataIndex: 'reason' }
-
-]
-const columns3 = [
+const columns = [
   { title: '序号', scopedSlots: { customRender: 'id' }, align: 'center' },
   { title: '基地名称', dataIndex: 'baseLandName' },
   { title: '地块名称', dataIndex: 'blockLandName' },
@@ -146,7 +140,7 @@ const columns3 = [
   {
     title: '湿度',
     dataIndex: 'dampness',
-    customRender: (text) => {
+    customRender: text => {
       return text + '%'
     }
   },
@@ -160,7 +154,6 @@ const columns3 = [
     dataIndex: 'reason',
     scopedSlots: { customRender: 'reason' }
   }
-
 ]
 export default {
   components: {
@@ -192,10 +185,7 @@ export default {
         total: 0,
         showTotal: total => `共 ${total} 条`
       },
-      columns1,
-      columns2,
-      columns3,
-      columns: '',
+      columns,
       crumbsArr: [
         { name: '当前位置', back: false, path: '' },
         { name: '生产管理', back: false, path: '' },
@@ -216,7 +206,7 @@ export default {
       let formatReson = ''
       for (let i = 0; i < data.length; i++) {
         // eslint-disable-next-line no-unused-expressions
-        formatReson += data[ i ] + ' '
+        formatReson += data[i] + ' '
       }
       console.log(formatReson)
       return formatReson
@@ -239,13 +229,20 @@ export default {
         this.baseLandName = values.baseLandName ? values.baseLandName : ''
         this.warringType = values.warringType ? values.warringType : ''
       })
-      if (this.listType === 1 || this.listType === 2 || this.listType === '1' || this.listType === '2') {
+      if (+this.listType === 1 || +this.listType === 2) {
         this.getTotalData(null, 2)
-      } else if (this.listType === 3 || this.listType === 5 || this.listType === 6 || this.listType === '3' || this.listType === '5' || this.listType === '6') {
+      } else if (
+        this.listType === 3 ||
+        this.listType === 5 ||
+        this.listType === 6 ||
+        this.listType === '3' ||
+        this.listType === '5' ||
+        this.listType === '6'
+      ) {
         this.getTotalData(null, 1)
       }
     },
-    formatTableColumn() {
+    getTableData() {
       /**
        * listType === 1 湿度列表
        * listType === 2 温度列表
@@ -254,15 +251,6 @@ export default {
        * listType === 5 历史总累计温度列表
        * listType === 6 历史总累计湿度列表
        */
-      if (this.listType === 1 || this.listType === 6) {
-        this.columns = this.columns1
-      } else if (this.listType === 2 || this.listType === 5) {
-        this.columns = this.columns2
-      } else if (this.listType === 3 || this.listType === 4) {
-        this.columns = this.columns3
-      }
-    },
-    getTableData() {
       if (this.listType === 1 || this.listType === '1') {
         this.getTotalData(1, 2) // 获取新增湿度总列表
       } else if (this.listType === 2 || this.listType === '2') {
@@ -287,17 +275,21 @@ export default {
         massifType: 'gh',
         type: type === 1 ? 'temperature' : 'dampness' // indicatorName：湿度：dampness 温度：temperature 二氧化碳浓度：co2_concentration 不区分指标名：all
       }
-      getSingleTypeData(postData, typeList).then((res) => {
+      getSingleTypeData(postData, typeList).then(res => {
         this.list = res.data.records
         this.pagination.total = res.data.total
         console.log(res)
       })
     },
-    // 获取历史总累计预警
-    getTotalData(alarmType, staticType) { // type === 1 历史总列表 type === 2 新增总列表
+    /**
+     * 获取历史总累计预警
+     * alarmType === 1 湿度 alarmType === 2 temperature
+     * staticType === 1 历史总列表 staticType === 2 新增总列表
+     */
+    getTotalData(alarmType, staticType) {
       let postData = {
-        inputContent: this.baseLandName, // 预警类型查询 下拉框值默认为 温度过高 温度过低 湿度过高 湿度过低 二氧化碳过高 二氧化碳过低
-        alarmType: this.warringType, // 输入框的模糊查询地块或车间的名陈
+        inputContent: this.baseLandName, // 输入框的模糊查询地块或车间的名陈
+        alarmType: this.warringType, // 预警类型查询 下拉框值默认为 温度过高 温度过低 湿度过高 湿度过低 二氧化碳过高 二氧化碳过低
         pageNo: this.pagination.current,
         pageSize: this.pagination.pageSize
       }
@@ -315,158 +307,123 @@ export default {
           staticType: staticType === 1 ? 'history' : 'realTime'
         }
       }
-      getTotalWarring(postData, typeList).then((res) => {
-        if (res.code === 200 && res.success === 'Y') {
-          this.pagination.total = res.data.total
-          this.list = res.data.records
-        } else {
-          this.list = []
-          this.pagination.total = 0
+      getTotalWarring(postData, typeList).then(res => {
+        if (res.success === 'Y') {
+          this.pagination.total = (res && res.data && res.data.total) || 0
+          // res && res.data && res.data.total
+          this.list = res.data.records ? res.data.records : []
         }
         console.log(res)
-      })
-    },
-    getShiduData() {
-      let postData = {
-        pageNo: 1,
-        pageSize: 10
-      }
-      let typeList = {
-        dikuai: 'gh',
-        type: 'dampness'
-      }
-      shiduData(postData, typeList).then((res) => {
-        console.log(res)
-        this.list = res.data.records
       })
     },
     handleSearchClick() {
       this.sreachFrom.validateFields((err, values) => {
         console.log(err, values)
       })
-    },
-    getWenduData() {
-      let postData = {
-        pageNo: 1,
-        pageSize: 10
-      }
-      let typeList = {
-        dikuai: 'gh',
-        type: 'temperature'
-      }
-      shiduData(postData, typeList).then((res) => {
-        if (res.code === 200 && res.data.records) {
-          this.list = res.data.records
-        } else {
-          this.list = []
-        }
-        console.log(this.list)
-      })
     }
   }
 }
 </script>
 <style lang="less" scoped>
-  .alarmCtr {
-    color: red;
-    max-width: 140px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.alarmCtr {
+  color: red;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.search-wrapper {
+  background: #fff;
+  margin-bottom: 10px;
+  border-radius: 4px;
+
+  .search-input-wrapper {
+    position: relative;
+    margin-bottom: 24px;
+
+    .search-input {
+      margin-top: 30px;
+    }
+  }
+
+  .button {
+    margin: 0 5px;
+  }
+}
+
+.crumbCtr {
+  height: 20px;
+  line-height: 20px;
+  margin-top: 20px;
+  margin-left: 16px;
+  text-align: left;
+}
+
+.table-wrapper {
+  position: relative;
+  padding: 24px;
+  background: #fff;
+  min-height: 360px;
+  border-radius: 4px;
+
+  .add-button {
+    position: absolute;
+    right: 24px;
+  }
+
+  .action span {
     display: inline-block;
+    width: 35px;
   }
+}
 
-  .search-wrapper {
-    background: #fff;
-    margin-bottom: 10px;
-    border-radius: 4px;
+.wrapper {
+  position: relative;
+  padding: 24px 24px 0 24px;
+  background: #fff;
+  margin: 16px;
+  border-radius: 4px;
 
-    .search-input-wrapper {
-      position: relative;
-      margin-bottom: 24px;
-
-      .search-input {
-        margin-top: 30px;
-      }
-    }
-
-    .button {
-      margin: 0 5px;
-    }
-  }
-
-  .crumbCtr {
-    height: 20px;
-    line-height: 20px;
-    margin-top: 20px;
-    margin-left: 16px;
+  .title-wrapper {
     text-align: left;
-  }
 
-  .table-wrapper {
-    position: relative;
-    padding: 24px;
-    background: #fff;
-    min-height: 360px;
-    border-radius: 4px;
-
-    .add-button {
-      position: absolute;
-      right: 24px;
+    .title-text {
+      font-size: 16px;
+      color: #333;
+      line-height: 22px;
+      margin-left: 8px;
     }
 
-    .action span {
+    .icon {
+      width: 2px;
+      height: 14px;
+      background: rgba(60, 140, 255, 1);
+      border-radius: 1px;
       display: inline-block;
-      width: 35px;
     }
   }
 
-  .wrapper {
-    position: relative;
-    padding: 24px 24px 0 24px;
-    background: #fff;
-    margin: 16px;
-    border-radius: 4px;
+  .detail-wrapper {
+    margin-top: 50px;
+    text-align: left;
 
-    .title-wrapper {
-      text-align: left;
+    .detail-item {
+      margin-bottom: 32px;
 
-      .title-text {
-        font-size: 16px;
-        color: #333;
-        line-height: 22px;
-        margin-left: 8px;
+      .item-key {
+        font-size: 14px;
+        font-weight: 400;
+        color: #999;
       }
 
-      .icon {
-        width: 2px;
-        height: 14px;
-        background: rgba(60, 140, 255, 1);
-        border-radius: 1px;
-        display: inline-block;
-      }
-    }
-
-    .detail-wrapper {
-      margin-top: 50px;
-      text-align: left;
-
-      .detail-item {
-        margin-bottom: 32px;
-
-        .item-key {
-          font-size: 14px;
-          font-weight: 400;
-          color: #999;
-        }
-
-        .item-value {
-          color: #000;
-          font-size: 14px;
-          margin-left: 10px;
-        }
+      .item-value {
+        color: #000;
+        font-size: 14px;
+        margin-left: 10px;
       }
     }
   }
-
+}
 </style>
