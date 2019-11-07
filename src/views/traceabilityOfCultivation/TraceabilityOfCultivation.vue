@@ -98,9 +98,7 @@
             </span>
             <span slot="operation" slot-scope="text, record">
               <a-button type="link" @click="showPrintModal(record.qrcodeId)">打印</a-button>
-              <router-link :to="{name: 'DetailTraceabilityOfCultivation', params: {productId: record.productId}}">
-                <a-button type="link"  style="padding:0;">查看</a-button>
-              </router-link>
+              <a-button type="link"  style="padding:0;" @click="openDetail(record.productId)">查看</a-button>
               <span v-if="record.status === 'N'">
                 <a-button type="link" @click="handleOpenEdit(record)">编辑商品</a-button>
                 <a-button type="link" v-if="record.productionBatchCode" @click="handleOpenRelation(record.productId)" style="padding:0;">重新关联</a-button>
@@ -354,6 +352,13 @@ export default {
             this.$message.error(res.message)
           }
         })
+    },
+    // 查看详情
+    openDetail (productId) {
+      this.$router.push({
+        name: 'DetailTraceabilityOfCultivation',
+        query: { 'productId': productId }
+      })
     },
     // 重置
     handleReset() {
