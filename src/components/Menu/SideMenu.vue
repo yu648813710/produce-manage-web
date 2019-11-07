@@ -15,7 +15,7 @@
           :key="item.name"
         >
           <template v-if="item.meta.icon">
-            <a-icon :type="item.meta.icon"/>
+            <a-icon :type="item.meta.icon" />
           </template>
           <span>{{item.meta.name}}</span>
         </a-menu-item>
@@ -49,23 +49,8 @@ export default {
       menuList: 'routes'
     }),
     selectedKeys() {
-      debugger
       let matched = this.$route.matched
-      let showMenu = matched[ matched.length - 1 ].name
-      let isHidden = false
-      this.menuList.forEach((item, index) => {
-        if (item.name === showMenu) {
-          isHidden = item.hidden
-        }
-      })
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      if (this.isFirstInPage && isHidden){
-        this.selectMenuName = matched[ matched.length - 1 ].meta.parentMenuName ? matched[ matched.length - 1 ].meta.parentMenuName : [matched[ matched.length - 1 ].name]
-      } else if (!this.isFirstInPage || !isHidden) {
-        this.selectMenuName = isHidden ? this.selectMenuName : [matched[ matched.length - 1 ].name]
-      }
-      this.isFirstInPage = false
-      return this.selectMenuName
+      return [matched[matched.length - 1].name]
     },
     openKeys() {
       let matched = this.$route.matched

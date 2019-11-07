@@ -167,10 +167,9 @@ export default {
       } else if (index === 1 || index === 2) {
         this.$router.push({
           path: 'warringnewlist',
-          query: { 'type': index },
+          query: { 'type': index }
         })
       }
-
     }
   }
 }
