@@ -21,7 +21,7 @@ requireAll(requireContext)
 
 Vue.use(Router)
 const router = new Router({
-  // mode: 'history',
+  mode: 'history',
   base: '/producemng/',
   scrollBehavior: () => ({ y: 0 }),
   routes: ConstantRoute
