@@ -104,7 +104,7 @@ export default {
       inUseHouse: 0,
       inUseMassif: 0,
       myChart: '',
-      pieData: [{ name: '湿度', value: 0 }, { name: '温度', value: 0 }],
+      pieData: [{ name: '湿度', value: 0, key: 'dampness' }, { name: '温度', value: 0, key: 'temperature' }],
       timer: '',
       crumbsArr: [
         { name: '当前位置', back: false, path: '' },

@@ -136,6 +136,7 @@ export default {
     {
       path: '/projectCenter',
       name: 'projectCenter',
+      hidden: true,
       component: () => import('@/views/project/projectCenter/project.vue'),
       meta: { name: '方案中心', icon: '' }
     },
@@ -156,6 +157,7 @@ export default {
     {
       path: '/planMarket',
       name: 'planMarket',
+      hidden: true,
       component: () => import('@/views/planMarket'),
       meta: { name: '方案市场', icon: '' }
     },
@@ -176,7 +178,7 @@ export default {
     {
       path: '/knowledgeQuiz',
       name: 'knowledgeQuiz',
-      hidden: false,
+      hidden: true,
       component: () => import('@/views/knowledgeQuiz'),
       meta: { name: '知识问答', icon: '' }
     },
