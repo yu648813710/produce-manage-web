@@ -62,13 +62,10 @@
         <a-row>
           <a-col :span="8" class="detail-item" v-for="(item, index) in card.infos" :key="index">
             <span class="item-key">{{item.fieldLabel}}：</span>
-            <span class="item-value">{{item.value}}</span>
-          </a-col>
-          <a-col :span="8" class="detail-item" v-if="item.field === 'filePath'">
-            <span class="item-key">{{item.fieldLabel}}：</span>
-            <span class="item-value">
+            <span class="item-value" v-if="item.field === 'filePath'">
               <img :src="item.value" alt="图片" @click="openImgModal(item.value)">
             </span>
+            <span class="item-value" v-else>{{item.value}}</span>
           </a-col>
         </a-row>
       </div>
@@ -117,8 +114,8 @@ export default {
     }
   },
   created () {
-    if (this.$route.params.productId) {
-      this.productId = this.$route.params.productId
+    if (this.$route.query.productId) {
+      this.productId = this.$route.query.productId
       this.getTracesourceDetail(this.productId)
     }
   },
@@ -130,7 +127,7 @@ export default {
           console.log(res)
           if (res.success === 'Y') {
             this.detail = (res.data && res.data.productBaseInfo) || {}
-            this.productId = (res.data && res.data.nodeInfoList) || []
+            this.nodeInfoList = (res.data && res.data.nodeInfoList) || []
           } else {
             this.$message.error(res.message)
           }
