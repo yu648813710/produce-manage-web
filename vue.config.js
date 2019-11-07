@@ -3,7 +3,7 @@ let VUE_APP_EXCUTION = process.env.VUE_APP_EXCUTION // 环境变量
 const CompressionWebpackPlugin = require('compression-webpack-plugin') // 打包使用的插件
 const productionGzipExtensions = ['js', 'css'] // 打包文件类型
 module.exports = {
-  publicPath: VUE_APP_EXCUTION === 'fn' ? '/' : './',
+  publicPath: VUE_APP_EXCUTION === 'fn' ? '/' : '/producemng/',
   configureWebpack: config => {
     let plugins = [
       // 忽略所有的本地 moment 文件

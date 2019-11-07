@@ -11,19 +11,61 @@
     <div class="wrapper">
       <div class="title-wrapper">
         <div class="icon"></div>
-        <span class="title-text">菌包基础信息</span>
+        <span class="title-text">产品基础信息</span>
       </div>
       <div class="detail-wrapper">
         <a-row>
-          <a-col :span="8" class="detail-item" v-for="(item, index) in 9" :key="index">
-            <span class="item-key">任务编号：</span>
-            <span class="item-value">{{item}}</span>
+          <a-col :span="8" class="detail-item">
+            <span class="item-key">产品名称：</span>
+            <span class="item-value">{{detail.productName}}</span>
           </a-col>
           <a-col :span="8" class="detail-item">
-            <span class="item-key">车间图片：</span>
+            <span class="item-key">产品品种：</span>
+            <span class="item-value">{{detail.productBreed}}</span>
+          </a-col>
+          <a-col :span="8" class="detail-item">
+            <span class="item-key">产品品类：</span>
+            <span class="item-value">{{detail.productCategory}}</span>
+          </a-col>
+          <a-col :span="8" class="detail-item">
+            <span class="item-key">生产企业：</span>
+            <span class="item-value">{{detail.productionCompany}}</span>
+          </a-col>
+          <a-col :span="8" class="detail-item">
+            <span class="item-key">生产地：</span>
+            <span class="item-value">{{detail.mergerAddress}}</span>
+          </a-col>
+          <a-col :span="8" class="detail-item">
+            <span class="item-key">生产日期：</span>
+            <span class="item-value">{{detail.productionDate}}</span>
+          </a-col>
+          <a-col :span="8" class="detail-item">
+            <span class="item-key">保质期：</span>
+            <span class="item-value">{{detail.expiryTime}} 天</span>
+          </a-col>
+          <a-col :span="8" class="detail-item">
+            <span class="item-key">木耳图片：</span>
             <span class="item-value">
-              <img :src="''" alt="图片" @click="openImgModal(src)">
+              <img :src="detail.filePath" alt="图片" @click="openImgModal(detail.filePath)">
             </span>
+          </a-col>
+        </a-row>
+      </div>
+    </div>
+    <!-- 其他信息 -->
+    <div class="wrapper" v-for="(card, cardindex) in nodeInfoList" :key="cardindex">
+      <div class="title-wrapper">
+        <div class="icon"></div>
+        <span class="title-text">{{card.title}}</span>
+      </div>
+      <div class="detail-wrapper">
+        <a-row>
+          <a-col :span="8" class="detail-item" v-for="(item, index) in card.infos" :key="index">
+            <span class="item-key">{{item.fieldLabel}}：</span>
+            <span class="item-value" v-if="item.field === 'filePath'">
+              <img :src="item.value" alt="图片" @click="openImgModal(item.value)">
+            </span>
+            <span class="item-value" v-else>{{item.value}}</span>
           </a-col>
         </a-row>
       </div>
@@ -56,14 +98,24 @@ export default {
     return {
       dateilCrumbsArr,
       productId: '', // 获取操作详情的id
-      detail: '',
+      detail: {
+        expiryTime: '',
+        filePath: '',
+        mergerAddress: '',
+        productBreed: '',
+        productCategory: '',
+        productName: '',
+        productionCompany: '',
+        productionDate: ''
+      }, // 基础信息
+      nodeInfoList: [],
       imgVisible: false,
       src: ''
     }
   },
   created () {
-    if (this.$route.params.productId) {
-      this.productId = this.$route.params.productId
+    if (this.$route.query.productId) {
+      this.productId = this.$route.query.productId
       this.getTracesourceDetail(this.productId)
     }
   },
@@ -72,8 +124,10 @@ export default {
     getTracesourceDetail (productId) {
       getTracesourceDetail(productId)
         .then(res => {
+          console.log(res)
           if (res.success === 'Y') {
-            this.detail = res.data
+            this.detail = (res.data && res.data.productBaseInfo) || {}
+            this.nodeInfoList = (res.data && res.data.nodeInfoList) || []
           } else {
             this.$message.error(res.message)
           }
