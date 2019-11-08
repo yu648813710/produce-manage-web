@@ -5,7 +5,19 @@ const columns = [
   { title: '完成总工时（天）', dataIndex: 'workTimes', key: 'workTimes', align: 'center' },
   { title: '临时工薪酬（元/天）', dataIndex: 'payment', key: 'payment', align: 'center' },
   { title: '状态', scopedSlots: { customRender: 'jobStatus' }, key: 'jobStatus', width: 100, align: 'center' },
-  { title: '是否为贫困户', dataIndex: 'povertyStatus', key: 'povertyStatus', align: 'center' },
+  {
+    title: '是否为贫困户',
+    dataIndex: 'povertyStatus',
+    key: 'povertyStatus',
+    align: 'center',
+    customRender: text => {
+      if (text === 'Y') {
+        return '是'
+      } else if (text === 'N') {
+        return '否'
+      }
+    }
+  },
   { title: '创建时间', dataIndex: 'gmtCreate', key: 'gmtCreate', align: 'center' },
   { title: '创建人', dataIndex: 'createUserName', key: 'createUserName', align: 'center' },
   { title: '操作', key: 'operation', scopedSlots: { customRender: 'operation' }, align: 'center' }
@@ -36,11 +48,11 @@ const detailCrumbsArr = [
   { name: '临时工详情', back: false, path: '' }
 ]
 const statusArr = [
-  { name: '在职', value: '在职' },
-  { name: '离职', value: '离职' }
+  { name: '在职', value: 'ON_WORK' },
+  { name: '离职', value: 'NO_WORK' }
 ]
 const ifArr = [
-  { name: '是', value: '是' },
-  { name: '否', value: '否' }
+  { name: '是', value: 'Y' },
+  { name: '否', value: 'N' }
 ]
 export { columns, detailColumns, crumbsArr, detailCrumbsArr, statusArr, ifArr }
