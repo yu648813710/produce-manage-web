@@ -43,11 +43,11 @@
         <a-row>
           <a-col :span="8" class="detail-item">
             <span class="item-key">创建时间：</span>
-            <span class="item-value">{{detail.payment}}</span>
+            <span class="item-value">{{detail.gmtCreate}}</span>
           </a-col>
           <a-col :span="8" class="detail-item">
             <span class="item-key">创建人：</span>
-            <span class="item-value">{{detail.payment}}</span>
+            <span class="item-value">{{detail.createUserName}}</span>
           </a-col>
         </a-row>
       </div>
