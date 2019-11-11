@@ -248,6 +248,7 @@ export default {
     },
     // 查询方法
     searchList() {
+      // eslint-disable-next-line handle-callback-err
       this.searchForm.validateFields((err, values) => {
         this.searchParams.jobStatus = values.jobStatus
         this.searchParams.povertyStatus = values.povertyStatus
@@ -368,7 +369,7 @@ export default {
     },
     // 表单校验
     validateForm() {
-      let reg = new RegExp(/[^\u4E00-\u9FA5]/g,'')
+      let reg = new RegExp(/[^\u4E00-\u9FA5]/g, '')
       if (reg.test(this.form.userName)) {
         this.form.userName = ''
         this.validate.userName = 'error'

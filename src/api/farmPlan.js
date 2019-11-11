@@ -247,7 +247,14 @@ export const postFungusTask = (data) => {
     data
   })
 }
-
+// 菌包任务管理的编辑任务
+export const postEditFungusTask = (data) => {
+  return axios({
+    url: `/produce/fungus/task/`,
+    method: 'patch',
+    data
+  })
+}
 // 农事计划新增时的任务修改提交
 export const editFarmplanSolutionTaskList = (data) => {
   return axios({
