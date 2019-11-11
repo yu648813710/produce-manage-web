@@ -359,6 +359,7 @@ import {
   actionList,
   userList,
   postFungusTask,
+  postEditFungusTask,
   getFungusTask
 } from '@/api/farmPlan.js'
 Vue.use(Layout)
@@ -597,15 +598,28 @@ export default {
             startTime: this.startTime,
             workshopId: this.workshopId
           }
-          // 新增接口
-          postFungusTask(data).then(res => {
-            if (res.success === 'Y') {
-              this.$router.push({ name: 'BacteriaBagTaskManagement' })
-              this.$message.success(res.message)
-            } else {
-              this.$message.error(res.message)
-            }
-          })
+          if (this.isEdit) {
+            postEditFungusTask(data)
+              .then(res => {
+                if (res.success === 'Y') {
+                  this.$router.push({ name: 'BacteriaBagTaskManagement' })
+                  this.$message.success(res.message)
+                } else {
+                  this.$message.error(res.message)
+                }
+              })
+          } else {
+            // 新增接口
+            postFungusTask(data)
+              .then(res => {
+                if (res.success === 'Y') {
+                  this.$router.push({ name: 'BacteriaBagTaskManagement' })
+                  this.$message.success(res.message)
+                } else {
+                  this.$message.error(res.message)
+                }
+              })
+          }
         }
       })
     },
