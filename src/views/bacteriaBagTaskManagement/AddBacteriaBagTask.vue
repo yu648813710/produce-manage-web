@@ -215,8 +215,8 @@
                           <div
                             class="action-text"
                             v-for="(item) in actionArray"
-                            :key="item.optionId"
-                          >{{item.optionName}}</div>
+                            :key="isEdit ? item.actionId : item.optionId"
+                          >{{isEdit ? item.actionName : item.optionName }}</div>
                         </a-form-item>
                       </a-col>
                       <a-col :span="8">
@@ -410,13 +410,13 @@ export default {
       this.getFungusTask(this.bizId)
     } else {
       this.isEdit = false
+      // 获取生产操作
+      this.actionList()
     }
     // 获取品种
     this.getCategoryList()
     // 获取车间
     this.workshopList()
-    // 获取生产操作
-    this.actionList()
     // 获取负责人
     this.AssignerList()
   },
@@ -578,11 +578,11 @@ export default {
             taskStartTimeArray[i][taskStartTimeKey] = values[taskStartTimeKey]
             taskEndTimeArray[i][taskEndTimeKey] = values[taskEndTimeKey]
           }
-          // console.log(assignerArray, taskStartTimeArray, taskEndTimeArray, '11111111')
           this.actionTasks = this.actionArray.map((item, index) => {
             return {
-              actionId: item.optionId,
-              actionName: item.optionName,
+              instId: this.isEdit ? item.instId : null,
+              actionId: this.isEdit ? item.actionId : item.optionId,
+              actionName: this.isEdit ? item.actionName : item.optionName,
               assignerId: assignerArray[index][`assignerId_${index}`],
               taskStartTime:
                 taskStartTimeArray[index][`taskStartTime_${index}`],
@@ -598,6 +598,7 @@ export default {
             startTime: this.startTime,
             workshopId: this.workshopId
           }
+          // console.log(this.actionTasks, data)
           if (this.isEdit) {
             postEditFungusTask(data)
               .then(res => {
@@ -650,6 +651,8 @@ export default {
           })
           this.startTime = (res.data && res.data.startTime) || ''
           this.actionTasks = (res.data && res.data.actionTasks) || []
+          this.actionArray = (res.data && res.data.actionTasks) || [] // 如果是操作取返回回来的生产操作
+          console.log(this.actionArray, '详情')
         } else {
           this.$message.error(res.message)
         }
