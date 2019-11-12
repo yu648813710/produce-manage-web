@@ -200,12 +200,13 @@ export default {
     fetchMaterialAgriculturalBy_farmingTypeId (farmingTypeId) {
       getMaterialAgricultural(farmingTypeId).then(res => {
         if (res && res.success === 'Y') {
-          if (this.iserror) this.handleErrorX()
+          // if (this.iserror) this.handleErrorX()
           let dt = res.data || []
           this.fields[4].arr = dt
           return
         }
-        this.showError('此农事类型下暂无农资')
+        this.$message.error('此农事类型下暂无农资')
+        // this.showError('此农事类型下暂无农资')
       })
     },
 
@@ -215,7 +216,7 @@ export default {
     fetchMaterialCycleTypeActionListBy_farmingPlanId (farmingPlanId) {
       getMaterialCycleTypeActionList(farmingPlanId).then(res => {
         if (res && res.success === 'Y') {
-          if (this.iserror) this.handleErrorX()
+          // if (this.iserror) this.handleErrorX()
           let dt = res.data || []
           let cycleList = []
           let farmingTypeList = []
@@ -253,7 +254,8 @@ export default {
           this.fields[3].arr = farmingActionList || []
           return
         }
-        this.showError('此农事计划编号下暂无农事任务')
+        this.$message.error('此农事计划编号下暂无农事任务')
+        // this.showError('此农事计划编号下暂无农事任务')
       })
     },
 
