@@ -248,7 +248,6 @@ export default {
     },
     // 查询方法
     searchList() {
-      // eslint-disable-next-line handle-callback-err
       this.searchForm.validateFields((err, values) => {
         this.searchParams.jobStatus = values.jobStatus
         this.searchParams.povertyStatus = values.povertyStatus
@@ -369,8 +368,14 @@ export default {
     },
     // 表单校验
     validateForm() {
+      this.validate = {
+        userName: '',
+        phone: '',
+        payment: '',
+        povertyStatus: ''
+      }
       let reg = new RegExp(/[^\u4E00-\u9FA5]/g, '')
-      if (reg.test(this.form.userName)) {
+      if (reg.test(this.form.userName || !this.form.userName.trim())) {
         this.form.userName = ''
         this.validate.userName = 'error'
       }
@@ -379,10 +384,10 @@ export default {
         this.validate.phone = 'error'
       }
       if (!(this.form.payment > 0)) {
+        this.form.payment = ''
         this.validate.payment = 'error'
       }
       if (!this.form.povertyStatus) {
-        this.form.povertyStatus = ''
         this.validate.povertyStatus = 'error'
       }
       if (this.validate.userName || this.validate.phone || this.validate.payment || this.validate.povertyStatus) {
