@@ -83,7 +83,7 @@ const validators = {
     message: '请关联农事计划编号'
   }],
   'v-assCycle': [{
-    required: false,
+    required: true,
     message: '请关联周期'
   }],
   'v-assSoilType': [{

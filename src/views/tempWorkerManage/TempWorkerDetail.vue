@@ -23,13 +23,13 @@
           </a-col>
           <a-col :span="8" class="detail-item">
             <span class="item-key">是否为贫困户：</span>
-            <span class="item-value">{{detail.povertyStatus}}</span>
+            <span class="item-value">{{detail.povertyStatus === 'Y' ? '是' : '否'}}</span>
           </a-col>
         </a-row>
         <a-row>
           <a-col :span="8" class="detail-item">
             <span class="item-key">状态：</span>
-            <span class="item-value">{{detail.jobStatus}}</span>
+            <span class="item-value">{{detail.jobStatus === 'ON_WORK' ? '在职' : '离职'}}</span>
           </a-col>
           <a-col :span="8" class="detail-item">
             <span class="item-key">累计总工时：</span>
@@ -43,11 +43,11 @@
         <a-row>
           <a-col :span="8" class="detail-item">
             <span class="item-key">创建时间：</span>
-            <span class="item-value">{{detail.payment}}</span>
+            <span class="item-value">{{detail.gmtCreate}}</span>
           </a-col>
           <a-col :span="8" class="detail-item">
             <span class="item-key">创建人：</span>
-            <span class="item-value">{{detail.payment}}</span>
+            <span class="item-value">{{detail.createUserName}}</span>
           </a-col>
         </a-row>
       </div>

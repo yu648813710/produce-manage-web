@@ -83,7 +83,7 @@
             :loading="loading"
             @change="handleTableChange"
             :style="{marginTop: '50px'}"
-            :rowKey="(record, index) => index"
+            :rowKey="(record) => record.bizId"
             :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
           >
             <span

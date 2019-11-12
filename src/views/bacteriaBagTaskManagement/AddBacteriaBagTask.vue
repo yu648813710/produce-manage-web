@@ -45,6 +45,7 @@
                             placeholder="请选择"
                             :allowClear="true"
                             style="width: 100%;"
+                            :disabled="isEdit"
                             v-decorator="[
                               'categoryId',
                               {
@@ -77,6 +78,7 @@
                             placeholder="请选择"
                             :allowClear="true"
                             style="width: 100%;"
+                            :disabled="isEdit"
                             v-decorator="[
                               'breedId',
                               {
@@ -109,6 +111,7 @@
                             placeholder="请选择"
                             :allowClear="true"
                             style="width: 100%;"
+                            :disabled="isEdit"
                             v-decorator="[
                               'fungusProduceId',
                               {
@@ -142,6 +145,7 @@
                             placeholder="请选择"
                             :allowClear="true"
                             style="width: 100%;"
+                            :disabled="isEdit"
                             v-decorator="[
                               'workshopId',
                               {
@@ -171,6 +175,8 @@
                           :wrapper-col="{ span: 22 }"
                         >
                           <a-date-picker
+                          format="YYYY-MM-DD"
+                          :disabledDate="disabledDate"
                             v-decorator="[
                               'startTime',
                               {
@@ -209,8 +215,8 @@
                           <div
                             class="action-text"
                             v-for="(item) in actionArray"
-                            :key="item.optionId"
-                          >{{item.optionName}}</div>
+                            :key="isEdit ? item.actionId : item.optionId"
+                          >{{isEdit ? item.actionName : item.optionName }}</div>
                         </a-form-item>
                       </a-col>
                       <a-col :span="8">
@@ -353,6 +359,7 @@ import {
   actionList,
   userList,
   postFungusTask,
+  postEditFungusTask,
   getFungusTask
 } from '@/api/farmPlan.js'
 Vue.use(Layout)
@@ -392,20 +399,24 @@ export default {
       actionTasks: [], // 生产操作
       editCategoryId: '', // 品类ID
       editBreedId: '', // 品种id
-      editWorkshopId: '' // 编辑的车间
+      editWorkshopId: '', // 编辑的车间
+      isEdit: false
     }
   },
   created() {
     if (this.$route.query.bizId) {
       this.bizId = this.$route.query.bizId
+      this.isEdit = true
       this.getFungusTask(this.bizId)
+    } else {
+      this.isEdit = false
+      // 获取生产操作
+      this.actionList()
     }
     // 获取品种
     this.getCategoryList()
     // 获取车间
     this.workshopList()
-    // 获取生产操作
-    this.actionList()
     // 获取负责人
     this.AssignerList()
   },
@@ -567,11 +578,11 @@ export default {
             taskStartTimeArray[i][taskStartTimeKey] = values[taskStartTimeKey]
             taskEndTimeArray[i][taskEndTimeKey] = values[taskEndTimeKey]
           }
-          // console.log(assignerArray, taskStartTimeArray, taskEndTimeArray, '11111111')
           this.actionTasks = this.actionArray.map((item, index) => {
             return {
-              actionId: item.optionId,
-              actionName: item.optionName,
+              instId: this.isEdit ? item.instId : null,
+              actionId: this.isEdit ? item.actionId : item.optionId,
+              actionName: this.isEdit ? item.actionName : item.optionName,
               assignerId: assignerArray[index][`assignerId_${index}`],
               taskStartTime:
                 taskStartTimeArray[index][`taskStartTime_${index}`],
@@ -587,15 +598,29 @@ export default {
             startTime: this.startTime,
             workshopId: this.workshopId
           }
-          // 新增接口
-          postFungusTask(data).then(res => {
-            if (res.success === 'Y') {
-              this.$router.push({ name: 'BacteriaBagTaskManagement' })
-              this.$message.success(res.message)
-            } else {
-              this.$message.error(res.message)
-            }
-          })
+          // console.log(this.actionTasks, data)
+          if (this.isEdit) {
+            postEditFungusTask(data)
+              .then(res => {
+                if (res.success === 'Y') {
+                  this.$router.push({ name: 'BacteriaBagTaskManagement' })
+                  this.$message.success(res.message)
+                } else {
+                  this.$message.error(res.message)
+                }
+              })
+          } else {
+            // 新增接口
+            postFungusTask(data)
+              .then(res => {
+                if (res.success === 'Y') {
+                  this.$router.push({ name: 'BacteriaBagTaskManagement' })
+                  this.$message.success(res.message)
+                } else {
+                  this.$message.error(res.message)
+                }
+              })
+          }
         }
       })
     },
@@ -626,10 +651,15 @@ export default {
           })
           this.startTime = (res.data && res.data.startTime) || ''
           this.actionTasks = (res.data && res.data.actionTasks) || []
+          this.actionArray = (res.data && res.data.actionTasks) || [] // 如果是操作取返回回来的生产操作
+          console.log(this.actionArray, '详情')
         } else {
           this.$message.error(res.message)
         }
       })
+    },
+    disabledDate(current) {
+      return current && current < moment().subtract(1, 'day')
     }
   }
 }

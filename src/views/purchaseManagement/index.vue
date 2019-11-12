@@ -84,21 +84,11 @@
             v-decorator="['field_money', {
               rules: [{ validator: validatorMoney }]
             }]"
+            maxlength="15"
           />
         </a-form-item>
         </a-form>
       </a-modal>
-      <!-- <a-pagination
-        class="pagination"
-        :pageSizeOptions="['6', '12', '18']"
-        showSizeChanger
-        showQuickJumper
-        :defaultCurrent="pageNo"
-        :pageSize="pageSize"
-        :total="total"
-        @change="pageOnChange"
-        @showSizeChange="pageSizeOnChange"
-      /> -->
     </a-layout>
     <AddPurchase ref="newPurchase" @refresh="refreshList" />
   </div>
@@ -204,8 +194,8 @@ const fields = [
     placeholder: '请选择采购状态',
     validators: validators['v-purchaseStatus'],
     arrs: [
-      { id: 1, label: '废弃' },
-      { id: 2, label: '待采购' },
+      // { id: 1, label: '废弃' },
+      // { id: 2, label: '待采购' },
       { id: 3, label: '采购中' },
       { id: 4, label: '已采购' }
     ]

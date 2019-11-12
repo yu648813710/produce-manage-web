@@ -19,7 +19,7 @@
           :wrapper-col="{ span: 16 }"
           required
           :validateStatus="validate.userName"
-          :help="validate.userName ? '请输入临时工姓名!' : '' "
+          :help="validate.userName ? '请输入汉字!' : '' "
         >
           <a-input
             autocomplete="off"
@@ -47,7 +47,7 @@
           :wrapper-col="{ span: 16 }"
           required
           :validateStatus="validate.payment"
-          :help="validate.payment ? '请输入临时工薪酬!' : '' "
+          :help="validate.payment ? '请输入大于0的数字!' : '' "
         >
           <a-input
             autocomplete="off"
@@ -64,8 +64,8 @@
           :help="validate.povertyStatus ? '请选择是否为贫困户!' : '' "
         >
           <a-radio-group name="radioGroup" v-model="data.povertyStatus">
-            <a-radio value="是">是</a-radio>
-            <a-radio value="否">否</a-radio>
+            <a-radio value="Y">是</a-radio>
+            <a-radio value="N">否</a-radio>
           </a-radio-group>
         </a-form-item>
       </a-form>
