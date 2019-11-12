@@ -165,7 +165,7 @@ export default {
         pageSize: 10,
         harvester: this.harvester,
         productName: this.productName,
-        productionPatchCode: this.productionPatchCode // 菌包ID
+        productionBatchCode: this.productionPatchCode // 菌包ID
       }
       this.getList(data)
     },
@@ -178,7 +178,7 @@ export default {
         pageSize: pagination.pageSize,
         harvester: this.harvester,
         productName: this.productName,
-        productionPatchCode: this.productionPatchCode // 菌包ID
+        productionBatchCode: this.productionPatchCode // 菌包ID
       }
       this.getList(data)
     },

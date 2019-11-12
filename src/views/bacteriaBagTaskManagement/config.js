@@ -1,17 +1,19 @@
 const columns = [
-  { title: '序号', scopedSlots: { customRender: 'id' }, key: 'id' },
-  { title: '任务编号', dataIndex: 'taskNum', key: 'taskNum' },
-  { title: '所属车间', dataIndex: 'workshopName', key: 'workshopName' },
-  { title: '菌包名称', dataIndex: 'fungusProduceName', key: 'fungusProduceName' },
-  { title: '任务开始时间', dataIndex: 'startTime', key: 'startTime' },
-  { title: '任务结束时间', dataIndex: 'endTime', key: 'endTime' },
-  { title: '状态', dataIndex: 'taskStatusName', key: 'taskStatusName' },
-  { title: '创建人', dataIndex: 'createUserName', key: 'createUserName' },
+  { title: '序号', scopedSlots: { customRender: 'id' }, key: 'id', width: 70 },
+  { title: '任务编号', dataIndex: 'taskNum', key: 'taskNum', width: 140 },
+  { title: '所属车间', scopedSlots: { customRender: 'workshopName' }, key: 'workshopName', width: 150 },
+  { title: '菌包名称', scopedSlots: { customRender: 'fungusProduceName' }, key: 'fungusProduceName', width: 150 },
+  { title: '任务开始时间', dataIndex: 'startTime', key: 'startTime', width: 125 },
+  { title: '任务结束时间', dataIndex: 'endTime', key: 'endTime', width: 125 },
+  { title: '状态', dataIndex: 'taskStatusName', key: 'taskStatusName', width: 100 },
+  { title: '创建人', dataIndex: 'createUserName', key: 'createUserName', width: 130 },
   {
     title: '操作',
     scopedSlots: { customRender: 'operation' },
     key: 'operation',
-    align: 'center'
+    align: 'center',
+    fixed: 'right',
+    width: 200
   }
 ]
 // 详情页面列表

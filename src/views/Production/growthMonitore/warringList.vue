@@ -50,7 +50,8 @@
                       v-for="(item, index) in alarmTypeArr"
                       :key="index"
                       :value="item.value"
-                    >{{item.label}}</a-select-option>
+                    >{{item.label}}
+                    </a-select-option>
                   </a-select>
                 </a-form-item>
               </a-col>
@@ -61,11 +62,13 @@
               type="primary"
               class="button"
               @click="searchWarringList"
-            >查询</a-button>
+            >查询
+            </a-button>
             <a-button
               class="button"
               @click="restSearch"
-            >重置</a-button>
+            >重置
+            </a-button>
           </div>
         </a-row>
       </div>
@@ -131,12 +134,36 @@ Vue.use(Select)
 Vue.use(Table)
 Vue.use(Row)
 Vue.use(Col)
+// const columns1 = [
+//   { title: '序号', scopedSlots: { customRender: 'id' }, align: 'center' },
+//   { title: '基地名称', dataIndex: 'baseLandName' },
+//   { title: '地块名称', dataIndex: 'blockLandName' },
+//   { title: '温度℃', dataIndex: 'temperature' },
+//   // { title: 'CO₂浓度', dataIndex: 'co2Concentration' },
+//   {
+//     title: '湿度',
+//     dataIndex: 'dampness',
+//     customRender: text => {
+//       return text + '%'
+//     }
+//   },
+//   {
+//     title: '状态',
+//     dataIndex: 'status',
+//     scopedSlots: { customRender: 'status' }
+//   },
+//   {
+//     title: '异常原因',
+//     dataIndex: 'reason',
+//     scopedSlots: { customRender: 'reason' }
+//   }
+// ]
 const columns = [
   { title: '序号', scopedSlots: { customRender: 'id' }, align: 'center' },
   { title: '基地名称', dataIndex: 'baseLandName' },
   { title: '地块名称', dataIndex: 'blockLandName' },
   { title: '温度℃', dataIndex: 'temperature' },
-  // { title: 'CO₂浓度', dataIndex: 'co2Concentration' },
+  { title: 'CO₂浓度', dataIndex: 'co2Concentration' },
   {
     title: '湿度',
     dataIndex: 'dampness',
@@ -162,6 +189,7 @@ export default {
   data() {
     return {
       warringType: '',
+      componenyType: 0,
       baseLandName: '', // 温度过高 温度过低 湿度过高 湿度过低 二氧化碳过高 二氧化碳过低
       alarmTypeArr: [
         { label: '温度过高', value: '温度过高' },
@@ -195,18 +223,36 @@ export default {
     }
   },
   mounted() {
+    this.checkComponenyType()
     this.listType = this.$route.query.type ? this.$route.query.type : 3
     console.log(this.$route.query.type)
     this.getTableData()
     // this.formatTableColumn()
   },
   methods: {
+    checkComponenyType() {
+      if (this.componenyType === 0) {
+        this.columns.forEach((item, index) => {
+          if (item.dataIndex === 'co2Concentration') {
+            this.columns.splice(index, 1)
+          }
+        })
+        for (let i = 0; i < this.alarmTypeArr.length; i++) {
+          this.alarmTypeArr.forEach((item, index) => {
+            if (item.value === '二氧化碳过低' || item.value === '二氧化碳过高') {
+              console.log('!!!!', item)
+              this.alarmTypeArr.splice(index, 1)
+            }
+          })
+        }
+      }
+    },
     formatWarringReason(reson) {
       let data = JSON.parse(reson)
       let formatReson = ''
       for (let i = 0; i < data.length; i++) {
         // eslint-disable-next-line no-unused-expressions
-        formatReson += data[i] + ' '
+        formatReson += data[ i ] + ' '
       }
       console.log(formatReson)
       return formatReson
@@ -235,9 +281,11 @@ export default {
         this.listType === 3 ||
         this.listType === 5 ||
         this.listType === 6 ||
+        this.listType === 7 ||
         this.listType === '3' ||
         this.listType === '5' ||
-        this.listType === '6'
+        this.listType === '6' ||
+        this.listType === '7'
       ) {
         this.getTotalData(null, 1)
       }
@@ -250,19 +298,16 @@ export default {
        * listType === 4 今日新增总累计列表
        * listType === 5 历史总累计温度列表
        * listType === 6 历史总累计湿度列表
+       * listType === 7 历史总累计二氧化碳列表
        */
-      if (this.listType === 1 || this.listType === '1') {
-        this.getTotalData(1, 2) // 获取新增湿度总列表
-      } else if (this.listType === 2 || this.listType === '2') {
-        this.getTotalData(2, 2) // 获取新增温度总列表
-      } else if (this.listType === 3 || this.listType === '3') {
+      if (this.listType === 3 || this.listType === '3') {
         this.getTotalData(null, 1) // 获取历史总累计列表
-      } else if (this.listType === 4 || this.listType === '4') {
-        this.getTotalData(null, 2) // 获取新增总累计列表
       } else if (this.listType === 5 || this.listType === '5') {
         this.getTotalData(2, 1) // 获取历史温度预警数据
       } else if (this.listType === 6 || this.listType === '6') {
         this.getTotalData(1, 1) // 获取历史湿度预警数据
+      } else if (this.listType === 7 || this.listType === '7') {
+        this.getTotalData(3, 1) // 获取历史湿度预警数据
       }
     },
     // 获取历史 温度 || 湿度 预警
@@ -283,7 +328,7 @@ export default {
     },
     /**
      * 获取历史总累计预警
-     * alarmType === 1 湿度 alarmType === 2 temperature
+     * alarmType === 1 湿度 alarmType === 2 temperature alarmType === 3 二氧化碳
      * staticType === 1 历史总列表 staticType === 2 新增总列表
      */
     getTotalData(alarmType, staticType) {
@@ -295,9 +340,21 @@ export default {
       }
       let typeList = {}
       if (alarmType && staticType) {
+        let type
+        switch (alarmType) {
+          case 1:
+            type = 'dampness'
+            break
+          case 2:
+            type = 'temperature'
+            break
+          case 3:
+            type = 'co2_concentration'
+            break
+        }
         typeList = {
           massifType: 'gh',
-          alarmType: alarmType === 1 ? 'dampness' : 'temperature',
+          alarmType: type,
           staticType: staticType === 1 ? 'history' : 'realTime'
         }
       } else {
@@ -325,105 +382,104 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.alarmCtr {
-  color: red;
-  max-width: 140px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  display: inline-block;
-}
-
-.search-wrapper {
-  background: #fff;
-  margin-bottom: 10px;
-  border-radius: 4px;
-
-  .search-input-wrapper {
-    position: relative;
-    margin-bottom: 24px;
-
-    .search-input {
-      margin-top: 30px;
-    }
-  }
-
-  .button {
-    margin: 0 5px;
-  }
-}
-
-.crumbCtr {
-  height: 20px;
-  line-height: 20px;
-  margin-top: 20px;
-  margin-left: 16px;
-  text-align: left;
-}
-
-.table-wrapper {
-  position: relative;
-  padding: 24px;
-  background: #fff;
-  min-height: 360px;
-  border-radius: 4px;
-
-  .add-button {
-    position: absolute;
-    right: 24px;
-  }
-
-  .action span {
+  .alarmCtr {
+    color: red;
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     display: inline-block;
-    width: 35px;
   }
-}
 
-.wrapper {
-  position: relative;
-  padding: 24px 24px 0 24px;
-  background: #fff;
-  margin: 16px;
-  border-radius: 4px;
+  .search-wrapper {
+    padding: 24px;
+    background: #fff;
+    margin-bottom: 10px;
+    border-radius: 4px;
 
-  .title-wrapper {
-    text-align: left;
+    .search-input-wrapper {
+      position: relative;
+      margin-bottom: 24px;
 
-    .title-text {
-      font-size: 16px;
-      color: #333;
-      line-height: 22px;
-      margin-left: 8px;
+      .search-input {
+        margin-top: 30px;
+      }
     }
 
-    .icon {
-      width: 2px;
-      height: 14px;
-      background: rgba(60, 140, 255, 1);
-      border-radius: 1px;
+    .button {
+      margin: 0 5px;
+    }
+  }
+
+  .crumbCtr {
+    height: 20px;
+    line-height: 20px;
+    margin-top: 20px;
+    margin-left: 16px;
+    text-align: left;
+  }
+
+  .table-wrapper {
+    position: relative;
+    padding: 24px;
+    background: #fff;
+    min-height: 360px;
+    border-radius: 4px;
+
+    .add-button {
+      position: absolute;
+      right: 24px;
+    }
+
+    .action span {
       display: inline-block;
+      width: 35px;
     }
   }
 
-  .detail-wrapper {
-    margin-top: 50px;
-    text-align: left;
+  .wrapper {
+    position: relative;
+    margin: 16px;
+    border-radius: 4px;
 
-    .detail-item {
-      margin-bottom: 32px;
+    .title-wrapper {
+      text-align: left;
 
-      .item-key {
-        font-size: 14px;
-        font-weight: 400;
-        color: #999;
+      .title-text {
+        font-size: 16px;
+        color: #333;
+        line-height: 22px;
+        margin-left: 8px;
       }
 
-      .item-value {
-        color: #000;
-        font-size: 14px;
-        margin-left: 10px;
+      .icon {
+        width: 2px;
+        height: 14px;
+        background: rgba(60, 140, 255, 1);
+        border-radius: 1px;
+        display: inline-block;
+      }
+    }
+
+    .detail-wrapper {
+      margin-top: 50px;
+      text-align: left;
+
+      .detail-item {
+        margin-bottom: 32px;
+
+        .item-key {
+          font-size: 14px;
+          font-weight: 400;
+          color: #999;
+        }
+
+        .item-value {
+          color: #000;
+          font-size: 14px;
+          margin-left: 10px;
+        }
       }
     }
   }
-}
 </style>

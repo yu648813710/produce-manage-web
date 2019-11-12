@@ -77,11 +77,18 @@
             :dataSource="list"
             :pagination="pagination"
             :loading="loading"
+             :scroll="{ x: 1200 }"
             @change="handleTableChange"
             :style="{marginTop: '50px'}"
             :rowKey="(record, index) => index"
           >
             <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
+            <span slot="workshopName" class="tableLineCtr" slot-scope="text, record" :title="record.workshopName">
+              {{record.workshopName}}
+            </span>
+            <span slot="fungusProduceName" class="tableLineCtr" slot-scope="text, record" :title="record.fungusProduceName">
+              {{record.fungusProduceName}}
+            </span>
             <span slot="operation" slot-scope="text, record">
               <!-- 未开始支持编辑 -->
               <a-button type="link" @click="editTask(record.bizId)" v-if="Number(record.taskStatus) === 1">编辑</a-button>
@@ -360,5 +367,12 @@ export default {
     position: absolute;
     right: 24px;
   }
+}
+.tableLineCtr {
+  display: inline-block;
+  width: 150px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>

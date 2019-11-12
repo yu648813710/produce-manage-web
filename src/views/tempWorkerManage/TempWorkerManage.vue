@@ -106,14 +106,14 @@
               <a-switch
                 checkedChildren="在职"
                 unCheckedChildren="离职"
-                :checked="record.jobStatus === '在职'"
+                :checked="record.jobStatus === 'ON_WORK'"
                 @change="handleChangeStatus(record)"
               />
             </span>
             <span slot="operation" slot-scope="text, record">
               <a-button type="link" @click="toDetail(record)">查看</a-button>
               <a-button type="link" @click="handelEdit(record)" style="padding:0;">编辑</a-button>
-              <a-button type="link" @click="handelDelete(record)" v-if="record.jobStatus==='离职'">删除</a-button>
+              <a-button type="link" @click="handelDelete(record)" v-if="record.jobStatus==='NO_WORK'">删除</a-button>
             </span>
           </a-table>
         </div>
@@ -210,7 +210,7 @@ export default {
         userName: '',
         phone: '',
         payment: '',
-        povertyStatus: ''
+        povertyStatus: 'Y'
       },
       validate: {
         userName: '',
@@ -248,7 +248,6 @@ export default {
     },
     // 查询方法
     searchList() {
-      // eslint-disable-next-line handle-callback-err
       this.searchForm.validateFields((err, values) => {
         this.searchParams.jobStatus = values.jobStatus
         this.searchParams.povertyStatus = values.povertyStatus
@@ -304,7 +303,7 @@ export default {
     handleChangeStatus(record) {
       let data = {
         tempWorkerId: record.tempWorkerId,
-        jobStatus: record.jobStatus === '离职' ? '在职' : '离职'
+        jobStatus: record.jobStatus === 'NO_WORK' ? 'ON_WORK' : 'NO_WORK'
       }
       changeJobStatus(data)
         .then(res => {
@@ -324,7 +323,7 @@ export default {
         userName: '',
         phone: '',
         payment: '',
-        povertyStatus: ''
+        povertyStatus: 'Y'
       }
       this.validate = {
         userName: '',
@@ -369,7 +368,14 @@ export default {
     },
     // 表单校验
     validateForm() {
-      if (!this.form.userName.trim()) {
+      this.validate = {
+        userName: '',
+        phone: '',
+        payment: '',
+        povertyStatus: ''
+      }
+      let reg = new RegExp(/[^\u4E00-\u9FA5]/g, '')
+      if (reg.test(this.form.userName || !this.form.userName.trim())) {
         this.form.userName = ''
         this.validate.userName = 'error'
       }
@@ -377,11 +383,11 @@ export default {
         this.form.phone = ''
         this.validate.phone = 'error'
       }
-      if (!this.form.payment) {
+      if (!(this.form.payment > 0)) {
+        this.form.payment = ''
         this.validate.payment = 'error'
       }
       if (!this.form.povertyStatus) {
-        this.form.povertyStatus = ''
         this.validate.povertyStatus = 'error'
       }
       if (this.validate.userName || this.validate.phone || this.validate.payment || this.validate.povertyStatus) {

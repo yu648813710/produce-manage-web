@@ -233,6 +233,7 @@ export default {
           baseImg: this.isEditObj.productPicture,
           expiryTime: Number(this.isEditObj.expiryTime) // '保质期',
         })
+        this.productionDate = this.isEditObj.productionDate
         this.picturePath = this.isEditObj.productPicture
       })
     }

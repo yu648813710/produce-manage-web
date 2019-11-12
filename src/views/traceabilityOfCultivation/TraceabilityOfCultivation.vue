@@ -67,6 +67,7 @@
             :dataSource="list"
             :pagination="pagination"
             :loading="loading"
+            :scroll="{ x: 1550 }"
             @change="handleTableChange"
             :style="{marginTop: '50px'}"
             :rowKey="(record, index) => index"
@@ -77,8 +78,9 @@
               {{record.productName}}
             </span>
             <!-- 生产地 -->
-            <span slot="address" slot-scope="text, record" class="tableLineCtr" :title="record.address">
-              {{record.address}}
+            <span slot="address" slot-scope="text, record" class="tableLineCtr"
+              :title="record.provinceName + record.cityName + record.areaName + record.townName + record.address">
+              {{record.provinceName}}{{record.cityName}}{{record.areaName}}{{record.townName}}{{record.address}}
             </span>
             <!-- 生产企业 -->
             <span slot="productionCompany" slot-scope="text, record" class="tableLineCtr" :title="record.productionCompany">
