@@ -1,7 +1,7 @@
 import { axios } from '@/utils/request'
 // VUE_APP_BASE_API = http://106.38.53.203:12825
 // 上传图片
-export function uploadImage(data) {
+export function uploadImage (data) {
   return axios({
     url: '/produce/oss/fileUpload',
     method: 'POST',
@@ -51,7 +51,7 @@ export function selectFungusbagFarmPlan () {
 
 export function selectBaseLandIdFarmPlan (baseLandId) {
   return axios({
-    url: `/produce/blockland/list/${baseLandId}
+    url: `/produce/farmPlan/blockLand/${baseLandId}
     `,
     method: 'GET'
   })

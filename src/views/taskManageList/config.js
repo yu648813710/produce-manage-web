@@ -19,6 +19,7 @@ const tableColumns = [
   {
     title: '所属地块',
     dataIndex: 'farmBizName',
+    scopedSlots: { customRender: 'farmBizName' },
     width: 140
   },
   {
