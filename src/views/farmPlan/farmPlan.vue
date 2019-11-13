@@ -162,10 +162,10 @@ export default {
   components: {
     CrumbsNav
   },
-  created () {
+  created() {
     this.getFarmPlanList(this.pagination.current, this.pagination.pageSize)
   },
-  data () {
+  data() {
     return {
       list,
       columns: [
@@ -263,7 +263,7 @@ export default {
     }
   },
   methods: {
-    getFarmPlanList (current, pageSize) {
+    getFarmPlanList(current, pageSize) {
       let postData = {
         pageNo: current,
         pageSize: pageSize
@@ -279,7 +279,7 @@ export default {
       })
     },
     // 页码设置
-    setPageList (e) {
+    setPageList(e) {
       console.log(e)
       let current = e.current
       let pageSize = e.pageSize
@@ -287,7 +287,7 @@ export default {
       this.getFarmPlanList(current, pageSize)
     },
     // 重置搜索条件
-    clearInputVal () {
+    clearInputVal() {
       this.searchInputVal = {
         baseLandName: '', // 基地名称
         blockLandName: '', // 地块名称
@@ -300,7 +300,8 @@ export default {
       this.getFarmPlanList(this.pagination.current, this.pagination.pageSize)
     },
     // 搜索开始
-    searchFarmPlanList () {
+    searchFarmPlanList() {
+      this.pagination.current = 1
       this.getFarmPlanList(this.pagination.current, this.pagination.pageSize)
     }
   }

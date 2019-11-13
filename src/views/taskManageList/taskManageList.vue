@@ -4,11 +4,7 @@
     <crumbs-nav :crumbs-arr="crumbsArr" />
     <!-- 导航 -->
     <!-- 搜索组件 -->
-    <search-form
-      :select-data="selectStateData"
-      @searchTask="searchTask"
-      @clearSearch="clearSearch"
-    ></search-form>
+    <search-form :select-data="selectStateData" @searchTask="searchTask" @clearSearch="clearSearch"></search-form>
     <!-- 搜索组件 -->
     <div class="table">
       <!-- 任务管理表格 -->
@@ -16,7 +12,7 @@
         <a-locale-provider :locale="zhCN">
           <a-table
             class="equipmentTable"
-            :scroll="{ x: 1600 }"
+            :scroll="{ x: 1700 }"
             :rowKey="record => record.instId"
             :columns="columns"
             :dataSource="equipmentList"
@@ -24,33 +20,17 @@
             :loading="loading"
             @change="setPageList"
           >
-            <span
-              slot="id"
-              slot-scope="text, record, index"
-            >{{index + 1}}</span>
-            <span
-              slot="useMaterial"
-              class="use-material"
-              slot-scope="text"
-              :title="text"
-            >{{text}}</span>
-            <span
-              slot="action"
-              slot-scope="text, record"
-              class="operation-box"
-            >
+            <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
+            <span slot="farmBizName" class="use-material" slot-scope="text" :title="text">{{text}}</span>
+            <span slot="useMaterial" class="use-material" slot-scope="text" :title="text">{{text}}</span>
+            <span slot="action" slot-scope="text, record" class="operation-box">
+              <span slot="title" @click="showDetailTask(record.instId)">查看</span>
               <span
                 slot="title"
-                @click="showDetailTask(record.instId)"
-              >查看</span>
-              <span
-                slot="title"
+                v-if="record.taskStatusName==='未开始'"
                 @click="editTaskShow(record.instId)"
               >编辑</span>
-              <span
-                slot="title"
-                @click="showDeleteModal(record.instId)"
-              >删除</span>
+              <span slot="title" @click="showDeleteModal(record.instId)">删除</span>
             </span>
           </a-table>
         </a-locale-provider>
@@ -143,7 +123,7 @@ export default {
     TaskDetail,
     EditTask
   },
-  data () {
+  data() {
     return {
       deleteShow: false,
       zhCN,
@@ -170,15 +150,15 @@ export default {
     }
   },
   methods: {
-    showDeleteModal (id) {
+    showDeleteModal(id) {
       this.taskID = id
       this.deleteShow = true
     },
-    hiddenDeleteModal () {
+    hiddenDeleteModal() {
       this.deleteShow = false
     },
     // 获取任务列表
-    getTaskManageList (current, pageSize, queryData) {
+    getTaskManageList(current, pageSize, queryData) {
       let queryData_ = queryData || {
         actionName: '', // 操作名称
         blockLandName: '', // 地块名称
@@ -202,7 +182,7 @@ export default {
       })
     },
     // 获取选择状态
-    getTaskStateData () {
+    getTaskStateData() {
       getTaskState().then(res => {
         if (res.code === 200) {
           this.selectStateData = res.data
@@ -210,7 +190,7 @@ export default {
       })
     },
     // 删除任务
-    deleteTask () {
+    deleteTask() {
       deleteTask(this.taskID).then(res => {
         if (res.code !== 200) {
           return false
@@ -224,14 +204,15 @@ export default {
       })
     },
     // 页码设置
-    setPageList (e) {
+    setPageList(e) {
       let current = e.current
       let pageSize = e.pageSize
 
       this.getTaskManageList(current, pageSize)
     },
     // 搜索任务
-    searchTask (e) {
+    searchTask(e) {
+      this.pagination.current = 1
       this.getTaskManageList(
         this.pagination.current,
         this.pagination.pageSize,
@@ -239,11 +220,11 @@ export default {
       )
     },
     // 清楚搜索条件
-    clearSearch (e) {
+    clearSearch(e) {
       this.getTaskManageList(this.pagination.current, this.pagination.pageSize)
     },
     // 请求详情数据
-    getTaskDetailData (id) {
+    getTaskDetailData(id) {
       getTaskDetail(id).then(res => {
         if (res.code === 200) {
           this.detailTaskData = res.data
@@ -251,15 +232,15 @@ export default {
       })
     },
     // 显示详情
-    showDetailTask (id) {
+    showDetailTask(id) {
       this.detailTaskShow = true
       this.getTaskDetailData(id)
     },
-    hiddenDetailTask () {
+    hiddenDetailTask() {
       this.detailTaskShow = false
     },
     // 提示信息
-    tipMessage (type, message) {
+    tipMessage(type, message) {
       if (type === 'Y') {
         this.$message.success(message)
         return false
@@ -267,7 +248,7 @@ export default {
       this.$message.error(message)
     },
     // 点击修改
-    editTaskShow (id) {
+    editTaskShow(id) {
       this.editTaskShowState = true
       getTaskDetail(id).then(res => {
         if (res.code === 200) {
@@ -276,11 +257,11 @@ export default {
       })
     },
     // 隐藏编辑
-    editTaskHidden () {
+    editTaskHidden() {
       this.editTaskShowState = false
     },
     // 请求单位
-    getUtilData () {
+    getUtilData() {
       getUtil().then(res => {
         if (res.code !== 200) {
           return false
@@ -289,7 +270,7 @@ export default {
       })
     },
     // 请求农资
-    getMaterialData () {
+    getMaterialData() {
       getMaterial().then(res => {
         if (res.code !== 200) {
           return false
@@ -298,7 +279,7 @@ export default {
       })
     },
     // 提交编辑
-    editSbumit (e) {
+    editSbumit(e) {
       console.log(e)
       editTask(e).then(res => {
         if (res.code !== 200) {
@@ -310,12 +291,12 @@ export default {
             this.pagination.current,
             this.pagination.pageSize
           )
-          this.getTaskDetailData(e.instId, true)
+          this.editTaskHidden() // 隐藏弹窗
         }
       })
     }
   },
-  created () {
+  created() {
     this.loading = false
     this.getTaskManageList(this.pagination.current, this.pagination.pageSize)
     this.getTaskStateData()

@@ -3,6 +3,9 @@
 */
 <template>
   <div>
+    <div style="padding-top: 16px;padding-left:16px;">
+      <crumbs-nav :crumbs-arr="crumbsArr" />
+    </div>
     <div class="wrapper">
       <div class="title-wrapper">
         <div class="icon"></div>
@@ -10,64 +13,35 @@
       </div>
       <div class="detail-wrapper">
         <a-row>
-          <a-col
-            :span="12"
-            class="detail-item"
-          >
+          <a-col :span="12" class="detail-item">
             <span class="item-key">农事计划编号：</span>
             <span class="item-value">{{detail.farmingNum}}</span>
           </a-col>
-          <a-col
-            :span="12"
-            class="detail-item"
-            v-if="detail.productValue"
-          >
+          <a-col :span="12" class="detail-item" v-if="detail.productValue">
             <span class="item-key">种植作物：</span>
             <span class="item-value">{{detail.productValue.productName}}</span>
           </a-col>
-          <a-col
-            :span="12"
-            class="detail-item"
-            v-if="detail.solutionValue"
-          >
+          <a-col :span="12" class="detail-item" v-if="detail.solutionValue">
             <span class="item-key">种植方案：</span>
             <span class="item-value">{{detail.solutionValue.solutionName}}</span>
           </a-col>
-          <a-col
-            :span="12"
-            class="detail-item"
-            v-if="detail.solutionValue"
-          >
+          <a-col :span="12" class="detail-item" v-if="detail.solutionValue">
             <span class="item-key">企业名称：</span>
             <span class="item-value">{{detail.companyName}}</span>
           </a-col>
-          <a-col
-            :span="12"
-            class="detail-item"
-            v-if="detail.baseLandValue"
-          >
+          <a-col :span="12" class="detail-item" v-if="detail.baseLandValue">
             <span class="item-key">种植基地：</span>
             <span class="item-value">{{detail.baseLandValue.baseLandName}}</span>
           </a-col>
-          <a-col
-            :span="12"
-            v-if="detail.blockLandValue"
-            class="detail-item"
-          >
+          <a-col :span="12" v-if="detail.blockLandValue" class="detail-item">
             <span class="item-key">种植地块：</span>
             <span class="item-value">{{detail.blockLandValue.landName}}</span>
           </a-col>
-          <a-col
-            :span="12"
-            class="detail-item"
-          >
+          <a-col :span="12" class="detail-item">
             <span class="item-key">计划开始时间：</span>
             <span class="item-value">{{detail.planStartTime}}</span>
           </a-col>
-          <a-col
-            :span="12"
-            class="detail-item"
-          >
+          <a-col :span="12" class="detail-item">
             <span class="item-key">生长周期：</span>
             <span class="item-value">{{detail.cycleName}}</span>
           </a-col>
@@ -81,11 +55,7 @@
       </div>
       <div class="table-wrapper">
         <div class="block-box">
-          <a-button
-            type="primary"
-            class="add-button"
-            @click="showAddDetailTask"
-          >添加临时任务</a-button>
+          <a-button type="primary" class="add-button" @click="showAddDetailTask">添加临时任务</a-button>
         </div>
         <a-table
           :columns="columns"
@@ -96,21 +66,9 @@
           :scroll="{x:1200}"
           @change="setPageList"
         >
-          <span
-            slot="instId"
-            slot-scope="text, record, index"
-          >{{index+1}}</span>
-          <div
-            class="text-overflow"
-            slot="useMatetial"
-            :title="text"
-            slot-scope="text"
-          >{{text}}</div>
-          <a
-            slot="toDetail"
-            slot-scope="text, record"
-            @click="showPlanDetail(record.instId)"
-          >查看</a>
+          <span slot="instId" slot-scope="text, record, index">{{index+1}}</span>
+          <div class="text-overflow" slot="useMatetial" :title="text" slot-scope="text">{{text}}</div>
+          <a slot="toDetail" slot-scope="text, record" @click="showPlanDetail(record.instId)">查看</a>
         </a-table>
       </div>
     </div>
@@ -124,6 +82,7 @@
     <task-detail-add-task
       :add-show="addTaskShow"
       :formData="addFormData"
+      :plan-start-time="detail.planStartTime"
       @hiddenAddDetailTask="hiddenAddDetailTask"
       @addTaskSbumit="addTaskSbumit"
     />
@@ -132,6 +91,7 @@
 <script>
 import Vue from 'vue'
 import { Row, Col, Modal } from 'ant-design-vue'
+import CrumbsNav from '@/components/crumbsNav/CrumbsNav' // 面包屑
 import TaskDetailAddTask from './components/TaskDetailAddTask'
 import {
   farmPlanDetail,
@@ -143,7 +103,7 @@ import {
 } from '@/api/farmPlan.js'
 import { getTaskDetail, getMaterial, getUtil } from '@/api/productManage.js'
 import TaskLPlanDetail from './components/TaskLPlanDetail'
-import { tableDetailColumuns } from './config'
+import { tableDetailColumuns, crumbsArr } from './config'
 Vue.use(Row)
 Vue.use(Col)
 Vue.use(Modal)
@@ -167,12 +127,14 @@ export default {
       plandDetailShow: false,
       detailPlanData: {},
       addTaskShow: false,
-      addFormData: {}
+      addFormData: {},
+      crumbsArr
     }
   },
   components: {
     TaskLPlanDetail,
-    TaskDetailAddTask
+    TaskDetailAddTask,
+    CrumbsNav
   },
   created() {
     this.planId = this.$route.params.id
@@ -307,7 +269,7 @@ export default {
   position: relative;
   padding: 24px 24px 0 24px;
   background: #fff;
-  margin: 16px;
+  margin: 0 16px 16px;
   border-radius: 4px;
 
   .title-wrapper {

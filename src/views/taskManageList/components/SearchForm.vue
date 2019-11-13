@@ -2,17 +2,10 @@
   <div>
     <div class="form">
       <!-- 搜索条件 -->
-      <div
-        class="search-box"
-        :style="!upDownStatue?'':'height:86px'"
-      >
+      <div class="search-box" :style="!upDownStatue?'':'height:86px'">
         <a-row :gutter="40">
           <template v-for="(item,index) in searchFormData">
-            <a-col
-              v-if="index<3"
-              :span="8"
-              :key="index"
-            >
+            <a-col v-if="index<3" :span="8" :key="index">
               <a-form-item
                 :label="item.label"
                 :label-col="{ span: 24 }"
@@ -43,11 +36,7 @@
         </a-row>
         <a-row :gutter="40">
           <template v-for="(item,index) in searchFormData">
-            <a-col
-              v-if="index>2"
-              :span="8"
-              :key="index"
-            >
+            <a-col v-if="index>2" :span="8" :key="index">
               <a-form-item
                 :label="item.label"
                 :label-col="{ span: 24 }"
@@ -78,23 +67,10 @@
         </a-row>
       </div>
       <a-row>
-        <a-col
-          :span="24"
-          :style="{ textAlign: 'center' }"
-        >
-          <a-button
-            type="primary"
-            html-type="submit"
-            @click="searchTask"
-          >查询</a-button>
-          <a-button
-            :style="{ marginLeft: '8px' }"
-            @click="clearSearch"
-          >重置</a-button>
-          <a-button
-            :style="{ marginLeft: '8px' }"
-            @click="upDownStatue=!upDownStatue"
-          >
+        <a-col :span="24" :style="{ textAlign: 'center' }">
+          <a-button type="primary" html-type="submit" @click="searchTask">查询</a-button>
+          <a-button :style="{ marginLeft: '8px' }" @click="clearSearch">重置</a-button>
+          <a-button :style="{ marginLeft: '8px' }" @click="upDownStatue=!upDownStatue">
             <a-icon :type="!upDownStatue ? 'up' : 'down'" />
             {{!upDownStatue ? '收起' : '展开'}}
           </a-button>
@@ -141,7 +117,7 @@ export default {
           label: '状态',
           placeholder: '请选择状态',
           data: null,
-          selectData: null
+          selectData: undefined
         },
         {
           type: 'input',
