@@ -38,6 +38,7 @@
                 placeholder="请选择类型"
                 style="width: 100%"
                 :getPopupContainer="positonFn"
+                @change="changeType"
                 v-decorator="['farmingTypeId', { rules: [{ required: true, message: '请选择类型' }] }]"
               >
                 <a-select-option
@@ -346,6 +347,10 @@ export default {
     // 计算不可选结束事件
     endDisabledDataFn(current) {
       return current < moment(this.starDisabledData).startOf('day')
+    },
+    // 选择农事类型
+    changeType(e) {
+      this.$emit('changeType', e)
     }
   }
 }

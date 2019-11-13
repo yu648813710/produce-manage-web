@@ -299,9 +299,9 @@ export const getFarmingType = () => {
   })
 }
 // 农事计划任务详情 新增临时任务 选择时的操作列表
-export const getCction = () => {
+export const getCction = (id) => {
   return axios({
-    url: `/produce/action/`,
+    url: `/produce/action/list/${id}`,
     method: 'get'
   })
 }

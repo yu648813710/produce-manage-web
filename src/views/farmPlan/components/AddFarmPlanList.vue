@@ -18,7 +18,11 @@
             <span slot="action" slot-scope="text, record" class="operation-box">
               <span slot="title" @click="showDetailTask(record.instId)">查看</span>
               <span slot="title" @click="editTaskShow(record.instId)">编辑</span>
-              <span slot="title" @click="showDeleteModal(record.instId)">删除</span>
+              <span
+                slot="title"
+                v-if="record.scope!=='public'"
+                @click="showDeleteModal(record.instId)"
+              >删除</span>
             </span>
           </a-table>
         </a-locale-provider>

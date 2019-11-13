@@ -12,7 +12,7 @@
         <a-locale-provider :locale="zhCN">
           <a-table
             class="equipmentTable"
-            :scroll="{ x: 1700 }"
+            :scroll="{ x: 1750 }"
             :rowKey="record => record.instId"
             :columns="columns"
             :dataSource="equipmentList"
@@ -30,7 +30,11 @@
                 v-if="record.taskStatusName==='未开始'"
                 @click="editTaskShow(record.instId)"
               >编辑</span>
-              <span slot="title" @click="showDeleteModal(record.instId)">删除</span>
+              <span
+                v-if="record.scope!=='public'"
+                slot="title"
+                @click="showDeleteModal(record.instId)"
+              >删除</span>
             </span>
           </a-table>
         </a-locale-provider>

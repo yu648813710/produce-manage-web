@@ -20,7 +20,7 @@
               <a-input
                 autocomplete="off"
                 v-model="searchForm.baseName"
-                placeholder="请输入地块名称"
+                placeholder="请输入"
                 v-decorator="[
                   '地块名称',
                   {rules: [{ required: true, message: '请输入地块名称!' }]}

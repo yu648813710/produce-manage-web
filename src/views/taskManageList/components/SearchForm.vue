@@ -97,38 +97,38 @@ export default {
         {
           type: 'input',
           label: '农事计划编号',
-          placeholder: '请输入农事计划',
+          placeholder: '请输入',
           data: null
         },
         {
           type: 'input',
           label: '农事操作',
-          placeholder: '请输入农事操作',
+          placeholder: '请输入',
           data: null
         },
         {
           type: 'input',
           label: '农事类型',
-          placeholder: '请输入农事类型',
+          placeholder: '请输入',
           data: null
         },
         {
           type: 'select',
           label: '状态',
-          placeholder: '请选择状态',
-          data: null,
-          selectData: undefined
+          placeholder: '请选择',
+          data: undefined,
+          selectData: null
         },
         {
           type: 'input',
           label: '所属地块',
-          placeholder: '请输入所属地块',
+          placeholder: '请输入',
           data: null
         },
         {
           type: 'input',
           label: '所属周期',
-          placeholder: '请输入所属周期',
+          placeholder: '请输入',
           data: null
         }
       ]
