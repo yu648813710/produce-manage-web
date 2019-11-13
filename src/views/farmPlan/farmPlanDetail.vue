@@ -85,6 +85,7 @@
       :plan-start-time="detail.planStartTime"
       @hiddenAddDetailTask="hiddenAddDetailTask"
       @addTaskSbumit="addTaskSbumit"
+      @changeType="changeType"
     />
   </div>
 </template>
@@ -144,7 +145,6 @@ export default {
     this.getUtilData()
     this.getLifecycleData()
     this.getFarmingTypeData()
-    this.getCctionData()
   },
   methods: {
     getDetailInfo(id) {
@@ -242,12 +242,16 @@ export default {
       })
     },
     // 获取操作
-    getCctionData() {
-      getCction().then(res => {
+    getCctionData(id) {
+      getCction(id).then(res => {
         if (res.success === 'Y') {
           this.addFormData.cationData = res.data
         }
       })
+    },
+    // 选择农事类型后
+    changeType(id) {
+      this.getCctionData(id)
     }
   }
 }
