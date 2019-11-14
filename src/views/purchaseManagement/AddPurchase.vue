@@ -171,6 +171,9 @@ export default {
       }
     }
   },
+  created() {
+    this.fetchMaterialNumList('')
+  },
   methods: {
     addMaterial (params) {
       let self = this
@@ -315,7 +318,8 @@ export default {
 
     handleBlur (e) {
       if (this.currentFarmingPlanId === null) {
-        this.showError('请选择有效的农事计划编号')
+        // this.showError('请选择有效的农事计划编号')
+        this.$message.error('请选择有效的农事计划编号')
       }
     },
 
