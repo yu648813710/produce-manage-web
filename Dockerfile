@@ -17,8 +17,8 @@ COPY nginx.conf /etc/nginx/nginx.conf
 COPY dist /data/www/
 RUN chmod 777 -R /data/
 
-COPY 3088976_www.test.zhashui-muer.com.cn.pem /data/www/3088976_www.test.zhashui-muer.com.cn.pem;
-COPY 3088976_www.test.zhashui-muer.com.cn.key /data/www/3088976_www.test.zhashui-muer.com.cn.key;
+COPY 3088976_www.test.zhashui-muer.com.cn.pem /data/www/3088976_www.test.zhashui-muer.com.cn.pem
+COPY 3088976_www.test.zhashui-muer.com.cn.key /data/www/3088976_www.test.zhashui-muer.com.cn.key
 
 VOLUME [ "/data/www" ]
 EXPOSE 80
