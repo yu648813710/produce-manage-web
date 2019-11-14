@@ -21,6 +21,6 @@ COPY 3088976_www.test.zhashui-muer.com.cn.pem /data/www/3088976_www.test.zhashui
 COPY 3088976_www.test.zhashui-muer.com.cn.key /data/www/3088976_www.test.zhashui-muer.com.cn.key
 
 VOLUME [ "/data/www" ]
-EXPOSE 80
+EXPOSE 443
 
 CMD ["nginx", "-g", "daemon off;"]
