@@ -31,7 +31,7 @@
               <a-col :span="8">
                 <a-form-item label="出库人">
                   <a-input
-                    placeholder="请输入"
+                    placeholder="请输入出库人"
                     autocomplete="off"
                     v-model="userName"
                   />
@@ -40,7 +40,7 @@
               <a-col :span="8">
                 <a-form-item label="菌包名称">
                   <a-input
-                    placeholder="请输入"
+                    placeholder="请输入菌包名称"
                     autocomplete="off"
                     v-model="fungusBagName"
                   />
