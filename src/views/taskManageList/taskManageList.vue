@@ -150,7 +150,15 @@ export default {
       detailTaskData: {},
       editTaskShowState: false,
       materialData: [],
-      utilData: []
+      utilData: [],
+      listQueryData: {
+        actionName: '', // 操作名称
+        blockLandName: '', // 地块名称
+        cycleName: '', // 周期名称
+        farmingNum: '', // 农事编号
+        farmingTypeName: '', // 农事类型名称
+        taskStatus: '' // 任务状态
+      }
     }
   },
   methods: {
@@ -162,15 +170,8 @@ export default {
       this.deleteShow = false
     },
     // 获取任务列表
-    getTaskManageList(current, pageSize, queryData) {
-      let queryData_ = queryData || {
-        actionName: '', // 操作名称
-        blockLandName: '', // 地块名称
-        cycleName: '', // 周期名称
-        farmingNum: '', // 农事编号
-        farmingTypeName: '', // 农事类型名称
-        taskStatus: '' // 任务状态
-      }
+    getTaskManageList(current, pageSize) {
+      let queryData_ = this.listQueryData
       let postData = {
         pageNo: current,
         pageSize: pageSize
@@ -216,12 +217,9 @@ export default {
     },
     // 搜索任务
     searchTask(e) {
+      this.listQueryData = e
       this.pagination.current = 1
-      this.getTaskManageList(
-        this.pagination.current,
-        this.pagination.pageSize,
-        e
-      )
+      this.getTaskManageList(this.pagination.current, this.pagination.pageSize)
     },
     // 清楚搜索条件
     clearSearch(e) {

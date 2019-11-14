@@ -72,7 +72,8 @@ const app = {
           { name: '地块监控列表' },
           { name: '地块预警规则列表' },
           { name: '任务管理' },
-          { name: '生长监控',
+          {
+            name: '生长监控',
             children: [
               { name: '生长监控大屏' },
               { name: '预警列表-地块' },
