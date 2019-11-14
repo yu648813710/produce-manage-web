@@ -13,7 +13,7 @@
 				<a-form :form="modalForm">
 					<a-form-item label="商品名称" :label-col="{ span: 7 }" :wrapper-col="{ span: 12 }">
             <a-input
-              placeholder="请输入"
+              placeholder="请输入商品名称"
               autocomplete="off"
               maxLength="15"
               v-decorator="[
@@ -25,7 +25,7 @@
 					</a-form-item>
 					<a-form-item label="产品品类" :label-col="{ span: 7 }" :wrapper-col="{ span: 12 }">
             <a-select
-              placeholder="请选择"
+              placeholder="请选择产品品类"
               :allowClear="true"
               :disabled="isEdit"
               :getPopupContainer="triggerNode => {
@@ -42,7 +42,7 @@
 					</a-form-item>
           <a-form-item label="产品品种" :label-col="{ span: 7 }" :wrapper-col="{ span: 12 }">
             <a-select
-              placeholder="请选择"
+              placeholder="请选择产品品种"
               :allowClear="true"
               :getPopupContainer="triggerNode => {
                 return triggerNode.parentNode || document.body;
@@ -58,7 +58,7 @@
 					</a-form-item>
 					<a-form-item label="生产企业" :label-col="{ span: 7 }" :wrapper-col="{ span: 12 }">
             <a-input
-              placeholder="请输入"
+              placeholder="请输入生产企业"
               autocomplete="off"
               maxLength="15"
               v-decorator="[
@@ -121,7 +121,7 @@
             <a-row :gutter="0">
               <a-col :span="22">
                 <a-input-number
-                  placeholder="请输入"
+                  placeholder="请输入保质期"
                   autocomplete="off"
                   style="width:100%;"
                   v-decorator="[

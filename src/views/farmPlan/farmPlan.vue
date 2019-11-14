@@ -15,7 +15,7 @@
                   <span class="search-title">农事计划编号</span>
                   <a-input
                     autocomplete="off"
-                    placeholder="请输入"
+                    placeholder="请输入农事计划编号"
                     class="search-input"
                     v-model="searchInputVal.farmingNum"
                   />
@@ -27,7 +27,7 @@
                   <a-input
                     autocomplete="off"
                     style="width: 100%"
-                    placeholder="请输入"
+                    placeholder="请输入产品名称"
                     class="search-input"
                     v-model="searchInputVal.productName"
                   />
@@ -39,7 +39,7 @@
                   <a-input
                     autocomplete="off"
                     style="width: 100%"
-                    placeholder="请输入"
+                    placeholder="请输入所属基地"
                     class="search-input"
                     v-model="searchInputVal.baseLandName"
                   />
@@ -52,7 +52,7 @@
                   <span class="search-title">所属地块</span>
                   <a-input
                     autocomplete="off"
-                    placeholder="请输入"
+                    placeholder="请输入所属地块"
                     class="search-input"
                     v-model="searchInputVal.blockLandName"
                   />
@@ -64,7 +64,7 @@
                   <a-input
                     autocomplete="off"
                     style="width: 100%"
-                    placeholder="请输入"
+                    placeholder="请输入生长周期"
                     class="search-input"
                     v-model="searchInputVal.cycleName"
                   />
@@ -76,7 +76,7 @@
                   <a-input
                     autocomplete="off"
                     style="width: 100%"
-                    placeholder="请输入"
+                    placeholder="请输入创建人"
                     class="search-input"
                     v-model="searchInputVal.createUserName"
                   />
@@ -90,7 +90,7 @@
                   <a-input
                     autocomplete="off"
                     style="width: 100%"
-                    placeholder="请输入"
+                    placeholder="请输入种植方案"
                     class="search-input"
                     v-model="searchInputVal.solutionPlanName"
                   />
