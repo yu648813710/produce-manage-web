@@ -44,6 +44,9 @@
                           <a-select
                             placeholder="请选择"
                             :allowClear="true"
+                            :getPopupContainer="triggerNode => {
+                              return triggerNode.parentNode || document.body;
+                            }"
                             style="width: 100%;"
                             :disabled="isEdit"
                             v-decorator="[
@@ -77,6 +80,9 @@
                           <a-select
                             placeholder="请选择"
                             :allowClear="true"
+                            :getPopupContainer="triggerNode => {
+                              return triggerNode.parentNode || document.body;
+                            }"
                             style="width: 100%;"
                             :disabled="isEdit"
                             v-decorator="[
@@ -110,6 +116,9 @@
                           <a-select
                             placeholder="请选择"
                             :allowClear="true"
+                            :getPopupContainer="triggerNode => {
+                              return triggerNode.parentNode || document.body;
+                            }"
                             style="width: 100%;"
                             :disabled="isEdit"
                             v-decorator="[
@@ -144,6 +153,9 @@
                           <a-select
                             placeholder="请选择"
                             :allowClear="true"
+                            :getPopupContainer="triggerNode => {
+                              return triggerNode.parentNode || document.body;
+                            }"
                             style="width: 100%;"
                             :disabled="isEdit"
                             v-decorator="[
@@ -176,6 +188,9 @@
                         >
                           <a-date-picker
                           format="YYYY-MM-DD"
+                          :getCalendarContainer="triggerNode => {
+                            return triggerNode.parentNode || document.body;
+                          }"
                           :disabledDate="disabledDate"
                             v-decorator="[
                               'startTime',
@@ -274,6 +289,9 @@
                           <a-select
                             placeholder="请选择"
                             :allowClear="true"
+                            :getPopupContainer="triggerNode => {
+                              return triggerNode.parentNode || document.body;
+                            }"
                             style="width: 100%;"
                             v-decorator="[
                               `assignerId_${index}`,

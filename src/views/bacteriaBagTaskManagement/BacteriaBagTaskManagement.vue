@@ -16,6 +16,9 @@
                 <a-form-item label="所属车间">
                   <a-select
                     placeholder="请选择"
+                    :getPopupContainer="triggerNode => {
+                      return triggerNode.parentNode || document.body;
+                    }"
                     :allowClear="true"
                     style="width: 100%;"
                     v-decorator="[
@@ -30,6 +33,9 @@
                 <a-form-item label="日期范围">
                   <a-range-picker
                     @change="handleDateChange"
+                    :getCalendarContainer="triggerNode => {
+                      return triggerNode.parentNode || document.body;
+                    }"
                     v-decorator="[
                       'time', {},
                     ]"
@@ -43,6 +49,9 @@
                 <a-form-item label="菌包名称">
                   <a-select
                     placeholder="请选择"
+                    :getPopupContainer="triggerNode => {
+                      return triggerNode.parentNode || document.body;
+                    }"
                     :allowClear="true"
                     style="width: 100%;"
                     v-decorator="[

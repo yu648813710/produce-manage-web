@@ -15,6 +15,9 @@
                     placeholder="请选择"
                     class="detail-input"
                     style="width: 100%"
+                    :getPopupContainer="triggerNode => {
+                      return triggerNode.parentNode || document.body;
+                    }"
                     @change="frameChange"
                     v-decorator="[
                     'productValue',
@@ -36,6 +39,9 @@
                     placeholder="请选择"
                     style="width: 100%"
                     @change="programChange"
+                    :getPopupContainer="triggerNode => {
+                      return triggerNode.parentNode || document.body;
+                    }"
                     v-decorator="[
                     'solutionValue',
                     {rules: [{ required: true, message: '请选择种植方案!' }]}]"
@@ -54,6 +60,9 @@
                     class="detail-input"
                     placeholder="请选择"
                     style="width: 100%"
+                    :getPopupContainer="triggerNode => {
+                      return triggerNode.parentNode || document.body;
+                    }"
                     @change="baseChange"
                     v-decorator="[
                     'baseLandValue',
@@ -72,6 +81,9 @@
                   <a-date-picker
                     class="detail-input"
                     format="YYYY-MM-DD"
+                     :getCalendarContainer="triggerNode => {
+                        return triggerNode.parentNode || document.body;
+                      }"
                     placeholder="请选择"
                     :disabledDate="disabledDateFn"
                     style="width: 100%"
@@ -88,6 +100,9 @@
                     class="detail-input"
                     placeholder="请选择"
                     style="width: 100%"
+                    :getPopupContainer="triggerNode => {
+                      return triggerNode.parentNode || document.body;
+                    }"
                     @change="bagChange"
                     v-decorator="[
                     'seedValue',

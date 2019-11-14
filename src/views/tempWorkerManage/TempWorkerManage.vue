@@ -24,6 +24,9 @@
                   <a-select
                     placeholder="请选择"
                     :allowClear="true"
+                    :getPopupContainer="triggerNode => {
+                      return triggerNode.parentNode || document.body;
+                    }"
                     style="width: 100%;"
                     v-decorator="[
                       'jobStatus',{},
@@ -44,6 +47,9 @@
                   <a-select
                     placeholder="请选择"
                     :allowClear="true"
+                    :getPopupContainer="triggerNode => {
+                      return triggerNode.parentNode || document.body;
+                    }"
                     style="width: 100%;"
                     v-decorator="[
                       'povertyStatus',{},

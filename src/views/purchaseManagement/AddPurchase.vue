@@ -64,6 +64,9 @@
             <a-select
               v-else-if="index === 1 && currentFarmingPlanId !== null"
               notFoundContent="未匹配到数据"
+              :getPopupContainer="triggerNode => {
+                return triggerNode.parentNode || document.body;
+              }"
               v-decorator="[`select_${item.id}`, {
                   rules: item.validators
                 }]"
@@ -74,6 +77,9 @@
             <a-select
               v-else-if="index === 2 && currentFarmingPlanId !== null"
               notFoundContent="未匹配到数据"
+              :getPopupContainer="triggerNode => {
+                return triggerNode.parentNode || document.body;
+              }"
               v-decorator="[`select_${item.id}`, {
                   rules: item.validators
                 }]"
@@ -85,6 +91,9 @@
             <a-select
               v-else-if="index === 3 && currentFarmingPlanId !== null"
               notFoundContent="未匹配到数据"
+              :getPopupContainer="triggerNode => {
+                return triggerNode.parentNode || document.body;
+              }"
               v-decorator="[`select_${item.id}`, {
                   rules: item.validators
                 }]"
@@ -95,6 +104,9 @@
             <a-select
               v-else
               notFoundContent="未匹配到数据"
+              :getPopupContainer="triggerNode => {
+                return triggerNode.parentNode || document.body;
+              }"
               v-decorator="[`select_${item.id}`, {
                   rules: item.validators
                 }]"

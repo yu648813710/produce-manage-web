@@ -26,6 +26,9 @@
           <a-select
             v-else
             placeholder="请选择"
+            :getPopupContainer="triggerNode => {
+              return triggerNode.parentNode || document.body;
+            }"
             v-decorator="[
               'shopName',
               {rules: [{ required: true, message: '请选择车间名称!' }]}

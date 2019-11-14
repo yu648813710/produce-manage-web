@@ -18,7 +18,11 @@
           <!--          &lt;!&ndash; 所属公司 &ndash;&gt;-->
           <a-col :span="8">
             <a-form-item label="所属公司:" :label-col="{ span: 24 }" :wrapper-col="{ span: 24 }">
-              <a-select placeholder="请选择公司">
+              <a-select placeholder="请选择公司"
+              :getPopupContainer="triggerNode => {
+                return triggerNode.parentNode || document.body;
+              }"
+              >
                 <!--                <a-select-option v-for="(item, index) in equipmentStatusList" :key="index" :value="item.id">{{item.name}}</a-select-option>-->
                 <a-select-option value="china">China</a-select-option>
                 <a-select-option value="usa">U.S.A</a-select-option>
@@ -28,7 +32,11 @@
           <!--          &lt;!&ndash; 负责人 &ndash;&gt;-->
           <a-col :span="8">
             <a-form-item label="负责人:" :label-col="{ span: 24 }" :wrapper-col="{ span: 24 }">
-              <a-select placeholder="请选择负责人">
+              <a-select placeholder="请选择负责人"
+              :getPopupContainer="triggerNode => {
+                return triggerNode.parentNode || document.body;
+              }"
+              >
                 <!--                <a-select-option v-for="(item, index) in equipmentStatusList" :key="index" :value="item.id">{{item.name}}</a-select-option>-->
                 <a-select-option value="china">黎明</a-select-option>
                 <a-select-option value="usa">王浩</a-select-option>
@@ -87,6 +95,9 @@
               <a-form-item label="所属公司:" :label-col="{ span: 4 }" :wrapper-col="{ span: 20 }">
                 <a-select
                   placeholder="请选择公司"
+                  :getPopupContainer="triggerNode => {
+                    return triggerNode.parentNode || document.body;
+                  }"
                   v-decorator="['company',{rules: [{ required: true, message: '请选择公司!' }]}]"
                 >
                   <a-select-option value="jack">Jack</a-select-option>
@@ -97,6 +108,9 @@
             <a-col :span="24">
               <a-form-item label="基地名称:" :label-col="{ span: 4 }" :wrapper-col="{ span: 20 }">
                 <a-select
+                  :getPopupContainer="triggerNode => {
+                    return triggerNode.parentNode || document.body;
+                  }"
                   placeholder="请输入基地名称"
                   v-decorator="['base',{rules: [{ required: true, message: '请输入基地名称!' }]}]"
                 >
@@ -110,6 +124,9 @@
             <a-col :span="24">
               <a-form-item label="基地面积:" :label-col="{ span: 4 }" :wrapper-col="{ span: 20 }">
                 <a-select
+                  :getPopupContainer="triggerNode => {
+                    return triggerNode.parentNode || document.body;
+                  }"
                   placeholder="请输入基地面积"
                   v-decorator="['area',{rules: [{ required: true, message: '请输入基地面积!' }]}]"
                 >
@@ -121,6 +138,9 @@
             <a-col :span="24">
               <a-form-item label="基地地址:" :label-col="{ span: 4 }" :wrapper-col="{ span: 20 }">
                 <a-select
+                  :getPopupContainer="triggerNode => {
+                    return triggerNode.parentNode || document.body;
+                  }"
                   placeholder="请输入基地地址"
                   v-decorator="['address',{rules: [{ required: true, message: '请输入基地地址!' }]}]"
                 >
