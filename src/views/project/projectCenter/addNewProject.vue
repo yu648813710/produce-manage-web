@@ -42,9 +42,13 @@
               <a-col :span="11">
                 <div class="search-input-wrapper">
                   <a-form-item :label="`产品品类`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
-                    <a-select class="detail-input" placeholder="请选择产品品类" style="width: 100%"
-                              @change="categoryChange"
-                              v-decorator="msgForm.productCategoryRule"
+                    <a-select class="detail-input" placeholder="请选择产品品类"
+                      :getPopupContainer="triggerNode => {
+                        return triggerNode.parentNode || document.body;
+                      }"
+                      style="width: 100%"
+                      @change="categoryChange"
+                      v-decorator="msgForm.productCategoryRule"
                     >
                       <a-select-option v-for="(item) in productCategoryList"
                                        :key="item.value"
@@ -61,6 +65,9 @@
                     <a-select class="detail-input" placeholder="请选择产品品种" style="width: 100%"
                               :disabled="!msgForm.isCategory"
                               @change="breedChange"
+                              :getPopupContainer="triggerNode => {
+                                return triggerNode.parentNode || document.body;
+                              }"
                               v-decorator="msgForm.productVarietyRule"
                     >
                       <a-select-option v-for="(item) in productVarietyList"
@@ -76,6 +83,9 @@
                 <div class="search-input-wrapper">
                   <a-form-item :label="`方案权限`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
                     <a-select class="detail-input" placeholder="请选择方案权限" style="width: 100%"
+                              :getPopupContainer="triggerNode => {
+                                return triggerNode.parentNode || document.body;
+                              }"
                               @change="projectPowerChange"
                               v-decorator="msgForm.projectPowerRule"
                     >
@@ -93,6 +103,9 @@
                   <a-form-item :label="`参与人`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
                     <a-select class="detail-input" placeholder="请选择参与人" style="width: 100%"
                               mode="multiple"
+                              :getPopupContainer="triggerNode => {
+                                return triggerNode.parentNode || document.body;
+                              }"
                               @change="participantUserChange"
                               v-decorator="msgForm.participantUserRule"
                     >
@@ -330,6 +343,9 @@
                 <a-select
                   @change="handleChange"
                   :autoClearSearchValue="true"
+                  :getPopupContainer="triggerNode => {
+                    return triggerNode.parentNode || document.body;
+                  }"
                   placeholder="请选择" :disabled="selectList.length === 0" style="width: 120px"
                   v-decorator="[
                       'selectCycle',
@@ -380,6 +396,9 @@
               <a-form-item :label="`所属周期`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
                 <a-select class="detail-input" placeholder="请选择周期" style="width: 100%"
                           @change="cycleChange"
+                          :getPopupContainer="triggerNode => {
+                            return triggerNode.parentNode || document.body;
+                          }"
                           v-decorator="taskForm.cycleRule"
                 >
                   <a-select-option v-for="(item) in taskCycle"
@@ -394,6 +413,9 @@
               <a-form-item :label="`农事类型`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
                 <a-select class="detail-input" placeholder="请选择农事类型" style="width: 100%"
                           @change="frameChange"
+                          :getPopupContainer="triggerNode => {
+                            return triggerNode.parentNode || document.body;
+                          }"
                           v-decorator="taskForm.frameRule"
                 >
                   <a-select-option v-for="(item) in frameType"
@@ -409,6 +431,9 @@
                 <a-select class="detail-input" placeholder="请选择任务操作" style="width: 100%"
                           :disabled="!isFrameType"
                           @change="actionChange"
+                          :getPopupContainer="triggerNode => {
+                            return triggerNode.parentNode || document.body;
+                          }"
                           v-decorator="taskForm.actionRule"
                 >
                   <a-select-option v-for="(item) in actionType"
@@ -507,6 +532,9 @@
                   class="tableSelect"
                   placeholder="请选择"
                   :allowClear="true"
+                  :getPopupContainer="triggerNode => {
+                    return triggerNode.parentNode || document.body;
+                  }"
                   style="width: 100px"
                   v-decorator="[
                       'nongziName',

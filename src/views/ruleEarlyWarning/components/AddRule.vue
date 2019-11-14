@@ -19,6 +19,9 @@
         >
           <a-select
             placeholder="选择基地"
+            :getPopupContainer="triggerNode => {
+              return triggerNode.parentNode || document.body;
+            }"
             @change="baseLandChange"
             v-decorator="[
           '基地名称',
@@ -40,6 +43,9 @@
         >
           <a-select
             placeholder="选择地块"
+            :getPopupContainer="triggerNode => {
+              return triggerNode.parentNode || document.body;
+            }"
             @change="blockLandChange"
             v-decorator="[
           '地块名称',

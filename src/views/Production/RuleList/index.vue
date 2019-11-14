@@ -24,6 +24,9 @@
           <a-col :span="8">
             <a-form-item label="负责人">
               <a-select placeholder="请选择"
+                :getPopupContainer="triggerNode => {
+                  return triggerNode.parentNode || document.body;
+                }"
                 :allowClear="true"
                 style="width: 400px;"
                 v-decorator="[

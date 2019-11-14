@@ -38,6 +38,9 @@
                 >
                   <a-select
                     placeholder="请选择异常原因"
+                    :getPopupContainer="triggerNode => {
+                      return triggerNode.parentNode || document.body;
+                    }"
                     :allowClear="true"
                     class="search-input"
                     style="width: 100%"

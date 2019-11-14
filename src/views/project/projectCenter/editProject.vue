@@ -47,6 +47,9 @@
                       class="detail-input"
                       placeholder="请选择产品品类"
                       style="width: 100%"
+                      :getPopupContainer="triggerNode => {
+                        return triggerNode.parentNode || document.body;
+                      }"
                       @change="categoryChange"
                       v-decorator="msgForm.productCategoryRule"
                     >
@@ -65,6 +68,9 @@
                       class="detail-input"
                       placeholder="请选择产品品种"
                       style="width: 100%"
+                      :getPopupContainer="triggerNode => {
+                        return triggerNode.parentNode || document.body;
+                      }"
                       @change="breedChange"
                       v-decorator="msgForm.productVarietyRule"
                     >
@@ -82,6 +88,9 @@
                     <a-select
                       class="detail-input"
                       placeholder="请选择方案权限"
+                      :getPopupContainer="triggerNode => {
+                        return triggerNode.parentNode || document.body;
+                      }"
                       style="width: 100%"
                       @change="projectPowerChange"
                       v-decorator="msgForm.projectPowerRule"
@@ -100,6 +109,9 @@
                     <a-select
                       class="detail-input"
                       placeholder="请选择参与人"
+                      :getPopupContainer="triggerNode => {
+                        return triggerNode.parentNode || document.body;
+                      }"
                       style="width: 100%"
                       mode="multiple"
                       @change="participantUserChange"
@@ -320,6 +332,9 @@
           <a-col :span="3">
             <a-select
               placeholder="请选择"
+              :getPopupContainer="triggerNode => {
+                return triggerNode.parentNode || document.body;
+              }"
               :disabled="selectList.length === 0"
               style="width: 120px"
               :value="cycleSelectValue"
@@ -355,6 +370,9 @@
               <a-form-item :label="`所属周期`" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
                 <a-select
                   class="detail-input"
+                  :getPopupContainer="triggerNode => {
+                    return triggerNode.parentNode || document.body;
+                  }"
                   placeholder="请选择周期"
                   style="width: 100%"
                   @change="cycleChange"
@@ -374,6 +392,9 @@
                 <a-select
                   class="detail-input"
                   placeholder="请选择农事类型"
+                  :getPopupContainer="triggerNode => {
+                    return triggerNode.parentNode || document.body;
+                  }"
                   style="width: 100%"
                   @change="frameChange"
                   :disabled="checkIsEditTask"
@@ -391,6 +412,9 @@
                 <a-select
                   class="detail-input"
                   placeholder="请选择任务操作"
+                  :getPopupContainer="triggerNode => {
+                    return triggerNode.parentNode || document.body;
+                  }"
                   style="width: 100%"
                   :disabled="!isFrameType || checkIsEditTask"
                   @change="actionChange"
@@ -503,6 +527,9 @@
                 <a-form-item>
                   <a-select
                     @change="nameChange"
+                    :getPopupContainer="triggerNode => {
+                      return triggerNode.parentNode || document.body;
+                    }"
                     class="tableSelect"
                     placeholder="请选择"
                     :allowClear="true"

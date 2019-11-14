@@ -14,7 +14,11 @@
               :label-col="{ span: 4 }"
               :wrapper-col="{ span: 20 }"
             >
-              <a-select placeholder="请选择公司" v-decorator="['companyName',
+              <a-select placeholder="请选择公司"
+              :getPopupContainer="triggerNode => {
+                return triggerNode.parentNode || document.body;
+              }"
+              v-decorator="['companyName',
           {rules: [{ required: true, message: '请选择公司!' }]}]">
                 <a-select-option value="jack">Jack</a-select-option>
                 <a-select-option value="lucy">Lucy</a-select-option>
@@ -27,7 +31,11 @@
               :label-col="{ span: 4 }"
               :wrapper-col="{ span: 20 }"
             >
-              <a-select placeholder="请输入基地名称" v-decorator="['baseName',
+              <a-select placeholder="请输入基地名称"
+              :getPopupContainer="triggerNode => {
+                return triggerNode.parentNode || document.body;
+              }"
+              v-decorator="['baseName',
           {rules: [{ required: true, message: '请输入基地名称!' }]}]">
                 <a-select-option value="jack">Jack</a-select-option>
                 <a-select-option value="lucy">Lucy</a-select-option>
@@ -42,7 +50,11 @@
               :label-col="{ span: 4 }"
               :wrapper-col="{ span: 20 }"
             >
-              <a-select placeholder="请输入基地面积" v-decorator="['baseArea',
+              <a-select placeholder="请输入基地面积"
+              :getPopupContainer="triggerNode => {
+                return triggerNode.parentNode || document.body;
+              }"
+              v-decorator="['baseArea',
           {rules: [{ required: true, message: '请输入基地面积!' }]}]">
                 <a-select-option value="jack">Jack</a-select-option>
                 <a-select-option value="lucy">Lucy</a-select-option>
@@ -55,7 +67,11 @@
               :label-col="{ span: 4 }"
               :wrapper-col="{ span: 20 }"
             >
-              <a-select placeholder="请输入基地地址" v-decorator="['baseAddress',
+              <a-select placeholder="请输入基地地址"
+              :getPopupContainer="triggerNode => {
+                return triggerNode.parentNode || document.body;
+              }"
+              v-decorator="['baseAddress',
           {rules: [{ required: true, message: '请输入基地地址!' }]}]">
                 <a-select-option value="jack">Jack</a-select-option>
                 <a-select-option value="lucy">Lucy</a-select-option>

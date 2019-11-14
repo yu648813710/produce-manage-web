@@ -23,6 +23,9 @@
                 <a-select
                   v-if="index === 2 && item.arrs.length > 0"
                   notFoundContent="未匹配到数据"
+                  :getPopupContainer="triggerNode => {
+                    return triggerNode.parentNode || document.body;
+                  }"
                   v-decorator="[`select_${item.id}`, {
                     rules: item.validators
                   }]"
@@ -36,6 +39,9 @@
                   v-decorator="[`select_${item.id}`, {
                     rules: item.validators
                   }]"
+                  :getPopupContainer="triggerNode => {
+                    return triggerNode.parentNode || document.body;
+                  }"
                   :placeholder="item.placeholder"
                 >
                   <a-select-option v-for="i in item.arrs" :key="i.id">{{i.label}}</a-select-option>
@@ -43,6 +49,9 @@
                 <template v-else-if="index === 5">
                   <a-date-picker
                     :disabledDate="disabledStartDate"
+                    :getCalendarContainer="triggerNode => {
+                      return triggerNode.parentNode || document.body;
+                    }"
                     style="width:45%"
                     mode="date"
                     format="YYYY-MM-DD"
@@ -53,6 +62,9 @@
                   <span style="height:1px;width:3%;margin: 0 2%;">━━</span>
                   <a-date-picker
                     :disabledDate="disabledEndDate"
+                    :getCalendarContainer="triggerNode => {
+                      return triggerNode.parentNode || document.body;
+                    }"
                     style="width:45%"
                     mode="date"
                     format="YYYY-MM-DD"

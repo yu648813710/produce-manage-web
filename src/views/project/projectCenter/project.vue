@@ -41,6 +41,9 @@
                 <a-form-item label="状态" :label-col="{ span: 24 }" :wrapper-col="{ span: 20 }">
                   <a-select
                     placeholder="请选择状态"
+                    :getPopupContainer="triggerNode => {
+                      return triggerNode.parentNode || document.body;
+                    }"
                     :allowClear="true"
                     class="search-input"
                     style="width: 100%"
@@ -62,6 +65,9 @@
                 <a-form-item label="方案权限" :label-col="{ span: 24 }" :wrapper-col="{ span: 20 }">
                   <a-select
                     placeholder="请选择方案权限"
+                    :getPopupContainer="triggerNode => {
+                      return triggerNode.parentNode || document.body;
+                    }"
                     :allowClear="true"
                     class="search-input"
                     style="width: 100%"

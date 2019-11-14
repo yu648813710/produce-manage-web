@@ -13,7 +13,7 @@
 				<a-form :form="modalForm">
 					<a-form-item label="商品名称" :label-col="{ span: 7 }" :wrapper-col="{ span: 12 }">
             <a-input
-              placeholder="请输入"
+              placeholder="请输入商品名称"
               autocomplete="off"
               maxLength="15"
               v-decorator="[
@@ -25,9 +25,12 @@
 					</a-form-item>
 					<a-form-item label="产品品类" :label-col="{ span: 7 }" :wrapper-col="{ span: 12 }">
             <a-select
-              placeholder="请选择"
+              placeholder="请选择产品品类"
               :allowClear="true"
               :disabled="isEdit"
+              :getPopupContainer="triggerNode => {
+                return triggerNode.parentNode || document.body;
+              }"
               v-decorator="[
                 'productCategoryCode',
                 { rules: [{ required: true, message: '请选择产品品类' }] },
@@ -39,8 +42,11 @@
 					</a-form-item>
           <a-form-item label="产品品种" :label-col="{ span: 7 }" :wrapper-col="{ span: 12 }">
             <a-select
-              placeholder="请选择"
+              placeholder="请选择产品品种"
               :allowClear="true"
+              :getPopupContainer="triggerNode => {
+                return triggerNode.parentNode || document.body;
+              }"
               :disabled="isEdit"
               v-decorator="[
                 'productBreedCode',
@@ -52,7 +58,7 @@
 					</a-form-item>
 					<a-form-item label="生产企业" :label-col="{ span: 7 }" :wrapper-col="{ span: 12 }">
             <a-input
-              placeholder="请输入"
+              placeholder="请输入生产企业"
               autocomplete="off"
               maxLength="15"
               v-decorator="[
@@ -93,6 +99,9 @@
 					<a-form-item label="生产日期" :label-col="{ span: 7 }" :wrapper-col="{ span: 12 }">
             <a-date-picker
               format="YYYY-MM-DD"
+              :getCalendarContainer="triggerNode => {
+                return triggerNode.parentNode || document.body;
+              }"
               :disabledDate="disabledDate"
               v-decorator="[
                 'productionDate',
@@ -112,7 +121,7 @@
             <a-row :gutter="0">
               <a-col :span="22">
                 <a-input-number
-                  placeholder="请输入"
+                  placeholder="请输入保质期"
                   autocomplete="off"
                   style="width:100%;"
                   v-decorator="[

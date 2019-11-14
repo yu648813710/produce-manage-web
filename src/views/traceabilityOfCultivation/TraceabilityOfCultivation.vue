@@ -13,7 +13,7 @@
                 <a-form-item label="商品名称">
                   <a-input
                     autocomplete="off"
-                    placeholder="请输入"
+                    placeholder="请输入商品名称"
                     v-model="productName"
                   />
                 </a-form-item>
@@ -22,7 +22,7 @@
                 <a-form-item label="产品品种">
                   <a-input
                     autocomplete="off"
-                    placeholder="请输入"
+                    placeholder="请输入产品品种"
                     v-model="breedName"
                   />
                 </a-form-item>
@@ -31,7 +31,7 @@
                 <a-form-item label="生产企业">
                   <a-input
                     autocomplete="off"
-                    placeholder="请输入"
+                    placeholder="请输入生产企业"
                     v-model="productionCompanyName"
                   />
                 </a-form-item>
@@ -42,7 +42,7 @@
                 <a-form-item label="生产地">
                   <a-input
                     autocomplete="off"
-                    placeholder="请输入"
+                    placeholder="请输入生产地"
                     v-model="address"
                   />
                 </a-form-item>

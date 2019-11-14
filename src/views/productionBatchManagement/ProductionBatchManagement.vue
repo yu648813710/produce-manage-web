@@ -16,7 +16,7 @@
                 <a-form-item label="生产批次号">
                   <a-input
                     autocomplete="off"
-                    placeholder="请输入"
+                    placeholder="请输入生产批次号"
                     v-model="productionPatchCode"
                   />
                 </a-form-item>
@@ -25,7 +25,7 @@
                 <a-form-item label="产品名称">
                   <a-input
                     autocomplete="off"
-                    placeholder="请输入"
+                    placeholder="请输入产品名称"
                     v-model="productName"
                   />
                 </a-form-item>
@@ -34,7 +34,7 @@
                 <a-form-item label="采收人">
                   <a-input
                     autocomplete="off"
-                    placeholder="请输入"
+                    placeholder="请输入采收人"
                     v-model="harvester"
                   />
                 </a-form-item>

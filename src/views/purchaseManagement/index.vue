@@ -15,6 +15,9 @@
                 <a-select
                   v-if="index === 4"
                   notFoundContent="未匹配到数据"
+                  :getPopupContainer="triggerNode => {
+                    return triggerNode.parentNode || document.body;
+                  }"
                   v-decorator="[`select_${item.id}`, {
                     rules: item.validators
                   }]"
@@ -214,7 +217,11 @@ export default {
       fields,
       columns,
       list,
-      pagination: { showQuickJumper: true, showSizeChanger: true },
+      pagination: {
+        showQuickJumper: true,
+        showSizeChanger: true,
+        total: 0,
+        showTotal: total => `共 ${total} 条` },
       form: this.$form.createForm(this, { name: 'purchaseManagement' }),
       moneyForm: this.$form.createForm(this, { name: 'moneyForm' }),
       loading: false,
