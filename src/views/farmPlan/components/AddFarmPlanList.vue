@@ -158,6 +158,7 @@ export default {
         this.hiddenDeleteModal()
         this.tipMessage(res.success, res.message)
         this.$emit('changeQueryTaskData')
+        this.getTaskManageList(this.queryTaskData)
       })
     },
     // 请求详情数据
@@ -241,6 +242,7 @@ export default {
         if (res.success === 'Y') {
           this.$emit('changeQueryTaskData')
           this.editTaskHidden() // 隐藏弹窗
+          this.getTaskManageList(this.queryTaskData)
         }
       })
     }

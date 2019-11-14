@@ -2,40 +2,17 @@
   <div id="login">
     <div class="alpha-area">
       <div class="form-area">
-        <a-row
-          class="row-tip"
-          justify="center"
-          align="middle"
-        >
+        <a-row class="row-tip" justify="center" align="middle">
           <a-col :span="6">
-            <img
-              src="../assets/image/logo.png"
-              style="width:72px;height:72px;"
-              alt="logo"
-            />
+            <img src="../assets/image/logo.png" style="width:72px;height:72px;" alt="logo" />
           </a-col>
         </a-row>
-        <a-row
-          class="row-tip"
-          justify="center"
-          align="middle"
-        >
+        <a-row class="row-tip" justify="center" align="middle">
           <p class="title">柞水木耳物联网大数据平台</p>
         </a-row>
-        <a-form
-          :form="form"
-          @submit="login"
-        >
-          <a-row
-            class="row-user-name"
-            justify="center"
-            align="middle"
-          >
-            <a-col
-              v-for="(i, index) in formdata"
-              :key="i.id"
-              :span="24"
-            >
+        <a-form :form="form" @submit="login">
+          <a-row class="row-user-name" justify="center" align="middle">
+            <a-col v-for="(i, index) in formdata" :key="i.id" :span="24">
               <a-form-item :label="i.label">
                 <a-input
                   autocomplete="off"
@@ -51,16 +28,8 @@
                   :placeholder="i.plc"
                   @change="handleInput"
                 >
-                  <a-icon
-                    slot="prefix"
-                    type="user"
-                  />
-                  <a-icon
-                    v-if="userName"
-                    slot="suffix"
-                    type="close-circle"
-                    @click="emitEmptyName"
-                  />
+                  <a-icon slot="prefix" type="user" />
+                  <a-icon v-if="userName" slot="suffix" type="close-circle" @click="emitEmptyName" />
                 </a-input>
                 <a-input
                   v-else
@@ -77,10 +46,7 @@
                   :placeholder="i.plc"
                   @change="handleInput"
                 >
-                  <a-icon
-                    slot="prefix"
-                    type="lock"
-                  />
+                  <a-icon slot="prefix" type="lock" />
                   <a-icon
                     style="cursor: pointer;"
                     slot="addonAfter"
@@ -94,11 +60,7 @@
           </a-row>
           <a-row class="row-btn">
             <a-col :span="24">
-              <a-button
-                class="btn-login"
-                html-type="submit"
-                @click="login"
-              >确 认 登 录</a-button>
+              <a-button class="btn-login" html-type="submit" @click="login">确 认 登 录</a-button>
             </a-col>
           </a-row>
         </a-form>
@@ -107,7 +69,6 @@
   </div>
 </template>
 <script>
-import { mapMutations, mapGetters } from 'vuex'
 import Vue from 'vue'
 import { Button, Row, Col, Icon, Input, Form } from 'ant-design-vue'
 Vue.use(Form)
@@ -120,11 +81,7 @@ export default {
     'a-icon': Icon,
     'a-input': Input
   },
-  computed: {
-    ...mapGetters({
-      list: 'menuAuth'
-    })
-  },
+  computed: {},
   data() {
     // [角色名称]校验规则:
     const ValidatorName = (rule, value, callback) => {
@@ -160,39 +117,13 @@ export default {
       ]
     }
   },
-  mounted() {
-    this.$store.commit('SET_MENUAUTH', [])
-    this.setURLconfig()
-  },
+  mounted() {},
   methods: {
-    ...mapMutations(['SET_LOGINUSERNAME', 'SET_BURNSOCKETTAG']),
-    setURLconfig() {
-      let expires = 7 * 24 * 60 * 60 * 1000
-      Vue.ls.set('url', 'http://39.97.202.228', expires)
-    },
     login(e) {
       let self = this
       e.preventDefault()
       this.form.validateFields((error, values) => {
         if (error === null || !error) {
-          // let params = {
-          //   userAccount: self.userName,
-          //   password: self.passwd
-          // }
-          // self.$api.postLogin(params).then(async res => {
-          //     message.success(res.data.resultMsg)
-          //     // 登录后页面跳转
-          //     let menus = await this.$api.getMenuAuth()
-          //     this.$store.commit('SET_MENUAUTH', menus.data)
-          //     let path = menus.data.length > 0 ? menus.data[0].childrens[0].authPath : '/401'
-          //     self.$router.push({ path: path })
-          //     // 获取用户名
-          //     self.$api.getLoginUserName().then(res => {
-          //         self.SET_LOGINUSERNAME(res.data.userName)
-          //         let rdm = self.$extend.uuid(20, 16) + '-'
-          //         self.SET_BURNSOCKETTAG(rdm)
-          //     })
-          // })
           if (this.userName === 'admin' && this.passwd === '123456') {
             self.$store.commit('SET_USERTOKEN', '123')
             self.$router.push('/')
@@ -230,7 +161,6 @@ export default {
         self.passwd = ''
       })
     },
-
     seePwdAction() {
       this.isPassword = !this.isPassword
     }
