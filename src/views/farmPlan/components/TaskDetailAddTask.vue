@@ -71,6 +71,9 @@
             <a-form-item label="开始时间" :wrapper-col="{span:24}">
               <a-date-picker
                 style="width: 100%"
+                 :getCalendarContainer="triggerNode => {
+                    return triggerNode.parentNode || document.body;
+                  }"
                 placeholder="请选择开始时间"
                 v-decorator="['startTime', { rules: [{ required: true, message: '请选择开始时间' }] }]"
                 @change="changeStarTime"
@@ -84,6 +87,9 @@
             <a-form-item label="结束时间" :wrapper-col="{span:24}">
               <a-date-picker
                 style="width: 100%"
+                 :getCalendarContainer="triggerNode => {
+                    return triggerNode.parentNode || document.body;
+                  }"
                 placeholder="请选择结束时间"
                 v-decorator="['endTime', { rules: [{ required: true, message: '请选择结束时间' }] }]"
                 @change="changeEndTime"

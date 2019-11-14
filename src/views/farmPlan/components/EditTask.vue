@@ -134,6 +134,9 @@
                   <a-select
                     placeholder="请选择"
                     style="width: 100%"
+                    :getPopupContainer="triggerNode => {
+                      return triggerNode.parentNode || document.body;
+                    }"
                     v-decorator="['materialId', { rules: [{ required: true, message: '请选择' }] }]"
                   >
                     <a-select-option
@@ -165,6 +168,9 @@
                 >
                   <a-select
                     placeholder="请选择"
+                    :getPopupContainer="triggerNode => {
+                      return triggerNode.parentNode || document.body;
+                    }"
                     style="width: 100%"
                     v-decorator="['materialUnitId', { rules: [{ required: true, message: '请选择' }] }]"
                   >

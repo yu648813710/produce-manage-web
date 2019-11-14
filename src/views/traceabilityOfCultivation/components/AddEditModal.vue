@@ -28,6 +28,9 @@
               placeholder="请选择"
               :allowClear="true"
               :disabled="isEdit"
+              :getPopupContainer="triggerNode => {
+                return triggerNode.parentNode || document.body;
+              }"
               v-decorator="[
                 'productCategoryCode',
                 { rules: [{ required: true, message: '请选择产品品类' }] },
@@ -41,6 +44,9 @@
             <a-select
               placeholder="请选择"
               :allowClear="true"
+              :getPopupContainer="triggerNode => {
+                return triggerNode.parentNode || document.body;
+              }"
               :disabled="isEdit"
               v-decorator="[
                 'productBreedCode',
@@ -93,6 +99,9 @@
 					<a-form-item label="生产日期" :label-col="{ span: 7 }" :wrapper-col="{ span: 12 }">
             <a-date-picker
               format="YYYY-MM-DD"
+              :getCalendarContainer="triggerNode => {
+                return triggerNode.parentNode || document.body;
+              }"
               :disabledDate="disabledDate"
               v-decorator="[
                 'productionDate',

@@ -15,6 +15,9 @@
                 <a-select
                   v-if="index === 4"
                   notFoundContent="未匹配到数据"
+                  :getPopupContainer="triggerNode => {
+                    return triggerNode.parentNode || document.body;
+                  }"
                   v-decorator="[`select_${item.id}`, {
                     rules: item.validators
                   }]"

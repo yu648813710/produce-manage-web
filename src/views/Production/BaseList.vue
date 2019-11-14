@@ -27,7 +27,10 @@
             :label-col="{ span: 24 }"
             :wrapper-col="{ span: 24 }"
           >
-            <a-select  placeholder="请选择公司">
+            <a-select  placeholder="请选择公司"
+            :getPopupContainer="triggerNode => {
+              return triggerNode.parentNode || document.body;
+            }">
               <!--                <a-select-option v-for="(item, index) in equipmentStatusList" :key="index" :value="item.id">{{item.name}}</a-select-option>-->
               <a-select-option value="china">
                 China
@@ -45,7 +48,10 @@
             :label-col="{ span: 24 }"
             :wrapper-col="{ span: 24 }"
           >
-            <a-select  placeholder="请选择负责人">
+            <a-select  placeholder="请选择负责人"
+            :getPopupContainer="triggerNode => {
+              return triggerNode.parentNode || document.body;
+            }">
               <!--                <a-select-option v-for="(item, index) in equipmentStatusList" :key="index" :value="item.id">{{item.name}}</a-select-option>-->
               <a-select-option value="china">
                 黎明
@@ -124,7 +130,10 @@
               :label-col="{ span: 4 }"
               :wrapper-col="{ span: 20 }"
             >
-              <a-select placeholder="请选择公司">
+              <a-select placeholder="请选择公司"
+                :getPopupContainer="triggerNode => {
+                  return triggerNode.parentNode || document.body;
+                }">
                 <a-select-option value="jack">Jack</a-select-option>
                 <a-select-option value="lucy">Lucy</a-select-option>
               </a-select>
@@ -136,7 +145,11 @@
               :label-col="{ span: 4 }"
               :wrapper-col="{ span: 20 }"
             >
-              <a-select placeholder="请输入基地名称">
+              <a-select placeholder="请输入基地名称"
+              :getPopupContainer="triggerNode => {
+                return triggerNode.parentNode || document.body;
+              }"
+              >
                 <a-select-option value="jack">Jack</a-select-option>
                 <a-select-option value="lucy">Lucy</a-select-option>
               </a-select>
@@ -150,7 +163,11 @@
               :label-col="{ span: 4 }"
               :wrapper-col="{ span: 20 }"
             >
-              <a-select placeholder="请输入基地面积">
+              <a-select placeholder="请输入基地面积"
+              :getPopupContainer="triggerNode => {
+                return triggerNode.parentNode || document.body;
+              }"
+              >
                 <a-select-option value="jack">Jack</a-select-option>
                 <a-select-option value="lucy">Lucy</a-select-option>
               </a-select>
@@ -162,7 +179,11 @@
               :label-col="{ span: 4 }"
               :wrapper-col="{ span: 20 }"
             >
-              <a-select placeholder="请输入基地地址">
+              <a-select placeholder="请输入基地地址"
+              :getPopupContainer="triggerNode => {
+                return triggerNode.parentNode || document.body;
+              }"
+              >
                 <a-select-option value="jack">Jack</a-select-option>
                 <a-select-option value="lucy">Lucy</a-select-option>
               </a-select>
