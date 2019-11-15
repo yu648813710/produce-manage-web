@@ -42,14 +42,14 @@ const crumbsArr = [
 const addTaskCrumbs = [
   { name: '当前位置', back: false, path: '' },
   { name: '生产管理', back: false, path: '' },
-  { name: '菌包任务管理', back: false, path: '' },
+  { name: '菌包任务管理', back: true, path: '/bacteriabagtaskmanagement' },
   { name: '新增任务', back: false, path: '' }
 ]
 // 详情面包屑
 const dateilCrumbsArr = [
   { name: '当前位置', back: false, path: '' },
   { name: '生产管理', back: false, path: '' },
-  { name: '菌包任务管理', back: false, path: '' },
+  { name: '菌包任务管理', back: true, path: '/bacteriabagtaskmanagement' },
   { name: '任务详情', back: false, path: '' }
 ]
 const stepsArray = [
