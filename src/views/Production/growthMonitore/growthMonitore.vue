@@ -24,7 +24,7 @@
             </div>
             <div>
               <div class="warringTitle">今日新增预警</div>
-              <div class="warringNum2">{{newWarring}}</div>
+              <div class="warringNum2">{{componenyType === 0 ? ghNewWarring : wsNewWarring}}</div>
             </div>
           </div>
           <div class="warringIMG">
@@ -107,9 +107,10 @@ export default {
   },
   data() {
     return {
-      componenyType: 0,
+      componenyType: 1,
       totalWarring: 0,
-      newWarring: 0,
+      ghNewWarring: 0,
+      wsNewWarring: 0,
       historyTemperatureWarring: 0,
       historydampnessWarring: 0,
       newTemperatureWarring: 0,
@@ -122,7 +123,7 @@ export default {
       pieData: [
         { name: '湿度', value: 0, key: 'dampness' },
         { name: '温度', value: 0, key: 'temperature' },
-        { name: '二氧化碳', value: 12331, key: 'co2Count' }
+        { name: '二氧化碳', value: 0, key: 'co2Count' }
       ],
       timer: '',
       crumbsArr: [
@@ -153,7 +154,8 @@ export default {
       }
     },
     getGrowthData() {
-      growthData('gh').then(res => {
+      let type = this.componenyType === 0 ? 'gh' : 'ws'
+      growthData(type).then(res => {
         this.totalWarring = res.data.alarmHistoryTotal
         this.inUseMassif = res.data.landOpenAirCount // 地块数量
         this.inUseHouse = res.data.landGreenhousesCount // 大棚数量
@@ -163,9 +165,13 @@ export default {
         this.co2NewCount = res.data.co2NewCount ? res.data.co2NewCount : 0 // 新增二氧化碳数量
         this.newDampnessWarring = res.data.dampnessNewCount // 新增湿度数量
         this.warring2 = res.data.dampnessHistoryCount // 历史湿度数量
-        this.newWarring = this.newTemperatureWarring + this.newDampnessWarring
+        this.ghNewWarring = this.newTemperatureWarring + this.newDampnessWarring
+        this.wsNewWarring = this.newTemperatureWarring + this.newDampnessWarring + this.co2NewCount
         this.pieData[1].value = this.historyTemperatureWarring
         this.pieData[0].value = this.historydampnessWarring
+        if (this.pieData[2]) {
+          this.pieData[2].value = res.data.co2HistoryCount
+        }
         this.initPieEcharts()
         console.log(this.pieData)
       })
