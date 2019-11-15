@@ -37,8 +37,8 @@ const list = [
   { id: '005', label: '所属基地：', value: null },
   { id: '006', label: '所属地块：', value: null },
   // { id: '007', label: '用途：', value: null },
-  // { id: '008', label: '农资描述：', value: null },
-  { id: '007', label: '采购金额：', value: null }
+  { id: '007', label: '农资描述：', value: null },
+  { id: '008', label: '采购金额：', value: null }
 ]
 
 export default {
@@ -75,8 +75,8 @@ export default {
           list[5].value = dt.baseLandName
           list[6].value = dt.blockLandName
           // list[7].value = dt.materialUsage
-          // list[8].value = dt.materialDesc
-          list[7].value = dt.purchaseMoney === null ? '0' : dt.purchaseMoney + '元'
+          list[7].value = dt.materialDesc
+          list[8].value = dt.purchaseMoney === null ? '0' : dt.purchaseMoney + '元'
         }
       })
     }

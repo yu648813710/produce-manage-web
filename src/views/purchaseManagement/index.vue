@@ -217,7 +217,11 @@ export default {
       fields,
       columns,
       list,
-      pagination: { showQuickJumper: true, showSizeChanger: true },
+      pagination: {
+        showQuickJumper: true,
+        showSizeChanger: true,
+        total: 0,
+        showTotal: total => `共 ${total} 条` },
       form: this.$form.createForm(this, { name: 'purchaseManagement' }),
       moneyForm: this.$form.createForm(this, { name: 'moneyForm' }),
       loading: false,

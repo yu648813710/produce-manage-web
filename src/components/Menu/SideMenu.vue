@@ -3,27 +3,19 @@
     <a-menu
       mode="inline"
       theme="dark"
-      :selectedKeys="selectedKeys"
+      :selectedKeys="selectMenuName"
       :defaultOpenKeys="openKeys"
       :inlineCollapsed="collapsed"
       @click="gotoRoute"
     >
       <template v-for="item in menuList">
-        <a-menu-item
-          v-if="!item.children"
-          v-show="!item.hidden"
-          :key="item.name"
-        >
+        <a-menu-item v-if="!item.children" v-show="!item.hidden" :key="item.name">
           <template v-if="item.meta.icon">
             <a-icon :type="item.meta.icon" />
           </template>
           <span>{{item.meta.name}}</span>
         </a-menu-item>
-        <menu-item
-          v-else
-          :menuInfo="item"
-          :key="item.name"
-        />
+        <menu-item v-else :menuInfo="item" :key="item.name" />
       </template>
     </a-menu>
   </div>
@@ -37,7 +29,7 @@ export default {
   data() {
     return {
       collapsed: false,
-      selectMenuName: '',
+      selectMenuName: [],
       isFirstInPage: true
     }
   },
@@ -51,13 +43,36 @@ export default {
     selectedKeys() {
       let matched = this.$route.matched
       let showMenu = matched[matched.length - 1].name
+      return showMenu
+    },
+    openKeys() {
+      let matched = this.$route.matched
+      return matched
+        .filter((item, index) => index !== 0 && index !== matched.length - 1)
+        .map(item => item.name)
+    }
+  },
+  created() {
+    this.changeSelectName()
+  },
+  watch: {
+    selectedKeys(val) {
+      this.changeSelectName()
+    }
+  },
+  methods: {
+    gotoRoute(menu) {
+      this.$router.push({ name: menu.key })
+    },
+    changeSelectName() {
       let isHidden = false
+      let matched = this.$route.matched
+      let showMenu = this.selectedKeys
       this.menuList.forEach((item, index) => {
         if (item.name === showMenu) {
           isHidden = item.hidden
         }
       })
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       if (this.isFirstInPage && isHidden) {
         this.selectMenuName = matched[matched.length - 1].meta.parentMenuName
           ? matched[matched.length - 1].meta.parentMenuName
@@ -68,19 +83,6 @@ export default {
           : [matched[matched.length - 1].name]
       }
       this.isFirstInPage = false
-      let name = this.selectMenuName
-      return name
-    },
-    openKeys() {
-      let matched = this.$route.matched
-      return matched
-        .filter((item, index) => index !== 0 && index !== matched.length - 1)
-        .map(item => item.name)
-    }
-  },
-  methods: {
-    gotoRoute(menu) {
-      this.$router.push({ name: menu.key })
     }
   }
 }
