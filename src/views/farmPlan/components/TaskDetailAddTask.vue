@@ -71,7 +71,7 @@
             <a-form-item label="开始时间" :wrapper-col="{span:24}">
               <a-date-picker
                 style="width: 100%"
-                 :getCalendarContainer="triggerNode => {
+                :getCalendarContainer="triggerNode => {
                     return triggerNode.parentNode || document.body;
                   }"
                 placeholder="请选择开始时间"
@@ -87,7 +87,7 @@
             <a-form-item label="结束时间" :wrapper-col="{span:24}">
               <a-date-picker
                 style="width: 100%"
-                 :getCalendarContainer="triggerNode => {
+                :getCalendarContainer="triggerNode => {
                     return triggerNode.parentNode || document.body;
                   }"
                 placeholder="请选择结束时间"
@@ -111,7 +111,7 @@
             <a-form-item label="农事描述" :wrapper-col="{span:24}">
               <a-input
                 placeholder="请输入农事描述"
-                v-decorator="['taskDescription', { rules: [{ required: false}] }]"
+                v-decorator="['taskDescription', { rules: [{ required: true,message: '描述不能超过50字符',validator:validatorTaskDescription}] }]"
               ></a-input>
             </a-form-item>
           </a-col>
@@ -357,6 +357,14 @@ export default {
     // 选择农事类型
     changeType(e) {
       this.$emit('changeType', e)
+    },
+    // 检验描述
+    validatorTaskDescription(rule, value, callback) {
+      if (value && value.length > 50) {
+        callback(rule.message)
+        return false
+      }
+      callback()
     }
   }
 }

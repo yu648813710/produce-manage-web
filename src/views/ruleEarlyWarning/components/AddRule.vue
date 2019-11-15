@@ -8,15 +8,8 @@
       :confirmLoading="confirmLoading"
       @cancel="handleCancel"
     >
-      <a-form
-        :form="ruleForm"
-        @submit="handleOk"
-      >
-        <a-form-item
-          label="基地名称"
-          :label-col="{ span: 5 }"
-          :wrapper-col="{ span: 16 }"
-        >
+      <a-form :form="ruleForm" @submit="handleOk">
+        <a-form-item label="基地名称" :label-col="{ span: 5 }" :wrapper-col="{ span: 16 }">
           <a-select
             placeholder="选择基地"
             :getPopupContainer="triggerNode => {
@@ -36,11 +29,7 @@
             >{{item.baseLandName}}</a-select-option>
           </a-select>
         </a-form-item>
-        <a-form-item
-          label="地块名称"
-          :label-col="{ span: 5 }"
-          :wrapper-col="{ span: 16 }"
-        >
+        <a-form-item label="地块名称" :label-col="{ span: 5 }" :wrapper-col="{ span: 16 }">
           <a-select
             placeholder="选择地块"
             :getPopupContainer="triggerNode => {
@@ -68,17 +57,9 @@
           :validate-status="formValidataStatus.temperature"
           :help="formValidataStatus.temperature===''?'':'温度应小于等于100℃'"
         >
-          <a-input-number
-            style="width:42%;"
-            v-model="formInputVal.temperatureInf"
-            :min="0"
-          />
+          <a-input-number style="width:42%;" v-model="formInputVal.temperatureInf" :min="0" />
           <span style="padding:0 2%;">-</span>
-          <a-input-number
-            style="width:42%;"
-            v-model="formInputVal.temperatureSup"
-            :min="0"
-          />
+          <a-input-number style="width:42%;" v-model="formInputVal.temperatureSup" :min="0" />
           <span style="padding:0 1%;">℃</span>
         </a-form-item>
         <a-form-item
@@ -89,28 +70,13 @@
           :validate-status="formValidataStatus.dampness"
           :help="formValidataStatus.dampness===''?'':'湿度应小于等于100%'"
         >
-          <a-input-number
-            style="width:42%;"
-            v-model="formInputVal.dampnessInf"
-            :min="0"
-          />
+          <a-input-number style="width:42%;" v-model="formInputVal.dampnessInf" :min="0" />
           <span style="padding:0 2%;">-</span>
-          <a-input-number
-            style="width:42%;"
-            v-model="formInputVal.dampnessSup"
-            :min="0"
-          />
+          <a-input-number style="width:42%;" v-model="formInputVal.dampnessSup" :min="0" />
           <span style="padding:0 1%;">%</span>
         </a-form-item>
-        <a-form-item
-          label="负责人"
-          :label-col="{ span: 5 }"
-          :wrapper-col="{ span: 16 }"
-        >
-          <a-input
-            :value="formInputVal.user"
-            disabled
-          />
+        <a-form-item label="负责人" :label-col="{ span: 5 }" :wrapper-col="{ span: 16 }">
+          <a-input :value="formInputVal.user" disabled />
         </a-form-item>
       </a-form>
     </a-modal>
@@ -171,6 +137,13 @@ export default {
   watch: {
     visible(val) {
       this.$emit('setFrorm', this.ruleForm)
+    },
+    formInputVal: {
+      handler(val) {
+        this.formInputVal = val
+        console.log(this.formInputVal)
+      },
+      deep: true
     }
   },
   methods: {

@@ -365,6 +365,7 @@ export default {
 
       this.setFrorm()
       this.$nextTick(async () => {
+        console.log(data.baseLandId)
         await this.getSelectBlockBland(data.baseLandId)
         console.log(data.blockLandId)
         console.log(this.blockLandData)
@@ -381,7 +382,6 @@ export default {
         })
         this.formInputVal.user = userData[0] ? userData[0].principalUser : ''
       })
-
       this.infoAddOrEditType = 'edit'
     },
     // 删除事件
