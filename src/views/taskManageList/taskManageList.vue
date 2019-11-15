@@ -223,6 +223,7 @@ export default {
     },
     // 清楚搜索条件
     clearSearch(e) {
+      this.listQueryData = e
       this.getTaskManageList(this.pagination.current, this.pagination.pageSize)
     },
     // 请求详情数据

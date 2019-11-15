@@ -7,10 +7,7 @@
       </div>
       <a-layout-content style="margin: 16px;margin-top:0;">
         <div class="search-wrapper">
-          <a-form
-            :form="sreachForm"
-            @submit="sreachTaskItem"
-          >
+          <a-form :form="sreachForm" @submit="sreachTaskItem">
             <a-row :gutter="40">
               <a-col :span="8">
                 <a-form-item label="所属车间">
@@ -25,7 +22,11 @@
                       'workshopId', {},
                     ]"
                   >
-                    <a-select-option v-for="item in workshopArr" :key="item.workshopId" :value="item.workshopId">{{item.workshopName}}</a-select-option>
+                    <a-select-option
+                      v-for="item in workshopArr"
+                      :key="item.workshopId"
+                      :value="item.workshopId"
+                    >{{item.workshopName}}</a-select-option>
                   </a-select>
                 </a-form-item>
               </a-col>
@@ -58,64 +59,68 @@
                       'fungusProduceId',{},
                     ]"
                   >
-                    <a-select-option v-for="item in fungusBagArr" :key="item.bizId" :value="item.bizId">{{item.fungusProduceName}}</a-select-option>
+                    <a-select-option
+                      v-for="item in fungusBagArr"
+                      :key="item.bizId"
+                      :value="item.bizId"
+                    >{{item.fungusProduceName}}</a-select-option>
                   </a-select>
                 </a-form-item>
               </a-col>
             </a-row>
           </a-form>
           <div>
-            <a-button
-              type="primary"
-              class="button"
-              @click="sreachTaskItem"
-            >查询</a-button>
-            <a-button
-              class="button"
-              @click="handleReset"
-            >重置</a-button>
+            <a-button type="primary" class="button" @click="sreachTaskItem">查询</a-button>
+            <a-button class="button" @click="handleReset">重置</a-button>
           </div>
         </div>
         <div class="table-wrapper">
-          <a-button
-            type="primary"
-            class="add-button"
-          ><router-link :to="{name: 'AddBacteriaBagTask'}">新增任务</router-link></a-button>
+          <a-button type="primary" class="add-button">
+            <router-link :to="{name: 'AddBacteriaBagTask'}">新增任务</router-link>
+          </a-button>
           <a-table
             :columns="columns"
             :dataSource="list"
             :pagination="pagination"
             :loading="loading"
-             :scroll="{ x: 1200 }"
             @change="handleTableChange"
             :style="{marginTop: '50px'}"
             :rowKey="(record, index) => index"
           >
             <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
-            <span slot="workshopName" class="tableLineCtr" slot-scope="text, record" :title="record.workshopName">
-              {{record.workshopName}}
-            </span>
-            <span slot="fungusProduceName" class="tableLineCtr" slot-scope="text, record" :title="record.fungusProduceName">
-              {{record.fungusProduceName}}
-            </span>
+            <span
+              slot="workshopName"
+              class="tableLineCtr"
+              slot-scope="text, record"
+              :title="record.workshopName"
+            >{{record.workshopName}}</span>
+            <span
+              slot="fungusProduceName"
+              class="tableLineCtr"
+              slot-scope="text, record"
+              :title="record.fungusProduceName"
+            >{{record.fungusProduceName}}</span>
             <span slot="operation" slot-scope="text, record">
               <!-- 未开始支持编辑 -->
-              <a-button type="link" @click="editTask(record.bizId)" v-if="Number(record.taskStatus) === 1">编辑</a-button>
+              <a-button
+                type="link"
+                @click="editTask(record.bizId)"
+                v-if="Number(record.taskStatus) === 1"
+              >编辑</a-button>
               <a-button type="link" style="padding:0;" @click="handleOpenDatell(record.bizId)">查看</a-button>
               <!-- 未开始与已完成支持编辑 -->
-              <a-button type="link" @click="handleDeleteChange(record.bizId)" v-if="Number(record.taskStatus) === 1 || Number(record.taskStatus) === 4">删除</a-button>
+              <a-button
+                type="link"
+                @click="handleDeleteChange(record.bizId)"
+                v-if="Number(record.taskStatus) === 1 || Number(record.taskStatus) === 4"
+              >删除</a-button>
             </span>
           </a-table>
         </div>
       </a-layout-content>
     </a-layout>
     <!-- 删除确认框 -->
-    <a-modal
-      title="删除任务"
-      :visible="visible"
-      @ok="handleOk"
-      @cancel="handleCancel"
-    >
+    <a-modal title="删除任务" :visible="visible" @ok="handleOk" @cancel="handleCancel">
       <p>是否删除此任务信息？</p>
     </a-modal>
   </div>
@@ -199,32 +204,30 @@ export default {
   },
   methods: {
     // 获取车间名称
-    getListUsable () {
-      workshopList()
-        .then(res => {
-          if (res.success === 'Y') {
-            this.workshopArr = res.data || []
-          } else {
-            this.$message.error(res.message)
-          }
-        })
+    getListUsable() {
+      workshopList().then(res => {
+        if (res.success === 'Y') {
+          this.workshopArr = res.data || []
+        } else {
+          this.$message.error(res.message)
+        }
+      })
     },
     // 时间选择
-    handleDateChange (e, test) {
+    handleDateChange(e, test) {
       const [startTime, endTime] = test
       this.startTime = startTime
       this.endTime = endTime
     },
     // 获取菌包名称
-    getAllName () {
-      fungusproduceList()
-        .then(res => {
-          if (res.success === 'Y') {
-            this.fungusBagArr = res.data || []
-          } else {
-            this.$message.error(res.message)
-          }
-        })
+    getAllName() {
+      fungusproduceList().then(res => {
+        if (res.success === 'Y') {
+          this.fungusBagArr = res.data || []
+        } else {
+          this.$message.error(res.message)
+        }
+      })
     },
     // 获取列表
     getList(data) {
@@ -265,17 +268,17 @@ export default {
       this.getList(data)
     },
     // 编辑任务
-    editTask (bizId) {
+    editTask(bizId) {
       this.$router.push({
         name: 'AddBacteriaBagTask',
-        query: { 'bizId': bizId }
+        query: { bizId: bizId }
       })
     },
     // 查看详情
-    handleOpenDatell (bizId) {
+    handleOpenDatell(bizId) {
       this.$router.push({
         name: 'BacteriaBagTaskDateil',
-        query: { 'bizId': bizId }
+        query: { bizId: bizId }
       })
     },
     // 分页
@@ -293,7 +296,7 @@ export default {
       this.getList(data)
     },
     // 删除出现确认框
-    handleDeleteChange (bizId) {
+    handleDeleteChange(bizId) {
       if (bizId) {
         this.deleteBizId = bizId
         this.visible = true
@@ -301,19 +304,18 @@ export default {
     },
     // 确认删除
     handleOk() {
-      deleteFungusTask(this.deleteBizId)
-        .then(res => {
-          this.visible = false
-          if (res.success === 'Y') {
-            let data = {
-              pageNo: 1,
-              pageSize: 10
-            }
-            this.getList(data)
-          } else {
-            this.$message.error(res.message)
+      deleteFungusTask(this.deleteBizId).then(res => {
+        this.visible = false
+        if (res.success === 'Y') {
+          let data = {
+            pageNo: 1,
+            pageSize: 10
           }
-        })
+          this.getList(data)
+        } else {
+          this.$message.error(res.message)
+        }
+      })
     },
     handleCancel() {
       this.visible = false

@@ -89,7 +89,7 @@ export default {
         farmingNum: '', // 计划编号
         actionName: '', // 农事操作
         farmingTypeName: '', // 农事类型
-        taskStatus: '', // 状态
+        taskStatus: undefined, // 状态
         blockLandName: '', // 地块名称
         cycleName: '' // 周期名称
       },
@@ -149,13 +149,18 @@ export default {
   methods: {
     clearSearch() {
       this.searchFormData.map(res => {
-        res.data = ''
+        if (res.type === 'select') {
+          res.data = undefined
+        } else {
+          res.data = ''
+        }
       })
+      console.log(this.searchFormData)
       this.searchForm = {
         farmingNum: '', // 计划编号
         actionName: '', // 农事操作
         farmingTypeName: '', // 农事类型
-        taskStatus: '', // 状态
+        taskStatus: undefined, // 状态
         blockLandName: '', // 地块名称
         cycleName: '' // 周期名称
       }
