@@ -154,7 +154,7 @@ export default {
       crumbsArr: [
         { name: '当前位置', back: false, path: '' },
         { name: '生产管理', back: false, path: '' },
-        { name: '生长监控', back: true, path: '/production/growthMonitore' },
+        { name: '生长监控', back: false, path: '/production/growthMonitore' },
         { name: '地块监控列表', back: false, path: '' }
       ]
     }
@@ -369,11 +369,7 @@ export default {
   }
 
   .crumbCtr {
-    height: 20px;
-    line-height: 20px;
-    margin-top: 20px;
-    margin-left: 16px;
-    text-align: left;
+    margin: 16px 16px 0 16px;
   }
 
   .table-wrapper {
@@ -397,6 +393,7 @@ export default {
   .wrapper {
     position: relative;
     margin: 16px;
+    margin-top: 0px;
     border-radius: 4px;
 
     .title-wrapper {
