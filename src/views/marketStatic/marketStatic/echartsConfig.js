@@ -3,8 +3,11 @@ export default {
     let option = id.setOption({
       title: '',
       tooltip: {
+        textStyle: {
+          align: 'left'
+        },
         formatter(params) {
-          return '时间:' + params.name + '</br>' + '价格:' + params.value
+          return '时间:' + params.name + '</br>' + '价格:' + params.value + '元/斤'
         }
       },
       legend: {
@@ -118,7 +121,10 @@ export default {
       tooltip: {
         formatter(params) {
           console.log(params)
-          return '地区: ' + params.name + '</br>' + '价格: ' + params.value[1] + '元'
+          return '地区: ' + params.name + '</br>' + '价格: ' + params.value[1] + '元/斤'
+        },
+        textStyle: {
+          align: 'left'
         }
       },
       xAxis: {
@@ -209,6 +215,9 @@ export default {
         }
       },
       tooltip: {
+        textStyle: {
+          align: 'left'
+        },
         formatter(params) {
           return '地区:' + params.name + '</br>' + '销量:' + params.value + '斤'
         }
