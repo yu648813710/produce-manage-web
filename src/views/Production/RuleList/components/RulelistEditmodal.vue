@@ -343,7 +343,7 @@ export default {
     },
     // 湿度
     isInputDampnessInf (rule, value, callback) {
-      if (!isNaN(value) && value > 0 && value <= 100) {
+      if (!isNaN(value) && value >= 0 && value <= 100) {
         this[rule.field] = value
         if (this.dampnessSup && value > this.dampnessSup) {
           callback(new Error('左侧数值不能大于右侧数值'))
@@ -357,7 +357,7 @@ export default {
       }
     },
     isInputDampnessSup (rule, value, callback) {
-      if (!isNaN(value) && value > 0 && value <= 100) {
+      if (!isNaN(value) && value >= 0 && value <= 100) {
         this[rule.field] = value
         if (this.dampnessInf && this.dampnessInf > value) {
           callback(new Error('左侧数值不能大于右侧数值'))
@@ -380,7 +380,7 @@ export default {
           callback()
         }
       } else if (value) {
-        callback(new Error('二氧化碳最小值应大于等于0'))
+        callback(new Error('二氧化碳最小值应大于0'))
       } else {
         callback(new Error(' '))
       }
@@ -394,7 +394,7 @@ export default {
           callback()
         }
       } else if (value) {
-        callback(new Error('二氧化碳最大值应小于等于9999'))
+        callback(new Error('二氧化碳最大值应大于0小于等于9999'))
       } else {
         callback(new Error(' '))
       }

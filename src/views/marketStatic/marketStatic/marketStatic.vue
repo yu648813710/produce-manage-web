@@ -138,7 +138,7 @@ export default {
       columns: [
         { title: '产品品种', dataIndex: 'productType' },
         { title: '区域', dataIndex: 'cityName' },
-        { title: '单价', dataIndex: 'price' },
+        { title: '单价(元/斤)', dataIndex: 'price' },
         { title: '环比', dataIndex: 'periodRatio' }
         // {title: '销量（斤）', dataIndex: 'sellAmount'},
       ],

@@ -2,6 +2,11 @@
 <template>
   <div>
     <a-breadcrumb style="text-align: left; height: 40px">
+      <span class="backToPath backBtnCtr" @click="backToList()">
+        <span v-for="(item, index) in crumbsArr">
+          <span v-if="item.back"><</span>
+        </span>
+      </span>
       <a-breadcrumb-item v-for="(item, index) in crumbsArr" :key="index">
         <span
           :class="item.back ? 'backToPath' : ''"
@@ -16,6 +21,7 @@
 import Vue from 'vue'
 // import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
 import { Breadcrumb } from 'ant-design-vue'
+
 Vue.use(Breadcrumb)
 export default {
   name: 'crumbsNav',
@@ -34,20 +40,32 @@ export default {
     }
   },
   methods: {
-    backToList (back, router) {
-      if (back) {
-        this.$router.push({ path: router })
-      }
+    backToList() {
+      this.crumbsArr.forEach((item, index) => {
+        if (item.back) {
+          this.$router.push({ path: item.path })
+        }
+      })
+      // if (back) {
+      //   this.$router.push({ path: router })
+      // }
     }
   }
 }
 </script>
 
 <style scoped lang="less">
-.backToPath {
-  cursor: pointer;
-}
-.backToPath:hover {
-  color: #1890ff;
-}
+  .backToPath {
+    cursor: pointer;
+  }
+  .backBtnCtr{
+    height: 30px;
+    width: 15px;
+    line-height: 30px;
+    font-size: 18px;
+  }
+
+  .backToPath:hover {
+    color: #1890ff;
+  }
 </style>
