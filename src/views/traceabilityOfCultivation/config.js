@@ -21,6 +21,7 @@ const dateilCrumbsArr = [
   { name: '当前位置', back: false, path: '' },
   { name: '生产管理', back: false, path: '' },
   { name: '溯源服务', back: false, path: '' },
+  { name: '木耳栽培过程溯源', back: true, path: '/traceabilityofcultivation' },
   { name: '木耳溯源信息维护', back: false, path: '' }
 ]
 export { columns, crumbsArr, dateilCrumbsArr }
