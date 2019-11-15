@@ -248,12 +248,12 @@
                             <span>
                               第
                               <a-form-item style="display:inline-block;">
-                                <a-input
+                                <a-input-number
                                   class="day-input"
                                   size="small"
                                   v-decorator="[
                                   `taskStartTime_${index}`,
-                                  { rules: [{ required: true, message: '请输入开始天数' }] },
+                                  { rules: [{ required: true, type: 'integer', message: '请输入开始天数' }] },
                                 ]"
                                 />
                               </a-form-item>天
@@ -262,12 +262,12 @@
                             <span>
                               第
                               <a-form-item style="display:inline-block;">
-                                <a-input
+                                <a-input-number
                                   class="day-input"
                                   size="small"
                                   v-decorator="[
                                   `taskEndTime_${index}`,
-                                  { rules: [{ required: true, message: '请输入结束天数' }] },
+                                  { rules: [{ required: true, type: 'integer', message: '请输入结束天数' }] },
                                 ]"
                                 />
                               </a-form-item>天
