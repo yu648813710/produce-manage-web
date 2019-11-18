@@ -184,7 +184,7 @@ export default {
         showQuickJumper: true,
         showSizeChanger: true,
         total: 0,
-        showTotal: total => `共 ${ total } 条`
+        showTotal: total => `共 ${total} 条`
       },
       loading: false,
       searchForm: this.$form.createForm(this),
@@ -392,7 +392,7 @@ export default {
     },
     // 模态框确定
     handleOk() {
-      switch ( this.modalType ) {
+      switch (this.modalType) {
         case 'delete':
           this.deleteRequest()
           break
