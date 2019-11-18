@@ -170,7 +170,10 @@ const columns = [
     title: '湿度',
     dataIndex: 'dampness',
     customRender: text => {
-      return text + '%'
+      if (text) {
+        return text + '%'
+      }
+      return ''
     }
   },
   {
@@ -194,7 +197,7 @@ export default {
         'text-align': 'left'
       },
       warringType: '', // ws
-      componenyType: 1,
+      componenyType: 0,
       baseLandName: '', // 温度过高 温度过低 湿度过高 湿度过低 二氧化碳过高 二氧化碳过低
       alarmTypeArr: [
         { label: '温度过高', value: '温度过高' },

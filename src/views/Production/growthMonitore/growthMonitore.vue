@@ -107,7 +107,7 @@ export default {
   },
   data() {
     return {
-      componenyType: 1,
+      componenyType: 0,
       totalWarring: 0,
       ghNewWarring: 0,
       wsNewWarring: 0,
