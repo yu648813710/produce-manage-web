@@ -68,6 +68,16 @@
           :rowKey="(record, index) => index"
         >
           <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
+          <span
+            slot="useMaterial"
+            class="use-material"
+            slot-scope="text"
+            :title="text"
+          >{{text}}</span>
+          <span
+            slot="cycle"
+            slot-scope="text,record"
+          >{{'第' + record.cycleEndTime + '天 - ' + '第' + record.cycleStartTime + '天'}}</span>
           <span slot="operation" slot-scope="text, record">
             <a-button type="link" @click="handleOpenModal(record)">查看</a-button>
           </span>
@@ -124,12 +134,122 @@
       <div class="item">
         <p>
           <span>任务完成时间：</span>
-          {{taskDetail.endTime}}
+          {{taskDetail.extendData ? taskDetail.extendData.finishTime : taskDetail.finishTime}}
         </p>
         <p>
           <span>负责人：</span>
           {{taskDetail.assigner}}
         </p>
+      </div>
+      <!-- 采收 -->
+      <div v-if="taskDetail.actionId==='A00020'">
+        <div class="item">
+          <p>
+            <span>采收人：</span>
+            {{taskDetail.extendData && taskDetail.extendData.pickUser ? taskDetail.extendData.pickUser : ''}}
+          </p>
+          <p>
+            <span>采收时间：</span>
+            {{taskDetail.extendData && taskDetail.extendData.pickTime ? taskDetail.extendData.pickTime : ''}}
+          </p>
+        </div>
+        <div class="item">
+          <p>
+            <span>采收重量：</span>
+            {{taskDetail.extendData && taskDetail.extendData.weight ? taskDetail.extendData.weight + 'kg' : '' }}
+          </p>
+          <p>
+            <span>任务图片：</span>
+            <span class="item-value" v-if="taskDetail.extendData && taskDetail.extendData.filePath">
+                <img v-for="(item, index) in taskDetail.extendData.filePath" :key="index" :src="item" alt="">
+              </span>
+          </p>
+        </div>
+      </div>
+      <!-- 包装 -->
+      <div v-if="taskDetail.actionId==='A00023'">
+        <div class="item">
+          <p>
+            <span>包装人：</span>
+            {{taskDetail.extendData && taskDetail.extendData.packUser ? taskDetail.extendData.packUser : ''}}
+          </p>
+          <p>
+            <span>包装时间：</span>
+            {{taskDetail.extendData && taskDetail.extendData.packTime ? taskDetail.extendData.packTime : ''}}
+          </p>
+        </div>
+        <div class="item">
+          <p>
+            <span>包装规格：</span>
+            {{taskDetail.extendData && taskDetail.extendData.packWeight ? taskDetail.extendData.packWeight + 'kg' : ''
+            }}
+          </p>
+          <p>
+            <span>任务图片：</span>
+            <span class="item-value" v-if="taskDetail.extendData && taskDetail.extendData.filePath">
+                <img v-for="(item, index) in taskDetail.extendData.filePath" :key="index" :src="item" alt="">
+              </span>
+          </p>
+        </div>
+      </div>
+      <!-- 存储 -->
+      <div v-if="taskDetail.actionId==='A00024'">
+        <div class="item">
+          <p>
+            <span>存储温度：</span>
+            {{taskDetail.extendData && taskDetail.extendData.temperature ? taskDetail.extendData.temperature + '℃' :
+            ''}}
+          </p>
+          <p>
+            <span>存储湿度：</span>
+            {{taskDetail.extendData && taskDetail.extendData.humidity ? taskDetail.extendData.humidity + '%' : ''}}
+          </p>
+        </div>
+        <div class="item">
+          <p>
+            <span>存储周期：</span>
+            {{taskDetail.extendData && taskDetail.extendData.cycle ? taskDetail.extendData.cycle + '月' : '' }}
+          </p>
+          <p>
+            <span>任务图片：</span>
+            <span class="item-value" v-if="taskDetail.extendData && taskDetail.extendData.filePath">
+                <img v-for="(item, index) in taskDetail.extendData.filePath" :key="index" :src="item" alt="">
+              </span>
+          </p>
+        </div>
+      </div>
+      <!-- 检测 -->
+      <div v-if="taskDetail.actionId==='A00025'">
+        <div class="item">
+          <p>
+            <span>检测人：</span>
+            {{taskDetail.extendData && taskDetail.extendData.verifyUserName ? taskDetail.extendData.verifyUserName :
+            ''}}
+          </p>
+          <p>
+            <span>检测机构：</span>
+            {{taskDetail.extendData && taskDetail.extendData.verifyOrganization ?
+            taskDetail.extendData.verifyOrganization : ''}}
+          </p>
+        </div>
+        <div class="item">
+          <p>
+            <span>检测时间：</span>
+            {{taskDetail.extendData && taskDetail.extendData.verifyTime ? taskDetail.extendData.verifyTime : '' }}
+          </p>
+          <p>
+            <span>检测结果：</span>
+            {{taskDetail.extendData && taskDetail.extendData.vefiyResult ? taskDetail.extendData.vefiyResult : '' }}
+          </p>
+        </div>
+        <div class="item">
+          <p>
+            <span>任务图片：</span>
+            <span class="item-value" v-if="taskDetail.extendData && taskDetail.extendData.filePath">
+                <img v-for="(item, index) in taskDetail.extendData.filePath" :key="index" :src="item" alt="">
+              </span>
+          </p>
+        </div>
       </div>
     </a-modal>
   </div>
@@ -166,7 +286,7 @@ export default {
         showQuickJumper: true,
         showSizeChanger: true,
         total: 0,
-        showTotal: total => `共 ${total} 条`
+        showTotal: total => `共 ${ total } 条`
       },
       detail: {
         jobStatus: '',
@@ -289,8 +409,17 @@ export default {
           }
         }
       }
+
+      .use-material {
+        width: 140px;
+        display: inline-block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
     }
   }
+
   .item {
     height: auto;
     overflow: hidden;
@@ -310,6 +439,24 @@ export default {
 
       color: #333;
       line-height: 36px;
+
+      img {
+        width: 72px;
+        height: 72px;
+        background-size: 100% 100%;
+        margin-left: 10px;
+      }
+    }
+    div {
+      /*width: 48%;*/
+      /*float: left;*/
+      /*margin-right: 4%;*/
+      img {
+        width: 72px;
+        height: 72px;
+        background-size: 100% 100%;
+        margin-left: 10px;
+      }
     }
   }
 </style>

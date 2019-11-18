@@ -83,13 +83,13 @@ export default {
           path: 'warringList',
           name: 'warringList',
           component: () => import('@/views/Production/growthMonitore/warringList.vue'),
-          meta: { name: '预警汇总列表-地块', icon: '', parentMenuName: 'growthMonitore' }
+          meta: { name: '预警汇总列表', icon: '', parentMenuName: 'growthMonitore' }
         },
         {
           path: 'warringnewlist',
           name: 'warringnewlist',
           component: () => import('@/views/Production/growthMonitore/warringNewList.vue'),
-          meta: { name: '预警列表-地块', icon: '', parentMenuName: 'growthMonitore' }
+          meta: { name: '预警列表', icon: '', parentMenuName: 'growthMonitore' }
         },
         {
           path: 'rulelist',
@@ -273,6 +273,13 @@ export default {
       hidden: true,
       component: () => import('@/views/tempWorkerManage/TempWorkerDetail.vue'),
       meta: { name: '临时工详情', icon: '' }
+    },
+    {
+      path: '/productionMeans',
+      name: 'productionMeans',
+      hidden: false,
+      component: () => import('@/views/productionMeans'),
+      meta: { name: '生产资料', icon: '' }
     }
   ]
 }
