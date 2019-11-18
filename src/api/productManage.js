@@ -19,9 +19,9 @@ export function taskManageList (data) {
   })
 }
 // 获取生长监控数据
-export function growthData () {
+export function growthData (type) {
   return axios({
-    url: '/produce/produce/monitor/warning/showEarlyWarningSummary/gh',
+    url: `/produce/produce/monitor/warning/showEarlyWarningSummary/${type}`,
     method: 'POST'
   })
 }

@@ -15,7 +15,7 @@
                   <span class="search-title">农事计划编号</span>
                   <a-input
                     autocomplete="off"
-                    placeholder="输入农事计划编号"
+                    placeholder="请输入农事计划编号"
                     class="search-input"
                     v-model="searchInputVal.farmingNum"
                   />
@@ -27,7 +27,7 @@
                   <a-input
                     autocomplete="off"
                     style="width: 100%"
-                    placeholder="输入产品名称"
+                    placeholder="请输入产品名称"
                     class="search-input"
                     v-model="searchInputVal.productName"
                   />
@@ -39,7 +39,7 @@
                   <a-input
                     autocomplete="off"
                     style="width: 100%"
-                    placeholder="输入所属基地"
+                    placeholder="请输入所属基地"
                     class="search-input"
                     v-model="searchInputVal.baseLandName"
                   />
@@ -52,7 +52,7 @@
                   <span class="search-title">所属地块</span>
                   <a-input
                     autocomplete="off"
-                    placeholder="输入所属地块"
+                    placeholder="请输入所属地块"
                     class="search-input"
                     v-model="searchInputVal.blockLandName"
                   />
@@ -64,7 +64,7 @@
                   <a-input
                     autocomplete="off"
                     style="width: 100%"
-                    placeholder="输入生长周期"
+                    placeholder="请输入生长周期"
                     class="search-input"
                     v-model="searchInputVal.cycleName"
                   />
@@ -76,7 +76,7 @@
                   <a-input
                     autocomplete="off"
                     style="width: 100%"
-                    placeholder="输入创建人"
+                    placeholder="请输入创建人"
                     class="search-input"
                     v-model="searchInputVal.createUserName"
                   />
@@ -90,7 +90,7 @@
                   <a-input
                     autocomplete="off"
                     style="width: 100%"
-                    placeholder="输入种植方案"
+                    placeholder="请输入种植方案"
                     class="search-input"
                     v-model="searchInputVal.solutionPlanName"
                   />
@@ -162,10 +162,10 @@ export default {
   components: {
     CrumbsNav
   },
-  created () {
+  created() {
     this.getFarmPlanList(this.pagination.current, this.pagination.pageSize)
   },
-  data () {
+  data() {
     return {
       list,
       columns: [
@@ -263,7 +263,7 @@ export default {
     }
   },
   methods: {
-    getFarmPlanList (current, pageSize) {
+    getFarmPlanList(current, pageSize) {
       let postData = {
         pageNo: current,
         pageSize: pageSize
@@ -279,7 +279,7 @@ export default {
       })
     },
     // 页码设置
-    setPageList (e) {
+    setPageList(e) {
       console.log(e)
       let current = e.current
       let pageSize = e.pageSize
@@ -287,7 +287,7 @@ export default {
       this.getFarmPlanList(current, pageSize)
     },
     // 重置搜索条件
-    clearInputVal () {
+    clearInputVal() {
       this.searchInputVal = {
         baseLandName: '', // 基地名称
         blockLandName: '', // 地块名称
@@ -300,7 +300,8 @@ export default {
       this.getFarmPlanList(this.pagination.current, this.pagination.pageSize)
     },
     // 搜索开始
-    searchFarmPlanList () {
+    searchFarmPlanList() {
+      this.pagination.current = 1
       this.getFarmPlanList(this.pagination.current, this.pagination.pageSize)
     }
   }

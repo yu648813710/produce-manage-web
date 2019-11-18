@@ -1,46 +1,26 @@
 <template>
-  <div
-    v-if="equipmentList.length"
-    class="green_house"
-  >
+  <div v-if="equipmentList.length" class="green_house">
     <div class="table">
       <!-- 任务管理表格 -->
       <div class="table-content">
         <a-locale-provider :locale="zhCN">
           <a-table
             class="equipmentTable"
-            :scroll="{ x: 1320 }"
+            :scroll="{ x: 1020 }"
             :rowKey="record => record.instId"
             :columns="columns"
             :dataSource="equipmentList"
             :loading="loading"
             :pagination="false"
           >
-            <span
-              slot="id"
-              slot-scope="text, record, index"
-            >{{index + 1}}</span>
-            <span
-              slot="useMatetial"
-              class="use-material"
-              slot-scope="text"
-              :title="text"
-            >{{text}}</span>
-            <span
-              slot="action"
-              slot-scope="text, record"
-              class="operation-box"
-            >
+            <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
+            <span slot="useMatetial" class="use-material" slot-scope="text" :title="text">{{text}}</span>
+            <span slot="action" slot-scope="text, record" class="operation-box">
+              <span slot="title" @click="showDetailTask(record.instId)">查看</span>
+              <span slot="title" @click="editTaskShow(record.instId)">编辑</span>
               <span
                 slot="title"
-                @click="showDetailTask(record.instId)"
-              >查看</span>
-              <span
-                slot="title"
-                @click="editTaskShow(record.instId)"
-              >编辑</span>
-              <span
-                slot="title"
+                v-if="record.scope!=='public'"
                 @click="showDeleteModal(record.instId)"
               >删除</span>
             </span>
@@ -138,6 +118,7 @@ export default {
   watch: {
     queryTaskData: {
       handler(newVal) {
+        console.log(newVal)
         if (newVal.planStartTime && newVal.solutionId && newVal.tempPlanId) {
           this.getTaskManageList(newVal)
         }
@@ -176,6 +157,7 @@ export default {
         }
         this.hiddenDeleteModal()
         this.tipMessage(res.success, res.message)
+        this.$emit('changeQueryTaskData')
         this.getTaskManageList(this.queryTaskData)
       })
     },
@@ -258,8 +240,9 @@ export default {
         }
         this.tipMessage(res.success, res.message)
         if (res.success === 'Y') {
+          this.$emit('changeQueryTaskData')
+          this.editTaskHidden() // 隐藏弹窗
           this.getTaskManageList(this.queryTaskData)
-          this.getTaskDetailData(e.instId, true)
         }
       })
     }

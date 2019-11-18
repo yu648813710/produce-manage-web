@@ -1,7 +1,14 @@
 <!--面包屑组件-->
 <template>
   <div>
-    <a-breadcrumb style="text-align: left; height: 40px">
+    <a-breadcrumb class="crumpContent">
+      <div class="backToPath backBtnCtr" @click="backToList()">
+        <span v-for="(item, index) in crumbsArr" :key="index">
+<!--          <img v-if="item.back" :src="backIcon" alt="" class="backImg">-->
+          <a-icon v-if="item.back" type="left" />
+          <span v-if="item.back" class="backText">返回</span>
+        </span>
+      </div>
       <a-breadcrumb-item v-for="(item, index) in crumbsArr" :key="index">
         <span
           :class="item.back ? 'backToPath' : ''"
@@ -14,8 +21,10 @@
 
 <script>
 import Vue from 'vue'
+import backIcon from '@/assets/image/backIcon.png'
 // import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
 import { Breadcrumb } from 'ant-design-vue'
+
 Vue.use(Breadcrumb)
 export default {
   name: 'crumbsNav',
@@ -33,21 +42,56 @@ export default {
       }
     }
   },
+  data() {
+    return {
+      backIcon
+    }
+  },
   methods: {
-    backToList (back, router) {
-      if (back) {
-        this.$router.push({ path: router })
-      }
+    backToList() {
+      this.crumbsArr.forEach((item, index) => {
+        if (item.back) {
+          this.$router.push({ path: item.path })
+        }
+      })
+      // if (back) {
+      //   this.$router.push({ path: router })
+      // }
     }
   }
 }
 </script>
 
 <style scoped lang="less">
-.backToPath {
-  cursor: pointer;
-}
-.backToPath:hover {
-  color: #1890ff;
-}
+  .crumpContent {
+    text-align: left;
+    height: 30px;
+    position: relative;
+    /*padding-left: 20px;*/
+  }
+  .backImg{
+    height: 16px;
+    margin-bottom: 3px;
+    margin-right: 3px;
+  }
+  .backText{
+    display: inline-block;
+    width: 35px;
+  }
+
+  .backToPath {
+    cursor: pointer;
+  }
+
+  .backBtnCtr {
+    display: inline-block;
+  }
+
+  .backBtn {
+    display: inline-block;
+  }
+
+  .backToPath:hover {
+    color: #1890ff;
+  }
 </style>

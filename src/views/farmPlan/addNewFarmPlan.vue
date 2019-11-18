@@ -7,30 +7,23 @@
           <span class="title-text">新增农事计划</span>
         </div>
         <div class="addContent">
-          <a-form
-            :form="addForm"
-            @submit="submit"
-          >
+          <a-form :form="addForm" @submit="submit">
             <a-row>
               <a-col :span="11">
-                <a-form-item
-                  label="选择产品"
-                  :label-col="{ span: 24 }"
-                  :wrapper-col="{ span: 24 }"
-                >
+                <a-form-item label="选择产品" :label-col="{ span: 24 }" :wrapper-col="{ span: 24 }">
                   <a-select
                     placeholder="请选择"
                     class="detail-input"
                     style="width: 100%"
+                    :getPopupContainer="triggerNode => {
+                      return triggerNode.parentNode || document.body;
+                    }"
                     @change="frameChange"
                     v-decorator="[
                     'productValue',
                     {rules: [{ required: true, message: '请选择产品!' }]}]"
                   >
-                    <a-icon
-                      slot="suffixIcon"
-                      type="smile"
-                    />
+                    <a-icon slot="suffixIcon" type="smile" />
                     <a-select-option
                       v-for="(item) in frameTypeArr"
                       :id="item.breedId"
@@ -39,28 +32,21 @@
                   </a-select>
                 </a-form-item>
               </a-col>
-              <a-col
-                :span="11"
-                :offset="2"
-              >
-                <a-form-item
-                  label="选择种植方案"
-                  :label-col="{ span: 24 }"
-                  :wrapper-col="{ span: 24 }"
-                >
+              <a-col :span="11" :offset="2">
+                <a-form-item label="选择种植方案" :label-col="{ span: 24 }" :wrapper-col="{ span: 24 }">
                   <a-select
                     class="detail-input"
                     placeholder="请选择"
                     style="width: 100%"
                     @change="programChange"
+                    :getPopupContainer="triggerNode => {
+                      return triggerNode.parentNode || document.body;
+                    }"
                     v-decorator="[
                     'solutionValue',
                     {rules: [{ required: true, message: '请选择种植方案!' }]}]"
                   >
-                    <a-icon
-                      slot="suffixIcon"
-                      type="smile"
-                    />
+                    <a-icon slot="suffixIcon" type="smile" />
                     <a-select-option
                       v-for="(item) in frameProgramArr"
                       :key="item.solutionId"
@@ -69,24 +55,20 @@
                 </a-form-item>
               </a-col>
               <a-col :span="11">
-                <a-form-item
-                  label="选择基地"
-                  :label-col="{ span: 24 }"
-                  :wrapper-col="{ span: 24 }"
-                >
+                <a-form-item label="选择基地" :label-col="{ span: 24 }" :wrapper-col="{ span: 24 }">
                   <a-select
                     class="detail-input"
                     placeholder="请选择"
                     style="width: 100%"
+                    :getPopupContainer="triggerNode => {
+                      return triggerNode.parentNode || document.body;
+                    }"
                     @change="baseChange"
                     v-decorator="[
                     'baseLandValue',
                     {rules: [{ required: true, message: '请选择基地!' }]}]"
                   >
-                    <a-icon
-                      slot="suffixIcon"
-                      type="smile"
-                    />
+                    <a-icon slot="suffixIcon" type="smile" />
                     <a-select-option
                       v-for="(item) in frameBaseArr"
                       :key="item.baseLandId"
@@ -94,19 +76,15 @@
                   </a-select>
                 </a-form-item>
               </a-col>
-              <a-col
-                :span="11"
-                :offset="2"
-              >
-                <a-form-item
-                  label="计划开始时间"
-                  :label-col="{ span: 24 }"
-                  :wrapper-col="{ span: 24 }"
-                >
+              <a-col :span="11" :offset="2">
+                <a-form-item label="计划开始时间" :label-col="{ span: 24 }" :wrapper-col="{ span: 24 }">
                   <a-date-picker
                     class="detail-input"
                     format="YYYY-MM-DD"
-                    placeholder="请选择时间"
+                     :getCalendarContainer="triggerNode => {
+                        return triggerNode.parentNode || document.body;
+                      }"
+                    placeholder="请选择"
                     :disabledDate="disabledDateFn"
                     style="width: 100%"
                     @change="onTimeChange"
@@ -117,24 +95,20 @@
                 </a-form-item>
               </a-col>
               <a-col :span="11">
-                <a-form-item
-                  label="选择出库批次"
-                  :label-col="{ span: 24 }"
-                  :wrapper-col="{ span: 24 }"
-                >
+                <a-form-item label="选择出库批次" :label-col="{ span: 24 }" :wrapper-col="{ span: 24 }">
                   <a-select
                     class="detail-input"
                     placeholder="请选择"
                     style="width: 100%"
+                    :getPopupContainer="triggerNode => {
+                      return triggerNode.parentNode || document.body;
+                    }"
                     @change="bagChange"
                     v-decorator="[
                     'seedValue',
                     {rules: [{ required: true, message: '请选择菌包!' }]}]"
                   >
-                    <a-icon
-                      slot="suffixIcon"
-                      type="smile"
-                    />
+                    <a-icon slot="suffixIcon" type="smile" />
                     <a-select-option
                       v-for="(item) in frameBagArr"
                       :key="item.fungusBagId"
@@ -144,30 +118,20 @@
                   </a-select>
                 </a-form-item>
               </a-col>
-              <a-col
-                :span="11"
-                :offset="2"
-              >
-                <a-form-item
-                  label="菌包数量"
-                  :label-col="{ span: 24 }"
-                  :wrapper-col="{ span: 24 }"
-                  v-decorator="['seedUnit']"
-                >
+              <a-col :span="11" :offset="2">
+                <a-form-item label="菌包数量" :label-col="{ span: 24 }" :wrapper-col="{ span: 24 }">
                   <a-input
                     autocomplete="off"
-                    placeholder="Basic usage"
+                    placeholder="菌包数量"
                     class="detail-input"
-                    disabled
-                    v-model="bagVal"
+                    @change="seedUnitInput"
+                    v-decorator="['seedUnit',
+                    {rules: [{ required: true, validator:seedUnitValidator, message: '请输入正确菌包数量!' }]}]"
                   />
                 </a-form-item>
               </a-col>
               <a-col :span="24">
-                <div
-                  class="detail-input-wrapper"
-                  style="text-align: left"
-                >
+                <div class="detail-input-wrapper" style="text-align: left">
                   <span class="detail-title">选择地块</span>
                   <div class="treeContent">
                     <div class="readyTreeContent">
@@ -179,15 +143,8 @@
                             :checked="checkAllBlank"
                           >可选</a-checkbox>
                         </a-col>
-                        <a-checkbox-group
-                          @change="readyCheckChange"
-                          v-model="readyValue"
-                        >
-                          <a-col
-                            v-for="(item,index) in readyOptions"
-                            :span="24"
-                            :key="index"
-                          >
+                        <a-checkbox-group @change="readyCheckChange" v-model="readyValue">
+                          <a-col v-for="(item,index) in readyOptions" :span="24" :key="index">
                             <a-checkbox :value="item.blockLandId">{{item.blockLandName}}</a-checkbox>
                           </a-col>
                         </a-checkbox-group>
@@ -195,26 +152,15 @@
                     </div>
                     <div class="checkBtnGroup">
                       <div>
-                        <a-button
-                          type="primary"
-                          class="add-button"
-                          @click="confirmCheck"
-                        >选择</a-button>
+                        <a-button type="primary" class="add-button" @click="confirmCheck">选择</a-button>
                       </div>
                       <div>
-                        <a-button
-                          type="primary"
-                          class="add-button"
-                          @click="cancleCheck"
-                        >取消</a-button>
+                        <a-button type="primary" class="add-button" @click="cancleCheck">取消</a-button>
                       </div>
                     </div>
                     <div class="confirmTreeContent">
                       <a-row>
-                        <a-form-item
-                          :label-col="{ span: 24 }"
-                          :wrapper-col="{ span: 24 }"
-                        >
+                        <a-form-item :label-col="{ span: 24 }" :wrapper-col="{ span: 24 }">
                           <a-col :span="24">
                             <a-checkbox
                               :indeterminate="indeterminateBlankCanle"
@@ -226,11 +172,7 @@
                             @change="confirmCheckChange"
                             v-decorator="['baseLandVals']"
                           >
-                            <a-col
-                              v-for="(item,index) in checkOptions"
-                              :span="24"
-                              :key="index"
-                            >
+                            <a-col v-for="(item,index) in checkOptions" :span="24" :key="index">
                               <a-checkbox :value="item.blockLandId">{{item.blockLandName}}</a-checkbox>
                             </a-col>
                           </a-checkbox-group>
@@ -241,14 +183,10 @@
                 </div>
               </a-col>
               <a-col :span="6">
-                <a-form-item
-                  label="种植面积"
-                  :label-col="{ span: 24 }"
-                  :wrapper-col="{ span: 24 }"
-                >
+                <a-form-item label="种植面积" :label-col="{ span: 24 }" :wrapper-col="{ span: 24 }">
                   <a-input
                     autocomplete="off"
-                    placeholder="Basic usage"
+                    placeholder="种植面积"
                     class="detail-input"
                     v-model="farmArea"
                     disabled
@@ -261,16 +199,15 @@
         </div>
       </a-layout-content>
     </a-layout>
-    <add-farm-plan-list :query-task-data="queryTaskData" />
+    <add-farm-plan-list
+      :query-task-data="queryTaskData"
+      @changeQueryTaskData="changeQueryTaskData"
+    />
     <div class="btnGroup">
       <a-button class="save-button">
         <router-link :to="{name: 'farmPlan'}">取消</router-link>
       </a-button>
-      <a-button
-        type="primary"
-        class="add-button"
-        @click="submit"
-      >确定</a-button>
+      <a-button type="primary" class="add-button" @click="submit">确定</a-button>
     </div>
   </div>
 </template>
@@ -510,10 +447,20 @@ export default {
     baseChange(data) {
       this.baseType = data
       this.requestSelectBaseLandId(data) // 请求地块
+      this.checkOptions = []
+      this.readyOptions = []
+      this.readyValue = []
+      this.checkValue = []
+      this.checkAllBlank = false
+      this.checkAllBlankCanle = false
     },
     bagChange(data, amount) {
       this.bagType = data
       this.bagVal = amount.data.attrs.amount
+      this.addForm.setFieldsValue({ seedUnit: amount.data.attrs.amount })
+    },
+    seedUnitInput(e) {
+      this.addForm.setFieldsValue({ seedUnit: e.data })
     },
     massifChange(data) {
       this.massifType = data
@@ -587,6 +534,16 @@ export default {
         return false
       }
       callback()
+    },
+    seedUnitValidator(rule, value, callback) {
+      if (value <= 0 || value > this.bagVal) {
+        callback(rule.message)
+        return false
+      }
+      callback()
+    },
+    changeQueryTaskData() {
+      this.queryTaskData.changeFlag = 'N'
     }
   }
 }

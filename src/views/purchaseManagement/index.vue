@@ -15,6 +15,9 @@
                 <a-select
                   v-if="index === 4"
                   notFoundContent="未匹配到数据"
+                  :getPopupContainer="triggerNode => {
+                    return triggerNode.parentNode || document.body;
+                  }"
                   v-decorator="[`select_${item.id}`, {
                     rules: item.validators
                   }]"
@@ -54,15 +57,17 @@
           :style="{marginTop: '50px'}"
           :pagination="pagination"
           :loading="loading"
+          :scroll="{ x: 1240 }"
           @change="pageOnChange"
         >
           <span slot="itemIndex" slot-scope="text, record, index">{{index+1}}</span>
+          <span slot="materialName" slot-scope="text, record" class="line-sp" :title="record.materialName">{{record.materialName}}</span>
           <span slot="questionContent" slot-scope="text, record">{{record.question.questionContent}}</span>
           <span
             slot="purchaseStatus"
             slot-scope="text, record"
           >{{cmpPurchaseStatus(record.purchaseStatus)}}</span>
-          <span slot="materialDosage" slot-scope="text, record">{{record.materialDosage + record.materialUnitName}}</span>
+          <span slot="materialDosage" slot-scope="text, record" class="line-sp" :title="record.materialDosage + record.materialUnitName">{{record.materialDosage + record.materialUnitName}}</span>
           <a-row slot="operation" slot-scope="text, record">
             <span class="preview" @click="handleDetail(record)" >查看</span>
             <span v-if="record.purchaseStatus === 3" class="preview" @click="handleTagPurchase(record)" >标记为采购</span>
@@ -84,21 +89,11 @@
             v-decorator="['field_money', {
               rules: [{ validator: validatorMoney }]
             }]"
+            maxlength="15"
           />
         </a-form-item>
         </a-form>
       </a-modal>
-      <!-- <a-pagination
-        class="pagination"
-        :pageSizeOptions="['6', '12', '18']"
-        showSizeChanger
-        showQuickJumper
-        :defaultCurrent="pageNo"
-        :pageSize="pageSize"
-        :total="total"
-        @change="pageOnChange"
-        @showSizeChange="pageSizeOnChange"
-      /> -->
     </a-layout>
     <AddPurchase ref="newPurchase" @refresh="refreshList" />
   </div>
@@ -204,8 +199,8 @@ const fields = [
     placeholder: '请选择采购状态',
     validators: validators['v-purchaseStatus'],
     arrs: [
-      { id: 1, label: '废弃' },
-      { id: 2, label: '待采购' },
+      // { id: 1, label: '废弃' },
+      // { id: 2, label: '待采购' },
       { id: 3, label: '采购中' },
       { id: 4, label: '已采购' }
     ]
@@ -224,7 +219,11 @@ export default {
       fields,
       columns,
       list,
-      pagination: { showQuickJumper: true, showSizeChanger: true },
+      pagination: {
+        showQuickJumper: true,
+        showSizeChanger: true,
+        total: 0,
+        showTotal: total => `共 ${total} 条` },
       form: this.$form.createForm(this, { name: 'purchaseManagement' }),
       moneyForm: this.$form.createForm(this, { name: 'moneyForm' }),
       loading: false,
@@ -396,6 +395,12 @@ export default {
     background-color: #fff;
     min-height: 360px;
     border-radius: 4px;
+    .line-sp {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      width: 120px;
+    }
     .add-button {
       position: absolute;
       right: 24px;

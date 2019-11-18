@@ -1,7 +1,7 @@
 import { axios } from '@/utils/request'
 // VUE_APP_BASE_API = http://106.38.53.203:12825
 // 上传图片
-export function uploadImage(data) {
+export function uploadImage (data) {
   return axios({
     url: '/produce/oss/fileUpload',
     method: 'POST',
@@ -51,7 +51,7 @@ export function selectFungusbagFarmPlan () {
 
 export function selectBaseLandIdFarmPlan (baseLandId) {
   return axios({
-    url: `/produce/blockland/list/${baseLandId}
+    url: `/produce/farmPlan/blockLand/${baseLandId}
     `,
     method: 'GET'
   })
@@ -299,9 +299,9 @@ export const getFarmingType = () => {
   })
 }
 // 农事计划任务详情 新增临时任务 选择时的操作列表
-export const getCction = () => {
+export const getCction = (id) => {
   return axios({
-    url: `/produce/action/`,
+    url: `/produce/action/list/${id}`,
     method: 'get'
   })
 }

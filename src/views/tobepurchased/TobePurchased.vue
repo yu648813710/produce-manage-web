@@ -16,7 +16,7 @@
                 <a-form-item label="农资名称">
                   <a-input
                     autocomplete="off"
-                    placeholder="请输入"
+                    placeholder="请输入农资名称"
                     v-model="materialName"
                   />
                 </a-form-item>
@@ -25,7 +25,7 @@
                 <a-form-item label="农事计划编号">
                   <a-input
                     autocomplete="off"
-                    placeholder="请输入"
+                    placeholder="请输入农事计划编号"
                     v-model="farmingNum"
                   />
                 </a-form-item>
@@ -34,7 +34,7 @@
                 <a-form-item label="所属农事操作">
                   <a-input
                     autocomplete="off"
-                    placeholder="请输入"
+                    placeholder="请输入所属农事操作"
                     v-model="actionName"
                   />
                 </a-form-item>
@@ -45,7 +45,7 @@
                 <a-form-item label="所属周期">
                   <a-input
                     autocomplete="off"
-                    placeholder="请输入"
+                    placeholder="请输入所属周期"
                     v-model="planCycleName"
                   />
                 </a-form-item>

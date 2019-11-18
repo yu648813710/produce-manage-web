@@ -20,7 +20,7 @@
               <a-input
                 autocomplete="off"
                 v-model="searchForm.baseName"
-                placeholder="请输入地块名称"
+                placeholder="请输入"
                 v-decorator="[
                   '地块名称',
                   {rules: [{ required: true, message: '请输入地块名称!' }]}
@@ -146,7 +146,7 @@ export default {
     AddRule,
     CrumbsNav
   },
-  data () {
+  data() {
     return {
       visible: false,
       confirmLoading: false,
@@ -213,30 +213,30 @@ export default {
       ]
     }
   },
-  mounted () {
+  mounted() {
     this.getRuleList()
     this.getSelectBaseLand()
   },
   methods: {
     // 显示新增弹窗
-    showModal () {
+    showModal() {
       this.visible = true
     },
     // 弹窗后赋值
-    setFrorm (ruleForm) {
+    setFrorm(ruleForm) {
       this.ruleForm = ruleForm
     },
     // 显示删除弹窗
-    shwoDeteleModal (id) {
+    shwoDeteleModal(id) {
       this.deteleVisible = true
       this.blockLandId = id
     },
     // 消失删除弹窗
-    deteleHandleCancel () {
+    deteleHandleCancel() {
       this.deteleVisible = false
     },
     // 点击显示新增弹窗
-    addShowModal () {
+    addShowModal() {
       this.showModal()
       this.formInputVal = {
         user: '', // 负责人
@@ -252,7 +252,7 @@ export default {
       this.infoAddOrEditType = 'add'
     },
     // 点击新增弹窗确定
-    handleOk (ruleForm) {
+    handleOk(ruleForm) {
       this.ruleForm = ruleForm
       this.ruleForm.validateFields((err, rule) => {
         let validataFormState = this.validataForm()
@@ -280,7 +280,7 @@ export default {
       })
     },
     // 点击新增弹窗取消
-    handleCancel (ruleForm) {
+    handleCancel(ruleForm) {
       this.ruleForm = ruleForm
       this.visible = false
       this.blockLandData = []
@@ -294,19 +294,20 @@ export default {
       })
     },
     // 重置
-    restSearch () {
+    restSearch() {
       this.searchForm.baseName = ''
       this.getRuleList()
     },
-    searchRuleList (page, current) {
+    searchRuleList(page, current) {
+      this.pagination.current = 1
       this.getRuleList()
     },
-    paginationChange (page, current) {
+    paginationChange(page, current) {
       this.pagination.current = page.current
       this.pagination.pageSize = page.pageSize
       this.getRuleList()
     },
-    getRuleList () {
+    getRuleList() {
       let postData = {
         pageNo: this.pagination.current,
         pageSize: this.pagination.pageSize,
@@ -335,12 +336,12 @@ export default {
       })
     },
     // 基地选项事件
-    baseLandChange (e) {
+    baseLandChange(e) {
       this.formSelectVal.baseLandId = e
       this.getSelectBlockBland(e)
     },
     // 地块选项事件
-    blockLandChange (e) {
+    blockLandChange(e) {
       this.formSelectVal.blockLandId = e
       let userdata = this.blockLandData.filter(res => {
         if (res.blockLandId === e) {
@@ -351,7 +352,7 @@ export default {
       this.formInputVal.user = userdata[0] ? userdata[0].principalUser : ''
     },
     // 编辑事件
-    editRuleEvent (data) {
+    editRuleEvent(data) {
       this.showModal()
       this.formInputVal.temperatureInf = data.temperatureInf
       this.formInputVal.temperatureSup = data.temperatureSup
@@ -364,6 +365,7 @@ export default {
 
       this.setFrorm()
       this.$nextTick(async () => {
+        console.log(data.baseLandId)
         await this.getSelectBlockBland(data.baseLandId)
         console.log(data.blockLandId)
         console.log(this.blockLandData)
@@ -380,11 +382,10 @@ export default {
         })
         this.formInputVal.user = userData[0] ? userData[0].principalUser : ''
       })
-
       this.infoAddOrEditType = 'edit'
     },
     // 删除事件
-    deteleHandleOk () {
+    deteleHandleOk() {
       deleteRule(this.blockLandId).then(res => {
         if (res.code === 200) {
           this.getRuleList()
@@ -394,7 +395,7 @@ export default {
       })
     },
     // 获取基地的信息
-    getSelectBaseLand () {
+    getSelectBaseLand() {
       listBaseLandSelect().then(res => {
         if (res.code === 200) {
           this.baseLandData = res.data
@@ -402,7 +403,7 @@ export default {
       })
     },
     // 获取地块信息
-    async getSelectBlockBland (id) {
+    async getSelectBlockBland(id) {
       await listBlockLandByBaseLandIdSelect(id).then(res => {
         if (res.code === 200) {
           this.blockLandData = res.data
@@ -410,7 +411,7 @@ export default {
       })
     },
     // 编辑提交
-    editRuleSubmit (data) {
+    editRuleSubmit(data) {
       setRule(data).then(res => {
         if (res.code !== 200) {
           return false
@@ -421,7 +422,7 @@ export default {
       })
     },
     // 新增提交
-    addRuleSubmit (data) {
+    addRuleSubmit(data) {
       addRule(data).then(res => {
         if (res.code !== 200) {
           return false
@@ -432,7 +433,7 @@ export default {
       })
     },
     // 提示信息
-    tipMessage (type, message) {
+    tipMessage(type, message) {
       if (type === 'Y') {
         this.$message.success(message)
         return false
@@ -440,7 +441,7 @@ export default {
       this.$message.error(message)
     },
     // 校验表单
-    validataForm () {
+    validataForm() {
       let formDataInput = this.formInputVal
       if (
         (!formDataInput.temperatureInf && !formDataInput.temperatureSup) ||

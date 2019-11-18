@@ -2,17 +2,10 @@
   <div>
     <div class="form">
       <!-- 搜索条件 -->
-      <div
-        class="search-box"
-        :style="!upDownStatue?'':'height:86px'"
-      >
+      <div class="search-box" :style="!upDownStatue?'':'height:86px'">
         <a-row :gutter="40">
           <template v-for="(item,index) in searchFormData">
-            <a-col
-              v-if="index<3"
-              :span="8"
-              :key="index"
-            >
+            <a-col v-if="index<3" :span="8" :key="index">
               <a-form-item
                 :label="item.label"
                 :label-col="{ span: 24 }"
@@ -43,11 +36,7 @@
         </a-row>
         <a-row :gutter="40">
           <template v-for="(item,index) in searchFormData">
-            <a-col
-              v-if="index>2"
-              :span="8"
-              :key="index"
-            >
+            <a-col v-if="index>2" :span="8" :key="index">
               <a-form-item
                 :label="item.label"
                 :label-col="{ span: 24 }"
@@ -78,23 +67,10 @@
         </a-row>
       </div>
       <a-row>
-        <a-col
-          :span="24"
-          :style="{ textAlign: 'center' }"
-        >
-          <a-button
-            type="primary"
-            html-type="submit"
-            @click="searchTask"
-          >查询</a-button>
-          <a-button
-            :style="{ marginLeft: '8px' }"
-            @click="clearSearch"
-          >重置</a-button>
-          <a-button
-            :style="{ marginLeft: '8px' }"
-            @click="upDownStatue=!upDownStatue"
-          >
+        <a-col :span="24" :style="{ textAlign: 'center' }">
+          <a-button type="primary" html-type="submit" @click="searchTask">查询</a-button>
+          <a-button :style="{ marginLeft: '8px' }" @click="clearSearch">重置</a-button>
+          <a-button :style="{ marginLeft: '8px' }" @click="upDownStatue=!upDownStatue">
             <a-icon :type="!upDownStatue ? 'up' : 'down'" />
             {{!upDownStatue ? '收起' : '展开'}}
           </a-button>
@@ -113,7 +89,7 @@ export default {
         farmingNum: '', // 计划编号
         actionName: '', // 农事操作
         farmingTypeName: '', // 农事类型
-        taskStatus: '', // 状态
+        taskStatus: undefined, // 状态
         blockLandName: '', // 地块名称
         cycleName: '' // 周期名称
       },
@@ -121,38 +97,38 @@ export default {
         {
           type: 'input',
           label: '农事计划编号',
-          placeholder: '请输入农事计划',
+          placeholder: '请输入',
           data: null
         },
         {
           type: 'input',
           label: '农事操作',
-          placeholder: '请输入农事操作',
+          placeholder: '请输入',
           data: null
         },
         {
           type: 'input',
           label: '农事类型',
-          placeholder: '请输入农事类型',
+          placeholder: '请输入',
           data: null
         },
         {
           type: 'select',
           label: '状态',
-          placeholder: '请选择状态',
-          data: null,
+          placeholder: '请选择',
+          data: undefined,
           selectData: null
         },
         {
           type: 'input',
           label: '所属地块',
-          placeholder: '请输入所属地块',
+          placeholder: '请输入',
           data: null
         },
         {
           type: 'input',
           label: '所属周期',
-          placeholder: '请输入所属周期',
+          placeholder: '请输入',
           data: null
         }
       ]
@@ -173,13 +149,18 @@ export default {
   methods: {
     clearSearch() {
       this.searchFormData.map(res => {
-        res.data = ''
+        if (res.type === 'select') {
+          res.data = undefined
+        } else {
+          res.data = ''
+        }
       })
+      console.log(this.searchFormData)
       this.searchForm = {
         farmingNum: '', // 计划编号
         actionName: '', // 农事操作
         farmingTypeName: '', // 农事类型
-        taskStatus: '', // 状态
+        taskStatus: undefined, // 状态
         blockLandName: '', // 地块名称
         cycleName: '' // 周期名称
       }

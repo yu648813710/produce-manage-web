@@ -1,24 +1,21 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '@/store'
-import NProgress from 'nprogress' // progress bar
-import 'nprogress/nprogress.css' // progress bar style
+import NProgress from 'nprogress' // 页面进度条
+import 'nprogress/nprogress.css' // 页面进度条 style
 import { ConstantRoute, DynamicRoute } from './Route'
 import { setDocumentTitle, domTitle } from '@/utils/domUtil'
-
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
-
-const requireContext = require.context('./routes', true, /\.js$/)
-const requireAll = context => context.keys().map(context)
+const requireContext = require.context('./routes', true, /\.js$/) // 获取路由文件
+const requireAll = context => context.keys().map(context) // 处理方法
 const ChildRoutes = []
 requireAll(requireContext)
   .sort((a, b) => {
-    return a.default.sort - b.default.sort
+    return a.default.sort - b.default.sort // 按照 sort 排序
   })
   .forEach(item => {
     ChildRoutes.push(...item.default.routes)
   })
-
 Vue.use(Router)
 const router = new Router({
   mode: 'history',
@@ -27,6 +24,7 @@ const router = new Router({
   routes: ConstantRoute
 })
 router.beforeEach((to, form, next) => {
+  console.log(DynamicRoute)
   NProgress.start()
   to.meta &&
     (typeof to.meta.name !== 'undefined' &&
@@ -49,6 +47,8 @@ router.beforeEach((to, form, next) => {
             MainRoute.children.push(...routes)
             router.addRoutes(DynamicRoute)
             next({ ...to })
+          }).catch(res => {
+            console.log(res)
           })
       }
     } else {
@@ -64,7 +64,6 @@ router.beforeEach((to, form, next) => {
   }
 })
 router.afterEach(() => {
-  NProgress.done() // finish progress bar
+  NProgress.done() // 进度条
 })
-
 export default router

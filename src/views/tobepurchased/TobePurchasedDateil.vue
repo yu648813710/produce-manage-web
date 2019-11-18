@@ -1,66 +1,78 @@
 /**待采购管理详情*/
 <template>
-  <div class="wrapper">
-    <div class="title-wrapper">
-      <div class="icon"></div>
-      <span class="title-text">待采购管理详情</span>
+  <div>
+    <!-- 面包屑 -->
+    <div style="padding-top: 16px;padding-left:16px;">
+      <crumbs-nav :crumbs-arr="dateilCrumbsArr" />
     </div>
-    <div class="detail-wrapper">
-      <a-row>
-        <a-col :span="12" class="detail-item">
-          <span class="item-key">农资名称：</span>
-          <span class="item-value">{{detail.materialName}}</span>
-        </a-col>
-        <a-col :span="12" class="detail-item">
-          <span class="item-key">计划用量：</span>
-          <span class="item-value">{{detail.materialDosage}}{{detail.materialUnitName}}</span>
-        </a-col>
-        <a-col :span="12" class="detail-item">
-          <span class="item-key">农事计划编号：</span>
-          <span class="item-value">{{detail.farmingNum}}</span>
-        </a-col>
-        <a-col :span="12" class="detail-item">
-          <span class="item-key">所属农事操作：</span>
-          <span class="item-value">{{detail.actionName}}</span>
-        </a-col>
-      </a-row>
-      <a-row >
-        <a-col :span="12" class="detail-item">
-          <span class="item-key">所属周期：</span>
-          <span class="item-value">{{detail.planCycleName}}</span>
-        </a-col>
-        <a-col :span="12" class="detail-item">
-          <span class="item-key">所属基地：</span>
-          <span class="item-value">{{detail.baseLandName}}</span>
-        </a-col>
-        <a-col :span="12" class="detail-item">
-          <span class="item-key">所属地块：</span>
-          <span class="item-value">{{detail.blockLandName}}</span>
-        </a-col>
-        <a-col :span="12" class="detail-item">
-          <span class="item-key">用途：</span>
-          <span class="item-value">{{detail.materialUsage}}</span>
-        </a-col>
-      </a-row>
-      <a-row :span="24">
-        <a-col :span="24" class="detail-item">
-          <span class="item-key">农资描述：</span>
-          <span class="item-value">{{detail.materialDesc}}</span>
-        </a-col>
-      </a-row>
+    <div class="wrapper">
+      <div class="title-wrapper">
+        <div class="icon"></div>
+        <span class="title-text">待采购管理详情</span>
+      </div>
+      <div class="detail-wrapper">
+        <a-row>
+          <a-col :span="12" class="detail-item">
+            <span class="item-key">农资名称：</span>
+            <span class="item-value">{{detail.materialName}}</span>
+          </a-col>
+          <a-col :span="12" class="detail-item">
+            <span class="item-key">计划用量：</span>
+            <span class="item-value">{{detail.materialDosage}}{{detail.materialUnitName}}</span>
+          </a-col>
+          <a-col :span="12" class="detail-item">
+            <span class="item-key">农事计划编号：</span>
+            <span class="item-value">{{detail.farmingNum}}</span>
+          </a-col>
+          <a-col :span="12" class="detail-item">
+            <span class="item-key">所属农事操作：</span>
+            <span class="item-value">{{detail.actionName}}</span>
+          </a-col>
+        </a-row>
+        <a-row >
+          <a-col :span="12" class="detail-item">
+            <span class="item-key">所属周期：</span>
+            <span class="item-value">{{detail.planCycleName}}</span>
+          </a-col>
+          <a-col :span="12" class="detail-item">
+            <span class="item-key">所属基地：</span>
+            <span class="item-value">{{detail.baseLandName}}</span>
+          </a-col>
+          <a-col :span="12" class="detail-item">
+            <span class="item-key">所属地块：</span>
+            <span class="item-value">{{detail.blockLandName}}</span>
+          </a-col>
+          <a-col :span="12" class="detail-item">
+            <span class="item-key">用途：</span>
+            <span class="item-value">{{detail.materialUsage}}</span>
+          </a-col>
+        </a-row>
+        <a-row :span="24">
+          <a-col :span="24" class="detail-item">
+            <span class="item-key">农资描述：</span>
+            <span class="item-value">{{detail.materialDesc}}</span>
+          </a-col>
+        </a-row>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import Vue from 'vue'
 import { Row, Col } from 'ant-design-vue'
+import CrumbsNav from '@/components/crumbsNav/CrumbsNav' // 面包屑
+import { dateilCrumbsArr } from './config.js'
 Vue.use(Row)
 Vue.use(Col)
 export default {
   name: 'jobShopAdminDetail',
+  components: {
+    CrumbsNav
+  },
   data () {
     return {
-      detail: this.$route.params
+      detail: this.$route.params,
+      dateilCrumbsArr
     }
   }
 }

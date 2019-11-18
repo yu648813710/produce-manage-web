@@ -3,46 +3,56 @@ export const columns = [{
   key: 'itemIndex',
   scopedSlots: {
     customRender: 'itemIndex'
-  }
+  },
+  width: 80
 },
 {
   title: '农资名称',
-  dataIndex: 'materialName',
-  key: 'materialName'
+  scopedSlots: {
+    customRender: 'materialName'
+  },
+  key: 'materialName',
+  width: 120
 },
 {
   title: '计划用量',
   key: 'materialDosage',
   scopedSlots: {
     customRender: 'materialDosage'
-  }
+  },
+  width: 120
 },
 {
   title: '农事计划编号',
   dataIndex: 'farmingNum',
-  key: 'farmingNum'
+  key: 'farmingNum',
+  width: 160
 },
 {
   title: '所属农事操作',
   key: 'actionName',
-  dataIndex: 'actionName'
+  dataIndex: 'actionName',
+  width: 160
 },
 {
   title: '所属周期',
   key: 'planCycleName',
-  dataIndex: 'planCycleName'
+  dataIndex: 'planCycleName',
+  width: 120
 },
 {
   title: '采购状态',
   key: 'purchaseStatus',
   scopedSlots: {
     customRender: 'purchaseStatus'
-  }
+  },
+  width: 120
 },
 {
   title: '采购金额(元)',
   key: 'purchaseMoney',
-  dataIndex: 'purchaseMoney'
+  dataIndex: 'purchaseMoney',
+  width: 120
 },
 {
   title: '操作',
@@ -50,7 +60,8 @@ export const columns = [{
   align: 'center',
   scopedSlots: {
     customRender: 'operation'
-  }
+  },
+  width: 200
 }
 ]
 
@@ -83,7 +94,7 @@ const validators = {
     message: '请关联农事计划编号'
   }],
   'v-assCycle': [{
-    required: false,
+    required: true,
     message: '请关联周期'
   }],
   'v-assSoilType': [{

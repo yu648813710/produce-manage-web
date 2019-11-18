@@ -14,11 +14,12 @@ const tableColumns = [
   {
     title: '所属周期',
     dataIndex: 'cycleName',
-    width: 120
+    width: 150
   },
   {
     title: '所属地块',
     dataIndex: 'farmBizName',
+    scopedSlots: { customRender: 'farmBizName' },
     width: 140
   },
   {
@@ -45,17 +46,17 @@ const tableColumns = [
   {
     title: '任务开始时间',
     dataIndex: 'startTime',
-    width: 140
+    width: 150
   },
   {
     title: '任务结束时间',
     dataIndex: 'endTime',
-    width: 140
+    width: 150
   },
   {
     title: '任务完成时间',
     dataIndex: 'executeTime',
-    width: 140
+    width: 150
   },
   {
     title: '负责人',

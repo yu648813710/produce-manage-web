@@ -13,4 +13,11 @@ const crumbsArr = [
   { name: '采购管理', back: false, path: '' },
   { name: '待采购管理', back: false, path: '' }
 ]
-export { columns, crumbsArr }
+const dateilCrumbsArr = [
+  { name: '当前位置', back: false, path: '' },
+  { name: '生产管理', back: false, path: '' },
+  { name: '采购管理', back: false, path: '' },
+  { name: '待采购管理', back: true, path: '/tobepurchased' },
+  { name: '待采购详情', back: false, path: '' }
+]
+export { columns, crumbsArr, dateilCrumbsArr }

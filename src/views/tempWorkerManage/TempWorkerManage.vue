@@ -3,31 +3,20 @@
   <div class="about">
     <a-layout>
       <div style="padding-top: 16px;padding-left:16px;">
-        <crumbs-nav :crumbs-arr="crumbsArr"/>
+        <crumbs-nav :crumbs-arr="crumbsArr" />
       </div>
       <a-layout-content style="margin: 16px;margin-top:0;">
         <div class="search-wrapper">
-          <a-form
-            :form="searchForm"
-            @submit="searchList"
-          >
+          <a-form :form="searchForm" @submit="searchList">
             <a-row :gutter="40">
               <a-col :span="8">
                 <a-form-item label="临时工姓名">
-                  <a-input
-                    autocomplete="off"
-                    placeholder="请输入"
-                    v-model="searchParams.userName"
-                  />
+                  <a-input autocomplete="off" placeholder="请输入" v-model="searchParams.userName" />
                 </a-form-item>
               </a-col>
               <a-col :span="8">
                 <a-form-item label="临时工手机号">
-                  <a-input
-                    autocomplete="off"
-                    placeholder="请输入"
-                    v-model="searchParams.phone"
-                  />
+                  <a-input autocomplete="off" placeholder="请输入" v-model="searchParams.phone" />
                 </a-form-item>
               </a-col>
               <a-col :span="8">
@@ -35,13 +24,19 @@
                   <a-select
                     placeholder="请选择"
                     :allowClear="true"
+                    :getPopupContainer="triggerNode => {
+                      return triggerNode.parentNode || document.body;
+                    }"
                     style="width: 100%;"
                     v-decorator="[
                       'jobStatus',{},
                     ]"
                   >
-                    <a-select-option v-for="item in statusArr" :key="item.value" :value="item.value">{{item.name}}
-                    </a-select-option>
+                    <a-select-option
+                      v-for="item in statusArr"
+                      :key="item.value"
+                      :value="item.value"
+                    >{{item.name}}</a-select-option>
                   </a-select>
                 </a-form-item>
               </a-col>
@@ -52,35 +47,29 @@
                   <a-select
                     placeholder="请选择"
                     :allowClear="true"
+                    :getPopupContainer="triggerNode => {
+                      return triggerNode.parentNode || document.body;
+                    }"
                     style="width: 100%;"
                     v-decorator="[
                       'povertyStatus',{},
                     ]"
                   >
-                    <a-select-option v-for="item in ifArr" :key="item.value" :value="item.value">{{item.name}}
-                    </a-select-option>
+                    <a-select-option
+                      v-for="item in ifArr"
+                      :key="item.value"
+                      :value="item.value"
+                    >{{item.name}}</a-select-option>
                   </a-select>
                 </a-form-item>
               </a-col>
             </a-row>
           </a-form>
           <div>
-            <a-button
-              type="primary"
-              class="button"
-              @click="searchList"
-            >查询
-            </a-button>
-            <a-button
-              class="button"
-              @click="handleReset"
-            >重置
-            </a-button>
-            <a-button
-              :style="{ marginLeft: '8px' }"
-              @click="upDownStatue=!upDownStatue"
-            >
-              <a-icon :type="!upDownStatue ? 'down' : 'up'"/>
+            <a-button type="primary" class="button" @click="searchList">查询</a-button>
+            <a-button class="button" @click="handleReset">重置</a-button>
+            <a-button :style="{ marginLeft: '8px' }" @click="upDownStatue=!upDownStatue">
+              <a-icon :type="!upDownStatue ? 'down' : 'up'" />
               {{!upDownStatue ? '展开' : '收起'}}
             </a-button>
           </div>
@@ -98,10 +87,7 @@
             :style="{marginTop: '50px'}"
             :rowKey="(record, index) => index"
           >
-            <span
-              slot="id"
-              slot-scope="text, record, index"
-            >{{index + 1}}</span>
+            <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
             <span slot="jobStatus" slot-scope="text, record">
               <a-switch
                 checkedChildren="在职"
@@ -113,7 +99,11 @@
             <span slot="operation" slot-scope="text, record">
               <a-button type="link" @click="toDetail(record)">查看</a-button>
               <a-button type="link" @click="handelEdit(record)" style="padding:0;">编辑</a-button>
-              <a-button type="link" @click="handelDelete(record)" v-if="record.jobStatus==='NO_WORK'">删除</a-button>
+              <a-button
+                type="link"
+                @click="handelDelete(record)"
+                v-if="record.jobStatus==='NO_WORK'"
+              >删除</a-button>
             </span>
           </a-table>
         </div>
@@ -241,7 +231,7 @@ export default {
             this.$message.error(res.message)
           }
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error)
           this.loading = false
         })
@@ -249,6 +239,7 @@ export default {
     // 查询方法
     searchList() {
       this.searchForm.validateFields((err, values) => {
+        console.log(err)
         this.searchParams.jobStatus = values.jobStatus
         this.searchParams.povertyStatus = values.povertyStatus
       })
@@ -259,45 +250,42 @@ export default {
     addRequest() {
       let flag = this.validateForm()
       if (flag) {
-        addTempWorker(this.form)
-          .then(res => {
-            if (res.success === 'Y') {
-              this.$message.success(res.message)
-              this.closeModal()
-              this.getList()
-            } else {
-              this.$message.error(res.message)
-            }
-          })
+        addTempWorker(this.form).then(res => {
+          if (res.success === 'Y') {
+            this.$message.success(res.message)
+            this.closeModal()
+            this.getList()
+          } else {
+            this.$message.error(res.message)
+          }
+        })
       }
     },
     // 编辑请求方法
     editRequest() {
       let flag = this.validateForm()
       if (flag) {
-        editTempWorker(this.form)
-          .then(res => {
-            if (res.success === 'Y') {
-              this.$message.success(res.message)
-              this.closeModal()
-              this.getList()
-            } else {
-              this.$message.error(res.message)
-            }
-          })
-      }
-    },
-    // 删除请求方法
-    deleteRequest() {
-      delTempWorker(this.tempWorkerId)
-        .then(res => {
+        editTempWorker(this.form).then(res => {
           if (res.success === 'Y') {
             this.$message.success(res.message)
             this.closeModal()
+            this.getList()
           } else {
             this.$message.error(res.message)
           }
         })
+      }
+    },
+    // 删除请求方法
+    deleteRequest() {
+      delTempWorker(this.tempWorkerId).then(res => {
+        if (res.success === 'Y') {
+          this.$message.success(res.message)
+          this.closeModal()
+        } else {
+          this.$message.error(res.message)
+        }
+      })
     },
     // 修改在职状态
     handleChangeStatus(record) {
@@ -305,15 +293,14 @@ export default {
         tempWorkerId: record.tempWorkerId,
         jobStatus: record.jobStatus === 'NO_WORK' ? 'ON_WORK' : 'NO_WORK'
       }
-      changeJobStatus(data)
-        .then(res => {
-          if (res.success === 'Y') {
-            this.$message.success(res.message)
-            this.getList()
-          } else {
-            this.$message.error(res.message)
-          }
-        })
+      changeJobStatus(data).then(res => {
+        if (res.success === 'Y') {
+          this.$message.success(res.message)
+          this.getList()
+        } else {
+          this.$message.error(res.message)
+        }
+      })
     },
     // 控制模态框开关
     closeModal() {
@@ -363,7 +350,7 @@ export default {
     toDetail(record) {
       this.$router.push({
         name: 'TempWorkerDetail',
-        query: { 'tempWorkerId': record.tempWorkerId }
+        query: { tempWorkerId: record.tempWorkerId }
       })
     },
     // 表单校验
@@ -390,7 +377,12 @@ export default {
       if (!this.form.povertyStatus) {
         this.validate.povertyStatus = 'error'
       }
-      if (this.validate.userName || this.validate.phone || this.validate.payment || this.validate.povertyStatus) {
+      if (
+        this.validate.userName ||
+        this.validate.phone ||
+        this.validate.payment ||
+        this.validate.povertyStatus
+      ) {
         return false
       } else {
         return true
@@ -444,47 +436,47 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-  .search-wrapper {
-    padding: 24px;
-    background: #fff;
-    margin-bottom: 10px;
-    border-radius: 4px;
+.search-wrapper {
+  padding: 24px;
+  background: #fff;
+  margin-bottom: 10px;
+  border-radius: 4px;
 
-    .ant-form-item {
-      text-align: left;
-    }
-
-    .search-input-wrapper {
-      position: relative;
-      margin-bottom: 24px;
-
-      .search-title {
-        position: absolute;
-        left: 0;
-        color: #333;
-        font-size: 14px;
-      }
-
-      .search-input {
-        margin-top: 30px;
-      }
-    }
-
-    .button {
-      margin: 0 5px;
-    }
+  .ant-form-item {
+    text-align: left;
   }
 
-  .table-wrapper {
+  .search-input-wrapper {
     position: relative;
-    padding: 24px;
-    background: #fff;
-    min-height: 360px;
-    border-radius: 4px;
+    margin-bottom: 24px;
 
-    .add-button {
+    .search-title {
       position: absolute;
-      right: 24px;
+      left: 0;
+      color: #333;
+      font-size: 14px;
+    }
+
+    .search-input {
+      margin-top: 30px;
     }
   }
+
+  .button {
+    margin: 0 5px;
+  }
+}
+
+.table-wrapper {
+  position: relative;
+  padding: 24px;
+  background: #fff;
+  min-height: 360px;
+  border-radius: 4px;
+
+  .add-button {
+    position: absolute;
+    right: 24px;
+  }
+}
 </style>

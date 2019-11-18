@@ -14,28 +14,32 @@
       :maskClosable="false"
       class="task-detail"
     >
-      <a-form
-        :form="taskDetailAddTaskForm"
-        @submit="addTaskSbumit"
-        class="form"
-      >
-        <a-row
-          :gutter="24"
-          class="list"
-        >
-          <a-col
-            class="item"
-            :span="12"
-          >
-            <a-form-item
-              label="所属周期"
-              :wrapper-col="{span:24}"
-            >
+      <a-form :form="taskDetailAddTaskForm" @submit="addTaskSbumit" class="form">
+        <a-row :gutter="24" class="list">
+          <a-col class="item" :span="12">
+            <a-form-item label="所属周期" :wrapper-col="{span:24}">
               <a-select
                 placeholder="请选择周期"
                 style="width: 100%"
                 :getPopupContainer="positonFn"
                 v-decorator="['cycleId', { rules: [{ required: true, message: '请选择周期' }] }]"
+              >
+                <a-select-option
+                  v-for="(item,index) in formData.lifecycleData"
+                  :key="index"
+                  :value="item.lifeCycleId"
+                >{{item.lifeCycleName}}</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col class="item" :span="12">
+            <a-form-item label="农事类型" :wrapper-col="{span:24}">
+              <a-select
+                placeholder="请选择类型"
+                style="width: 100%"
+                :getPopupContainer="positonFn"
+                @change="changeType"
+                v-decorator="['farmingTypeId', { rules: [{ required: true, message: '请选择类型' }] }]"
               >
                 <a-select-option
                   v-for="(item,index) in formData.farmingTypeData"
@@ -45,14 +49,10 @@
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col
-            class="item"
-            :span="12"
-          >
-            <a-form-item
-              label="农事操作"
-              :wrapper-col="{span:24}"
-            >
+        </a-row>
+        <a-row :gutter="24" class="list">
+          <a-col class="item" :span="12">
+            <a-form-item label="农事操作" :wrapper-col="{span:24}">
               <a-select
                 placeholder="请选择操作"
                 style="width: 100%"
@@ -67,43 +67,13 @@
               </a-select>
             </a-form-item>
           </a-col>
-        </a-row>
-        <a-row
-          :gutter="24"
-          class="list"
-        >
-          <a-col
-            class="item"
-            :span="12"
-          >
-            <a-form-item
-              label="农事类型"
-              :wrapper-col="{span:24}"
-            >
-              <a-select
-                placeholder="请选择类型"
-                style="width: 100%"
-                :getPopupContainer="positonFn"
-                v-decorator="['farmingTypeId', { rules: [{ required: true, message: '请选择类型' }] }]"
-              >
-                <a-select-option
-                  v-for="(item,index) in formData.lifecycleData"
-                  :key="index"
-                  :value="item.lifeCycleId"
-                >{{item.lifeCycleName}}</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col
-            class="item"
-            :span="12"
-          >
-            <a-form-item
-              label="开始时间"
-              :wrapper-col="{span:24}"
-            >
+          <a-col class="item" :span="12">
+            <a-form-item label="开始时间" :wrapper-col="{span:24}">
               <a-date-picker
                 style="width: 100%"
+                :getCalendarContainer="triggerNode => {
+                    return triggerNode.parentNode || document.body;
+                  }"
                 placeholder="请选择开始时间"
                 v-decorator="['startTime', { rules: [{ required: true, message: '请选择开始时间' }] }]"
                 @change="changeStarTime"
@@ -112,20 +82,14 @@
             </a-form-item>
           </a-col>
         </a-row>
-        <a-row
-          :gutter="24"
-          class="list"
-        >
-          <a-col
-            class="item"
-            :span="12"
-          >
-            <a-form-item
-              label="结束时间"
-              :wrapper-col="{span:24}"
-            >
+        <a-row :gutter="24" class="list">
+          <a-col class="item" :span="12">
+            <a-form-item label="结束时间" :wrapper-col="{span:24}">
               <a-date-picker
                 style="width: 100%"
+                :getCalendarContainer="triggerNode => {
+                    return triggerNode.parentNode || document.body;
+                  }"
                 placeholder="请选择结束时间"
                 v-decorator="['endTime', { rules: [{ required: true, message: '请选择结束时间' }] }]"
                 @change="changeEndTime"
@@ -133,14 +97,8 @@
               />
             </a-form-item>
           </a-col>
-          <a-col
-            class="item"
-            :span="12"
-          >
-            <a-form-item
-              label="用途"
-              :wrapper-col="{span:24}"
-            >
+          <a-col class="item" :span="12">
+            <a-form-item label="用途" :wrapper-col="{span:24}">
               <a-input
                 placeholder="请输入用途"
                 v-decorator="['taskUse', { rules: [{ required: true, message: '请输入用途' }] }]"
@@ -148,21 +106,12 @@
             </a-form-item>
           </a-col>
         </a-row>
-        <a-row
-          :gutter="24"
-          class="list"
-        >
-          <a-col
-            class="item"
-            :span="12"
-          >
-            <a-form-item
-              label="农事描述"
-              :wrapper-col="{span:24}"
-            >
+        <a-row :gutter="24" class="list">
+          <a-col class="item" :span="12">
+            <a-form-item label="农事描述" :wrapper-col="{span:24}">
               <a-input
                 placeholder="请输入农事描述"
-                v-decorator="['taskDescription', { rules: [{ required: false}] }]"
+                v-decorator="['taskDescription', { rules: [{ required: true,message: '描述不能超过50字符',validator:validatorTaskDescription}] }]"
               ></a-input>
             </a-form-item>
           </a-col>
@@ -170,17 +119,11 @@
       </a-form>
       <div class="table-box">
         <div class="header">
-          <span
-            v-for="(item,index) in navData"
-            :key="index"
-          >{{item}}</span>
+          <span v-for="(item,index) in navData" :key="index">{{item}}</span>
         </div>
         <div class="select">
           <a-row :gutter="24">
-            <a-form
-              :form="materialForm"
-              @submit="submitMeterial"
-            >
+            <a-form :form="materialForm" @submit="submitMeterial">
               <a-col :span="6">
                 <a-form-item
                   :label-col="{ span: 24 }"
@@ -234,33 +177,17 @@
                   </a-select>
                 </a-form-item>
               </a-col>
-              <a-col
-                :span="6"
-                class="button"
-              >
-                <span
-                  class="table-delete m-r-10"
-                  @click="submitMeterial"
-                >确定</span>
-                <span
-                  class="table-delete"
-                  @click="resetRematerialData"
-                >取消</span>
+              <a-col :span="6" class="button">
+                <span class="table-delete m-r-10" @click="submitMeterial">确定</span>
+                <span class="table-delete" @click="resetRematerialData">取消</span>
               </a-col>
             </a-form>
           </a-row>
         </div>
         <div class="center">
-          <p
-            class="item"
-            v-for="(item, index) in taskUseReMaterial"
-            :key="index"
-          >
+          <p class="item" v-for="(item, index) in taskUseReMaterial" :key="index">
             <span>{{item.materialName}}</span>
-            <span
-              v-if="!item.inputEdit"
-              @click="showInputEditItem(index)"
-            >{{item.materialDosage}}</span>
+            <span v-if="!item.inputEdit" @click="showInputEditItem(index)">{{item.materialDosage}}</span>
             <span v-else>
               <a-input-number
                 autocomplete="off"
@@ -271,10 +198,7 @@
               ></a-input-number>
             </span>
             <span>{{item.materialUnitName}}</span>
-            <span
-              class="table-delete"
-              @click="deleteRematerialData(index)"
-            >删除</span>
+            <span class="table-delete" @click="deleteRematerialData(index)">删除</span>
           </p>
         </div>
       </div>
@@ -316,6 +240,11 @@ export default {
         return {}
       },
       type: Object,
+      required: true
+    },
+    planStartTime: {
+      default: '',
+      type: String,
       required: true
     }
   },
@@ -413,11 +342,29 @@ export default {
     },
     // 计算不可选开始事件
     starDisabledDataFn(current) {
-      return current && current > moment(this.endDisabledData).endOf('day')
+      if (!this.endDisabledData) {
+        return current < moment(this.planStartTime).startOf('day')
+      }
+      return (
+        moment(this.endDisabledData).endOf('day') < current ||
+        current < moment(this.planStartTime).startOf('day')
+      )
     },
     // 计算不可选结束事件
     endDisabledDataFn(current) {
-      return current && current < moment(this.starDisabledData).startOf('day')
+      return current < moment(this.starDisabledData).startOf('day')
+    },
+    // 选择农事类型
+    changeType(e) {
+      this.$emit('changeType', e)
+    },
+    // 检验描述
+    validatorTaskDescription(rule, value, callback) {
+      if (value && value.length > 50) {
+        callback(rule.message)
+        return false
+      }
+      callback()
     }
   }
 }
