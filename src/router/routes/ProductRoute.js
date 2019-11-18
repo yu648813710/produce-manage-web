@@ -273,6 +273,13 @@ export default {
       hidden: true,
       component: () => import('@/views/tempWorkerManage/TempWorkerDetail.vue'),
       meta: { name: '临时工详情', icon: '' }
+    },
+    {
+      path: '/productionMeans',
+      name: 'productionMeans',
+      hidden: false,
+      component: () => import('@/views/productionMeans'),
+      meta: { name: '生产资料', icon: '' }
     }
   ]
 }
