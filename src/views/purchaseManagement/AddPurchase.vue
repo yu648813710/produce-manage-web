@@ -53,7 +53,7 @@
               :filterOption="filterOption"
               :placeholder="item.placeholder"
               v-decorator="[`select_${item.id}`, {
-                rules: item.validators.concat({ validator: validatorOptionName })
+                rules: item.validators
               }]"
             >
               <template slot="dataSource">
@@ -330,7 +330,9 @@ export default {
 
     handleOk (e) {
       e.preventDefault()
+      console.log('eeeeeee:', e)
       this.form.validateFields((err, values, e) => {
+        console.log('values:', values)
         if (!err) {
           const params = {
             planId: values.select_farmingNum,
