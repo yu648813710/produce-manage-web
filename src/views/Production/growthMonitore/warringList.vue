@@ -170,7 +170,10 @@ const columns = [
     title: '湿度',
     dataIndex: 'dampness',
     customRender: text => {
-      return text + '%'
+      if (text) {
+        return text + '%'
+      }
+      return ''
     }
   },
   {
