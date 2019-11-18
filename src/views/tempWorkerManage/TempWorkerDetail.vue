@@ -286,7 +286,7 @@ export default {
         showQuickJumper: true,
         showSizeChanger: true,
         total: 0,
-        showTotal: total => `共 ${ total } 条`
+        showTotal: total => `共 ${total} 条`
       },
       detail: {
         jobStatus: '',
