@@ -105,7 +105,10 @@ const columns = [
     title: '湿度',
     dataIndex: 'dampness',
     customRender: (text) => {
-      return text + '%'
+      if (text) {
+        return text + '%'
+      }
+      return ''
     }
   },
   {
@@ -125,7 +128,7 @@ export default {
   },
   data() {
     return {
-      componenyType: 1,
+      componenyType: 0,
       dropdownStyle: {
         'text-align': 'left'
       },

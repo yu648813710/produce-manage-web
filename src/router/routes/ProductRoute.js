@@ -83,13 +83,13 @@ export default {
           path: 'warringList',
           name: 'warringList',
           component: () => import('@/views/Production/growthMonitore/warringList.vue'),
-          meta: { name: '预警汇总列表-地块', icon: '', parentMenuName: 'growthMonitore' }
+          meta: { name: '预警汇总列表', icon: '', parentMenuName: 'growthMonitore' }
         },
         {
           path: 'warringnewlist',
           name: 'warringnewlist',
           component: () => import('@/views/Production/growthMonitore/warringNewList.vue'),
-          meta: { name: '预警列表-地块', icon: '', parentMenuName: 'growthMonitore' }
+          meta: { name: '预警列表', icon: '', parentMenuName: 'growthMonitore' }
         },
         {
           path: 'rulelist',
