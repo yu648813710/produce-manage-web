@@ -105,7 +105,8 @@ const app = {
           { name: '临时工管理' },
           { name: '临时工详情' },
           { name: '木耳栽培过程溯源' },
-          { name: '木耳溯源信息维护' }
+          { name: '木耳溯源信息维护' },
+          { name: '生产资料' }
         ]
         resolve(auth)
       })
