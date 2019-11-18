@@ -3,18 +3,18 @@ const tableColumns = [
     title: '序号',
     scopedSlots: { customRender: 'id' },
     align: 'center',
-    width: 50
+    width: 70
   },
   {
     title: '车间名称',
     dataIndex: 'blockLandName',
-    width: 100
+    width: 200
   },
   {
     title: '监测指标',
     scopedSlots: { customRender: 'temperatureSup' },
     key: 'temperatureSup',
-    width: 200
+    minWidth: 800
   },
   {
     title: '负责人',
@@ -26,7 +26,7 @@ const tableColumns = [
     scopedSlots: { customRender: 'operation' },
     key: 'operation',
     align: 'center',
-    width: 100
+    width: 250
   }
 ]
 const crumbsArr = [
