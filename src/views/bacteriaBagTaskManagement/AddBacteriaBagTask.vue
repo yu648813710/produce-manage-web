@@ -543,11 +543,11 @@ export default {
     handleValidator (rule, value, callback) {
       console.log(rule, value, callback)
       if (value) {
-        let reg = /^[0-9]\d*$/
+        let reg = /^[1-9]\d*$/
         if (!isNaN(Number(value)) && Number(value) >= 0 && reg.test(value)) {
           callback()
         } else {
-          callback(new Error('请输入正确的单价'))
+          callback(new Error('请输入正确的天数'))
         }
       } else {
         callback(new Error(' '))
