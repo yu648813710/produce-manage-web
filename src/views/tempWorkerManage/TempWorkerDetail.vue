@@ -75,6 +75,12 @@
             :title="text"
           >{{text}}</span>
           <span
+            slot="finishTime"
+            slot-scope="record"
+          >
+            {{ record.extendData.finishTime.substring(0, 10) }}
+          </span>
+          <span
             slot="cycle"
             slot-scope="text,record"
           >{{'第' + record.cycleEndTime + '天 - ' + '第' + record.cycleStartTime + '天'}}</span>
@@ -118,7 +124,7 @@
         </p>
         <p>
           <span>执行时长：</span>
-          {{taskDetail.cycleEndTime}}
+          {{'第' + taskDetail.cycleEndTime + '天 - ' + '第' + taskDetail.cycleStartTime + '天'}}
         </p>
       </div>
       <div class="item">
@@ -134,7 +140,7 @@
       <div class="item">
         <p>
           <span>任务完成时间：</span>
-          {{taskDetail.extendData ? taskDetail.extendData.finishTime : taskDetail.finishTime}}
+          {{taskDetail.extendData ? taskDetail.extendData.finishTime.substring(0, 10) : taskDetail.finishTime}}
         </p>
         <p>
           <span>负责人：</span>
@@ -181,7 +187,8 @@
         <div class="item">
           <p>
             <span>包装规格：</span>
-            {{taskDetail.extendData && taskDetail.extendData.packWeight ? taskDetail.extendData.packWeight + 'kg' : ''
+            {{taskDetail.extendData && taskDetail.extendData.packWeight ? taskDetail.extendData.packWeight + 'kg/' +
+            taskDetail.extendData.packUnitName: ''
             }}
           </p>
           <p>
@@ -208,7 +215,7 @@
         <div class="item">
           <p>
             <span>存储周期：</span>
-            {{taskDetail.extendData && taskDetail.extendData.cycle ? taskDetail.extendData.cycle + '月' : '' }}
+            {{taskDetail.extendData && taskDetail.extendData.cycle ? taskDetail.extendData.cycle + '个月' : '' }}
           </p>
           <p>
             <span>任务图片：</span>
@@ -447,10 +454,12 @@ export default {
         margin-left: 10px;
       }
     }
+
     div {
       /*width: 48%;*/
       /*float: left;*/
       /*margin-right: 4%;*/
+
       img {
         width: 72px;
         height: 72px;
