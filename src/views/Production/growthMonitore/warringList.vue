@@ -197,7 +197,7 @@ export default {
         'text-align': 'left'
       },
       warringType: '', // ws
-      componenyType: 0,
+      componenyType: 1,
       baseLandName: '', // 温度过高 温度过低 湿度过高 湿度过低 二氧化碳过高 二氧化碳过低
       alarmTypeArr: [
         { label: '温度过高', value: '温度过高' },
