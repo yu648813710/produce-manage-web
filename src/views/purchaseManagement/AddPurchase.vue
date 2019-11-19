@@ -55,7 +55,6 @@
               v-decorator="[`select_${item.id}`, {
                 rules: item.validators
               }]"
-              @blur="handleBlur"
             >
               <template slot="dataSource">
                 <a-select-option v-for="dsitem in item.arr" :key="dsitem.farmingPlanId">{{dsitem.farmingNum}}</a-select-option>
@@ -199,15 +198,6 @@ export default {
     fetchMaterialNumList(farmingNum) {
       getMaterialNumList(farmingNum).then(res => {
         this.currentFarmingPlanId = null
-        /**
-         * 测试数据
-          this.fields[0].arr = [
-            {
-              farmingPlanId: 'b49eb570f6f3451cb75adca44fb0d845',
-              farmingNum: 'ME20190927032900020'
-            }
-          ]
-         */
         this.fields[0].arr = (res && res.data) || []
       })
     },
@@ -215,13 +205,10 @@ export default {
     fetchMaterialAgriculturalBy_farmingTypeId (farmingTypeId) {
       getMaterialAgricultural(farmingTypeId).then(res => {
         if (res && res.success === 'Y') {
-          // if (this.iserror) this.handleErrorX()
           let dt = res.data || []
           this.fields[4].arr = dt
-          return
         }
-        this.$message.error('此农事类型下暂无农资')
-        // this.showError('此农事类型下暂无农资')
+        // this.$message.error('此农事类型下暂无农资')
       })
     },
 
@@ -231,7 +218,6 @@ export default {
     fetchMaterialCycleTypeActionListBy_farmingPlanId (farmingPlanId) {
       getMaterialCycleTypeActionList(farmingPlanId).then(res => {
         if (res && res.success === 'Y') {
-          // if (this.iserror) this.handleErrorX()
           let dt = res.data || []
           let cycleList = []
           let farmingTypeList = []
@@ -267,10 +253,8 @@ export default {
           this.fields[1].arr = cycleList || []
           this.fields[2].arr = farmingTypeList || []
           this.fields[3].arr = farmingActionList || []
-          return
         }
-        this.$message.error('此农事计划编号下暂无农事任务')
-        // this.showError('此农事计划编号下暂无农事任务')
+        // this.$message.error('此农事计划编号下暂无农事任务')
       })
     },
 
@@ -316,12 +300,18 @@ export default {
       return startDate.valueOf() > nowDate.valueOf()
     },
 
-    handleBlur (e) {
+    validatorOptionName(rule, value, callback) {
       if (this.currentFarmingPlanId === null) {
-        // this.showError('请选择有效的农事计划编号')
-        this.$message.error('请选择有效的农事计划编号')
+        callback(new Error('请选择有效的农事计划编号'))
       }
     },
+
+    // handleBlur (e) {
+    //   if (this.currentFarmingPlanId === null) {
+    //     // this.showError('请选择有效的农事计划编号')
+    //     this.$message.error('请选择有效的农事计划编号')
+    //   }
+    // },
 
     handleFarmingType (id, node) {
       this.fetchMaterialAgriculturalBy_farmingTypeId(id)
@@ -340,7 +330,9 @@ export default {
 
     handleOk (e) {
       e.preventDefault()
+      console.log('eeeeeee:', e)
       this.form.validateFields((err, values, e) => {
+        console.log('values:', values)
         if (!err) {
           const params = {
             planId: values.select_farmingNum,

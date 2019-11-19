@@ -3,8 +3,8 @@ const columns = [
   { title: '任务编号', dataIndex: 'taskNum', key: 'taskNum', width: 140 },
   { title: '所属车间', scopedSlots: { customRender: 'workshopName' }, key: 'workshopName', width: 150 },
   { title: '菌包名称', scopedSlots: { customRender: 'fungusProduceName' }, key: 'fungusProduceName', width: 150 },
-  { title: '任务开始时间', dataIndex: 'startTime', key: 'startTime', width: 125 },
-  { title: '任务结束时间', dataIndex: 'endTime', key: 'endTime', width: 125 },
+  { title: '任务开始时间', dataIndex: 'startTime', key: 'startTime', width: 150 },
+  { title: '任务结束时间', dataIndex: 'endTime', key: 'endTime', width: 150 },
   { title: '状态', dataIndex: 'taskStatusName', key: 'taskStatusName', width: 100 },
   { title: '创建人', dataIndex: 'createUserName', key: 'createUserName', width: 130 },
   {
@@ -42,14 +42,14 @@ const crumbsArr = [
 const addTaskCrumbs = [
   { name: '当前位置', back: false, path: '' },
   { name: '生产管理', back: false, path: '' },
-  { name: '菌包任务管理', back: false, path: '' },
+  { name: '菌包任务管理', back: true, path: '/bacteriabagtaskmanagement' },
   { name: '新增任务', back: false, path: '' }
 ]
 // 详情面包屑
 const dateilCrumbsArr = [
   { name: '当前位置', back: false, path: '' },
   { name: '生产管理', back: false, path: '' },
-  { name: '菌包任务管理', back: false, path: '' },
+  { name: '菌包任务管理', back: true, path: '/bacteriabagtaskmanagement' },
   { name: '任务详情', back: false, path: '' }
 ]
 const stepsArray = [

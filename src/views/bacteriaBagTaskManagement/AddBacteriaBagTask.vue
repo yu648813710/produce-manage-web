@@ -248,12 +248,13 @@
                             <span>
                               第
                               <a-form-item style="display:inline-block;">
-                                <a-input-number
+                                <a-input
                                   class="day-input"
                                   size="small"
                                   v-decorator="[
                                   `taskStartTime_${index}`,
-                                  { rules: [{ required: true, type: 'integer', message: '请输入开始天数' }] },
+                                  { rules: [{ required: true,  message: '请输入开始天数' },
+                                  { validator: handleValidator }] },
                                 ]"
                                 />
                               </a-form-item>天
@@ -262,12 +263,14 @@
                             <span>
                               第
                               <a-form-item style="display:inline-block;">
-                                <a-input-number
+                                <a-input
                                   class="day-input"
                                   size="small"
                                   v-decorator="[
                                   `taskEndTime_${index}`,
-                                  { rules: [{ required: true, type: 'integer', message: '请输入结束天数' }] },
+                                  { rules: [{ required: true, message: '请输入结束天数' },
+                                  { validator: handleValidator }
+                                  ] },
                                 ]"
                                 />
                               </a-form-item>天
@@ -536,6 +539,19 @@ export default {
           this.$message.error(res.message)
         }
       })
+    },
+    handleValidator (rule, value, callback) {
+      console.log(rule, value, callback)
+      if (value) {
+        let reg = /^[1-9]\d*$/
+        if (!isNaN(Number(value)) && Number(value) >= 0 && reg.test(value)) {
+          callback()
+        } else {
+          callback(new Error('请输入正确的天数'))
+        }
+      } else {
+        callback(new Error(' '))
+      }
     },
     // 下一步
     next() {

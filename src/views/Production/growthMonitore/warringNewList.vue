@@ -27,11 +27,11 @@
                 <a-form-item label="异常原因" :label-col="{ span: 24 }" :wrapper-col="{ span: 20 }">
                   <a-select
                     placeholder="请选择异常原因"
+                    :dropdownStyle="dropdownStyle"
                     :getPopupContainer="triggerNode => {
                       return triggerNode.parentNode || document.body;
                     }"
                     :allowClear="true"
-                    class="search-input"
                     style="width: 100%"
                     v-decorator="[
                       'warringType',
@@ -105,7 +105,10 @@ const columns = [
     title: '湿度',
     dataIndex: 'dampness',
     customRender: (text) => {
-      return text + '%'
+      if (text) {
+        return text + '%'
+      }
+      return ''
     }
   },
   {
@@ -125,7 +128,10 @@ export default {
   },
   data() {
     return {
-      componenyType: 0,
+      componenyType: 1,
+      dropdownStyle: {
+        'text-align': 'left'
+      },
       warringType: '',
       baseLandName: '', // 温度过高 温度过低 湿度过高 湿度过低 二氧化碳过高 二氧化碳过低
       alarmTypeArr: [
@@ -187,6 +193,7 @@ export default {
     // 重置查询条件
     restSearch() {
       this.sreachFrom.resetFields()
+      this.listType = 4
       this.searchWarringList()
     },
     formatWarringReason(reson) {
@@ -202,21 +209,27 @@ export default {
     warringListPageChange(page) {
       this.pagination.pageSize = page.pageSize
       this.pagination.current = page.current
-      this.getTableData()
+      if (this.listType === 4) {
+        this.getTotalData(null, 2)
+      } else {
+        this.getTableData(this.listType, 2)
+      }
     },
     // 查询预警列表
     searchWarringList() {
+      this.listType = 4
       // eslint-disable-next-line handle-callback-err
       this.sreachFrom.validateFields((err, values) => {
+        console.log('$$$$values: ', values)
         this.pagination.current = 1
         this.baseLandName = values.baseLandName ? values.baseLandName : ''
         this.warringType = values.warringType ? values.warringType : ''
+        if (this.listType === 1 || this.listType === 2 || this.listType === 4) {
+          this.getTotalData(null, 2)
+        } else if (this.listType === 3 || this.listType === 5 || this.listType === 6) {
+          this.getTotalData(null, 1)
+        }
       })
-      if (this.listType === 1 || this.listType === 2 || this.listType === 4) {
-        this.getTotalData(null, 2)
-      } else if (this.listType === 3 || this.listType === 5 || this.listType === 6) {
-        this.getTotalData(null, 1)
-      }
     },
     getTableData() {
       /**
@@ -245,7 +258,7 @@ export default {
         pageSize: this.pagination.pageSize
       }
       let typeList = {
-        massifType: 'gh',
+        massifType: this.componenyType === 0 ? 'gh' : 'ws',
         type: type === 1 ? 'temperature' : 'dampness' // indicatorName：湿度：dampness 温度：temperature 二氧化碳浓度：co2_concentration 不区分指标名：all
       }
       getSingleTypeData(postData, typeList).then((res) => {
@@ -277,13 +290,13 @@ export default {
             break
         }
         typeList = {
-          massifType: 'gh',
+          massifType: this.componenyType === 0 ? 'gh' : 'ws',
           alarmType: type,
           staticType: staticType === 1 ? 'history' : 'realTime'
         }
       } else {
         typeList = {
-          massifType: 'gh',
+          massifType: this.componenyType === 0 ? 'gh' : 'ws',
           alarmType: 'all',
           staticType: staticType === 1 ? 'history' : 'realTime'
         }

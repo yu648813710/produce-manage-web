@@ -12,6 +12,7 @@
           <a-form
             :form="sreachFrom"
             @submit="handleSearchClick"
+            class="form"
           >
             <a-row>
               <a-col :span="8">
@@ -38,11 +39,8 @@
                 >
                   <a-select
                     placeholder="请选择异常原因"
-                    :getPopupContainer="triggerNode => {
-                      return triggerNode.parentNode || document.body;
-                    }"
-                    :allowClear="true"
-                    class="search-input"
+                    :getPopupContainer="positonFn"
+                    :dropdownStyle="dropdownStyle"
                     style="width: 100%"
                     v-decorator="[
                       'warringType',
@@ -50,6 +48,7 @@
                     ]"
                   >
                     <a-select-option
+                      style="text-align: left"
                       v-for="(item, index) in alarmTypeArr"
                       :key="index"
                       :value="item.value"
@@ -171,7 +170,10 @@ const columns = [
     title: '湿度',
     dataIndex: 'dampness',
     customRender: text => {
-      return text + '%'
+      if (text) {
+        return text + '%'
+      }
+      return ''
     }
   },
   {
@@ -191,8 +193,11 @@ export default {
   },
   data() {
     return {
-      warringType: '',
-      componenyType: 0,
+      dropdownStyle: {
+        'text-align': 'left'
+      },
+      warringType: '', // ws
+      componenyType: 1,
       baseLandName: '', // 温度过高 温度过低 湿度过高 湿度过低 二氧化碳过高 二氧化碳过低
       alarmTypeArr: [
         { label: '温度过高', value: '温度过高' },
@@ -206,6 +211,7 @@ export default {
       list: [],
       sreachFrom: this.$form.createForm(this),
       listType: 0,
+      warringListType: 'all',
       loading: false,
       pagination: {
         current: 1,
@@ -233,6 +239,9 @@ export default {
     // this.formatTableColumn()
   },
   methods: {
+    positonFn(e) {
+      return document.querySelectorAll('.form')[0]
+    },
     checkComponenyType() {
       if (this.componenyType === 0) {
         this.columns.forEach((item, index) => {
@@ -243,7 +252,7 @@ export default {
         for (let i = 0; i < this.alarmTypeArr.length; i++) {
           this.alarmTypeArr.forEach((item, index) => {
             if (item.value === '二氧化碳过低' || item.value === '二氧化碳过高') {
-              console.log('!!!!', item)
+              // console.log('!!!!', item)
               this.alarmTypeArr.splice(index, 1)
             }
           })
@@ -257,41 +266,46 @@ export default {
         // eslint-disable-next-line no-unused-expressions
         formatReson += data[ i ] + ' '
       }
-      console.log(formatReson)
+      // console.log(formatReson)
       return formatReson
     },
     // 重置查询条件
     restSearch() {
       this.sreachFrom.resetFields()
+      this.listType = 3
       this.searchWarringList()
     },
     warringListPageChange(page) {
       this.pagination.pageSize = page.pageSize
       this.pagination.current = page.current
-      this.getTableData()
+      console.log('this.listType: ', this.listType)
+      if (this.listType === 3) {
+        this.getTotalData(null, 1)
+      } else {
+        this.getTableData(this.listType, 1)
+      }
     },
     // 查询预警列表
     searchWarringList() {
+      this.warringListType = 'all'
+      this.listType = 3
       // eslint-disable-next-line handle-callback-err
       this.sreachFrom.validateFields((err, values) => {
+        console.log('$$$$values: ', values)
         this.pagination.current = 1
         this.baseLandName = values.baseLandName ? values.baseLandName : ''
         this.warringType = values.warringType ? values.warringType : ''
+        if (+this.listType === 1 || +this.listType === 2) {
+          this.getTotalData(null, 2)
+        } else if (
+          +this.listType === 3 ||
+          +this.listType === 5 ||
+          +this.listType === 6 ||
+          +this.listType === 7
+        ) {
+          this.getTotalData(null, 1)
+        }
       })
-      if (+this.listType === 1 || +this.listType === 2) {
-        this.getTotalData(null, 2)
-      } else if (
-        this.listType === 3 ||
-        this.listType === 5 ||
-        this.listType === 6 ||
-        this.listType === 7 ||
-        this.listType === '3' ||
-        this.listType === '5' ||
-        this.listType === '6' ||
-        this.listType === '7'
-      ) {
-        this.getTotalData(null, 1)
-      }
     },
     getTableData() {
       /**
@@ -304,10 +318,13 @@ export default {
        * listType === 7 历史总累计二氧化碳列表
        */
       if (this.listType === 3 || this.listType === '3') {
+        this.warringListType = 'all'
         this.getTotalData(null, 1) // 获取历史总累计列表
       } else if (this.listType === 5 || this.listType === '5') {
+        this.warringListType = 'singleType'
         this.getTotalData(2, 1) // 获取历史温度预警数据
       } else if (this.listType === 6 || this.listType === '6') {
+        this.warringListType = 'singleType'
         this.getTotalData(1, 1) // 获取历史湿度预警数据
       } else if (this.listType === 7 || this.listType === '7') {
         this.getTotalData(3, 1) // 获取历史湿度预警数据
@@ -320,13 +337,13 @@ export default {
         pageSize: this.pagination.pageSize
       }
       let typeList = {
-        massifType: 'gh',
+        massifType: this.componenyType === 0 ? 'gh' : 'ws',
         type: type === 1 ? 'temperature' : 'dampness' // indicatorName：湿度：dampness 温度：temperature 二氧化碳浓度：co2_concentration 不区分指标名：all
       }
       getSingleTypeData(postData, typeList).then(res => {
         this.list = res.data.records
         this.pagination.total = res.data.total
-        console.log(res)
+        // console.log(res)
       })
     },
     /**
@@ -356,13 +373,13 @@ export default {
             break
         }
         typeList = {
-          massifType: 'gh',
+          massifType: this.componenyType === 0 ? 'gh' : 'ws',
           alarmType: type,
           staticType: staticType === 1 ? 'history' : 'realTime'
         }
       } else {
         typeList = {
-          massifType: 'gh',
+          massifType: this.componenyType === 0 ? 'gh' : 'ws',
           alarmType: 'all',
           staticType: staticType === 1 ? 'history' : 'realTime'
         }
@@ -385,6 +402,12 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+  #app{
+    text-align: left !important;
+  }
+  .form{
+    position: relative;
+  }
   .alarmCtr {
     color: red;
     max-width: 140px;

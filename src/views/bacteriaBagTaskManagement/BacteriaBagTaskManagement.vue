@@ -85,6 +85,7 @@
             :scroll="{ x: 1300 }"
             :loading="loading"
             @change="handleTableChange"
+            :scroll="{ x: 1200 }"
             :style="{marginTop: '50px'}"
             :rowKey="(record, index) => index"
           >

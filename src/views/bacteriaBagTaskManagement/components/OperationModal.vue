@@ -50,7 +50,7 @@
         <a-row class="row-style" type="flex" >
           <a-col>
             <span class="item-key">任务完成时间：</span>
-            <span class="item-value">{{commonData.extendData && commonData.extendData.finishTime ? commonData.extendData.finishTime : ''}}</span>
+            <span class="item-value">{{commonData.extendData && commonData.extendData.finishTime ? commonData.extendData.finishTime.substring(0, 10) : ''}}</span>
           </a-col>
         </a-row>
         <a-row class="row-style" type="flex" >
@@ -84,9 +84,10 @@
             <a-col>
               <span class="item-key">规格：</span>
               <span class="item-value">
-                {{ commonData.extendData && commonData.extendData.specification && commonData.extendData.specification.high}}*{{ commonData.extendData
-                && commonData.extendData.specification && commonData.extendData.specification.diameter}}
-                {{commonData.extendData && commonData.extendData.specification && commonData.extendData.specification.unitName ? commonData.extendData.specification.unitName  : ''}}
+                {{ commonData.extendData && commonData.extendData.Specification && commonData.extendData.Specification.high}}
+                {{commonData.extendData && commonData.extendData.Specification && commonData.extendData.Specification.unitName ? commonData.extendData.Specification.unitName  : ''}}
+                * {{ commonData.extendData && commonData.extendData.Specification && commonData.extendData.Specification.diameter}}
+                {{commonData.extendData && commonData.extendData.Specification && commonData.extendData.Specification.unitName ? commonData.extendData.Specification.unitName  : ''}}
               </span>
             </a-col>
           </a-row>
@@ -115,15 +116,6 @@
             <a-col>
               <span class="item-key">检验结果：</span>
               <span class="item-value">{{ commonData.extendData && commonData.extendData.vefiyResult ? commonData.extendData.vefiyResult : ''}}</span>
-            </a-col>
-          </a-row>
-        </div>
-        <!-- 其他 -->
-        <div v-else>
-          <a-row class="row-style" type="flex" >
-            <a-col>
-              <span class="item-key">任务操作人：</span>
-              <span class="item-value">{{ commonData.extendData && commonData.extendData.userName ? commonData.extendData.userName : ''}}</span>
             </a-col>
           </a-row>
         </div>
@@ -189,6 +181,7 @@ export default {
       getTaskOption(instId)
         .then(res => {
           if (res.success === 'Y') {
+            console.log(res.data, 'res.data')
             this.commonData = { ...res.data }
           } else {
             this.$message.error(res.message)

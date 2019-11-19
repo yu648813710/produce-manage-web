@@ -3,7 +3,7 @@
   <div class="about">
     <a-layout>
       <div style="padding-top: 16px;padding-left:16px;">
-        <crumbs-nav :crumbs-arr="crumbsArr" />
+        <crumbs-nav :crumbs-arr="crumbsArr"/>
       </div>
       <a-layout-content style="margin: 16px;margin-top:0;">
         <div class="search-wrapper">
@@ -11,12 +11,12 @@
             <a-row :gutter="40">
               <a-col :span="8">
                 <a-form-item label="临时工姓名">
-                  <a-input autocomplete="off" placeholder="请输入" v-model="searchParams.userName" />
+                  <a-input autocomplete="off" placeholder="请输入" v-model="searchParams.userName"/>
                 </a-form-item>
               </a-col>
               <a-col :span="8">
                 <a-form-item label="临时工手机号">
-                  <a-input autocomplete="off" placeholder="请输入" v-model="searchParams.phone" />
+                  <a-input autocomplete="off" placeholder="请输入" v-model="searchParams.phone"/>
                 </a-form-item>
               </a-col>
               <a-col :span="8">
@@ -36,7 +36,8 @@
                       v-for="item in statusArr"
                       :key="item.value"
                       :value="item.value"
-                    >{{item.name}}</a-select-option>
+                    >{{item.name}}
+                    </a-select-option>
                   </a-select>
                 </a-form-item>
               </a-col>
@@ -59,7 +60,8 @@
                       v-for="item in ifArr"
                       :key="item.value"
                       :value="item.value"
-                    >{{item.name}}</a-select-option>
+                    >{{item.name}}
+                    </a-select-option>
                   </a-select>
                 </a-form-item>
               </a-col>
@@ -69,7 +71,7 @@
             <a-button type="primary" class="button" @click="searchList">查询</a-button>
             <a-button class="button" @click="handleReset">重置</a-button>
             <a-button :style="{ marginLeft: '8px' }" @click="upDownStatue=!upDownStatue">
-              <a-icon :type="!upDownStatue ? 'down' : 'up'" />
+              <a-icon :type="!upDownStatue ? 'down' : 'up'"/>
               {{!upDownStatue ? '展开' : '收起'}}
             </a-button>
           </div>
@@ -436,47 +438,47 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.search-wrapper {
-  padding: 24px;
-  background: #fff;
-  margin-bottom: 10px;
-  border-radius: 4px;
+  .search-wrapper {
+    padding: 24px;
+    background: #fff;
+    margin-bottom: 10px;
+    border-radius: 4px;
 
-  .ant-form-item {
-    text-align: left;
+    .ant-form-item {
+      text-align: left;
+    }
+
+    .search-input-wrapper {
+      position: relative;
+      margin-bottom: 24px;
+
+      .search-title {
+        position: absolute;
+        left: 0;
+        color: #333;
+        font-size: 14px;
+      }
+
+      .search-input {
+        margin-top: 30px;
+      }
+    }
+
+    .button {
+      margin: 0 5px;
+    }
   }
 
-  .search-input-wrapper {
+  .table-wrapper {
     position: relative;
-    margin-bottom: 24px;
+    padding: 24px;
+    background: #fff;
+    min-height: 360px;
+    border-radius: 4px;
 
-    .search-title {
+    .add-button {
       position: absolute;
-      left: 0;
-      color: #333;
-      font-size: 14px;
-    }
-
-    .search-input {
-      margin-top: 30px;
+      right: 24px;
     }
   }
-
-  .button {
-    margin: 0 5px;
-  }
-}
-
-.table-wrapper {
-  position: relative;
-  padding: 24px;
-  background: #fff;
-  min-height: 360px;
-  border-radius: 4px;
-
-  .add-button {
-    position: absolute;
-    right: 24px;
-  }
-}
 </style>
