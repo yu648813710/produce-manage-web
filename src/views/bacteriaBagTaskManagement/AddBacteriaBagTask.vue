@@ -253,8 +253,13 @@
                                   size="small"
                                   v-decorator="[
                                   `taskStartTime_${index}`,
-                                  { rules: [{ required: true,  message: '请输入开始天数' },
-                                  { validator: handleValidator }] },
+                                  {
+                                    rules: [
+                                      { required: true,  message: '请输入开始天数', },
+                                      { validator: (rule, value, back) => handleLeftValidator(rule, value, back, `taskEndTime_${index}`) }
+                                    ],
+                                    force: true,
+                                  }
                                 ]"
                                 />
                               </a-form-item>天
@@ -268,9 +273,14 @@
                                   size="small"
                                   v-decorator="[
                                   `taskEndTime_${index}`,
-                                  { rules: [{ required: true, message: '请输入结束天数' },
-                                  { validator: handleValidator }
-                                  ] },
+                                  {
+                                    rules: [
+                                      { required: true, message: '请输入结束天数' },
+                                      { validator: (rule, value, back) => handleRightValidator(rule, value, back, `taskStartTime_${index}`) }
+                                    ],
+                                    force: true,
+                                    validateTrigger: 'change'
+                                  },
                                 ]"
                                 />
                               </a-form-item>天
@@ -303,6 +313,7 @@
                                   required: true,
                                   message: `请选择负责人`
                                 }],
+                                force: true,
                               },
                             ]"
                           >
@@ -540,12 +551,37 @@ export default {
         }
       })
     },
-    handleValidator (rule, value, callback) {
-      console.log(rule, value, callback)
+    // 左侧校验
+    handleLeftValidator (rule, value, callback, another) {
+      console.log(value, another)
       if (value) {
         let reg = /^[1-9]\d*$/
         if (!isNaN(Number(value)) && Number(value) >= 0 && reg.test(value)) {
-          callback()
+          let anotherVal = this.addFormTwo.getFieldValue(another) // 另一个值
+          if (another.includes('End') && Number(value) > Number(anotherVal)) { // 左侧(value)不能大于右侧
+            callback(new Error('左侧值不能大于右侧值'))
+          } else {
+            callback()
+            this.addFormTwo.setFields({ [ another ]: { value: anotherVal, errors: '' } })
+          }
+        } else {
+          callback(new Error('请输入正确的天数'))
+        }
+      } else {
+        callback(new Error(' '))
+      }
+    },
+    handleRightValidator (rule, value, callback, another) {
+      if (value) {
+        let reg = /^[1-9]\d*$/
+        if (!isNaN(Number(value)) && Number(value) >= 0 && reg.test(value)) {
+          let anotherVal = this.addFormTwo.getFieldValue(another) // 另一个值
+          if (another.includes('Start') && Number(value) < Number(anotherVal)) { // 右侧(value)不能大于左侧
+            callback(new Error('右侧值不能小于左侧值'))
+          } else {
+            callback()
+            this.addFormTwo.setFields({ [ another ]: { value: anotherVal, errors: '' } })
+          }
         } else {
           callback(new Error('请输入正确的天数'))
         }
@@ -555,6 +591,7 @@ export default {
     },
     // 下一步
     next() {
+      // this.current = 1
       // 校验是否必填的都填了
       this.addFormOne.validateFields((err, values) => {
         if (!err) {
