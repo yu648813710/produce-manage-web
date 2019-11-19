@@ -78,7 +78,7 @@
             slot="finishTime"
             slot-scope="record"
           >
-            {{ record.extendData.finishTime.substring(0, 10) }}
+            {{record.extendData ? record.extendData.finishTime.substring(0, 10) : record.finishTime}}
           </span>
           <span
             slot="cycle"
@@ -173,7 +173,7 @@
         </div>
       </div>
       <!-- 包装 -->
-      <div v-if="taskDetail.actionId==='A00023'">
+      <div v-else-if="taskDetail.actionId==='A00023'">
         <div class="item">
           <p>
             <span>包装人：</span>
@@ -200,7 +200,7 @@
         </div>
       </div>
       <!-- 存储 -->
-      <div v-if="taskDetail.actionId==='A00024'">
+      <div v-else-if="taskDetail.actionId==='A00024'">
         <div class="item">
           <p>
             <span>存储温度：</span>
@@ -226,7 +226,7 @@
         </div>
       </div>
       <!-- 检测 -->
-      <div v-if="taskDetail.actionId==='A00025'">
+      <div v-else-if="taskDetail.actionId==='A00025'">
         <div class="item">
           <p>
             <span>检测人：</span>
@@ -257,6 +257,14 @@
               </span>
           </p>
         </div>
+      </div>
+      <div class="item" v-else>
+        <p>
+          <span>任务图片：</span>
+          <span class="item-value" v-if="taskDetail.extendData && taskDetail.extendData.filePath">
+                <img v-for="(item, index) in taskDetail.extendData.filePath" :key="index" :src="item" alt="">
+              </span>
+        </p>
       </div>
     </a-modal>
   </div>
