@@ -14,7 +14,7 @@ const tableColumns = [
     title: '监测指标',
     scopedSlots: { customRender: 'temperatureSup' },
     key: 'temperatureSup',
-    minWidth: 800
+    minWidth: 400
   },
   {
     title: '负责人',
