@@ -443,31 +443,42 @@ export default {
     // 校验表单
     validataForm() {
       let formDataInput = this.formInputVal
-      if (
-        (!formDataInput.temperatureInf && !formDataInput.temperatureSup) ||
-        (formDataInput.temperatureSup !== '' &&
-          +formDataInput.temperatureSup <= +formDataInput.temperatureInf) ||
-        formDataInput.temperatureSup > 100
-      ) {
+      if (formDataInput.temperatureInf === '' || formDataInput.temperatureSup === '') {
         this.formValidataStatus.temperature = 'error'
-      } else {
-        this.formValidataStatus.temperature = ''
+        this.formValidataStatus.temperatureText = '区间值不能为空'
+        return false
       }
-      if (
-        (!formDataInput.dampnessInf && !formDataInput.dampnessSup) ||
-        (formDataInput.dampnessSup !== '' &&
-          +formDataInput.dampnessSup <= +formDataInput.dampnessInf) ||
-        formDataInput.dampnessSup > 100
-      ) {
+      if ((+formDataInput.temperatureInf > 100 || +formDataInput.temperatureInf < -100) || (+formDataInput.temperatureSup > 100 || +formDataInput.temperatureSup < -100)) {
+        this.formValidataStatus.temperature = 'error'
+        this.formValidataStatus.temperatureText = '请输入-100℃--100℃范围内的温度值'
+        return false
+      }
+      if (+formDataInput.temperatureSup <= +formDataInput.temperatureInf) {
+        this.formValidataStatus.temperature = 'error'
+        this.formValidataStatus.temperatureText = '区间前值必须小于后值'
+        return false
+      }
+      this.formValidataStatus.temperature = ''
+      this.formValidataStatus.temperatureText = ''
+
+      if (formDataInput.dampnessInf === '' || formDataInput.dampnessSup === '') {
         this.formValidataStatus.dampness = 'error'
-      } else {
-        this.formValidataStatus.dampness = ''
+        this.formValidataStatus.dampnessText = '区间值不能为空'
+        return false
       }
-      for (let i in this.formValidataStatus) {
-        if (this.formValidataStatus[i] !== '') {
-          return false
-        }
+      if ((+formDataInput.dampnessInf > 100 || +formDataInput.dampnessInf < 0) || (+formDataInput.dampnessSup > 100 || +formDataInput.dampnessSup < 0)) {
+        this.formValidataStatus.dampness = 'error'
+        this.formValidataStatus.dampnessText = '请输入0%--100%范围内的湿度值'
+        return false
       }
+      if (+formDataInput.dampnessSup <= +formDataInput.dampnessInf) {
+        this.formValidataStatus.dampness = 'error'
+        this.formValidataStatus.dampnessText = '区间前值必须小于后值'
+        return false
+      }
+      this.formValidataStatus.dampness = ''
+      this.formValidataStatus.dampnessText = ''
+
       return true
     }
   }

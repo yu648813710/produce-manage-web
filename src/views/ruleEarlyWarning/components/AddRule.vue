@@ -55,7 +55,7 @@
           :wrapper-col="{ span: 16 }"
           required
           :validate-status="formValidataStatus.temperature"
-          :help="formValidataStatus.temperature===''?'':'温度应小于等于100℃'"
+          :help="formValidataStatus.temperatureText"
         >
           <a-input-number style="width:42%;" v-model="formInputVal.temperatureInf" :min="0" />
           <span style="padding:0 2%;">-</span>
@@ -68,7 +68,7 @@
           :wrapper-col="{ span: 16 }"
           required
           :validate-status="formValidataStatus.dampness"
-          :help="formValidataStatus.dampness===''?'':'湿度应小于等于100%'"
+          :help="formValidataStatus.dampnessText"
         >
           <a-input-number style="width:42%;" v-model="formInputVal.dampnessInf" :min="0" />
           <span style="padding:0 2%;">-</span>
