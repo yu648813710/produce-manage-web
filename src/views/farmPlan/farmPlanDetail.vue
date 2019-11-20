@@ -82,6 +82,7 @@
     <task-detail-add-task
       :add-show="addTaskShow"
       :formData="addFormData"
+      :cation-data="cationData"
       :plan-start-time="detail.planStartTime"
       @hiddenAddDetailTask="hiddenAddDetailTask"
       @addTaskSbumit="addTaskSbumit"
@@ -129,7 +130,8 @@ export default {
       detailPlanData: {},
       addTaskShow: false,
       addFormData: {},
-      crumbsArr
+      crumbsArr,
+      cationData: []
     }
   },
   components: {
@@ -245,7 +247,7 @@ export default {
     getCctionData(id) {
       getCction(id).then(res => {
         if (res.success === 'Y') {
-          this.addFormData.cationData = res.data
+          this.cationData = res.data
         }
       })
     },

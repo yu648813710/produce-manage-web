@@ -67,7 +67,7 @@
             :dataSource="list"
             :pagination="pagination"
             :loading="loading"
-            :scroll="{ x: 1550 }"
+            :scroll="{ x: 1500 }"
             @change="handleTableChange"
             :style="{marginTop: '50px'}"
             :rowKey="(record, index) => index"

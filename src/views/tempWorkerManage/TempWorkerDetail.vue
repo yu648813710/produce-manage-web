@@ -75,6 +75,12 @@
             :title="text"
           >{{text}}</span>
           <span
+            slot="finishTime"
+            slot-scope="record"
+          >
+            {{record.extendData ? record.extendData.finishTime.substring(0, 10) : record.finishTime}}
+          </span>
+          <span
             slot="cycle"
             slot-scope="text,record"
           >{{'第' + record.cycleEndTime + '天 - ' + '第' + record.cycleStartTime + '天'}}</span>
@@ -118,7 +124,7 @@
         </p>
         <p>
           <span>执行时长：</span>
-          {{taskDetail.cycleEndTime}}
+          {{'第' + taskDetail.cycleEndTime + '天 - ' + '第' + taskDetail.cycleStartTime + '天'}}
         </p>
       </div>
       <div class="item">
@@ -134,11 +140,21 @@
       <div class="item">
         <p>
           <span>任务完成时间：</span>
-          {{taskDetail.extendData ? taskDetail.extendData.finishTime : taskDetail.finishTime}}
+          {{taskDetail.extendData ? taskDetail.extendData.finishTime.substring(0, 10) : taskDetail.finishTime}}
         </p>
         <p>
           <span>负责人：</span>
           {{taskDetail.assigner}}
+        </p>
+      </div>
+      <div class="item">
+        <p>
+          <span>农事描述：</span>
+          {{taskDetail.taskDescription}}
+        </p>
+        <p>
+          <span>用途：</span>
+          {{taskDetail.taskUse}}
         </p>
       </div>
       <!-- 采收 -->
@@ -167,7 +183,7 @@
         </div>
       </div>
       <!-- 包装 -->
-      <div v-if="taskDetail.actionId==='A00023'">
+      <div v-else-if="taskDetail.actionId==='A00023'">
         <div class="item">
           <p>
             <span>包装人：</span>
@@ -181,7 +197,8 @@
         <div class="item">
           <p>
             <span>包装规格：</span>
-            {{taskDetail.extendData && taskDetail.extendData.packWeight ? taskDetail.extendData.packWeight + 'kg' : ''
+            {{taskDetail.extendData && taskDetail.extendData.packWeight ? taskDetail.extendData.packWeight + 'kg/' +
+            taskDetail.extendData.packUnitName: ''
             }}
           </p>
           <p>
@@ -193,7 +210,7 @@
         </div>
       </div>
       <!-- 存储 -->
-      <div v-if="taskDetail.actionId==='A00024'">
+      <div v-else-if="taskDetail.actionId==='A00024'">
         <div class="item">
           <p>
             <span>存储温度：</span>
@@ -208,7 +225,7 @@
         <div class="item">
           <p>
             <span>存储周期：</span>
-            {{taskDetail.extendData && taskDetail.extendData.cycle ? taskDetail.extendData.cycle + '月' : '' }}
+            {{taskDetail.extendData && taskDetail.extendData.cycle ? taskDetail.extendData.cycle + '个月' : '' }}
           </p>
           <p>
             <span>任务图片：</span>
@@ -219,7 +236,7 @@
         </div>
       </div>
       <!-- 检测 -->
-      <div v-if="taskDetail.actionId==='A00025'">
+      <div v-else-if="taskDetail.actionId==='A00025'">
         <div class="item">
           <p>
             <span>检测人：</span>
@@ -250,6 +267,14 @@
               </span>
           </p>
         </div>
+      </div>
+      <div class="item" v-else>
+        <p>
+          <span>任务图片：</span>
+          <span class="item-value" v-if="taskDetail.extendData && taskDetail.extendData.filePath">
+                <img v-for="(item, index) in taskDetail.extendData.filePath" :key="index" :src="item" alt="">
+              </span>
+        </p>
       </div>
     </a-modal>
   </div>
@@ -286,7 +311,7 @@ export default {
         showQuickJumper: true,
         showSizeChanger: true,
         total: 0,
-        showTotal: total => `共 ${ total } 条`
+        showTotal: total => `共 ${total} 条`
       },
       detail: {
         jobStatus: '',
@@ -447,10 +472,12 @@ export default {
         margin-left: 10px;
       }
     }
+
     div {
       /*width: 48%;*/
       /*float: left;*/
       /*margin-right: 4%;*/
+
       img {
         width: 72px;
         height: 72px;

@@ -32,7 +32,7 @@ const detailColumns = [
   { title: '执行时长', scopedSlots: { customRender: 'cycle' }, key: 'cycleEndTime' },
   { title: '任务开始时间', dataIndex: 'startTime', key: 'startTime' },
   { title: '任务结束时间', dataIndex: 'endTime', key: 'endTime' },
-  { title: '任务完成时间', dataIndex: 'extendData.finishTime', key: 'extendData.finishTime' },
+  { title: '任务完成时间', scopedSlots: { customRender: 'finishTime' }, key: 'extendData.finishTime' },
   { title: '负责人', dataIndex: 'assigner', key: 'assigner' },
   { title: '操作', key: 'operation', scopedSlots: { customRender: 'operation' }, align: 'center' }
 ]

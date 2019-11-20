@@ -62,6 +62,16 @@
           {{detailData.assigner?detailData.assigner:'--'}}
         </p>
       </div>
+      <div class="item">
+        <p>
+          <span>用途：</span>
+          {{detailData.taskUse?detailData.taskUse:'--'}}
+        </p>
+        <p>
+          <span>农事描述：</span>
+          {{detailData.taskDescription?detailData.taskDescription:'--'}}
+        </p>
+      </div>
       <!-- 任务不同类型 -->
       <template v-if="detailData.extendData">
         <!-- 公用 -->
