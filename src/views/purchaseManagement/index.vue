@@ -350,7 +350,6 @@ export default {
     },
 
     handleAddPurchase () {
-      console.log('新增+++')
       this.$refs.newPurchase.showModel()
     },
 
