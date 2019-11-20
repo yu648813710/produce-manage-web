@@ -60,9 +60,8 @@
                 v-decorator="['actionId', { rules: [{ required: true, message: '请选择操作' }] }]"
               >
                 <a-select-option
-                  v-for="(item,index) in formData.cationData"
-                  :key="index"
-                  :value="item.optionId"
+                  v-for="(item) in cationData"
+                  :key="item.optionId"
                 >{{item.optionName}}</a-select-option>
               </a-select>
             </a-form-item>
@@ -246,6 +245,13 @@ export default {
       default: '',
       type: String,
       required: true
+    },
+    cationData: {
+      default() {
+        return []
+      },
+      type: Array,
+      required: true
     }
   },
   watch: {
@@ -253,6 +259,15 @@ export default {
       handler(val) {
         this.formData = val
       },
+      immediate: true,
+      deep: true
+    },
+    cationData: {
+      handler(val) {
+        console.log(val)
+        this.cationData = val
+      },
+      immediate: true,
       deep: true
     }
   },
@@ -356,6 +371,7 @@ export default {
     },
     // 选择农事类型
     changeType(e) {
+      this.taskDetailAddTaskForm.setFieldsValue({ actionId: undefined })
       this.$emit('changeType', e)
     },
     // 检验描述

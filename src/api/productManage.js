@@ -345,3 +345,11 @@ export function deleteTemTask (taskInstId, planId) {
     method: 'delete'
   })
 }
+
+// 通过农事类型Id查询农事操作
+export function getActionsByFarmingTypeId (farmingTypeId) {
+  return axios({
+    url: `/produce/action/all/${farmingTypeId}`,
+    method: 'GET'
+  })
+}

@@ -98,7 +98,7 @@
                 }]"
               :placeholder="item.placeholder"
             >
-              <a-select-option v-for="sitem in item.arr" :key="sitem.actionId">{{sitem.actionName}}</a-select-option>
+              <a-select-option v-for="sitem in item.arr" :key="sitem.optionId">{{sitem.optionName}}</a-select-option>
             </a-select>
             <a-select
               v-else
@@ -128,7 +128,8 @@ import {
   getMaterialNumList,
   getMaterialCycleTypeActionList,
   getMaterialAgricultural,
-  addMaterialAgricultural
+  addMaterialAgricultural,
+  getActionsByFarmingTypeId
 } from '@/api/productManage.js'
 Vue.use(Input)
 Vue.use(Row)
@@ -217,11 +218,11 @@ export default {
      */
     fetchMaterialCycleTypeActionListBy_farmingPlanId (farmingPlanId) {
       getMaterialCycleTypeActionList(farmingPlanId).then(res => {
+        console.log('list:', res)
         if (res && res.success === 'Y') {
           let dt = res.data || []
           let cycleList = []
           let farmingTypeList = []
-          let farmingActionList = []
           let cycleMap = new Map()
           dt.forEach(item => {
             if (!cycleMap.has(item.cycleName)) {
@@ -241,20 +242,19 @@ export default {
               }
               farmingTypeList.push(pm)
             }
-            if (!cycleMap.has(item.actionId)) {
-              cycleMap.set(item.actionId, item.actionId)
-              let pm = {
-                actionId: item.actionId || '',
-                actionName: item.actionName || ''
-              }
-              farmingActionList.push(pm)
-            }
           })
           this.fields[1].arr = cycleList || []
           this.fields[2].arr = farmingTypeList || []
-          this.fields[3].arr = farmingActionList || []
         }
-        // this.$message.error('此农事计划编号下暂无农事任务')
+      })
+    },
+
+    fetchActionBy_farmingTypeId(farmingTypeId) {
+      getActionsByFarmingTypeId(farmingTypeId).then(res => {
+        console.log('农事操作：', res)
+        if (res && res.success === 'Y') {
+          this.fields[3].arr = res.data || []
+        }
       })
     },
 
@@ -315,6 +315,7 @@ export default {
 
     handleFarmingType (id, node) {
       this.fetchMaterialAgriculturalBy_farmingTypeId(id)
+      this.fetchActionBy_farmingTypeId(id)
       this.instId = (node && node.data && node.data.attrs && node.data.attrs.instId) || '-'
     },
 
