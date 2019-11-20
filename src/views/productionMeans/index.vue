@@ -1,11 +1,8 @@
-/**
-产品操作
-*/
 <template>
-  <div class="prd-action">
-    <crumbsNav :crumbsArr="crumbsArr"></crumbsNav>
+  <div class="prd-means" style="margin: 16px;background: #eee;">
+    <MyBreadCrumb :crumbsArr="crumbsArr"></MyBreadCrumb>
     <a-layout>
-      <a-layout-content style="margin: 16px">
+      <a-layout-content>
         <div class="search-wrapper">
           <a-form class="form-fields" :form="form" @submit="handleSubmit">
             <a-row :gutter="40">
@@ -15,7 +12,7 @@
                   <a-input
                     placeholder="请输入资料名称"
                     autocomplete="off"
-                    v-decorator="['optionName', {
+                    v-decorator="['materialName', {
                       rules: [
                         { required: false, message: '请输入资料名称' }]
                     }]"
@@ -28,7 +25,7 @@
                   <a-input
                     placeholder="请输入土地所有人"
                     autocomplete="off"
-                    v-decorator="['optionName', {
+                    v-decorator="['landowner', {
                       rules: [
                         { required: false, message: '请输入土地所有人' }]
                     }]"
@@ -50,21 +47,22 @@
             :columns="columns"
             :dataSource="list"
             :style="{marginTop: '50px'}"
-            :rowKey="e => e.optionId"
+            :rowKey="e => e.materialNum"
             :pagination="pagination"
             :loading="loading"
             :scroll="{ x: 1240 }"
             @change="handlePage"
           >
             <span slot="itemIndex" slot-scope="text, record, index">{{index+1}}</span>
-            <span slot="optionName" slot-scope="text, record" class="line-sp" :title="record.optionName">{{record.optionName}}</span>
-            <span
-              class="delete"
-              slot="operation"
-              slot-scope="text, record"
-              v-if="record.scope === 'private'"
-              @click="handleDelete(record)"
-            >删除</span>
+            <span slot="materialNum" slot-scope="text, record" class="line-sp" :title="record.materialNum">{{record.materialNum}}</span>
+            <span slot="status" slot-scope="text, record">
+              <a-switch checkedChildren="启用" unCheckedChildren="禁用" :defaultChecked="switchStatus(record.status)" @change="(e) => handleSwitchClick(e, record)"/>
+            </span>
+            <template slot="operation" slot-scope="text, record">
+              <span class="delete">拷贝</span>
+              <span class="delete viw">查看</span>
+              <span class="delete" @click="handleDelete(record)">删除</span>
+            </template>
           </a-table>
         </div>
       </a-layout-content>
@@ -91,9 +89,11 @@ import {
   Button,
   Table,
   Form,
-  Modal
+  Modal,
+  Switch
 } from 'ant-design-vue'
-import crumbsNav from '@/components/crumbsNav/CrumbsNav'
+import MyBreadCrumb from '@/components/crumbsNav/CrumbsNav'
+import { produceMeansList, putProduceMeansStatus } from '@/api/productManage'
 // import AddAction from './AddAction'
 Vue.use(Layout)
 Vue.use(Input)
@@ -104,6 +104,7 @@ Vue.use(Button)
 Vue.use(Table)
 Vue.use(Form)
 Vue.use(Modal)
+Vue.use(Switch)
 
 const columns = [
   {
@@ -111,12 +112,12 @@ const columns = [
     key: 'itemIndex',
     scopedSlots: { customRender: 'itemIndex' }
   },
-  { title: '生产资料编号', key: 'productMeansNum', scopedSlots: { customRender: 'productMeansNum' }, width: 200 },
-  { title: '资料名称', dataIndex: 'meansName', key: 'meansName' },
-  { title: '栽培作物', dataIndex: 'cropsName', key: 'cropsName' },
-  { title: '状态', dataIndex: 'status', key: 'status' },
+  { title: '生产资料编号', key: 'materialNum', scopedSlots: { customRender: 'materialNum' }, width: 200 },
+  { title: '资料名称', dataIndex: 'materialName', key: 'materialName' },
+  { title: '栽培作物', dataIndex: 'cultivation', key: 'cultivation' },
+  { title: '状态', key: 'status', scopedSlots: { customRender: 'status' } },
   { title: '土地所有人', dataIndex: 'landowner', key: 'landowner' },
-  { title: '提交时间', dataIndex: 'submitDate', key: 'submitDate' },
+  { title: '提交时间', dataIndex: 'submitTime', key: 'submitTime' },
   {
     title: '操作',
     key: 'operation',
@@ -129,13 +130,12 @@ const list = []
 
 export default {
   components: {
-    crumbsNav
+    MyBreadCrumb
     // Form,
     // Modal
   },
   created () {
-    // this.fetchFramingType()
-    // this.fetchList({})
+    this.fetchList({})
   },
   data () {
     return {
@@ -162,29 +162,57 @@ export default {
       ],
       fetchParams: {},
       isDeleteVisible: false,
-      optionId: ''
+      optionId: '',
+      switchStatus: (e) => e === 'Y'
     }
   },
   methods: {
     fetchList (params) {
-      // let postData = {
-      //   pageNo: this.pageNo,
-      //   pageSize: this.pageSize,
-      //   ...params
-      // }
-      // productActionList(postData).then(res => {
-      //   this.loading = false
-      //   if (res && res.success === 'Y') {
-      //     this.list = res.data && res.data.records
-      //     const pagination = { ...this.pagination }
-      //     pagination.total = res.data && res.data.total
-      //     this.pagination = pagination
-      //   }
-      // })
+      let postData = {
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
+        ...params
+      }
+      produceMeansList(postData).then(res => {
+        this.loading = false
+        if (res && res.success === 'Y') {
+          const temp = [
+            {
+              'bizId': '8d0decc0a7a76a4da8a9c55a2d923f32d9be',
+              'materialNum': 'Z2019111200210',
+              'materialName': '资料名称1',
+              'cultivation': '作物',
+              'status': 'Y',
+              'landowner': 'SYSTE',
+              'submitTime': '2019-11-13'
+            }
+          ]
+          this.list = temp || (res.data && res.data.records)
+          const pagination = { ...this.pagination }
+          pagination.total = res.data && res.data.total
+          this.pagination = pagination
+        }
+      })
     },
 
-    fetchFramingType () {
+    fetchChangeStatus(bizId, status) {
+      putProduceMeansStatus(bizId, status).then(res => {
+        if (res && res.success === 'Y') {
+          this.$message.success(res.message)
+          return
+        }
+        this.$message.error(res.message)
+      })
+    },
 
+    handleSwitchClick(checked, record) {
+      let tempStatus = record.status
+      if (checked) {
+        tempStatus = 'Y'
+      } else {
+        tempStatus = 'N'
+      }
+      this.fetchChangeStatus(record.bizId, tempStatus)
     },
 
     handleNewAction () {
@@ -200,14 +228,14 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           const params = {
-            optionName:
-              values.optionName === undefined || values.optionName === ''
+            materialName:
+              values.materialName === undefined || values.materialName === ''
                 ? null
-                : values.optionName,
-            farmingTypeId:
-              values.farmingType === undefined || values.farmingType === ''
+                : values.materialName,
+            landowner:
+              values.landowner === undefined || values.landowner === ''
                 ? null
-                : values.farmingType
+                : values.landowner
           }
           this.pageNo = 1
           this.pagination.current = 1
@@ -245,7 +273,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.prd-action {
+.prd-means {
   .search-wrapper {
     padding: 24px;
     background: #fff;
@@ -303,6 +331,9 @@ export default {
   .delete {
     cursor: pointer;
     color: #3c8dff;
+  }
+  .viw  {
+    margin: 0 10px;
   }
 }
 </style>
