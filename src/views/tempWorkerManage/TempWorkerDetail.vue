@@ -147,6 +147,16 @@
           {{taskDetail.assigner}}
         </p>
       </div>
+      <div class="item">
+        <p>
+          <span>农事描述：</span>
+          {{taskDetail.taskDescription}}
+        </p>
+        <p>
+          <span>用途：</span>
+          {{taskDetail.taskUse}}
+        </p>
+      </div>
       <!-- 采收 -->
       <div v-if="taskDetail.actionId==='A00020'">
         <div class="item">
