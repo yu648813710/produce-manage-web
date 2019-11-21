@@ -42,11 +42,6 @@ const tableColumns = [
     width: 140
   },
   {
-    title: '负责人',
-    dataIndex: 'assigner',
-    width: 130
-  },
-  {
     title: '操作',
     scopedSlots: { customRender: 'action' },
     width: 160,

@@ -1,6 +1,4 @@
-/*
-地块监测列表
-*/
+/* 地块监测列表 */
 <template>
   <div class="base">
     <!-- <a-breadcrumb style="text-align: left; height: 40px">
@@ -16,14 +14,18 @@
       <a-form class="searchForm">
         <a-row :gutter="24" type="flex">
           <a-col :span="8">
-            <a-form-item label="地块名称:" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+            <a-form-item
+              label="地块名称:"
+              :label-col="{ span: 6 }"
+              :wrapper-col="{ span: 18 }"
+            >
               <a-input
                 autocomplete="off"
                 v-model="searchForm.baseName"
                 placeholder="请输入"
                 v-decorator="[
                   '地块名称',
-                  {rules: [{ required: true, message: '请输入地块名称!' }]}
+                  { rules: [{ required: true, message: '请输入地块名称!' }] }
                 ]"
               />
             </a-form-item>
@@ -31,8 +33,12 @@
         </a-row>
         <a-row>
           <a-col :span="24" :style="{ textAlign: 'center' }">
-            <a-button type="primary" html-type="submit" @click="searchRuleList">查询</a-button>
-            <a-button @click="restSearch" :style="{ marginLeft: '8px' }">重置</a-button>
+            <a-button type="primary" html-type="submit" @click="searchRuleList"
+              >查询</a-button
+            >
+            <a-button @click="restSearch" :style="{ marginLeft: '8px' }"
+              >重置</a-button
+            >
           </a-col>
         </a-row>
       </a-form>
@@ -41,7 +47,9 @@
       <!-- 设备列表表格 -->
       <div class="table-content">
         <div class="block-box">
-          <a-button type="primary" class="add-button" @click="addShowModal()">新增预警</a-button>
+          <a-button type="primary" class="add-button" @click="addShowModal()"
+            >新增预警</a-button
+          >
         </div>
         <div class="block-box">
           <a-locale-provider :locale="zhCN">
@@ -52,18 +60,22 @@
               :pagination="pagination"
               :loading="loading"
               @change="paginationChange"
-              :rowKey=" record => record.blockLandId "
+              :rowKey="record => record.blockLandId"
             >
-              <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
+              <span slot="id" slot-scope="text, record, index">{{
+                index + 1
+              }}</span>
               <div class="action" slot="operation" slot-scope="record">
                 <span
                   style="color:#1890ff; cursor: pointer; margin-right:10px"
                   @click="editRuleEvent(record)"
-                >编辑</span>
+                  >编辑</span
+                >
                 <span
                   style="color:#1890ff; cursor: pointer"
                   @click="shwoDeteleModal(record.blockLandId)"
-                >删除</span>
+                  >删除</span
+                >
               </div>
             </a-table>
           </a-locale-provider>
@@ -93,7 +105,8 @@
       @ok="deteleHandleOk"
       :width="500"
       @cancel="deteleHandleCancel"
-    >是否删除此条预警？</a-modal>
+      >是否删除此条预警？</a-modal
+    >
     <!-- 删除弹框 end -->
   </div>
 </template>
@@ -366,7 +379,7 @@ export default {
       this.setFrorm()
       this.$nextTick(async () => {
         console.log(data.baseLandId)
-        await this.getSelectBlockBland(data.baseLandId)
+        await this.getSelectBlockBland(data.baseLandId, data.blockLandId)
         console.log(data.blockLandId)
         console.log(this.blockLandData)
         this.ruleForm.setFieldsValue({
@@ -403,8 +416,8 @@ export default {
       })
     },
     // 获取地块信息
-    async getSelectBlockBland(id) {
-      await listBlockLandByBaseLandIdSelect(id).then(res => {
+    async getSelectBlockBland(id, blockId = '') {
+      await listBlockLandByBaseLandIdSelect(id, blockId).then(res => {
         if (res.code === 200) {
           this.blockLandData = res.data
         }
@@ -443,17 +456,26 @@ export default {
     // 校验表单
     validataForm() {
       let formDataInput = this.formInputVal
-      if (formDataInput.temperatureInf === '' || formDataInput.temperatureSup === '') {
+      if (
+        formDataInput.temperatureInf === '' ||
+        formDataInput.temperatureSup === ''
+      ) {
         this.formValidataStatus.temperature = 'error'
         this.formValidataStatus.temperatureText = '区间值不能为空'
         return false
       }
-      if ((+formDataInput.temperatureInf > 100 || +formDataInput.temperatureInf < -100) || (+formDataInput.temperatureSup > 100 || +formDataInput.temperatureSup < -100)) {
+      if (
+        +formDataInput.temperatureInf > 100 ||
+        +formDataInput.temperatureInf < -100 ||
+        +formDataInput.temperatureSup > 100 ||
+        +formDataInput.temperatureSup < -100
+      ) {
         this.formValidataStatus.temperature = 'error'
-        this.formValidataStatus.temperatureText = '请输入-100℃--100℃范围内的温度值'
+        this.formValidataStatus.temperatureText =
+          '请输入-100℃--100℃范围内的温度值'
         return false
       }
-      if (+formDataInput.temperatureSup <= +formDataInput.temperatureInf) {
+      if (+formDataInput.temperatureSup < +formDataInput.temperatureInf) {
         this.formValidataStatus.temperature = 'error'
         this.formValidataStatus.temperatureText = '区间前值必须小于后值'
         return false
@@ -461,17 +483,25 @@ export default {
       this.formValidataStatus.temperature = ''
       this.formValidataStatus.temperatureText = ''
 
-      if (formDataInput.dampnessInf === '' || formDataInput.dampnessSup === '') {
+      if (
+        formDataInput.dampnessInf === '' ||
+        formDataInput.dampnessSup === ''
+      ) {
         this.formValidataStatus.dampness = 'error'
         this.formValidataStatus.dampnessText = '区间值不能为空'
         return false
       }
-      if ((+formDataInput.dampnessInf > 100 || +formDataInput.dampnessInf < 0) || (+formDataInput.dampnessSup > 100 || +formDataInput.dampnessSup < 0)) {
+      if (
+        +formDataInput.dampnessInf > 100 ||
+        +formDataInput.dampnessInf < 0 ||
+        +formDataInput.dampnessSup > 100 ||
+        +formDataInput.dampnessSup < 0
+      ) {
         this.formValidataStatus.dampness = 'error'
         this.formValidataStatus.dampnessText = '请输入0%--100%范围内的湿度值'
         return false
       }
-      if (+formDataInput.dampnessSup <= +formDataInput.dampnessInf) {
+      if (+formDataInput.dampnessSup < +formDataInput.dampnessInf) {
         this.formValidataStatus.dampness = 'error'
         this.formValidataStatus.dampnessText = '区间前值必须小于后值'
         return false

@@ -1,6 +1,4 @@
-/**
-菌包列表页面
-*/
+/** 菌包列表页面 */
 <template>
   <div class="about">
     <a-layout>
@@ -8,7 +6,10 @@
         <!-- 导航 -->
         <crumbs-nav :crumbs-arr="crumbsArr" />
         <div class="search-wrapper">
-          <div class="search-input-box" :style="downUpSearch?'height:86px':''">
+          <div
+            class="search-input-box"
+            :style="downUpSearch ? 'height:86px' : ''"
+          >
             <a-row :gutter="40">
               <a-col :span="8">
                 <div class="search-input-wrapper">
@@ -60,18 +61,6 @@
               </a-col>
               <a-col :span="8">
                 <div class="search-input-wrapper">
-                  <span class="search-title">生长周期</span>
-                  <a-input
-                    autocomplete="off"
-                    style="width: 100%"
-                    placeholder="请输入生长周期"
-                    class="search-input"
-                    v-model="searchInputVal.cycleName"
-                  />
-                </div>
-              </a-col>
-              <a-col :span="8">
-                <div class="search-input-wrapper">
                   <span class="search-title">创建人</span>
                   <a-input
                     autocomplete="off"
@@ -82,8 +71,6 @@
                   />
                 </div>
               </a-col>
-            </a-row>
-            <a-row :gutter="40">
               <a-col :span="8">
                 <div class="search-input-wrapper">
                   <span class="search-title">种植方案</span>
@@ -99,34 +86,47 @@
             </a-row>
           </div>
           <div>
-            <a-button type="primary" class="button" @click="searchFarmPlanList">查询</a-button>
+            <a-button type="primary" class="button" @click="searchFarmPlanList"
+              >查询</a-button
+            >
             <a-button class="button" @click="clearInputVal">重置</a-button>
-            <a-button :style="{ marginLeft: '8px' }" @click="downUpSearch=!downUpSearch">
+            <a-button
+              :style="{ marginLeft: '8px' }"
+              @click="downUpSearch = !downUpSearch"
+            >
               <a-icon :type="downUpSearch ? 'down' : 'up'" />
-              {{downUpSearch?'展开':'收起'}}
+              {{ downUpSearch ? '展开' : '收起' }}
             </a-button>
           </div>
         </div>
         <div class="table-wrapper">
           <a-button type="primary" class="add-button">
-            <router-link :to="{name: 'addNewFarmPlan'}">新增农事计划</router-link>
+            <router-link :to="{ name: 'addNewFarmPlan' }"
+              >新增农事计划</router-link
+            >
           </a-button>
           <a-table
             :columns="columns"
             :dataSource="list"
             :scroll="{ x: 1500 }"
-            :style="{marginTop: '50px'}"
+            :style="{ marginTop: '50px' }"
             :loading="loading"
             :pagination="pagination"
             @change="setPageList"
-            :rowKey=" record => record.farmingPlanId "
+            :rowKey="record => record.farmingPlanId"
           >
-            <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
+            <span slot="id" slot-scope="text, record, index">{{
+              index + 1
+            }}</span>
             <router-link
               slot="operation"
               slot-scope="text, record"
-              :to="{name: 'farmPlanDetail', params: { id: record.farmingPlanId}}"
-            >查看</router-link>
+              :to="{
+                name: 'farmPlanDetail',
+                params: { id: record.farmingPlanId }
+              }"
+              >查看</router-link
+            >
           </a-table>
         </div>
       </a-layout-content>

@@ -174,6 +174,13 @@ export const setBatchStatus = (data) => {
     data
   })
 }
+// 获取菌包任务管理的所属车间(所有的车间)
+export const workshopAllList = () => {
+  return axios({
+    url: `/produce/workshop/list/all`,
+    method: 'get'
+  })
+}
 // 获取菌包任务管理的所属车间
 export const workshopList = () => {
   return axios({

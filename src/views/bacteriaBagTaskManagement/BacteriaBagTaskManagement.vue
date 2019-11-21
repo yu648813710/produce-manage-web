@@ -129,7 +129,7 @@
 <script>
 import Vue from 'vue'
 import {
-  workshopList,
+  workshopAllList,
   fungusproduceList,
   getBacteriaBagTask,
   deleteFungusTask
@@ -206,7 +206,7 @@ export default {
   methods: {
     // 获取车间名称
     getListUsable() {
-      workshopList().then(res => {
+      workshopAllList().then(res => {
         if (res.success === 'Y') {
           this.workshopArr = res.data || []
         } else {
