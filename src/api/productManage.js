@@ -76,9 +76,9 @@ export function listBaseLandSelect () {
 }
 
 // 获取新增预警规则时地块以及负责人选项
-export function listBlockLandByBaseLandIdSelect (id) {
+export function listBlockLandByBaseLandIdSelect (id, blockId) {
   return axios({
-    url: `/produce/produce/monitor/rule/listBlockLandByBaseLandId?baseLandId=${id}`,
+    url: `/produce/produce/monitor/rule/listBlockLandByBaseLandId?baseLandId=${id}&blockLandId=${blockId}`,
     method: 'GET'
   })
 }

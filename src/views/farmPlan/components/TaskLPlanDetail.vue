@@ -15,51 +15,61 @@
       <div class="item">
         <p>
           <span>农事计划编号：</span>
-          {{detailData.farmingNum?detailData.farmingNum:'--'}}
+          {{ detailData.farmingNum ? detailData.farmingNum : '--' }}
         </p>
         <p>
           <span>农事操作：</span>
-          {{detailData.actionName?detailData.actionName:'--'}}
+          {{ detailData.actionName ? detailData.actionName : '--' }}
         </p>
       </div>
       <div class="item">
         <p>
           <span>农事类型：</span>
-          {{detailData.farmingTypeName?detailData.farmingTypeName:'--'}}
+          {{ detailData.farmingTypeName ? detailData.farmingTypeName : '--' }}
         </p>
         <p>
           <span>所属地块：</span>
-          {{detailData.farmBizName?detailData.farmBizName:'--'}}
+          {{ detailData.farmBizName ? detailData.farmBizName : '--' }}
         </p>
       </div>
       <div class="item">
         <p>
           <span>产品周期：</span>
-          {{detailData.cycleName?detailData.cycleName:'--'}}
+          {{ detailData.cycleName ? detailData.cycleName : '--' }}
         </p>
         <p>
           <span>使用农资：</span>
-          {{detailData.useMaterial?detailData.useMaterial:'--'}}
+          {{ detailData.useMaterial ? detailData.useMaterial : '--' }}
         </p>
       </div>
       <div class="item">
         <p>
           <span>状态：</span>
-          {{detailData.taskStatusName?detailData.taskStatusName:'--'}}
+          {{ detailData.taskStatusName ? detailData.taskStatusName : '--' }}
         </p>
         <p>
           <span>任务开始时间：</span>
-          {{detailData.startTime?detailData.startTime:'--'}}
+          {{ detailData.startTime ? detailData.startTime : '--' }}
         </p>
       </div>
       <div class="item">
         <p>
           <span>任务结束时间：</span>
-          {{detailData.endTime?detailData.endTime:'--'}}
+          {{ detailData.endTime ? detailData.endTime : '--' }}
         </p>
         <p>
           <span>负责人：</span>
-          {{detailData.assigner?detailData.assigner:'--'}}
+          {{ detailData.assigner ? detailData.assigner : '--' }}
+        </p>
+      </div>
+      <div class="item">
+        <p>
+          <span>用途：</span>
+          {{ detailData.taskUse ? detailData.taskUse : '--' }}
+        </p>
+        <p>
+          <span>农事描述：</span>
+          {{ detailData.taskDescription ? detailData.taskDescription : '--' }}
         </p>
       </div>
       <!-- 任务不同类型 -->
@@ -68,13 +78,17 @@
         <div class="item">
           <p>
             <span>任务完成时间：</span>
-            {{detailData.extendData.finishTime?detailData.extendData.finishTime:'--'}}
+            {{
+              detailData.extendData.finishTime
+                ? detailData.extendData.finishTime
+                : '--'
+            }}
           </p>
           <p>
             <span>任务图片：</span>
             <span class="img">
               <img
-                v-for="(item,index) in detailData.extendData.filePath"
+                v-for="(item, index) in detailData.extendData.filePath"
                 :key="index"
                 :src="item"
                 @click="checkBigImg(item)"
@@ -88,11 +102,19 @@
           <div class="item">
             <p>
               <span>包装人：</span>
-              {{detailData.extendData.packUser?detailData.extendData.packUser:'--'}}
+              {{
+                detailData.extendData.packUser
+                  ? detailData.extendData.packUser
+                  : '--'
+              }}
             </p>
             <p>
               <span>包装规格：</span>
-              {{detailData.extendData.packWeight?detailData.extendData.packWeight:'--'}}
+              {{
+                detailData.extendData.packWeight
+                  ? detailData.extendData.packWeight
+                  : '--'
+              }}
             </p>
           </div>
         </template>
@@ -102,17 +124,29 @@
           <div class="item">
             <p>
               <span>采收人：</span>
-              {{detailData.extendData.pickUser?detailData.extendData.pickUser:'--'}}
+              {{
+                detailData.extendData.pickUser
+                  ? detailData.extendData.pickUser
+                  : '--'
+              }}
             </p>
             <p>
               <span>采收重量：</span>
-              {{detailData.extendData.weight?detailData.extendData.weight:'--'}}
+              {{
+                detailData.extendData.weight
+                  ? detailData.extendData.weight
+                  : '--'
+              }}
             </p>
           </div>
           <div class="item">
             <p>
               <span>采收时间：</span>
-              {{detailData.extendData.pickTime?detailData.extendData.pickTime:'--'}}
+              {{
+                detailData.extendData.pickTime
+                  ? detailData.extendData.pickTime
+                  : '--'
+              }}
             </p>
           </div>
         </template>
@@ -122,21 +156,37 @@
           <div class="item">
             <p>
               <span>检测人：</span>
-              {{detailData.extendData.userName?detailData.extendData.userName:'--'}}
+              {{
+                detailData.extendData.userName
+                  ? detailData.extendData.userName
+                  : '--'
+              }}
             </p>
             <p>
               <span>检测时间：</span>
-              {{detailData.extendData.verifyTime?detailData.extendData.verifyTime:'--'}}
+              {{
+                detailData.extendData.verifyTime
+                  ? detailData.extendData.verifyTime
+                  : '--'
+              }}
             </p>
           </div>
           <div class="item">
             <p>
               <span>检测机构：</span>
-              {{detailData.extendData.verifyOrganization?detailData.extendData.verifyOrganization:'--'}}
+              {{
+                detailData.extendData.verifyOrganization
+                  ? detailData.extendData.verifyOrganization
+                  : '--'
+              }}
             </p>
             <p>
               <span>检测结果：</span>
-              {{detailData.extendData.vefiyResult?detailData.extendData.vefiyResult:'--'}}
+              {{
+                detailData.extendData.vefiyResult
+                  ? detailData.extendData.vefiyResult
+                  : '--'
+              }}
             </p>
           </div>
         </template>
@@ -146,17 +196,27 @@
           <div class="item">
             <p>
               <span>存储周期：</span>
-              {{detailData.extendData.cycle?detailData.extendData.cycle:'--'}}
+              {{
+                detailData.extendData.cycle ? detailData.extendData.cycle : '--'
+              }}
             </p>
             <p>
               <span>存储温度：</span>
-              {{detailData.extendData.temperature?detailData.extendData.temperature:'--'}}
+              {{
+                detailData.extendData.temperature
+                  ? detailData.extendData.temperature
+                  : '--'
+              }}
             </p>
           </div>
           <div class="item">
             <p>
               <span>存储湿度：</span>
-              {{detailData.extendData.humidity?detailData.extendData.humidity:'--'}}
+              {{
+                detailData.extendData.humidity
+                  ? detailData.extendData.humidity
+                  : '--'
+              }}
             </p>
           </div>
         </template>
@@ -165,25 +225,17 @@
       <!-- 任务不同类型 结束 -->
     </a-modal>
     <!-- 图片弹窗 -->
-    <div
-      v-if="showBigImg"
-      class="imageContent"
-    >
-      <div class="imageBox">
-        <img
-          @click="closeBigImg"
-          :src="imgUrl"
-          alt
-        />
-      </div>
-    </div>
+    <a-modal :visible="showBigImg" :footer="null" @cancel="closeBigImg">
+      <img alt="example" style="width: 100%" :src="imgUrl" />
+    </a-modal>
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
-      showBigImg: false
+      showBigImg: false,
+      imgUrl: ''
     }
   },
   props: {
