@@ -177,7 +177,7 @@
           <p>
             <span>任务图片：</span>
             <span class="item-value" v-if="taskDetail.extendData && taskDetail.extendData.filePath">
-                <img v-for="(item, index) in taskDetail.extendData.filePath" :key="index" :src="item" alt="">
+                <img v-for="(item, index) in taskDetail.extendData.filePath" :key="index" :src="item" alt="" @click="openImgModal(item)">
               </span>
           </p>
         </div>
@@ -204,7 +204,7 @@
           <p>
             <span>任务图片：</span>
             <span class="item-value" v-if="taskDetail.extendData && taskDetail.extendData.filePath">
-                <img v-for="(item, index) in taskDetail.extendData.filePath" :key="index" :src="item" alt="">
+                <img v-for="(item, index) in taskDetail.extendData.filePath" :key="index" :src="item" alt="" @click="openImgModal(item)">
               </span>
           </p>
         </div>
@@ -230,7 +230,7 @@
           <p>
             <span>任务图片：</span>
             <span class="item-value" v-if="taskDetail.extendData && taskDetail.extendData.filePath">
-                <img v-for="(item, index) in taskDetail.extendData.filePath" :key="index" :src="item" alt="">
+                <img v-for="(item, index) in taskDetail.extendData.filePath" :key="index" :src="item" alt="" @click="openImgModal(item)">
               </span>
           </p>
         </div>
@@ -263,7 +263,7 @@
           <p>
             <span>任务图片：</span>
             <span class="item-value" v-if="taskDetail.extendData && taskDetail.extendData.filePath">
-                <img v-for="(item, index) in taskDetail.extendData.filePath" :key="index" :src="item" alt="">
+                <img v-for="(item, index) in taskDetail.extendData.filePath" :key="index" :src="item" alt="" @click="openImgModal(item)">
               </span>
           </p>
         </div>
@@ -272,13 +272,18 @@
         <p>
           <span>任务图片：</span>
           <span class="item-value" v-if="taskDetail.extendData && taskDetail.extendData.filePath">
-                <img v-for="(item, index) in taskDetail.extendData.filePath" :key="index" :src="item" alt="">
-              </span>
+            <img v-for="(item, index) in taskDetail.extendData.filePath" :key="index" :src="item" alt="" @click="openImgModal(item)">
+          </span>
         </p>
       </div>
     </a-modal>
+    <detail-img
+      v-if="imgVisible && src"
+      :imgVisible="imgVisible"
+      :imgUrl="src"
+      @modalCancel="modalCancel"
+    ></detail-img>
   </div>
-
 </template>
 <script>
 import Vue from 'vue'
@@ -286,6 +291,7 @@ import { Row, Col, Table, Button, Modal } from 'ant-design-vue'
 import CrumbsNav from '@/components/crumbsNav/CrumbsNav' // 面包屑
 import { detailCrumbsArr, detailColumns } from './config.js'
 import { detailTempWorker, getTaskList, detailTask } from '@/api/productManage.js'
+import DetailImg from './components/DetailImg.vue'
 
 Vue.use(Row)
 Vue.use(Col)
@@ -294,7 +300,8 @@ Vue.use(Button)
 Vue.use(Modal)
 export default {
   components: {
-    CrumbsNav
+    CrumbsNav,
+    DetailImg
   },
   data() {
     return {
@@ -322,7 +329,9 @@ export default {
         userName: '',
         workTimes: ''
       }, // 详情
-      taskDetail: {}
+      taskDetail: {},
+      imgVisible: false,
+      src: ''
     }
   },
   created() {
@@ -376,6 +385,15 @@ export default {
     // 关闭弹窗
     closeModal() {
       this.visible = false
+    },
+    // 打开图片浏览窗口
+    openImgModal(src) {
+      this.imgVisible = true
+      this.src = src
+    },
+    // 关闭图片浏览窗口
+    modalCancel(val) {
+      this.imgVisible = val
     }
   }
 }
