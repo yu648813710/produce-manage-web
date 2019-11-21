@@ -123,12 +123,18 @@
             <a-col style="display: flex;">
               <span class="item-key">完成照片：</span>
               <span class="item-value" v-if="commonData.extendData && commonData.extendData.filePath">
-                <img v-for="(item, index) in commonData.extendData.filePath" :key="index" :src="item" alt="">
+                <img v-for="(item, index) in commonData.extendData.filePath" :key="index" :src="item" alt="" @click="openImgModal(item)">
               </span>
             </a-col>
           </a-row>
       </div>
      </a-modal>
+     <detail-img
+      v-if="imgVisible && src"
+      :imgVisible="imgVisible"
+      :imgUrl="src"
+      @modalCancel="modalCancel"
+    ></detail-img>
   </div>
 </template>
 
@@ -136,6 +142,7 @@
 import Vue from 'vue'
 import { Modal, Row, Col } from 'ant-design-vue'
 import { getTaskOption } from '@/api/farmPlan.js'
+import DetailImg from './DetailImg'
 Vue.use(Modal)
 Vue.use(Row)
 Vue.use(Col)
@@ -152,6 +159,9 @@ export default {
       required: true
     }
   },
+  components: {
+    DetailImg
+  },
   data() {
     return {
       commonData: {
@@ -166,7 +176,9 @@ export default {
         extendData: {
           filePath: []
         } // 详情
-      }
+      },
+      imgVisible: false,
+      src: ''
     }
   },
   created () {
@@ -187,6 +199,13 @@ export default {
             this.$message.error(res.message)
           }
         })
+    },
+    openImgModal(src) {
+      this.imgVisible = true
+      this.src = src
+    },
+    modalCancel(val) {
+      this.imgVisible = val
     },
     handleOk() {
       this.$emit('operationModalOk', false)

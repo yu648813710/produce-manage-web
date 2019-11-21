@@ -61,7 +61,7 @@
               </template>
             </a-auto-complete>
             <a-select
-              v-else-if="index === 1 && currentFarmingPlanId !== null"
+              v-else-if="index === 1"
               notFoundContent="未匹配到数据"
               :getPopupContainer="triggerNode => {
                 return triggerNode.parentNode || document.body;
@@ -74,7 +74,7 @@
               <a-select-option v-for="sitem in item.arr" :key="sitem.cycleName">{{sitem.cycleName}}</a-select-option>
             </a-select>
             <a-select
-              v-else-if="index === 2 && currentFarmingPlanId !== null"
+              v-else-if="index === 2"
               notFoundContent="未匹配到数据"
               :getPopupContainer="triggerNode => {
                 return triggerNode.parentNode || document.body;
@@ -88,7 +88,7 @@
               <a-select-option v-for="sitem in item.arr" :key="sitem.farmingTypeId" :instId="sitem.instId">{{sitem.farmingTypeName}}</a-select-option>
             </a-select>
             <a-select
-              v-else-if="index === 3 && currentFarmingPlanId !== null"
+              v-else-if="index === 3"
               notFoundContent="未匹配到数据"
               :getPopupContainer="triggerNode => {
                 return triggerNode.parentNode || document.body;
@@ -98,7 +98,7 @@
                 }]"
               :placeholder="item.placeholder"
             >
-              <a-select-option v-for="sitem in item.arr" :key="sitem.actionId">{{sitem.actionName}}</a-select-option>
+              <a-select-option v-for="sitem in item.arr" :key="sitem.optionId">{{sitem.optionName}}</a-select-option>
             </a-select>
             <a-select
               v-else
@@ -128,7 +128,8 @@ import {
   getMaterialNumList,
   getMaterialCycleTypeActionList,
   getMaterialAgricultural,
-  addMaterialAgricultural
+  addMaterialAgricultural,
+  getActionsByFarmingTypeId
 } from '@/api/productManage.js'
 Vue.use(Input)
 Vue.use(Row)
@@ -221,7 +222,6 @@ export default {
           let dt = res.data || []
           let cycleList = []
           let farmingTypeList = []
-          let farmingActionList = []
           let cycleMap = new Map()
           dt.forEach(item => {
             if (!cycleMap.has(item.cycleName)) {
@@ -241,20 +241,18 @@ export default {
               }
               farmingTypeList.push(pm)
             }
-            if (!cycleMap.has(item.actionId)) {
-              cycleMap.set(item.actionId, item.actionId)
-              let pm = {
-                actionId: item.actionId || '',
-                actionName: item.actionName || ''
-              }
-              farmingActionList.push(pm)
-            }
           })
           this.fields[1].arr = cycleList || []
           this.fields[2].arr = farmingTypeList || []
-          this.fields[3].arr = farmingActionList || []
         }
-        // this.$message.error('此农事计划编号下暂无农事任务')
+      })
+    },
+
+    fetchActionBy_farmingTypeId(farmingTypeId) {
+      getActionsByFarmingTypeId(farmingTypeId).then(res => {
+        if (res && res.success === 'Y') {
+          this.fields[3].arr = res.data || []
+        }
       })
     },
 
@@ -315,6 +313,7 @@ export default {
 
     handleFarmingType (id, node) {
       this.fetchMaterialAgriculturalBy_farmingTypeId(id)
+      this.fetchActionBy_farmingTypeId(id)
       this.instId = (node && node.data && node.data.attrs && node.data.attrs.instId) || '-'
     },
 

@@ -345,3 +345,28 @@ export function deleteTemTask (taskInstId, planId) {
     method: 'delete'
   })
 }
+
+// 通过农事类型Id查询农事操作
+export function getActionsByFarmingTypeId (farmingTypeId) {
+  return axios({
+    url: `/produce/action/all/${farmingTypeId}`,
+    method: 'GET'
+  })
+}
+
+// 生产资料-列表产查询
+export function produceMeansList (data) {
+  return axios({
+    url: '/produce/enterprise/material/pages',
+    method: 'POST',
+    data
+  })
+}
+
+// 生产资料-启用、禁用状态
+export function putProduceMeansStatus (id, status) {
+  return axios({
+    url: `/produce/enterprise/material/${id}/${status}`,
+    method: 'PUT'
+  })
+}

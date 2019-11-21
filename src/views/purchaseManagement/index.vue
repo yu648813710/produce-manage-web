@@ -60,15 +60,16 @@
           :scroll="{ x: 1240 }"
           @change="pageOnChange"
         >
-          <span slot="itemIndex" slot-scope="text, record, index">{{index+1}}</span>
-          <span slot="materialName" slot-scope="text, record" class="line-sp" :title="record.materialName">{{record.materialName}}</span>
-          <span slot="questionContent" slot-scope="text, record">{{record.question.questionContent}}</span>
-          <span
-            slot="purchaseStatus"
-            slot-scope="text, record"
-          >{{cmpPurchaseStatus(record.purchaseStatus)}}</span>
+          <span slot="itemIndex" slot-scope="text, record, index" class="line-sp-sm">{{index+1}}</span>
+          <span slot="materialName" slot-scope="text, record" class="line-sp-sm" :title="record.materialName">{{record.materialName}}</span>
+          <span slot="farmingNum" slot-scope="text, record" class="line-sp" :title="record.farmingNum">{{record.farmingNum}}</span>
+          <span slot="actionName" slot-scope="text, record" class="line-sp-sm" :title="record.actionName">{{record.actionName}}</span>
+          <span slot="planCycleName" slot-scope="text, record" class="line-sp-sm" :title="record.planCycleName">{{record.planCycleName}}</span>
+          <span slot="purchaseMoney" slot-scope="text, record" class="line-sp-sm" :title="record.purchaseMoney">{{record.purchaseMoney}}</span>
+          <span slot="questionContent" slot-scope="text, record" class="line-sp" :title="record.questionContent">{{record.question.questionContent}}</span>
+          <span slot="purchaseStatus" slot-scope="text, record" class="line-sp-sm" :title="cmpPurchaseStatus(record.purchaseStatus)">{{cmpPurchaseStatus(record.purchaseStatus)}}</span>
           <span slot="materialDosage" slot-scope="text, record" class="line-sp" :title="record.materialDosage + record.materialUnitName">{{record.materialDosage + record.materialUnitName}}</span>
-          <a-row slot="operation" slot-scope="text, record">
+          <a-row slot="operation" slot-scope="text, record" class="line-sp">
             <span class="preview" @click="handleDetail(record)" >查看</span>
             <span v-if="record.purchaseStatus === 3" class="preview" @click="handleTagPurchase(record)" >标记为采购</span>
           </a-row>
@@ -350,7 +351,6 @@ export default {
     },
 
     handleAddPurchase () {
-      console.log('新增+++')
       this.$refs.newPurchase.showModel()
     },
 
@@ -395,11 +395,17 @@ export default {
     background-color: #fff;
     min-height: 360px;
     border-radius: 4px;
+    .line-sp-sm {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      width: 100px;
+    }
     .line-sp {
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      width: 120px;
+      width: 200px;
     }
     .add-button {
       position: absolute;
