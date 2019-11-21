@@ -280,6 +280,13 @@ export default {
       hidden: false,
       component: () => import('@/views/productionMeans'),
       meta: { name: '生产资料', icon: '' }
+    },
+    {
+      path: '/addMeans',
+      name: 'addMeans',
+      hidden: true,
+      component: () => import('@/views/productionMeans/addMeans'),
+      meta: { name: '新增生产资料', icon: '' }
     }
   ]
 }
