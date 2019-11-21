@@ -50,15 +50,19 @@
             :rowKey="e => e.materialNum"
             :pagination="pagination"
             :loading="loading"
-            :scroll="{ x: 1240 }"
+            :scroll="{ x: 1200 }"
             @change="handlePage"
           >
-            <span slot="itemIndex" slot-scope="text, record, index">{{index+1}}</span>
+            <span slot="itemIndex" slot-scope="text, record, index" class="line-sp-sm">{{index+1}}</span>
             <span slot="materialNum" slot-scope="text, record" class="line-sp" :title="record.materialNum">{{record.materialNum}}</span>
-            <span slot="status" slot-scope="text, record">
+            <span slot="materialName" slot-scope="text, record" class="line-sp" :title="record.materialName">{{record.materialName}}</span>
+            <span slot="cultivation" slot-scope="text, record" class="line-sp-sm" :title="record.cultivation">{{record.cultivation}}</span>
+            <span slot="landowner" slot-scope="text, record" class="line-sp-sm" :title="record.landowner">{{record.landowner}}</span>
+            <span slot="submitTime" slot-scope="text, record" class="line-sp" :title="record.submitTime">{{record.submitTime}}</span>
+            <span slot="status" slot-scope="text, record" class="line-sp-sm">
               <a-switch checkedChildren="启用" unCheckedChildren="禁用" :defaultChecked="switchStatus(record.status)" @change="(e) => handleSwitchClick(e, record)"/>
             </span>
-            <template slot="operation" slot-scope="text, record">
+            <template slot="operation" slot-scope="text, record" class="line-sp">
               <span class="delete">拷贝</span>
               <span class="delete viw">查看</span>
               <span class="delete" @click="handleDelete(record)">删除</span>
@@ -73,7 +77,7 @@
       @ok="handleDeleteOk"
       @cancel="() => isDeleteVisible = false"
     >
-      <p style="text-align:center">是否确认删除?</p>
+      <p>是否确认删除?</p>
     </a-modal>
     <!-- <AddAction ref="newAction" @refresh="refreshList" /> -->
   </div>
@@ -107,22 +111,14 @@ Vue.use(Modal)
 Vue.use(Switch)
 
 const columns = [
-  {
-    title: '序号',
-    key: 'itemIndex',
-    scopedSlots: { customRender: 'itemIndex' }
-  },
+  { title: '序号', key: 'itemIndex', scopedSlots: { customRender: 'itemIndex' }, width: 100 },
   { title: '生产资料编号', key: 'materialNum', scopedSlots: { customRender: 'materialNum' }, width: 200 },
-  { title: '资料名称', dataIndex: 'materialName', key: 'materialName' },
-  { title: '栽培作物', dataIndex: 'cultivation', key: 'cultivation' },
-  { title: '状态', key: 'status', scopedSlots: { customRender: 'status' } },
-  { title: '土地所有人', dataIndex: 'landowner', key: 'landowner' },
-  { title: '提交时间', dataIndex: 'submitTime', key: 'submitTime' },
-  {
-    title: '操作',
-    key: 'operation',
-    scopedSlots: { customRender: 'operation' }
-  }
+  { title: '资料名称', key: 'materialName', scopedSlots: { customRender: 'materialName' }, width: 200 },
+  { title: '栽培作物', key: 'cultivation', scopedSlots: { customRender: 'cultivation' }, width: 100 },
+  { title: '状态', key: 'status', scopedSlots: { customRender: 'status' }, width: 100 },
+  { title: '土地所有人', key: 'landowner', scopedSlots: { customRender: 'landowner' }, width: 100 },
+  { title: '提交时间', key: 'submitTime', scopedSlots: { customRender: 'submitTime' }, width: 200 },
+  { title: '操作', key: 'operation', scopedSlots: { customRender: 'operation' }, width: 200, fixed: 'right', align: 'center' }
 ]
 
 let farmingTypes = []
@@ -216,7 +212,8 @@ export default {
     },
 
     handleNewAction () {
-      this.$refs.newAction.showModel()
+      // this.$refs.newAction.showModel()
+      this.$router.push({ path: '/addMeans' })
     },
 
     refreshList () {
@@ -317,6 +314,13 @@ export default {
   background: #fff;
   min-height: 360px;
   border-radius: 4px;
+  .line-sp-sm {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100px;
+  }
   .line-sp {
     display: inline-block;
     overflow: hidden;

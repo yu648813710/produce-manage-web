@@ -370,3 +370,12 @@ export function putProduceMeansStatus (id, status) {
     method: 'PUT'
   })
 }
+
+// 生产资料-新增
+export function produceMeansAdd (data) {
+  return axios({
+    url: `/produce/enterprise/material`,
+    method: 'POST',
+    data
+  })
+}
