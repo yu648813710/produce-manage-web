@@ -61,7 +61,7 @@
               </template>
             </a-auto-complete>
             <a-select
-              v-else-if="index === 1 && currentFarmingPlanId !== null"
+              v-else-if="index === 1"
               notFoundContent="未匹配到数据"
               :getPopupContainer="triggerNode => {
                 return triggerNode.parentNode || document.body;
@@ -74,7 +74,7 @@
               <a-select-option v-for="sitem in item.arr" :key="sitem.cycleName">{{sitem.cycleName}}</a-select-option>
             </a-select>
             <a-select
-              v-else-if="index === 2 && currentFarmingPlanId !== null"
+              v-else-if="index === 2"
               notFoundContent="未匹配到数据"
               :getPopupContainer="triggerNode => {
                 return triggerNode.parentNode || document.body;
@@ -88,7 +88,7 @@
               <a-select-option v-for="sitem in item.arr" :key="sitem.farmingTypeId" :instId="sitem.instId">{{sitem.farmingTypeName}}</a-select-option>
             </a-select>
             <a-select
-              v-else-if="index === 3 && currentFarmingPlanId !== null"
+              v-else-if="index === 3"
               notFoundContent="未匹配到数据"
               :getPopupContainer="triggerNode => {
                 return triggerNode.parentNode || document.body;
@@ -218,7 +218,6 @@ export default {
      */
     fetchMaterialCycleTypeActionListBy_farmingPlanId (farmingPlanId) {
       getMaterialCycleTypeActionList(farmingPlanId).then(res => {
-        console.log('list:', res)
         if (res && res.success === 'Y') {
           let dt = res.data || []
           let cycleList = []
@@ -251,7 +250,6 @@ export default {
 
     fetchActionBy_farmingTypeId(farmingTypeId) {
       getActionsByFarmingTypeId(farmingTypeId).then(res => {
-        console.log('农事操作：', res)
         if (res && res.success === 'Y') {
           this.fields[3].arr = res.data || []
         }
