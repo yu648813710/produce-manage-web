@@ -404,3 +404,11 @@ export function produceMeansDetail (id) {
     method: 'GET'
   })
 }
+
+// 获取当前人所属企业信息
+export function getCurrentUserInfo () {
+  return axios({
+    url: '/produce/enterprise/material/company',
+    method: 'GET'
+  })
+}

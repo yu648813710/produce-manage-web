@@ -109,7 +109,6 @@ export default {
           console.log('newParams:', newParams)
           //
           if (this.info && this.info.bizId && this.info.bizId !== null) {
-            console.log('修改：bizId为：', this.info.bizId)
             this.fetchEdit(newParams)
             return
           }

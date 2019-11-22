@@ -76,7 +76,7 @@ export const fieldsStep1 = [{
   placeholder: '请输入企业名称',
   validators: validatorsStep1['v-companyName'],
   mx: null,
-  isEdit: true // false
+  isEdit: false // false
 },
 {
   id: 'belongIndustry',
@@ -84,7 +84,7 @@ export const fieldsStep1 = [{
   placeholder: '请输入所属行业',
   validators: validatorsStep1['v-belongIndustry'],
   mx: null,
-  isEdit: true // false
+  isEdit: false // false
 },
 {
   id: 'companyAddress',

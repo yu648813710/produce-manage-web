@@ -70,22 +70,6 @@ export default {
         console.log('查询详情：', res)
         if (res && res.success === 'Y') {
           this.info = res.data
-          // this.list[1].value = res.data.enterpriseName
-          // this.list[2].value = res.data.industry
-          // this.list[3].value = res.data.enterpriseAddress
-          // this.list[4].value = res.data.landowner
-          // this.list[5].value = res.data.mobilePhone
-          // this.list[6].value = res.data.reportYear + ' 年'
-          // this.list[10].value = res.data.landArea + ' 亩'
-          // this.list[11].value = res.data.plantArea + ' 亩'
-          // this.list[12].value = res.data.cultivation
-          // this.list[13].value = res.data.realOutput + ' 斤'
-          // this.list[14].value = res.data.salesVolume + ' 斤'
-          // this.list[15].value = res.data.salesValue + ' 元'
-          // this.list[16].label = res.data.landCertificate[0]
-          // this.list[16].value = res.data.landCertificate[1]
-          // this.list[17].label = res.data.landCertificate[2]
-          // this.list[17].value = res.data.landCertificate[3]
         }
       })
     },
