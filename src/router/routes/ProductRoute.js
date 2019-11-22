@@ -165,62 +165,62 @@ export default {
       component: () => import('@/views/farmPlan/addOtherFarmPlan.vue'),
       meta: { name: '新增临时任务', icon: '' }
     },
-    {
-      path: '/projectCenter',
-      name: 'projectCenter',
-      hidden: true,
-      component: () => import('@/views/project/projectCenter/project.vue'),
-      meta: { name: '方案中心', icon: '' }
-    },
-    {
-      path: '/projectDetail',
-      name: 'projectDetail',
-      hidden: true,
-      component: () => import('@/views/project/projectCenter/projectDetail.vue'),
-      meta: { name: '方案详情', icon: '', parentMenuName: 'projectCenter' }
-    },
-    {
-      path: '/addNewProject',
-      name: 'addNewProject',
-      hidden: true,
-      component: () => import('@/views/project/projectCenter/addNewProject.vue'),
-      meta: { name: '新增方案', icon: '' }
-    },
-    {
-      path: '/planMarket',
-      name: 'planMarket',
-      hidden: true,
-      component: () => import('@/views/planMarket'),
-      meta: { name: '方案市场', icon: '' }
-    },
-    {
-      path: '/planMarketDetail', // :solutionId
-      name: 'planMarketDetail',
-      hidden: true,
-      component: () => import('@/views/planMarket/detail.vue'),
-      meta: { name: '方案市场详情', icon: '', parentMenuName: 'planMarketDetail' }
-    },
-    {
-      path: '/editProject',
-      name: 'editProject',
-      hidden: true,
-      component: () => import('@/views/project/projectCenter/editProject.vue'),
-      meta: { name: '修改方案', icon: '' }
-    },
-    {
-      path: '/knowledgeQuiz',
-      name: 'knowledgeQuiz',
-      hidden: true,
-      component: () => import('@/views/knowledgeQuiz'),
-      meta: { name: '知识问答', icon: '' }
-    },
-    {
-      path: '/knowledgeQuizDetail',
-      name: 'knowledgeQuizDetail',
-      hidden: true,
-      component: () => import('@/views/knowledgeQuiz/detail.vue'),
-      meta: { name: '知识问答详情', icon: '', parentMenuName: 'knowledgeQuiz' }
-    },
+    // {
+    //   path: '/projectCenter',
+    //   name: 'projectCenter',
+    //   hidden: true,
+    //   component: () => import('@/views/project/projectCenter/project.vue'),
+    //   meta: { name: '方案中心', icon: '' }
+    // },
+    // {
+    //   path: '/projectDetail',
+    //   name: 'projectDetail',
+    //   hidden: true,
+    //   component: () => import('@/views/project/projectCenter/projectDetail.vue'),
+    //   meta: { name: '方案详情', icon: '', parentMenuName: 'projectCenter' }
+    // },
+    // {
+    //   path: '/addNewProject',
+    //   name: 'addNewProject',
+    //   hidden: true,
+    //   component: () => import('@/views/project/projectCenter/addNewProject.vue'),
+    //   meta: { name: '新增方案', icon: '' }
+    // },
+    // {
+    //   path: '/planMarket',
+    //   name: 'planMarket',
+    //   hidden: true,
+    //   component: () => import('@/views/planMarket'),
+    //   meta: { name: '方案市场', icon: '' }
+    // },
+    // {
+    //   path: '/planMarketDetail', // :solutionId
+    //   name: 'planMarketDetail',
+    //   hidden: true,
+    //   component: () => import('@/views/planMarket/detail.vue'),
+    //   meta: { name: '方案市场详情', icon: '', parentMenuName: 'planMarketDetail' }
+    // },
+    // {
+    //   path: '/editProject',
+    //   name: 'editProject',
+    //   hidden: true,
+    //   component: () => import('@/views/project/projectCenter/editProject.vue'),
+    //   meta: { name: '修改方案', icon: '' }
+    // },
+    // {
+    //   path: '/knowledgeQuiz',
+    //   name: 'knowledgeQuiz',
+    //   hidden: true,
+    //   component: () => import('@/views/knowledgeQuiz'),
+    //   meta: { name: '知识问答', icon: '' }
+    // },
+    // {
+    //   path: '/knowledgeQuizDetail',
+    //   name: 'knowledgeQuizDetail',
+    //   hidden: true,
+    //   component: () => import('@/views/knowledgeQuiz/detail.vue'),
+    //   meta: { name: '知识问答详情', icon: '', parentMenuName: 'knowledgeQuiz' }
+    // },
     {
       path: '/outgoingmanagement',
       name: 'outgoingmanagement',
