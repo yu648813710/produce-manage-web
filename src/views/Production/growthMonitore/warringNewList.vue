@@ -128,7 +128,7 @@ export default {
   },
   data() {
     return {
-      componenyType: 1,
+      componenyType: 0,
       dropdownStyle: {
         'text-align': 'left'
       },
