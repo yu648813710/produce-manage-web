@@ -57,7 +57,7 @@ const validatorsStep1 = {
     message: '请输入栽培作物'
   }],
   'v-landTrulyProve': [{
-    required: false,
+    required: true,
     message: '请上传土地确权证明'
   }]
 }

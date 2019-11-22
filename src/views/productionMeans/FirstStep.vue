@@ -64,6 +64,7 @@ import Vue from 'vue'
 import { Form, Row, Col, Select, Input, Button, Icon, Upload } from 'ant-design-vue'
 import { fieldsStep1 } from './config'
 import axios from 'axios'
+import moment from 'moment'
 Vue.use(Form)
 Vue.use(Row)
 Vue.use(Col)
@@ -74,6 +75,14 @@ Vue.use(Icon)
 Vue.use(Upload)
 export default {
   name: 'firstStep',
+  props: {
+    info: {
+      type: Object,
+      default: () => {
+        return null
+      }
+    }
+  },
   data() {
     return {
       fieldsStep1,
@@ -82,22 +91,50 @@ export default {
       uploadLoading: false
     }
   },
+  created() {
+    let self = this
+    if (this.info !== null) {
+      console.log('first-info:', this.info)
+      let files = []
+      let idx = 0
+      self.info.landCertificate.forEach(item => {
+        idx += 1
+        let temp = {
+          uid: moment(new Date()).format('YYYY-MM-DDhh:mm:ss') + `img-${idx}`,
+          name: `img-${idx}`,
+          status: 'done',
+          url: item
+        }
+        files.push(temp)
+      })
+      self.fileList = files
+      this.$nextTick(() => {
+        self.form.setFieldsValue({
+          field_meansName: self.info.materialName,
+          field_companyName: self.info.enterpriseName,
+          field_belongIndustry: self.info.industry,
+          field_companyAddress: self.info.enterpriseAddress,
+          field_landowner: self.info.landowner,
+          field_telephone: self.info.mobilePhone,
+          field_annualReport: self.info.reportYear,
+          field_landArea: self.info.landArea,
+          field_plantingArea: self.info.plantArea,
+          field_cropCultivation: self.info.cultivation,
+          upload_landTrulyProve: files
+        })
+      })
+    } else {
+      console.log('断言：此处 === null时，逻辑正常:', this.info)
+    }
+  },
+  mounted() {
+    this.form.setFieldsValue({
+      field_annualReport: moment(new Date()).format('YYYY')
+    })
+  },
   methods: {
     handleSubmit (e) {
       e.preventDefault()
-      this.form.validateFields((err, values) => {
-        console.log('hhhhhhhhhhhh：', values)
-        if (!err) {
-          const params = {
-            materialName: values.field_materialName === undefined || values.field_materialName === '' ? null : values.field_materialName,
-            farmingNum: values.field_farmingNum === undefined || values.field_farmingNum === '' ? null : values.field_farmingNum,
-            actionName: values.field_actionName === undefined || values.field_actionName === '' ? null : values.field_actionName,
-            planCycleName: values.field_planCycleName === undefined || values.field_planCycleName === '' ? null : values.field_planCycleName,
-            purchaseStatus: values.select_purchaseStatus === undefined || values.select_purchaseStatus === '' ? null : values.select_purchaseStatus
-          }
-          console.log('params:', params)
-        }
-      })
     },
 
     handleNext() {
@@ -106,8 +143,15 @@ export default {
         params: {}
       }
       this.form.validateFields((err, values) => {
-        console.log('hhhhhhhhhhhh：', values)
         if (!err) {
+          let files = []
+          if (values.upload_landTrulyProve.fileList && values.upload_landTrulyProve.fileList.length > 0) {
+            values.upload_landTrulyProve.fileList.forEach(item => {
+              if (item.url && item.url !== null) {
+                files.push(item.url)
+              }
+            })
+          }
           const params = {
             materialName: values.field_meansName,
             enterpriseName: values.field_companyName || '',
@@ -119,7 +163,7 @@ export default {
             landArea: values.field_landArea,
             plantArea: values.field_plantingArea,
             cultivation: values.field_cropCultivation,
-            landCertificate: values.upload_landTrulyProve
+            landCertificate: files
           }
           console.log('params:', params)
           pm = {

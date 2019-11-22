@@ -379,3 +379,28 @@ export function produceMeansAdd (data) {
     data
   })
 }
+
+// 生产资料-新增
+export function produceMeansEdit (data) {
+  return axios({
+    url: `/produce/enterprise/material`,
+    method: 'PUT',
+    data
+  })
+}
+
+// 生产资料-删除
+export function produceMeansDelete (id) {
+  return axios({
+    url: `/produce/enterprise/material/${id}`,
+    method: 'DELETE'
+  })
+}
+
+// 生产资料-详情
+export function produceMeansDetail (id) {
+  return axios({
+    url: `/produce/enterprise/material/${id}`,
+    method: 'GET'
+  })
+}
