@@ -27,12 +27,12 @@ const detailColumns = [
   { title: '农事操作', dataIndex: 'actionName', key: 'actionName' },
   { title: '所属周期', dataIndex: 'cycleName', key: 'cycleName' },
   { title: '农事类型', dataIndex: 'farmingTypeName', key: 'farmingTypeName' },
-  { title: '使用农资', dataIndex: 'useMaterial', key: 'useMaterial' },
-  { title: '状态', scopedSlots: { customRender: 'taskStatusName' }, key: 'taskStatusName' },
-  { title: '执行时长', dataIndex: 'cycleEndTime', key: 'cycleEndTime' },
+  { title: '使用农资', dataIndex: 'useMaterial', scopedSlots: { customRender: 'useMaterial' }, key: 'useMaterial', width: 100 },
+  { title: '状态', dataIndex: 'taskStatusName', key: 'taskStatusName' },
+  { title: '执行时长', scopedSlots: { customRender: 'cycle' }, key: 'cycleEndTime' },
   { title: '任务开始时间', dataIndex: 'startTime', key: 'startTime' },
   { title: '任务结束时间', dataIndex: 'endTime', key: 'endTime' },
-  { title: '任务完成时间', dataIndex: 'endTime', key: 'index' },
+  { title: '任务完成时间', scopedSlots: { customRender: 'finishTime' }, key: 'extendData.finishTime' },
   { title: '负责人', dataIndex: 'assigner', key: 'assigner' },
   { title: '操作', key: 'operation', scopedSlots: { customRender: 'operation' }, align: 'center' }
 ]

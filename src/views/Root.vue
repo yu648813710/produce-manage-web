@@ -75,6 +75,7 @@ export default {
   display: flex;
   height: 100%;
   overflow: hidden;
+  background-color: #eee !important;
   .sider {
     width: 240px;
     height: 100%;

@@ -30,8 +30,7 @@ const app = {
          * token 用户登录凭证
          * expires 过期时间
          */
-        let token = '123'
-        commit('SET_USERTOKEN', token)
+        commit('SET_USERTOKEN', userInfo)
         resolve()
         // if (sessionStorage.getItem("user")){
         //   let token = '123'
@@ -62,13 +61,6 @@ const app = {
           {
             name: '首页'
           },
-          { name: '企业入住' },
-          { name: '菌包生产过程' },
-          { name: '基地列表' },
-          { name: '大棚列表' },
-          { name: '产品维护列表' },
-          { name: '菌包列表' },
-          { name: '菌包详情' },
           { name: '地块监控列表' },
           { name: '地块预警规则列表' },
           { name: '任务管理' },
@@ -115,7 +107,10 @@ const app = {
           { name: '临时工管理' },
           { name: '临时工详情' },
           { name: '木耳栽培过程溯源' },
-          { name: '木耳溯源信息维护' }
+          { name: '木耳溯源信息维护' },
+          { name: '生产资料' },
+          { name: '新增生产资料' },
+          { name: '生产资料详情' }
         ]
         resolve(auth)
       })

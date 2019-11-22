@@ -7,124 +7,97 @@
       @ok="editSbumit"
       :width="750"
       :bodyStyle="{
-        height:'380px',
-        overflow:'auto'
+        height: '380px',
+        overflow: 'auto'
       }"
       :destroyOnClose="true"
       :maskClosable="false"
       class="task-detail"
-      >
-      <a-form
-        :form="editFrom"
-        @submit="editFromSubmit"
-      >
-        <a-row
-          :gutter="24"
-          class="list"
-        >
-          <a-col
-            class="item"
-            :span="12"
-          >
+    >
+      <a-form :form="editFrom" @submit="editFromSubmit">
+        <a-row :gutter="24" class="list">
+          <a-col class="item" :span="12">
             <span>所属周期：</span>
-            {{detailPageData.cycleName}}
+            {{ detailPageData.cycleName }}
           </a-col>
-          <a-col
-            class="item"
-            :span="12"
-          >
+          <a-col class="item" :span="12">
             <span>农事类型：</span>
-            {{detailPageData.farmingTypeName}}
+            {{ detailPageData.farmingTypeName }}
           </a-col>
         </a-row>
-        <a-row
-          :gutter="24"
-          class="list"
-        >
-          <a-col
-            class="item"
-            :span="12"
-          >
+        <a-row :gutter="24" class="list">
+          <a-col class="item" :span="12">
             <span>任务操作：</span>
-            {{detailPageData.actionName}}
+            {{ detailPageData.actionName }}
           </a-col>
-          <a-col
-            class="item"
-            :span="12"
-          >
+          <a-col class="item" :span="12">
             <span>执行时长：</span>
             第
             <a-form-item class="form-item">
               <a-input-number
                 autocomplete="off"
                 class="input"
-                v-decorator="['cycleStartTime', { rules: [{ required: true, message: '请输入正确周期'}] }]"
+                v-decorator="[
+                  'cycleStartTime',
+                  { rules: [{ required: true, message: '请输入正确周期' }] }
+                ]"
                 @change="cycleStartTimeInput"
                 :min="1"
-              ></a-input-number>
-            </a-form-item>天~ 第
+              ></a-input-number> </a-form-item
+            >天~ 第
             <a-form-item class="form-item">
               <a-input-number
                 autocomplete="off"
                 class="input"
-                v-decorator="['cycleEndTime', { rules: [{ required: true, message: '请输入正确周期', validator:cycleEndTimeFun }] }]"
+                v-decorator="[
+                  'cycleEndTime',
+                  {
+                    rules: [
+                      {
+                        required: true,
+                        message: '请输入正确周期',
+                        validator: cycleEndTimeFun
+                      }
+                    ]
+                  }
+                ]"
                 :min="cycleEndTimeMin"
-              ></a-input-number>
-            </a-form-item>天
+              ></a-input-number> </a-form-item
+            >天
           </a-col>
         </a-row>
-        <a-row
-          :gutter="24"
-          class="list"
-        >
-          <a-col
-            class="item"
-            :span="12"
-          >
+        <a-row :gutter="24" class="list">
+          <a-col class="item" :span="12">
             <span>任务开始时间：</span>
-            {{detailPageData.startTime}}
+            {{ detailPageData.startTime }}
           </a-col>
-          <a-col
-            class="item"
-            :span="12"
-          >
+          <a-col class="item" :span="12">
             <span>任务结束时间：</span>
-            {{detailPageData.endTime}}
+            {{ detailPageData.endTime }}
           </a-col>
         </a-row>
-        <a-row
-          :gutter="24"
-          class="list"
-        >
-          <a-col
-            class="item"
-            :span="12"
-          >
+        <a-row :gutter="24" class="list">
+          <a-col class="item" :span="12">
             <span>用途：</span>
-            {{detailPageData.taskUse?detailPageData.taskUse:'--'}}
+            {{ detailPageData.taskUse ? detailPageData.taskUse : '--' }}
           </a-col>
-          <a-col
-            class="item"
-            :span="12"
-          >
+          <a-col class="item" :span="12">
             <span>描述：</span>
-            {{detailPageData.taskDescription?detailPageData.taskDescription:'--'}}
+            {{
+              detailPageData.taskDescription
+                ? detailPageData.taskDescription
+                : '--'
+            }}
           </a-col>
         </a-row>
       </a-form>
       <div class="table-box">
         <div class="header">
-          <span
-            v-for="(item,index) in navData"
-            :key="index"
-          >{{item}}</span>
+          <span v-for="(item, index) in navData" :key="index">{{ item }}</span>
         </div>
         <div class="select">
           <a-row :gutter="24">
-            <a-form
-              :form="materialForm"
-              @submit="submitMeterial"
-            >
+            <a-form :form="materialForm" @submit="submitMeterial">
               <a-col :span="6">
                 <a-form-item
                   :label-col="{ span: 24 }"
@@ -134,16 +107,23 @@
                   <a-select
                     placeholder="请选择"
                     style="width: 100%"
-                    :getPopupContainer="triggerNode => {
-                      return triggerNode.parentNode || document.body;
-                    }"
-                    v-decorator="['materialId', { rules: [{ required: true, message: '请选择' }] }]"
+                    :getPopupContainer="
+                      triggerNode => {
+                        return triggerNode.parentNode || document.body
+                      }
+                    "
+                    v-decorator="[
+                      'materialId',
+                      { rules: [{ required: true, message: '请选择' }] }
+                    ]"
+                    @change="materialChange"
                   >
                     <a-select-option
-                      v-for="(item,index) in materialData"
+                      v-for="(item, index) in materialData"
                       :key="index"
                       :value="item.materialId"
-                    >{{item.materialName}}</a-select-option>
+                      >{{ item.materialName }}</a-select-option
+                    >
                   </a-select>
                 </a-form-item>
               </a-col>
@@ -156,7 +136,10 @@
                   <a-input
                     autocomplete="off"
                     placeholder="请输入"
-                    v-decorator="['materialDosage', { rules: [{ required: true, message: '请输入' }] }]"
+                    v-decorator="[
+                      'materialDosage',
+                      { rules: [{ required: true, message: '请输入' }] }
+                    ]"
                   ></a-input>
                 </a-form-item>
               </a-col>
@@ -169,31 +152,33 @@
                   <a-select
                     placeholder="请选择"
                     style="width: 100%"
-                    :getPopupContainer="triggerNode => {
-                      return triggerNode.parentNode || document.body;
-                    }"
-                    v-decorator="['materialUnitId', { rules: [{ required: true, message: '请选择' }] }]"
+                    disabled
+                    :getPopupContainer="
+                      triggerNode => {
+                        return triggerNode.parentNode || document.body
+                      }
+                    "
+                    v-decorator="[
+                      'materialUnitId',
+                      { rules: [{ required: true, message: '请选择' }] }
+                    ]"
                   >
                     <a-select-option
-                      v-for="(item,index) in utilData"
+                      v-for="(item, index) in utilData"
                       :key="index"
                       :value="item.unitId"
-                    >{{item.unitName}}</a-select-option>
+                      >{{ item.unitName }}</a-select-option
+                    >
                   </a-select>
                 </a-form-item>
               </a-col>
-              <a-col
-                :span="6"
-                class="button"
-              >
-                <span
-                  class="table-delete m-r-10"
-                  @click="submitMeterial"
-                >确定</span>
-                <span
-                  class="table-delete"
-                  @click="resetRematerialData"
-                >取消</span>
+              <a-col :span="6" class="button">
+                <span class="table-delete m-r-10" @click="submitMeterial"
+                  >确定</span
+                >
+                <span class="table-delete" @click="resetRematerialData"
+                  >取消</span
+                >
               </a-col>
             </a-form>
           </a-row>
@@ -204,11 +189,10 @@
             v-for="(item, index) in detailPageData.taskUseReMaterial"
             :key="index"
           >
-            <span>{{item.materialName}}</span>
-            <span
-              v-if="!item.inputEdit"
-              @click="showInputEditItem(index)"
-            >{{item.materialDosage}}</span>
+            <span>{{ item.materialName }}</span>
+            <span v-if="!item.inputEdit" @click="showInputEditItem(index)">{{
+              item.materialDosage
+            }}</span>
             <span v-else>
               <a-input-number
                 autocomplete="off"
@@ -218,11 +202,10 @@
                 style="width:80%;"
               ></a-input-number>
             </span>
-            <span>{{item.materialUnitName}}</span>
-            <span
-              class="table-delete"
-              @click="deleteRematerialData(index)"
-            >删除</span>
+            <span>{{ item.materialUnitName }}</span>
+            <span class="table-delete" @click="deleteRematerialData(index)"
+              >删除</span
+            >
           </p>
         </div>
       </div>
@@ -231,7 +214,7 @@
 </template>
 <script>
 export default {
-  data () {
+  data() {
     return {
       navData: ['农资名称', '用量', '用量单位', '操作'],
       materialForm: this.$form.createForm(this, { name: 'material' }),
@@ -264,7 +247,7 @@ export default {
     }
   },
   watch: {
-    detailPageData (val) {
+    detailPageData(val) {
       this.detailPageData = val
       this.detailPageData.taskUseReMaterial.map(res => {
         res.inputEdit = false
@@ -298,15 +281,15 @@ export default {
       )
     },
     // 隐藏编辑框
-    hiddenEditTask () {
+    hiddenEditTask() {
       this.$emit('hiddenEditTask')
     },
     // 提交编辑框
-    editSbumit () {
+    editSbumit() {
       this.editFromSubmit()
     },
     // 提交编辑表单
-    editFromSubmit () {
+    editFromSubmit() {
       this.editFrom.validateFields((err, values) => {
         if (err) {
           return false
@@ -321,7 +304,7 @@ export default {
       })
     },
     // 提交农资
-    submitMeterial (e) {
+    submitMeterial(e) {
       e.preventDefault()
       this.materialForm.validateFields((err, values) => {
         if (!err) {
@@ -330,19 +313,19 @@ export default {
       })
     },
     // 编辑表单赋值
-    editFromSetVal () {
+    editFromSetVal() {
       let self = this
       this.editFrom.setFieldsValue({
-        'cycleStartTime': self.detailPageData.cycleStartTime
+        cycleStartTime: self.detailPageData.cycleStartTime
           ? self.detailPageData.cycleStartTime
           : 0,
-        'cycleEndTime': self.detailPageData.cycleEndTime
+        cycleEndTime: self.detailPageData.cycleEndTime
           ? self.detailPageData.cycleEndTime
           : 0
       })
     },
     // 插入农资数据
-    pushReMaterialData (values) {
+    pushReMaterialData(values) {
       let data = {
         materialName: this.materialData.filter(
           res => res.materialId === values.materialId
@@ -358,15 +341,15 @@ export default {
       this.resetRematerialData()
     },
     // 删除农资数据
-    deleteRematerialData (index) {
+    deleteRematerialData(index) {
       this.detailPageData.taskUseReMaterial.splice(index, 1)
     },
     // 重置农资表单
-    resetRematerialData () {
+    resetRematerialData() {
       this.materialForm.resetFields()
     },
     // 周期结束天数
-    cycleEndTimeFun (rule, value, callback) {
+    cycleEndTimeFun(rule, value, callback) {
       let startTime = this.editFrom.getFieldValue('cycleStartTime')
       if (rule.field === 'cycleEndTime' && (!value || value < startTime)) {
         callback(rule.message)
@@ -374,8 +357,21 @@ export default {
       callback()
     },
     // 开始周期
-    cycleStartTimeInput (e) {
+    cycleStartTimeInput(e) {
       this.cycleEndTimeMin = e
+    },
+    // 农资选择
+    materialChange(e) {
+      let materialId = e
+      let materialUnitId
+      this.materialData.map(item => {
+        if (item.materialId === materialId) {
+          materialUnitId = item.unitId
+        }
+      })
+      this.materialForm.setFieldsValue({
+        materialUnitId: materialUnitId
+      })
     }
   }
 }

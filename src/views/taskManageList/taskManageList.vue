@@ -31,7 +31,7 @@
                 @click="editTaskShow(record.instId)"
               >编辑</span>
               <span
-                v-if="record.scope!=='public'"
+                v-if="record.scope!=='public'&&record.taskStatusName==='未开始'"
                 slot="title"
                 @click="showDeleteModal(record.instId)"
               >删除</span>

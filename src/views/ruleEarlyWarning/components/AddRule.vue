@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-modal
-      :title="infoAddOrEditType==='add'?'新建预警':'修改预警'"
+      :title="infoAddOrEditType === 'add' ? '新建预警' : '修改预警'"
       :visible="visible"
       @ok="handleOk"
       :width="600"
@@ -9,44 +9,58 @@
       @cancel="handleCancel"
     >
       <a-form :form="ruleForm" @submit="handleOk">
-        <a-form-item label="基地名称" :label-col="{ span: 5 }" :wrapper-col="{ span: 16 }">
+        <a-form-item
+          label="基地名称"
+          :label-col="{ span: 5 }"
+          :wrapper-col="{ span: 16 }"
+        >
           <a-select
             placeholder="选择基地"
-            :getPopupContainer="triggerNode => {
-              return triggerNode.parentNode || document.body;
-            }"
+            :getPopupContainer="
+              triggerNode => {
+                return triggerNode.parentNode || document.body
+              }
+            "
             @change="baseLandChange"
             v-decorator="[
-          '基地名称',
-          {rules: [{ required: true, message: '请选择基地名称!' }]}
-        ]"
-            :disabled="infoAddOrEditType==='edit'?true:false"
+              '基地名称',
+              { rules: [{ required: true, message: '请选择基地名称!' }] }
+            ]"
+            :disabled="infoAddOrEditType === 'edit' ? true : false"
           >
             <a-select-option
-              v-for="(item,index) in baseLandData"
+              v-for="(item, index) in baseLandData"
               :value="item.baseLandId"
               :key="index"
-            >{{item.baseLandName}}</a-select-option>
+              >{{ item.baseLandName }}</a-select-option
+            >
           </a-select>
         </a-form-item>
-        <a-form-item label="地块名称" :label-col="{ span: 5 }" :wrapper-col="{ span: 16 }">
+        <a-form-item
+          label="地块名称"
+          :label-col="{ span: 5 }"
+          :wrapper-col="{ span: 16 }"
+        >
           <a-select
             placeholder="选择地块"
-            :getPopupContainer="triggerNode => {
-              return triggerNode.parentNode || document.body;
-            }"
+            :getPopupContainer="
+              triggerNode => {
+                return triggerNode.parentNode || document.body
+              }
+            "
             @change="blockLandChange"
             v-decorator="[
-          '地块名称',
-          {rules: [{ required: true, message: '请选择地块名称!' }]}
-        ]"
-            :disabled="infoAddOrEditType==='edit'?true:false"
+              '地块名称',
+              { rules: [{ required: true, message: '请选择地块名称!' }] }
+            ]"
+            :disabled="infoAddOrEditType === 'edit' ? true : false"
           >
             <a-select-option
-              v-for="(item,index) in blockLandData"
+              v-for="(item, index) in blockLandData"
               :value="item.blockLandId"
               :key="index"
-            >{{item.blockLandName}}</a-select-option>
+              >{{ item.blockLandName }}</a-select-option
+            >
           </a-select>
         </a-form-item>
         <a-form-item
@@ -55,11 +69,19 @@
           :wrapper-col="{ span: 16 }"
           required
           :validate-status="formValidataStatus.temperature"
-          :help="formValidataStatus.temperature===''?'':'温度应小于等于100℃'"
+          :help="formValidataStatus.temperatureText"
         >
-          <a-input-number style="width:42%;" v-model="formInputVal.temperatureInf" :min="0" />
+          <a-input-number
+            style="width:42%;"
+            v-model="formInputVal.temperatureInf"
+            :min="-100"
+          />
           <span style="padding:0 2%;">-</span>
-          <a-input-number style="width:42%;" v-model="formInputVal.temperatureSup" :min="0" />
+          <a-input-number
+            style="width:42%;"
+            v-model="formInputVal.temperatureSup"
+            :max="100"
+          />
           <span style="padding:0 1%;">℃</span>
         </a-form-item>
         <a-form-item
@@ -68,14 +90,26 @@
           :wrapper-col="{ span: 16 }"
           required
           :validate-status="formValidataStatus.dampness"
-          :help="formValidataStatus.dampness===''?'':'湿度应小于等于100%'"
+          :help="formValidataStatus.dampnessText"
         >
-          <a-input-number style="width:42%;" v-model="formInputVal.dampnessInf" :min="0" />
+          <a-input-number
+            style="width:42%;"
+            v-model="formInputVal.dampnessInf"
+            :min="0"
+          />
           <span style="padding:0 2%;">-</span>
-          <a-input-number style="width:42%;" v-model="formInputVal.dampnessSup" :min="0" />
+          <a-input-number
+            style="width:42%;"
+            v-model="formInputVal.dampnessSup"
+            :max="100"
+          />
           <span style="padding:0 1%;">%</span>
         </a-form-item>
-        <a-form-item label="负责人" :label-col="{ span: 5 }" :wrapper-col="{ span: 16 }">
+        <a-form-item
+          label="负责人"
+          :label-col="{ span: 5 }"
+          :wrapper-col="{ span: 16 }"
+        >
           <a-input :value="formInputVal.user" disabled />
         </a-form-item>
       </a-form>
@@ -168,5 +202,4 @@ export default {
   }
 }
 </script>
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>

@@ -4,7 +4,7 @@ export const columns = [{
   scopedSlots: {
     customRender: 'itemIndex'
   },
-  width: 80
+  width: 100
 },
 {
   title: '农资名称',
@@ -12,7 +12,7 @@ export const columns = [{
     customRender: 'materialName'
   },
   key: 'materialName',
-  width: 120
+  width: 150
 },
 {
   title: '计划用量',
@@ -20,25 +20,31 @@ export const columns = [{
   scopedSlots: {
     customRender: 'materialDosage'
   },
-  width: 120
+  width: 150
 },
 {
   title: '农事计划编号',
-  dataIndex: 'farmingNum',
   key: 'farmingNum',
-  width: 160
+  scopedSlots: {
+    customRender: 'farmingNum'
+  },
+  width: 200
 },
 {
   title: '所属农事操作',
   key: 'actionName',
-  dataIndex: 'actionName',
-  width: 160
+  scopedSlots: {
+    customRender: 'actionName'
+  },
+  width: 150
 },
 {
   title: '所属周期',
   key: 'planCycleName',
-  dataIndex: 'planCycleName',
-  width: 120
+  scopedSlots: {
+    customRender: 'planCycleName'
+  },
+  width: 150
 },
 {
   title: '采购状态',
@@ -46,13 +52,15 @@ export const columns = [{
   scopedSlots: {
     customRender: 'purchaseStatus'
   },
-  width: 120
+  width: 150
 },
 {
   title: '采购金额(元)',
   key: 'purchaseMoney',
-  dataIndex: 'purchaseMoney',
-  width: 120
+  scopedSlots: {
+    customRender: 'purchaseMoney'
+  },
+  width: 150
 },
 {
   title: '操作',
@@ -61,6 +69,7 @@ export const columns = [{
   scopedSlots: {
     customRender: 'operation'
   },
+  fixed: 'right',
   width: 200
 }
 ]

@@ -8,8 +8,8 @@ const columns = [
   { title: '保质期(天)', dataIndex: 'expiryTime', key: 'expiryTime', width: 110 },
   { title: '木耳图片', scopedSlots: { customRender: 'productPicture' }, key: 'productPicture', align: 'center', width: 100 },
   { title: '溯源二维码', scopedSlots: { customRender: 'qrcodeId' }, key: 'qrcodeId', align: 'center', width: 120 },
-  { title: '状态', scopedSlots: { customRender: 'status' }, key: 'status', align: 'center', width: 100 },
-  { title: '操作', key: 'operation', scopedSlots: { customRender: 'operation' }, align: 'center', fixed: 'right', width: 280 }
+  { title: '状态', scopedSlots: { customRender: 'status' }, key: 'status', align: 'center', width: 200 },
+  { title: '操作', key: 'operation', scopedSlots: { customRender: 'operation' }, align: 'center', fixed: 'right', width: 300 }
 ]
 const crumbsArr = [
   { name: '当前位置', back: false, path: '' },

@@ -68,6 +68,22 @@
           :rowKey="(record, index) => index"
         >
           <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
+          <span
+            slot="useMaterial"
+            class="use-material"
+            slot-scope="text"
+            :title="text"
+          >{{text}}</span>
+          <span
+            slot="finishTime"
+            slot-scope="record"
+          >
+            {{record.extendData ? record.extendData.finishTime.substring(0, 10) : record.finishTime}}
+          </span>
+          <span
+            slot="cycle"
+            slot-scope="text,record"
+          >{{'第' + record.cycleEndTime + '天 - ' + '第' + record.cycleStartTime + '天'}}</span>
           <span slot="operation" slot-scope="text, record">
             <a-button type="link" @click="handleOpenModal(record)">查看</a-button>
           </span>
@@ -108,7 +124,7 @@
         </p>
         <p>
           <span>执行时长：</span>
-          {{taskDetail.cycleEndTime}}
+          {{'第' + taskDetail.cycleEndTime + '天 - ' + '第' + taskDetail.cycleStartTime + '天'}}
         </p>
       </div>
       <div class="item">
@@ -124,16 +140,150 @@
       <div class="item">
         <p>
           <span>任务完成时间：</span>
-          {{taskDetail.endTime}}
+          {{taskDetail.extendData ? taskDetail.extendData.finishTime.substring(0, 10) : taskDetail.finishTime}}
         </p>
         <p>
           <span>负责人：</span>
           {{taskDetail.assigner}}
         </p>
       </div>
+      <div class="item">
+        <p>
+          <span>农事描述：</span>
+          {{taskDetail.taskDescription}}
+        </p>
+        <p>
+          <span>用途：</span>
+          {{taskDetail.taskUse}}
+        </p>
+      </div>
+      <!-- 采收 -->
+      <div v-if="taskDetail.actionId==='A00020'">
+        <div class="item">
+          <p>
+            <span>采收人：</span>
+            {{taskDetail.extendData && taskDetail.extendData.pickUser ? taskDetail.extendData.pickUser : ''}}
+          </p>
+          <p>
+            <span>采收时间：</span>
+            {{taskDetail.extendData && taskDetail.extendData.pickTime ? taskDetail.extendData.pickTime : ''}}
+          </p>
+        </div>
+        <div class="item">
+          <p>
+            <span>采收重量：</span>
+            {{taskDetail.extendData && taskDetail.extendData.weight ? taskDetail.extendData.weight + 'kg' : '' }}
+          </p>
+          <p>
+            <span>任务图片：</span>
+            <span class="item-value" v-if="taskDetail.extendData && taskDetail.extendData.filePath">
+                <img v-for="(item, index) in taskDetail.extendData.filePath" :key="index" :src="item" alt="" @click="openImgModal(item)">
+              </span>
+          </p>
+        </div>
+      </div>
+      <!-- 包装 -->
+      <div v-else-if="taskDetail.actionId==='A00023'">
+        <div class="item">
+          <p>
+            <span>包装人：</span>
+            {{taskDetail.extendData && taskDetail.extendData.packUser ? taskDetail.extendData.packUser : ''}}
+          </p>
+          <p>
+            <span>包装时间：</span>
+            {{taskDetail.extendData && taskDetail.extendData.packTime ? taskDetail.extendData.packTime : ''}}
+          </p>
+        </div>
+        <div class="item">
+          <p>
+            <span>包装规格：</span>
+            {{taskDetail.extendData && taskDetail.extendData.packWeight ? taskDetail.extendData.packWeight + 'kg/' +
+            taskDetail.extendData.packUnitName: ''
+            }}
+          </p>
+          <p>
+            <span>任务图片：</span>
+            <span class="item-value" v-if="taskDetail.extendData && taskDetail.extendData.filePath">
+                <img v-for="(item, index) in taskDetail.extendData.filePath" :key="index" :src="item" alt="" @click="openImgModal(item)">
+              </span>
+          </p>
+        </div>
+      </div>
+      <!-- 存储 -->
+      <div v-else-if="taskDetail.actionId==='A00024'">
+        <div class="item">
+          <p>
+            <span>存储温度：</span>
+            {{taskDetail.extendData && taskDetail.extendData.temperature ? taskDetail.extendData.temperature + '℃' :
+            ''}}
+          </p>
+          <p>
+            <span>存储湿度：</span>
+            {{taskDetail.extendData && taskDetail.extendData.humidity ? taskDetail.extendData.humidity + '%' : ''}}
+          </p>
+        </div>
+        <div class="item">
+          <p>
+            <span>存储周期：</span>
+            {{taskDetail.extendData && taskDetail.extendData.cycle ? taskDetail.extendData.cycle + '个月' : '' }}
+          </p>
+          <p>
+            <span>任务图片：</span>
+            <span class="item-value" v-if="taskDetail.extendData && taskDetail.extendData.filePath">
+                <img v-for="(item, index) in taskDetail.extendData.filePath" :key="index" :src="item" alt="" @click="openImgModal(item)">
+              </span>
+          </p>
+        </div>
+      </div>
+      <!-- 检测 -->
+      <div v-else-if="taskDetail.actionId==='A00025'">
+        <div class="item">
+          <p>
+            <span>检测人：</span>
+            {{taskDetail.extendData && taskDetail.extendData.verifyUserName ? taskDetail.extendData.verifyUserName :
+            ''}}
+          </p>
+          <p>
+            <span>检测机构：</span>
+            {{taskDetail.extendData && taskDetail.extendData.verifyOrganization ?
+            taskDetail.extendData.verifyOrganization : ''}}
+          </p>
+        </div>
+        <div class="item">
+          <p>
+            <span>检测时间：</span>
+            {{taskDetail.extendData && taskDetail.extendData.verifyTime ? taskDetail.extendData.verifyTime : '' }}
+          </p>
+          <p>
+            <span>检测结果：</span>
+            {{taskDetail.extendData && taskDetail.extendData.vefiyResult ? taskDetail.extendData.vefiyResult : '' }}
+          </p>
+        </div>
+        <div class="item">
+          <p>
+            <span>任务图片：</span>
+            <span class="item-value" v-if="taskDetail.extendData && taskDetail.extendData.filePath">
+                <img v-for="(item, index) in taskDetail.extendData.filePath" :key="index" :src="item" alt="" @click="openImgModal(item)">
+              </span>
+          </p>
+        </div>
+      </div>
+      <div class="item" v-else>
+        <p>
+          <span>任务图片：</span>
+          <span class="item-value" v-if="taskDetail.extendData && taskDetail.extendData.filePath">
+            <img v-for="(item, index) in taskDetail.extendData.filePath" :key="index" :src="item" alt="" @click="openImgModal(item)">
+          </span>
+        </p>
+      </div>
     </a-modal>
+    <detail-img
+      v-if="imgVisible && src"
+      :imgVisible="imgVisible"
+      :imgUrl="src"
+      @modalCancel="modalCancel"
+    ></detail-img>
   </div>
-
 </template>
 <script>
 import Vue from 'vue'
@@ -141,6 +291,7 @@ import { Row, Col, Table, Button, Modal } from 'ant-design-vue'
 import CrumbsNav from '@/components/crumbsNav/CrumbsNav' // 面包屑
 import { detailCrumbsArr, detailColumns } from './config.js'
 import { detailTempWorker, getTaskList, detailTask } from '@/api/productManage.js'
+import DetailImg from './components/DetailImg.vue'
 
 Vue.use(Row)
 Vue.use(Col)
@@ -149,7 +300,8 @@ Vue.use(Button)
 Vue.use(Modal)
 export default {
   components: {
-    CrumbsNav
+    CrumbsNav,
+    DetailImg
   },
   data() {
     return {
@@ -177,7 +329,9 @@ export default {
         userName: '',
         workTimes: ''
       }, // 详情
-      taskDetail: {}
+      taskDetail: {},
+      imgVisible: false,
+      src: ''
     }
   },
   created() {
@@ -231,6 +385,15 @@ export default {
     // 关闭弹窗
     closeModal() {
       this.visible = false
+    },
+    // 打开图片浏览窗口
+    openImgModal(src) {
+      this.imgVisible = true
+      this.src = src
+    },
+    // 关闭图片浏览窗口
+    modalCancel(val) {
+      this.imgVisible = val
     }
   }
 }
@@ -289,8 +452,17 @@ export default {
           }
         }
       }
+
+      .use-material {
+        width: 140px;
+        display: inline-block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
     }
   }
+
   .item {
     height: auto;
     overflow: hidden;
@@ -310,6 +482,26 @@ export default {
 
       color: #333;
       line-height: 36px;
+
+      img {
+        width: 72px;
+        height: 72px;
+        background-size: 100% 100%;
+        margin-left: 10px;
+      }
+    }
+
+    div {
+      /*width: 48%;*/
+      /*float: left;*/
+      /*margin-right: 4%;*/
+
+      img {
+        width: 72px;
+        height: 72px;
+        background-size: 100% 100%;
+        margin-left: 10px;
+      }
     }
   }
 </style>

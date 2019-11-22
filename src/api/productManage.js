@@ -76,9 +76,9 @@ export function listBaseLandSelect () {
 }
 
 // 获取新增预警规则时地块以及负责人选项
-export function listBlockLandByBaseLandIdSelect (id) {
+export function listBlockLandByBaseLandIdSelect (id, blockId) {
   return axios({
-    url: `/produce/produce/monitor/rule/listBlockLandByBaseLandId?baseLandId=${id}`,
+    url: `/produce/produce/monitor/rule/listBlockLandByBaseLandId?baseLandId=${id}&blockLandId=${blockId}`,
     method: 'GET'
   })
 }
@@ -343,5 +343,72 @@ export function deleteTemTask (taskInstId, planId) {
   return axios({
     url: `/produce/farmPlan/task/temp/${taskInstId}/${planId}`,
     method: 'delete'
+  })
+}
+
+// 通过农事类型Id查询农事操作
+export function getActionsByFarmingTypeId (farmingTypeId) {
+  return axios({
+    url: `/produce/action/all/${farmingTypeId}`,
+    method: 'GET'
+  })
+}
+
+// 生产资料-列表产查询
+export function produceMeansList (data) {
+  return axios({
+    url: '/produce/enterprise/material/pages',
+    method: 'POST',
+    data
+  })
+}
+
+// 生产资料-启用、禁用状态
+export function putProduceMeansStatus (id, status) {
+  return axios({
+    url: `/produce/enterprise/material/${id}/${status}`,
+    method: 'PUT'
+  })
+}
+
+// 生产资料-新增
+export function produceMeansAdd (data) {
+  return axios({
+    url: `/produce/enterprise/material`,
+    method: 'POST',
+    data
+  })
+}
+
+// 生产资料-新增
+export function produceMeansEdit (data) {
+  return axios({
+    url: `/produce/enterprise/material`,
+    method: 'PUT',
+    data
+  })
+}
+
+// 生产资料-删除
+export function produceMeansDelete (id) {
+  return axios({
+    url: `/produce/enterprise/material/${id}`,
+    method: 'DELETE'
+  })
+}
+
+// 生产资料-详情
+export function produceMeansDetail (id) {
+  return axios({
+    url: `/produce/enterprise/material/${id}`,
+    method: 'GET'
+  })
+}
+
+// 获取当前人所属企业信息
+export function getCurrentUserInfo () {
+  return axios({
+    url: '/produce/enterprise/material/company',
+    method: 'GET'
   })
 }
