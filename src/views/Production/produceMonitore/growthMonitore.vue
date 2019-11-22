@@ -107,7 +107,7 @@ export default {
   },
   data() {
     return {
-      componenyType: 0,
+      componenyType: 1,
       totalWarring: 0,
       ghNewWarring: 0,
       wsNewWarring: 0,
@@ -198,13 +198,13 @@ export default {
     warringDetailList(index) {
       if (index === 3 || index === 5 || index === 6 || index === 7) {
         this.$router.push({
-          path: 'growthWarringList',
+          path: 'warringList',
           query: { 'type': index }
         })
         console.log(this.$route.matched)
       } else if (index === 1 || index === 2 || index === 8) {
         this.$router.push({
-          path: 'growthWarringnewlist',
+          path: 'warringnewlist',
           query: { 'type': index }
         })
       }

@@ -162,8 +162,8 @@ Vue.use(Col)
 // ]
 const columns = [
   { title: '序号', scopedSlots: { customRender: 'id' }, align: 'center' },
-  { title: '基地名称', dataIndex: 'baseLandName' },
-  { title: '地块名称', dataIndex: 'blockLandName' },
+  // { title: '基地名称', dataIndex: 'baseLandName' },
+  { title: '车间名称', dataIndex: 'blockLandName' },
   { title: '温度℃', dataIndex: 'temperature' },
   { title: 'CO₂浓度', dataIndex: 'co2Concentration' },
   {
@@ -197,7 +197,7 @@ export default {
         'text-align': 'left'
       },
       warringType: '', // ws
-      componenyType: 0,
+      componenyType: 1,
       baseLandName: '', // 温度过高 温度过低 湿度过高 湿度过低 二氧化碳过高 二氧化碳过低
       alarmTypeArr: [
         { label: '温度过高', value: '温度过高' },

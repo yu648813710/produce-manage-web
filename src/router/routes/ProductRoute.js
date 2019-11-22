@@ -55,12 +55,12 @@ export default {
       component: () => import('@/views/Production/growthMonitoring/earlyWarning/growthMonitoringList.vue'),
       meta: { name: '地块监控列表', icon: '' }
     },
-    {
-      path: '/RuleMonitoringList',
-      name: 'RuleMonitoringList',
-      component: () => import('@/views/ruleEarlyWarning/ruleList.vue'),
-      meta: { name: '地块预警规则列表', icon: '' }
-    },
+    // {
+    //   path: '/RuleMonitoringList',
+    //   name: 'RuleMonitoringList',
+    //   component: () => import('@/views/ruleEarlyWarning/ruleList.vue'),
+    //   meta: { name: '地块预警规则列表', icon: '' }
+    // },
     {
       path: '/taskManage',
       name: 'taskManage',
@@ -68,8 +68,8 @@ export default {
       meta: { name: '任务管理', icon: '' }
     },
     {
-      path: 'production',
-      name: 'production',
+      path: 'growth',
+      name: 'growth',
       component: () => import('@/views/Production/index.vue'),
       meta: { name: '生长监控', icon: '' },
       children: [
@@ -80,16 +80,48 @@ export default {
           meta: { name: '生长监控大屏', icon: '' }
         },
         {
+          path: 'growthWarringList',
+          name: 'growthWarringList',
+          component: () => import('@/views/Production/growthMonitore/warringList.vue'),
+          meta: { name: '生长监控预警汇总列表', icon: '', parentMenuName: 'growthMonitore' }
+        },
+        {
+          path: 'growthWarringnewlist',
+          name: 'growthWarringnewlist',
+          component: () => import('@/views/Production/growthMonitore/warringNewList.vue'),
+          meta: { name: '生长监控预警列表', icon: '', parentMenuName: 'growthMonitore' }
+        },
+        {
+          path: '/RuleMonitoringList',
+          name: 'RuleMonitoringList',
+          component: () => import('@/views/ruleEarlyWarning/ruleList.vue'),
+          meta: { name: '地块预警规则列表', icon: '' }
+        },
+      ]
+    },
+    {
+      path: 'production',
+      name: 'production',
+      component: () => import('@/views/Production/index.vue'),
+      meta: { name: '生产监控', icon: '' },
+      children: [
+        {
+          path: 'produceMonitore',
+          name: 'produceMonitore',
+          component: () => import('@/views/Production/produceMonitore/growthMonitore.vue'),
+          meta: { name: '生产监控大屏', icon: '' }
+        },
+        {
           path: 'warringList',
           name: 'warringList',
-          component: () => import('@/views/Production/growthMonitore/warringList.vue'),
-          meta: { name: '预警汇总列表', icon: '', parentMenuName: 'growthMonitore' }
+          component: () => import('@/views/Production/produceMonitore/warringList.vue'),
+          meta: { name: '生产监控预警汇总列表', icon: '', parentMenuName: 'growthMonitore' }
         },
         {
           path: 'warringnewlist',
           name: 'warringnewlist',
-          component: () => import('@/views/Production/growthMonitore/warringNewList.vue'),
-          meta: { name: '预警列表', icon: '', parentMenuName: 'growthMonitore' }
+          component: () => import('@/views/Production/produceMonitore/warringNewList.vue'),
+          meta: { name: '生产监控预警列表', icon: '', parentMenuName: 'growthMonitore' }
         },
         {
           path: 'rulelist',
