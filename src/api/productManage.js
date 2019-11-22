@@ -370,3 +370,45 @@ export function putProduceMeansStatus (id, status) {
     method: 'PUT'
   })
 }
+
+// 生产资料-新增
+export function produceMeansAdd (data) {
+  return axios({
+    url: `/produce/enterprise/material`,
+    method: 'POST',
+    data
+  })
+}
+
+// 生产资料-新增
+export function produceMeansEdit (data) {
+  return axios({
+    url: `/produce/enterprise/material`,
+    method: 'PUT',
+    data
+  })
+}
+
+// 生产资料-删除
+export function produceMeansDelete (id) {
+  return axios({
+    url: `/produce/enterprise/material/${id}`,
+    method: 'DELETE'
+  })
+}
+
+// 生产资料-详情
+export function produceMeansDetail (id) {
+  return axios({
+    url: `/produce/enterprise/material/${id}`,
+    method: 'GET'
+  })
+}
+
+// 获取当前人所属企业信息
+export function getCurrentUserInfo () {
+  return axios({
+    url: '/produce/enterprise/material/company',
+    method: 'GET'
+  })
+}
