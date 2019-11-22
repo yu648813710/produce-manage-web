@@ -287,6 +287,13 @@ export default {
       hidden: true,
       component: () => import('@/views/productionMeans/addMeans'),
       meta: { name: '新增生产资料', icon: '' }
+    },
+    {
+      path: '/productionMeansDetail',
+      name: 'producitonMeansDetail',
+      hidden: true,
+      component: () => import('@/views/productionMeans/detail'),
+      meta: { name: '生产资料详情', icon: '' }
     }
   ]
 }

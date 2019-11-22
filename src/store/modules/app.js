@@ -108,7 +108,8 @@ const app = {
           { name: '木耳栽培过程溯源' },
           { name: '木耳溯源信息维护' },
           { name: '生产资料' },
-          { name: '新增生产资料' }
+          { name: '新增生产资料' },
+          { name: '生产资料详情' }
         ]
         resolve(auth)
       })

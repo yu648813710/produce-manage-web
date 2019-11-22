@@ -32,7 +32,7 @@
 import Vue from 'vue'
 import { Form, Row, Col, Select, Input, Button, Icon } from 'ant-design-vue'
 import { fieldsStep2 } from './config'
-import { produceMeansAdd } from '@/api/productManage'
+import { produceMeansAdd, produceMeansEdit } from '@/api/productManage'
 Vue.use(Form)
 Vue.use(Row)
 Vue.use(Col)
@@ -42,34 +42,60 @@ Vue.use(Button)
 Vue.use(Icon)
 export default {
   name: 'secondStep',
+  props: {
+    info: {
+      type: Object,
+      default: () => {
+        return null
+      }
+    }
+  },
   data() {
     return {
       fieldsStep2,
       form: this.$form.createForm(this, { name: 'secondStep' })
     }
   },
+  created() {
+    let self = this
+    if (this.info !== null) {
+      console.log('second-info:', this.info)
+      this.$nextTick(() => {
+        self.form.setFieldsValue({
+          field_actualProduction: self.info.realOutput,
+          field_sales: self.info.salesVolume,
+          field_salesQuota: self.info.salesValue
+        })
+      })
+    } else {
+      console.log('断言：此处 === null时，逻辑正常:', this.info)
+    }
+  },
   methods: {
     fetchAdd(params) {
       produceMeansAdd(params).then(res => {
-        console.log('新增：', res)
+        if (res && res.success === 'Y') {
+          this.$message.success(res.message)
+          history.go(-1)
+          return
+        }
+        this.$message.error(res.message)
       })
     },
-
-    // handleSubmit (e) {
-    //   e.preventDefault()
-    //   this.form.validateFields((err, values) => {
-    //     if (!err) {
-    //       const params = {
-    //         materialName: values.field_materialName === undefined || values.field_materialName === '' ? null : values.field_materialName,
-    //         farmingNum: values.field_farmingNum === undefined || values.field_farmingNum === '' ? null : values.field_farmingNum,
-    //         actionName: values.field_actionName === undefined || values.field_actionName === '' ? null : values.field_actionName,
-    //         planCycleName: values.field_planCycleName === undefined || values.field_planCycleName === '' ? null : values.field_planCycleName,
-    //         purchaseStatus: values.select_purchaseStatus === undefined || values.select_purchaseStatus === '' ? null : values.select_purchaseStatus
-    //       }
-    //       console.log('params:', params)
-    //     }
-    //   })
-    // },
+    fetchEdit(params) {
+      let postData = {
+        bizId: this.info.bizId,
+        ...params
+      }
+      produceMeansEdit(postData).then(res => {
+        if (res && res.success === 'Y') {
+          this.$message.success(res.message)
+          history.go(-1)
+          return
+        }
+        this.$message.error(res.message)
+      })
+    },
 
     handleSubmit(firstStepParams) {
       this.form.validateFields((err, values) => {
@@ -81,7 +107,14 @@ export default {
           }
           let newParams = Object.assign(firstStepParams, params)
           console.log('newParams:', newParams)
-          // this.fetchAdd(newParams)
+          //
+          if (this.info && this.info.bizId && this.info.bizId !== null) {
+            console.log('修改：bizId为：', this.info.bizId)
+            this.fetchEdit(newParams)
+            return
+          }
+          this.fetchAdd(newParams)
+          console.log('新增-断言:bizId不存在即为正常:', !!this.info && !!this.info.bizId)
         }
       })
     }

@@ -62,11 +62,11 @@
             <span slot="status" slot-scope="text, record" class="line-sp-sm">
               <a-switch checkedChildren="启用" unCheckedChildren="禁用" :defaultChecked="switchStatus(record.status)" @change="(e) => handleSwitchClick(e, record)"/>
             </span>
-            <template slot="operation" slot-scope="text, record" class="line-sp">
-              <span class="delete">拷贝</span>
-              <span class="delete viw">查看</span>
+            <a-row slot="operation" slot-scope="text, record" class="line-sp">
+              <span class="delete" @click="handleCopy(record)">拷贝</span>
+              <span class="delete viw" @click="handleDetail(record)">查看</span>
               <span class="delete" @click="handleDelete(record)">删除</span>
-            </template>
+            </a-row>
           </a-table>
         </div>
       </a-layout-content>
@@ -97,8 +97,7 @@ import {
   Switch
 } from 'ant-design-vue'
 import MyBreadCrumb from '@/components/crumbsNav/CrumbsNav'
-import { produceMeansList, putProduceMeansStatus } from '@/api/productManage'
-// import AddAction from './AddAction'
+import { produceMeansList, putProduceMeansStatus, produceMeansDelete } from '@/api/productManage'
 Vue.use(Layout)
 Vue.use(Input)
 Vue.use(Row)
@@ -158,7 +157,7 @@ export default {
       ],
       fetchParams: {},
       isDeleteVisible: false,
-      optionId: '',
+      bizId: '',
       switchStatus: (e) => e === 'Y'
     }
   },
@@ -172,18 +171,7 @@ export default {
       produceMeansList(postData).then(res => {
         this.loading = false
         if (res && res.success === 'Y') {
-          const temp = [
-            {
-              'bizId': '8d0decc0a7a76a4da8a9c55a2d923f32d9be',
-              'materialNum': 'Z2019111200210',
-              'materialName': '资料名称1',
-              'cultivation': '作物',
-              'status': 'Y',
-              'landowner': 'SYSTE',
-              'submitTime': '2019-11-13'
-            }
-          ]
-          this.list = temp || (res.data && res.data.records)
+          this.list = res.data && res.data.records
           const pagination = { ...this.pagination }
           pagination.total = res.data && res.data.total
           this.pagination = pagination
@@ -195,6 +183,7 @@ export default {
       putProduceMeansStatus(bizId, status).then(res => {
         if (res && res.success === 'Y') {
           this.$message.success(res.message)
+          this.fetchList(this.fetchParams)
           return
         }
         this.$message.error(res.message)
@@ -212,8 +201,7 @@ export default {
     },
 
     handleNewAction () {
-      // this.$refs.newAction.showModel()
-      this.$router.push({ path: '/addMeans' })
+      this.$router.push({ path: '/addMeans', query: { tag: 'new' } })
     },
 
     refreshList () {
@@ -260,11 +248,28 @@ export default {
     },
 
     handleDeleteOk() {
+      produceMeansDelete(this.bizId).then(res => {
+        if (res && res.success === 'Y') {
+          this.$message.success(res.message)
+          this.isDeleteVisible = false
+          this.fetchList(this.fetchParams)
+          return
+        }
+        this.$message.error(res.message)
+      })
     },
 
     handleDelete (record) {
-      this.optionId = record.optionId
+      this.bizId = record.bizId
       this.isDeleteVisible = true
+    },
+
+    handleCopy (record) {
+      this.$router.push({ path: '/addMeans', query: { bizId: record.bizId, tag: 'copy' } })
+    },
+
+    handleDetail (record) {
+      this.$router.push({ path: '/productionMeansDetail', query: { bizId: record.bizId } })
     }
   }
 }
