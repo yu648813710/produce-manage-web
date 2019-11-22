@@ -28,7 +28,6 @@
                 <div class="ant-upload-text">上传</div>
               </div>
             </a-upload>
-
             <span v-else-if="index === 7 || index === 8">
               <a-form-item style="display:inline-block;width:calc(100% - 20px)">
                 <a-input
@@ -54,6 +53,9 @@
               :disabled="!item.isEdit"
             />
           </a-form-item>
+          <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel" :maskStyle="{backgroundColor: 'transparent'}" destroyOnClose>
+            <img alt="example" style="width: 100%" :src="previewImage" />
+          </a-modal>
         </a-col>
       </a-row>
     </a-form>
@@ -61,8 +63,9 @@
 </template>
 <script>
 import Vue from 'vue'
-import { Form, Row, Col, Select, Input, Button, Icon, Upload } from 'ant-design-vue'
+import { Form, Row, Col, Select, Input, Button, Icon, Upload, Modal } from 'ant-design-vue'
 import { fieldsStep1 } from './config'
+import { getCurrentUserInfo } from '@/api/productManage'
 import axios from 'axios'
 import moment from 'moment'
 Vue.use(Form)
@@ -73,6 +76,7 @@ Vue.use(Input)
 Vue.use(Button)
 Vue.use(Icon)
 Vue.use(Upload)
+Vue.use(Modal)
 export default {
   name: 'firstStep',
   props: {
@@ -88,7 +92,9 @@ export default {
       fieldsStep1,
       form: this.$form.createForm(this, { name: 'firstStep' }),
       fileList: [],
-      uploadLoading: false
+      uploadLoading: false,
+      previewVisible: false,
+      previewImage: ''
     }
   },
   created() {
@@ -125,6 +131,7 @@ export default {
       })
     } else {
       console.log('断言：此处 === null时，逻辑正常:', this.info)
+      this.fetchCurrentUserInfo()
     }
   },
   mounted() {
@@ -135,6 +142,20 @@ export default {
   methods: {
     handleSubmit (e) {
       e.preventDefault()
+    },
+
+    fetchCurrentUserInfo() {
+      let self = this
+      getCurrentUserInfo().then(res => {
+        if (res && res.success === 'Y') {
+          self.$nextTick(() => {
+            self.form.setFieldsValue({
+              field_companyName: res.data.companyName,
+              field_belongIndustry: res.data.industry
+            })
+          })
+        }
+      })
     },
 
     handleNext() {
@@ -165,7 +186,6 @@ export default {
             cultivation: values.field_cropCultivation,
             landCertificate: files
           }
-          console.log('params:', params)
           pm = {
             isPass: true,
             params
@@ -175,7 +195,6 @@ export default {
         pm.isPass = false
         return pm
       })
-      console.log('iiiiiiiiiiiii:', pm)
       return pm
     },
 
