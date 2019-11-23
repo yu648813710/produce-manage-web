@@ -17,7 +17,11 @@ export default {
       name: 'GrowthMonitoringList',
       hidden: true,
       component: () => import('@/views/Production/growthMonitoring/earlyWarning/growthMonitoringList.vue'),
-      meta: { name: '地块监控列表', icon: '' }
+      meta: {
+        name: '地块监控列表',
+        icon: '',
+        nodeNo: 'RuleMonitoringList'
+      }
     },
     {
       path: '/RuleMonitoringList',

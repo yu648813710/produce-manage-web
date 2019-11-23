@@ -81,16 +81,17 @@ let vueData = new Vue({
   },
   watch: {
     parentData (val) {
-      console.log(val)
       if (val.iframeDataType === 'loginMessage') {
-        store.dispatch('Login', val.token)
-        this.$router.push('/')
+        store.commit('SET_PARENT_ROUTER', val.iframeRouterData) // 父级传权限路由
+        store.dispatch('Login', val.token).then(res => {
+          this.$router.push('/') // 进入第一条路由
+        }) // token
       }
     }
   },
   beforeCreate () {
     sendParentMassage()
-  },
+  }
 }).$mount('#app')
 // 注册接受 父级 消息事件
 receiveIframeMassage(vueData)
