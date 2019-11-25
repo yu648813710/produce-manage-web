@@ -412,3 +412,12 @@ export function getCurrentUserInfo () {
     method: 'GET'
   })
 }
+
+// 上传图片
+export function uploadImage(data) {
+  return axios({
+    url: '/produce/oss/fileUpload',
+    method: 'POST',
+    data: data
+  })
+}
