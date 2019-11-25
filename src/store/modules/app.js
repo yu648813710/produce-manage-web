@@ -159,6 +159,7 @@ function recursionRouter (DynamicRoutes = [], authList = []) {
   DynamicRoutes.forEach((v, i) => {
     authList.forEach((item, index) => {
       if (item.nodeNo === v.meta.nodeNo) {
+        // if (item.name === v.meta.name) {
         if (item.children && item.children.length > 0) {
           v.children = recursionRouter(v.children, item.children)
         }
