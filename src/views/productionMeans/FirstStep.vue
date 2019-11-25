@@ -65,8 +65,8 @@
 import Vue from 'vue'
 import { Form, Row, Col, Select, Input, Button, Icon, Upload, Modal } from 'ant-design-vue'
 import { fieldsStep1 } from './config'
-import { getCurrentUserInfo } from '@/api/productManage'
-import axios from 'axios'
+import { getCurrentUserInfo, uploadImage } from '@/api/productManage'
+// import axios from 'axios'
 import moment from 'moment'
 Vue.use(Form)
 Vue.use(Row)
@@ -215,14 +215,19 @@ export default {
       let self = this
       let formData = new FormData()
       formData.append('file', file)
-      axios
-        .post('http://172.21.128.125:9090/produce/oss/fileUpload', formData)
-        .then(res => {
+
+      uploadImage(formData)
+        .then((res) => {
           self.uploadLoading = false
-          if (res.data.success === 'Y') {
+          if (res.success === 'Y') {
             self.fileList[self.fileList.length - 1].status = 'done'
-            self.fileList[self.fileList.length - 1].url = res.data.data
+            self.fileList[self.fileList.length - 1].url = res.data
+            self.$emit('haveUploadImg', res.data)
           }
+        })
+        // eslint-disable-next-line handle-callback-err
+        .catch(err => {
+          self.$emit('haveUploadImg', '')
         })
     },
 
