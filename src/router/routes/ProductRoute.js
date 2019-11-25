@@ -44,8 +44,8 @@ export default {
       }
     },
     {
-      path: 'production',
-      name: 'production',
+      path: 'growth',
+      name: 'growth',
       component: () => import('@/views/Production/index.vue'),
       meta: {
         name: '生长监控',
