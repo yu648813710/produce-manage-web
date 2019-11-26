@@ -1,25 +1,18 @@
 const columns = [
   { title: '序号', scopedSlots: { customRender: 'id' }, key: 'id', align: 'center', width: 80 },
-  { title: '临时工姓名', dataIndex: 'userName', key: 'userName', align: 'center', width: 150 },
-  { title: '临时工手机号', dataIndex: 'phone', key: 'phone', align: 'center', width: 150 },
-  { title: '完成总工时（天）', dataIndex: 'workTimes', key: 'workTimes', align: 'center', width: 200 },
-  { title: '临时工薪酬（元/天）', dataIndex: 'payment', key: 'payment', align: 'center', width: 200 },
+  { title: '临时工姓名', scopedSlots: { customRender: 'userName' }, key: 'userName', align: 'center', width: 200 },
+  { title: '临时工手机号', scopedSlots: { customRender: 'phone' }, key: 'phone', align: 'center', width: 200 },
+  { title: '完成总工时（天）', scopedSlots: { customRender: 'workTimes' }, key: 'workTimes', align: 'center', width: 200 },
+  { title: '临时工薪酬（元/天）', scopedSlots: { customRender: 'payment' }, key: 'payment', align: 'center', width: 250 },
   { title: '状态', scopedSlots: { customRender: 'jobStatus' }, key: 'jobStatus', width: 100, align: 'center' },
   {
     title: '是否为贫困户',
-    dataIndex: 'povertyStatus',
+    scopedSlots: { customRender: 'povertyStatus' },
     key: 'povertyStatus',
     align: 'center',
-    width: 150,
-    customRender: text => {
-      if (text === 'Y') {
-        return '是'
-      } else if (text === 'N') {
-        return '否'
-      }
-    }
+    width: 200
   },
-  { title: '创建时间', dataIndex: 'gmtCreate', key: 'gmtCreate', align: 'center', width: 100 },
+  { title: '创建时间', dataIndex: 'gmtCreate', key: 'gmtCreate', align: 'center', width: 200 },
   { title: '创建人', dataIndex: 'createUserName', key: 'createUserName', align: 'center', width: 100 },
   { title: '操作', key: 'operation', scopedSlots: { customRender: 'operation' }, align: 'center', width: 200 }
 ]

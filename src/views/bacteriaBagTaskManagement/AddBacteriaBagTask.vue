@@ -47,6 +47,7 @@
                             :getPopupContainer="triggerNode => {
                               return triggerNode.parentNode || document.body;
                             }"
+                            :dropdownStyle="{textAlign: 'left'}"
                             style="width: 100%;"
                             :disabled="isEdit"
                             v-decorator="[
@@ -83,6 +84,7 @@
                             :getPopupContainer="triggerNode => {
                               return triggerNode.parentNode || document.body;
                             }"
+                            :dropdownStyle="{textAlign: 'left'}"
                             style="width: 100%;"
                             :disabled="isEdit"
                             v-decorator="[
@@ -119,6 +121,7 @@
                             :getPopupContainer="triggerNode => {
                               return triggerNode.parentNode || document.body;
                             }"
+                            :dropdownStyle="{textAlign: 'left'}"
                             style="width: 100%;"
                             :disabled="isEdit"
                             v-decorator="[
@@ -156,6 +159,7 @@
                             :getPopupContainer="triggerNode => {
                               return triggerNode.parentNode || document.body;
                             }"
+                            :dropdownStyle="{textAlign: 'left'}"
                             style="width: 100%;"
                             :disabled="isEdit"
                             v-decorator="[
@@ -305,6 +309,7 @@
                             :getPopupContainer="triggerNode => {
                               return triggerNode.parentNode || document.body;
                             }"
+                            :dropdownStyle="{textAlign: 'left'}"
                             style="width: 100%;"
                             v-decorator="[
                               `assignerId_${index}`,
