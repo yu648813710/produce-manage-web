@@ -5,7 +5,7 @@ const tableColumns = [
     align: 'center',
     width: 80
   },
-  { title: '农事计划编号', dataIndex: 'farmingNum' },
+  { title: '农事计划编号', dataIndex: 'farmingNum', width: 150 },
   {
     title: '农事操作',
     dataIndex: 'actionName',

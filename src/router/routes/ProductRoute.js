@@ -38,7 +38,7 @@ export default {
       name: 'taskManage',
       component: () => import('@/views/taskManageList/taskManageList.vue'),
       meta: {
-        name: '任务管理',
+        name: '木耳任务管理',
         icon: '',
         nodeNo: 'taskManage'
       }
@@ -268,7 +268,7 @@ export default {
       name: 'TraceabilityOfCultivation',
       component: () => import('@/views/traceabilityOfCultivation/TraceabilityOfCultivation.vue'),
       meta: {
-        name: '木耳栽培过程溯源',
+        name: '木耳溯源管理',
         icon: '',
         nodeNo: 'TraceabilityOfCultivation'
       }
@@ -311,7 +311,7 @@ export default {
       hidden: false,
       component: () => import('@/views/productionMeans'),
       meta: {
-        name: '生产资料',
+        name: '生产资料管理',
         icon: '',
         nodeNo: 'productionMeans'
       }
