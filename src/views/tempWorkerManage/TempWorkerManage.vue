@@ -89,8 +89,8 @@
             :style="{marginTop: '50px'}"
             :rowKey="(record, index) => index"
           >
-            <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
-            <span slot="jobStatus" slot-scope="text, record">
+            <span slot="id" slot-scope="text, record, index" class="line-sp-sm">{{index + 1}}</span>
+            <span slot="jobStatus" slot-scope="text, record" class="line-sp-sm">
               <a-switch
                 checkedChildren="在职"
                 unCheckedChildren="离职"
@@ -98,6 +98,11 @@
                 @change="handleChangeStatus(record)"
               />
             </span>
+            <span slot="userName" slot-scope="text, record" class="line-sp">{{record.userName}}</span>
+            <span slot="phone" slot-scope="text, record" class="line-sp">{{record.phone}}</span>
+            <span slot="workTimes" slot-scope="text, record" class="line-sp">{{record.workTimes}}</span>
+            <span slot="payment" slot-scope="text, record" class="line-sp-lg">{{record.payment}}</span>
+            <span slot="povertyStatus" slot-scope="text, record" class="line-sp">{{record.povertyStatus === 'Y' ? '是' : '否'}}</span>
             <span slot="operation" slot-scope="text, record">
               <a-button type="link" @click="toDetail(record)">查看</a-button>
               <a-button type="link" @click="handelEdit(record)" style="padding:0;">编辑</a-button>
@@ -475,7 +480,34 @@ export default {
     background: #fff;
     min-height: 360px;
     border-radius: 4px;
-
+    .line-sp-sm {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      width: 100px;
+    }
+    .line-sp-mid {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      width: 150px;
+    }
+    .line-sp {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      width: 200px;
+    }
+    .line-sp-lg {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      width: 250px;
+    }
     .add-button {
       position: absolute;
       right: 24px;
