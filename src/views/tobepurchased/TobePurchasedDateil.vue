@@ -43,16 +43,20 @@
             <span class="item-value">{{detail.blockLandName}}</span>
           </a-col>
           <a-col :span="12" class="detail-item">
+            <span class="item-key">农资描述：</span>
+            <span class="item-value">{{detail.materialDesc}}</span>
+          </a-col>
+          <!-- <a-col :span="12" class="detail-item">
             <span class="item-key">用途：</span>
             <span class="item-value">{{detail.materialUsage}}</span>
-          </a-col>
+          </a-col> -->
         </a-row>
-        <a-row :span="24">
+        <!-- <a-row :span="24">
           <a-col :span="24" class="detail-item">
             <span class="item-key">农资描述：</span>
             <span class="item-value">{{detail.materialDesc}}</span>
           </a-col>
-        </a-row>
+        </a-row> -->
       </div>
     </div>
   </div>
