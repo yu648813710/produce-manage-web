@@ -23,16 +23,16 @@ export default {
         nodeNo: 'RuleMonitoringList'
       }
     },
-    {
-      path: '/RuleMonitoringList',
-      name: 'RuleMonitoringList',
-      component: () => import('@/views/ruleEarlyWarning/ruleList.vue'),
-      meta: {
-        name: '地块预警规则列表',
-        icon: '',
-        nodeNo: 'RuleMonitoringList'
-      }
-    },
+    // {
+    //   path: '/RuleMonitoringList',
+    //   name: 'RuleMonitoringList',
+    //   component: () => import('@/views/ruleEarlyWarning/ruleList.vue'),
+    //   meta: {
+    //     name: '地块预警规则列表',
+    //     icon: '',
+    //     nodeNo: 'RuleMonitoringList'
+    //   }
+    // },
     {
       path: '/taskManage',
       name: 'taskManage',
@@ -50,7 +50,7 @@ export default {
       meta: {
         name: '生长监控',
         icon: '',
-        nodeNo: 'production'
+        nodeNo: 'growth'
       },
       children: [
         {
@@ -72,11 +72,10 @@ export default {
           meta: { name: '生长监控预警列表', icon: '', parentMenuName: 'growthMonitore' }
         },
         {
-          path: 'RuleMonitoringList',
+          path: '/RuleMonitoringList',
           name: 'RuleMonitoringList',
-          hidden: false,
-          component: () => import('@/views/Production/RuleList/index.vue'),
-          meta: { name: '加工车间预警规则列表', icon: '' }
+          component: () => import('@/views/ruleEarlyWarning/ruleList.vue'),
+          meta: { name: '地块预警规则列表', icon: '' }
         }
       ]
     },
@@ -84,7 +83,10 @@ export default {
       path: 'production',
       name: 'production',
       component: () => import('@/views/Production/index.vue'),
-      meta: { name: '生产监控', icon: '' },
+      meta: {
+        name: '生产监控', icon: '',
+        nodeNo: 'production'
+      },
       children: [
         {
           path: 'produceMonitore',
