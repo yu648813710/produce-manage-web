@@ -172,7 +172,7 @@ export default {
       name: 'outgoingmanagement',
       component: () => import('@/views/outgoingManagement/OutgoingManagement.vue'),
       meta: {
-        name: '出库管理',
+        name: '出库批次管理',
         icon: '',
         nodeNo: 'outgoingmanagement'
       }
