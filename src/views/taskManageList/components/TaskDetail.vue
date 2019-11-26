@@ -114,7 +114,7 @@
                 detailData.extendData.packWeight
                   ? detailData.extendData.packWeight
                   : '--'
-              }}
+              }}{{ detailData.extendData.packUnitName }}
             </p>
           </div>
         </template>
@@ -136,7 +136,7 @@
                 detailData.extendData.weight
                   ? detailData.extendData.weight
                   : '--'
-              }}
+              }}{{ detailData.extendData.unitName }}
             </p>
           </div>
           <div class="item">
@@ -197,8 +197,10 @@
             <p>
               <span>存储周期：</span>
               {{
-                detailData.extendData.cycle ? detailData.extendData.cycle : '--'
-              }}
+                detailData.extendData.cycle
+                  ? detailData.extendData.cycle
+                  : '--'
+              }}月
             </p>
             <p>
               <span>存储温度：</span>
@@ -206,7 +208,7 @@
                 detailData.extendData.temperature
                   ? detailData.extendData.temperature
                   : '--'
-              }}
+              }}℃
             </p>
           </div>
           <div class="item">
@@ -216,7 +218,7 @@
                 detailData.extendData.humidity
                   ? detailData.extendData.humidity
                   : '--'
-              }}
+              }}%
             </p>
           </div>
         </template>
