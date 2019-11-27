@@ -165,24 +165,42 @@ export default {
         params: {}
       }
       this.form.validateFields((err, values) => {
-        console.log('fileeeeeeee:', values)
         if (!err) {
           let files = []
+          let tempFiles = []
+          let idx = 0
           if (values.upload_landTrulyProve) {
             if (values.upload_landTrulyProve.fileList && values.upload_landTrulyProve.fileList.length > 0) {
               values.upload_landTrulyProve.fileList.forEach(item => {
                 if (item.url && item.url !== null) {
                   files.push(item.url)
+                  idx += 1
+                  let temp = {
+                    uid: moment(new Date()).format('YYYY-MM-DDhh:mm:ss') + `img-${idx}`,
+                    name: `img-${idx}`,
+                    status: 'done',
+                    url: item.url
+                  }
+                  tempFiles.push(temp)
                 }
               })
             } else if (values.upload_landTrulyProve.length > 0) {
               values.upload_landTrulyProve.forEach(item => {
                 if (item.url && item.url !== null) {
                   files.push(item.url)
+                  idx += 1
+                  let temp = {
+                    uid: moment(new Date()).format('YYYY-MM-DDhh:mm:ss') + `img-${idx}`,
+                    name: `img-${idx}`,
+                    status: 'done',
+                    url: item.url
+                  }
+                  tempFiles.push(temp)
                 }
               })
             }
           }
+          this.fileList = tempFiles
           const params = {
             materialName: values.field_meansName,
             enterpriseName: values.field_companyName || '',

@@ -80,7 +80,6 @@ export default {
         return
       }
       const pm = this.$refs.validatorFirstStep.handleNext()
-      console.log('pmmmmm:', pm)
       if (pm && pm.isPass === true) {
         this.currentStep = 1
         this.firstStepParam = pm.params
