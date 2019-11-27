@@ -367,3 +367,11 @@ export const batchCode = (productId, data) => {
     data
   })
 }
+
+// 待采购详情
+export const waitpurchasedetail = (bizId) => {
+  return axios({
+    url: `/produce/purchase/waitpurchasedetail/${bizId}`,
+    method: 'GET'
+  })
+}

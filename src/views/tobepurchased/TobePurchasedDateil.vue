@@ -66,6 +66,7 @@ import Vue from 'vue'
 import { Row, Col } from 'ant-design-vue'
 import CrumbsNav from '@/components/crumbsNav/CrumbsNav' // 面包屑
 import { dateilCrumbsArr } from './config.js'
+import { waitpurchasedetail } from '@/api/farmPlan.js'
 Vue.use(Row)
 Vue.use(Col)
 export default {
@@ -75,8 +76,20 @@ export default {
   },
   data () {
     return {
-      detail: this.$route.params,
+      detail: {},
       dateilCrumbsArr
+    }
+  },
+  created() {
+    this.fetchDetail()
+  },
+  methods: {
+    fetchDetail() {
+      waitpurchasedetail(this.$route.params.bizId).then(res => {
+        if (res && res.success === 'Y') {
+          this.detail = res.data
+        }
+      })
     }
   }
 }

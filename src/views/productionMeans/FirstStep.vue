@@ -165,14 +165,23 @@ export default {
         params: {}
       }
       this.form.validateFields((err, values) => {
+        console.log('fileeeeeeee:', values)
         if (!err) {
           let files = []
-          if (values.upload_landTrulyProve.fileList && values.upload_landTrulyProve.fileList.length > 0) {
-            values.upload_landTrulyProve.fileList.forEach(item => {
-              if (item.url && item.url !== null) {
-                files.push(item.url)
-              }
-            })
+          if (values.upload_landTrulyProve) {
+            if (values.upload_landTrulyProve.fileList && values.upload_landTrulyProve.fileList.length > 0) {
+              values.upload_landTrulyProve.fileList.forEach(item => {
+                if (item.url && item.url !== null) {
+                  files.push(item.url)
+                }
+              })
+            } else if (values.upload_landTrulyProve.length > 0) {
+              values.upload_landTrulyProve.forEach(item => {
+                if (item.url && item.url !== null) {
+                  files.push(item.url)
+                }
+              })
+            }
           }
           const params = {
             materialName: values.field_meansName,

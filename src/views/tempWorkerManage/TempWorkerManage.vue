@@ -86,6 +86,7 @@
             :pagination="pagination"
             :loading="loading"
             @change="handleTableChange"
+            :scroll="{ x: 1730 }"
             :style="{marginTop: '50px'}"
             :rowKey="(record, index) => index"
           >
@@ -102,8 +103,10 @@
             <span slot="phone" slot-scope="text, record" class="line-sp">{{record.phone}}</span>
             <span slot="workTimes" slot-scope="text, record" class="line-sp">{{record.workTimes}}</span>
             <span slot="payment" slot-scope="text, record" class="line-sp-lg">{{record.payment}}</span>
+            <span slot="gmtCreate" slot-scope="text, record" class="line-sp-lg">{{record.gmtCreate}}</span>
+            <span slot="createUserName" slot-scope="text, record" class="line-sp-sm">{{record.createUserName}}</span>
             <span slot="povertyStatus" slot-scope="text, record" class="line-sp">{{record.povertyStatus === 'Y' ? '是' : '否'}}</span>
-            <span slot="operation" slot-scope="text, record">
+            <span slot="operation" slot-scope="text, record" class="line-sp">
               <a-button type="link" @click="toDetail(record)">查看</a-button>
               <a-button type="link" @click="handelEdit(record)" style="padding:0;">编辑</a-button>
               <a-button
