@@ -36,7 +36,7 @@ export default {
   display: none;
 }
 .ant-empty-description {
-  margin-top: 100px;
+  margin-top: 100px !important;
 }
 .ant-layout {
   background: none !important;
