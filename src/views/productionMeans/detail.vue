@@ -80,6 +80,7 @@ export default {
       produceMeansDetail(this.$route.query.bizId).then(res => {
         console.log('查询详情：', res)
         if (res && res.success === 'Y') {
+          this.list[0].value = res.data.materialNum
           this.list[1].value = res.data.enterpriseName
           this.list[2].value = res.data.industry
           this.list[3].value = res.data.enterpriseAddress
