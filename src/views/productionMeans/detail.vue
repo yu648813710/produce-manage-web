@@ -12,8 +12,8 @@
             style="padding: 0"
           >
           <div v-if="index === (list.length - 2) || index === (list.length - 1)" :class="index % 2 === 0 ? 'row-img' : 'row-img-sp'">
-            <span><img :src="item.label" alt="img"></span>
-            <span><img :src="item.value" alt="img"></span>
+            <span><img v-if="item.label" :src="item.label" alt="img"></span>
+            <span><img v-if="item.value" :src="item.value" alt="img"></span>
           </div>
           <div v-else :class="index % 2 === 0 ? 'row-item' : 'row-item-sp'">
             <span>{{item.label}}</span>
