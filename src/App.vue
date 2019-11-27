@@ -32,6 +32,9 @@ export default {
   line-height: 230px;
   margin-top: 30px;
 }
+.ant-table-fixed-columns-in-body {
+  visibility: initial !important;
+}
 .ant-layout {
   background: none !important;
 }

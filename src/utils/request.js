@@ -24,10 +24,10 @@ const err = (error) => {
   if (error.response) {
     const data = error.response.data
     if (error.response.status === 403) {
-      message.success('测试全局提示')
+      // message.success('测试全局提示')
     }
     if (error.response.status === 401 && !(data.result && data.result.isLogin)) {
-      message.success('测试全局提示')
+      // message.success('测试全局提示')
     }
   }
   store.commit('UPDATE_LOADING', false)
