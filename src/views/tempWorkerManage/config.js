@@ -12,9 +12,9 @@ const columns = [
     align: 'center',
     width: 200
   },
-  { title: '创建时间', dataIndex: 'gmtCreate', key: 'gmtCreate', align: 'center', width: 200 },
-  { title: '创建人', dataIndex: 'createUserName', key: 'createUserName', align: 'center', width: 100 },
-  { title: '操作', key: 'operation', scopedSlots: { customRender: 'operation' }, align: 'center', width: 200 }
+  { title: '创建时间', scopedSlots: { customRender: 'gmtCreate' }, key: 'gmtCreate', align: 'center', width: 200 },
+  { title: '创建人', scopedSlots: { customRender: 'createUserName' }, key: 'createUserName', align: 'center', width: 100 },
+  { title: '操作', key: 'operation', scopedSlots: { customRender: 'operation' }, align: 'center', width: 200, fixed: 'right' }
 ]
 const detailColumns = [
   { title: '序号', scopedSlots: { customRender: 'id' }, key: 'id' },

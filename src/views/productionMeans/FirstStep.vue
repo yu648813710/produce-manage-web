@@ -10,25 +10,26 @@
           <a-form-item>
             <span v-if="index === 7 || index === 8" slot="label" style="color: red">*<span style="color: #000">{{item.label}}</span></span>
             <span v-else slot="label">{{item.label}}</span>
-            <a-upload
-              v-if="index === (fieldsStep1.length - 1)"
-              :customRequest="selfUpload"
-              :beforeUpload="beforeUpload"
-              listType="picture-card"
-              :fileList="fileList"
-              :showUploadList="true"
-              @preview="handlePreview"
-              @change="handleChange"
-              v-decorator="[`upload_${item.id}`, {
-                rules: item.validators
-              }]"
-            >
-              <div v-if="fileList.length < 5">
-                <a-icon :type="uploadLoading ? 'loading' : 'plus'" />
-                <div class="ant-upload-text">上传</div>
-              </div>
-            </a-upload>
-            <p v-if="index === (fieldsStep1.length - 1)" style="color: #D1D8E3">图片不超过5M,支持jpg、jpeg、png格式</p>
+            <div v-if="index === (fieldsStep1.length - 1)" class="up-div">
+              <a-upload
+                :customRequest="selfUpload"
+                :beforeUpload="beforeUpload"
+                listType="picture-card"
+                :fileList="fileList"
+                :showUploadList="true"
+                @preview="handlePreview"
+                @change="handleChange"
+                v-decorator="[`upload_${item.id}`, {
+                  rules: item.validators
+                }]"
+              >
+                <div v-if="fileList.length < 5">
+                  <a-icon :type="uploadLoading ? 'loading' : 'plus'" />
+                  <div class="ant-upload-text">上传</div>
+                </div>
+              </a-upload>
+              <p style="color: #D1D8E3">图片不超过5M,支持jpg、jpeg、png格式</p>
+            </div>
             <span v-else-if="index === 7 || index === 8">
               <a-form-item style="display:inline-block;width:calc(100% - 20px)">
                 <a-input
@@ -167,13 +168,40 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           let files = []
-          if (values.upload_landTrulyProve.fileList && values.upload_landTrulyProve.fileList.length > 0) {
-            values.upload_landTrulyProve.fileList.forEach(item => {
-              if (item.url && item.url !== null) {
-                files.push(item.url)
-              }
-            })
+          let tempFiles = []
+          let idx = 0
+          if (values.upload_landTrulyProve) {
+            if (values.upload_landTrulyProve.fileList && values.upload_landTrulyProve.fileList.length > 0) {
+              values.upload_landTrulyProve.fileList.forEach(item => {
+                if (item.url && item.url !== null) {
+                  files.push(item.url)
+                  idx += 1
+                  let temp = {
+                    uid: moment(new Date()).format('YYYY-MM-DDhh:mm:ss') + `img-${idx}`,
+                    name: `img-${idx}`,
+                    status: 'done',
+                    url: item.url
+                  }
+                  tempFiles.push(temp)
+                }
+              })
+            } else if (values.upload_landTrulyProve.length > 0) {
+              values.upload_landTrulyProve.forEach(item => {
+                if (item.url && item.url !== null) {
+                  files.push(item.url)
+                  idx += 1
+                  let temp = {
+                    uid: moment(new Date()).format('YYYY-MM-DDhh:mm:ss') + `img-${idx}`,
+                    name: `img-${idx}`,
+                    status: 'done',
+                    url: item.url
+                  }
+                  tempFiles.push(temp)
+                }
+              })
+            }
           }
+          this.fileList = tempFiles
           const params = {
             materialName: values.field_meansName,
             enterpriseName: values.field_companyName || '',
@@ -255,6 +283,10 @@ export default {
   margin-bottom: 10px;
   border-radius: 4px;
   .form-fields {
+    .up-div {
+      display: flex;
+      flex-direction: column;
+    }
     .ant-form-item {
       text-align: left;
     }
