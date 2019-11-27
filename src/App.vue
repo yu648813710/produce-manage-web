@@ -32,6 +32,12 @@ export default {
   line-height: 230px;
   margin-top: 30px;
 }
+.ant-empty-image {
+  display: none;
+}
+.ant-empty-description {
+  margin-top: 100px;
+}
 .ant-layout {
   background: none !important;
 }
