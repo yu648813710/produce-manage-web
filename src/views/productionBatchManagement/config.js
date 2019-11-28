@@ -7,7 +7,6 @@ const columns = [
   { title: '采摘量（斤）', dataIndex: 'amount', key: 'amount', align: 'center' }
 ]
 const crumbsArr = [
-  { name: '当前位置', back: false, path: '' },
   { name: '生产管理', back: false, path: '' },
   { name: '生产批次管理', back: false, path: '' }
 ]

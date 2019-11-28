@@ -28,7 +28,7 @@
                   <div class="ant-upload-text">上传</div>
                 </div>
               </a-upload>
-              <p style="color: #D1D8E3">图片不超过5M,支持jpg、jpeg、png格式</p>
+              <p style="font-size:12px;color:#ccc;">支持JPG、JPEG、PNG格式，不超过5M</p>
             </div>
             <span v-else-if="index === 7 || index === 8">
               <a-form-item style="display:inline-block;width:calc(100% - 20px)">

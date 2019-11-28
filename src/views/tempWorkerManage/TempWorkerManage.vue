@@ -10,17 +10,17 @@
           <a-form :form="searchForm" @submit="searchList">
             <a-row :gutter="40">
               <a-col :span="8">
-                <a-form-item label="临时工姓名">
+                <a-form-item label="临时工姓名" :colon="false">
                   <a-input autocomplete="off" placeholder="请输入" v-model="searchParams.userName"/>
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item label="临时工手机号">
+                <a-form-item label="临时工手机号" :colon="false">
                   <a-input autocomplete="off" placeholder="请输入" v-model="searchParams.phone"/>
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item label="状态">
+                <a-form-item label="状态" :colon="false">
                   <a-select
                     placeholder="请选择"
                     :allowClear="true"
@@ -44,7 +44,7 @@
             </a-row>
             <a-row :gutter="40" v-show="upDownStatue">
               <a-col :span="8">
-                <a-form-item label="是否是贫困户">
+                <a-form-item label="是否是贫困户" :colon="false">
                   <a-select
                     placeholder="请选择"
                     :allowClear="true"

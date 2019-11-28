@@ -15,7 +15,7 @@
           >
             <a-row :gutter="40">
               <a-col :span="8">
-                <a-form-item label="出库时间">
+                <a-form-item label="出库时间" :colon="false">
                   <a-date-picker
                   placeholder="请选择"
                   :getCalendarContainer="triggerNode => {
@@ -29,7 +29,7 @@
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item label="出库人">
+                <a-form-item label="出库人" :colon="false">
                   <a-input
                     placeholder="请输入出库人"
                     autocomplete="off"
@@ -38,7 +38,7 @@
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item label="菌包名称">
+                <a-form-item label="菌包名称" :colon="false">
                   <a-input
                     placeholder="请输入菌包名称"
                     autocomplete="off"

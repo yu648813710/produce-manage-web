@@ -31,12 +31,10 @@ const detailColumns = [
   { title: '操作', key: 'operation', scopedSlots: { customRender: 'operation' }, align: 'center' }
 ]
 const crumbsArr = [
-  { name: '当前位置', back: false, path: '' },
   { name: '生产管理', back: false, path: '' },
   { name: '临时工管理', back: false, path: '' }
 ]
 const detailCrumbsArr = [
-  { name: '当前位置', back: false, path: '' },
   { name: '生产管理', back: false, path: '' },
   { name: '临时工管理', back: true, path: '/tempWorkerManage' },
   { name: '临时工详情', back: false, path: '' }

@@ -12,13 +12,11 @@ const columns = [
   { title: '操作', key: 'operation', scopedSlots: { customRender: 'operation' }, align: 'center', fixed: 'right', width: 300 }
 ]
 const crumbsArr = [
-  { name: '当前位置', back: false, path: '' },
   { name: '生产管理', back: false, path: '' },
   { name: '溯源服务', back: false, path: '' },
   { name: '木耳栽培过程溯源', back: false, path: '' }
 ]
 const dateilCrumbsArr = [
-  { name: '当前位置', back: false, path: '' },
   { name: '生产管理', back: false, path: '' },
   { name: '溯源服务', back: false, path: '' },
   { name: '木耳栽培过程溯源', back: true, path: '/traceabilityofcultivation' },

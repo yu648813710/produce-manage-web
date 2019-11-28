@@ -39,7 +39,7 @@ export default {
     this.$message.config({
       top: ``,
       duration: 2,
-      maxCount: 3
+      maxCount: 1
     })
   },
   components: { SideMenu },

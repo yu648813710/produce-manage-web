@@ -13,7 +13,7 @@
           >
             <a-row :gutter="40">
               <a-col :span="8">
-                <a-form-item label="生产批次号">
+                <a-form-item label="生产批次号" :colon="false">
                   <a-input
                     autocomplete="off"
                     placeholder="请输入生产批次号"
@@ -22,7 +22,7 @@
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item label="产品名称">
+                <a-form-item label="产品名称" :colon="false">
                   <a-input
                     autocomplete="off"
                     placeholder="请输入产品名称"
@@ -31,7 +31,7 @@
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item label="采收人">
+                <a-form-item label="采收人" :colon="false">
                   <a-input
                     autocomplete="off"
                     placeholder="请输入采收人"
