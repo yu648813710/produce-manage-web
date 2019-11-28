@@ -8,7 +8,7 @@
             <a-row :gutter="40">
               <!-- 资料名称 -->
               <a-col :span="8">
-                <a-form-item label="资料名称">
+                <a-form-item label="资料名称" :colon="false">
                   <a-input
                     placeholder="请输入资料名称"
                     autocomplete="off"
@@ -21,7 +21,7 @@
               </a-col>
               <!-- 土地所有人 -->
               <a-col :span="8">
-                <a-form-item label="土地所有人">
+                <a-form-item label="土地所有人" :colon="false">
                   <a-input
                     placeholder="请输入土地所有人"
                     autocomplete="off"
@@ -151,7 +151,6 @@ export default {
       form: this.$form.createForm(this, { name: 'productAction' }),
       farmingTypes,
       crumbsArr: [
-        { name: '当前位置', back: false, path: '' },
         { name: '生产管理', back: false, path: '' },
         { name: '生产资料', back: false, path: '' }
       ],

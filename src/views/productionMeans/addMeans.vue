@@ -49,7 +49,6 @@ export default {
   data() {
     return {
       crumbsArr: [
-        { name: '当前位置', back: false, path: '' },
         { name: '生产管理', back: false, path: '' },
         { name: '生产资料', back: true, path: '/productionMeans' },
         { name: '新增生产资料', back: false, path: '' }

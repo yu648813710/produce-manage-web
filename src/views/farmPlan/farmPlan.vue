@@ -245,11 +245,6 @@ export default {
       downUpSearch: true,
       crumbsArr: [
         {
-          name: '当前位置',
-          back: false,
-          path: ''
-        },
-        {
           name: '生产管理',
           back: false,
           path: ''

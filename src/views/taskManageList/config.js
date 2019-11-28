@@ -61,7 +61,6 @@ const tableColumns = [
   {
     title: '负责人',
     dataIndex: 'assigner',
-    width: 130
   },
   {
     title: '操作',
@@ -73,11 +72,6 @@ const tableColumns = [
 ]
 
 const crumbsArr = [
-  {
-    name: '当前位置',
-    back: false,
-    path: ''
-  },
   {
     name: '生产管理',
     back: false,

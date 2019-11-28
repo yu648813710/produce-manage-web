@@ -8,7 +8,6 @@ const columns = [
   { title: '出库人', dataIndex: 'deliveryUserName', key: 'deliveryUserName' }
 ]
 const crumbsArr = [
-  { name: '当前位置', back: false, path: '' },
   { name: '生产管理', back: false, path: '' },
   { name: '出库管理', back: false, path: '' }
 ]
