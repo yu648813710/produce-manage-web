@@ -61,6 +61,8 @@ const tableColumns = [
   {
     title: '负责人',
     dataIndex: 'assigner',
+    width: 200,
+    align: 'center'
   },
   {
     title: '操作',
