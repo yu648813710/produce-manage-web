@@ -10,7 +10,7 @@
       <a-form :form="sreachForm">
         <a-row :gutter="40">
           <a-col :span="8">
-            <a-form-item label="车间名称">
+            <a-form-item label="车间名称" :colon="false">
               <a-input
                 autocomplete="off"
                 placeholder="请输入"
@@ -22,7 +22,7 @@
             </a-form-item>
           </a-col>
           <a-col :span="8">
-            <a-form-item label="负责人">
+            <a-form-item label="负责人" :colon="false">
               <a-select placeholder="请选择"
                 :getPopupContainer="triggerNode => {
                   return triggerNode.parentNode || document.body;
@@ -184,7 +184,8 @@ export default {
       dataEdit: {},
       isEdit: false,
       visibleDelete: false,
-      blockLandId: ''
+      blockLandId: '',
+      indicatorId: ''
     }
   },
   created () {
@@ -275,8 +276,10 @@ export default {
     },
     // 删除
     showDeleteModal (text) {
+      console.log('text: ', text)
       this.visibleDelete = true
-      if (text.blockLandId) {
+      if (text.indicatorId) {
+        this.indicatorId = text.indicatorId
         this.blockLandId = text.blockLandId
       }
     },
@@ -300,8 +303,8 @@ export default {
     },
     // 删除确认
     handleDelOk () {
-      if (this.blockLandId) {
-        removeWarning(this.blockLandId)
+      if (this.indicatorId) {
+        removeWarning(this.indicatorId)
           .then(res => {
             console.log(res)
             this.visibleDelete = false

@@ -122,10 +122,10 @@ export const postAddWarningRule = (data) => {
   })
 }
 // 删除加工车间监控规则信息
-export const removeWarning = (blockLandId) => {
+export const removeWarning = (indicatorId) => {
   return axios({
-    url: `/produce/produce/monitor/rule/removeWarning?blockLandId=${blockLandId}`,
-    method: 'get'
+    url: `/produce/produce/monitor/rule/removeWarning/${indicatorId}`,
+    method: 'DELETE'
   })
 }
 // 出库管理列表查询

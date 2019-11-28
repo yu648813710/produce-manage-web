@@ -24,10 +24,10 @@ const err = (error) => {
   if (error.response) {
     const data = error.response.data
     if (error.response.status === 403) {
-      // message.success('测试全局提示')
+      message.error(error.response.message)
     }
     if (error.response.status === 401 && !(data.result && data.result.isLogin)) {
-      // message.success('测试全局提示')
+      message.error(error.response.message)
     }
   }
   store.commit('UPDATE_LOADING', false)
@@ -39,7 +39,7 @@ service.interceptors.request.use(config => {
   store.commit('UPDATE_LOADING', true)
   const token = store.getters.userToken
   if (token) {
-    config.headers['Authorization'] = token // 让每个请求携带自定义 token 请根据实际情况自行修改
+    config.headers['Access-Token'] = token // 让每个请求携带自定义 token 请根据实际情况自行修改
   }
   return config
 }, err)
