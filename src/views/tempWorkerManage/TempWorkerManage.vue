@@ -184,7 +184,7 @@ export default {
       statusArr,
       ifArr,
       ruleForm: '',
-      upDownStatue: true,
+      upDownStatue: false,
       pagination: {
         current: 1,
         pageSize: 10,
