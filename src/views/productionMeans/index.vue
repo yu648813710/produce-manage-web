@@ -8,7 +8,7 @@
             <a-row :gutter="40">
               <!-- 资料名称 -->
               <a-col :span="8">
-                <a-form-item label="资料名称">
+                <a-form-item label="资料名称" :colon="false">
                   <a-input
                     placeholder="请输入资料名称"
                     autocomplete="off"
@@ -21,7 +21,7 @@
               </a-col>
               <!-- 土地所有人 -->
               <a-col :span="8">
-                <a-form-item label="土地所有人">
+                <a-form-item label="土地所有人" :colon="false">
                   <a-input
                     placeholder="请输入土地所有人"
                     autocomplete="off"
@@ -57,7 +57,7 @@
             <span slot="materialNum" slot-scope="text, record" class="line-sp" :title="record.materialNum">{{record.materialNum}}</span>
             <span slot="materialName" slot-scope="text, record" class="line-sp" :title="record.materialName">{{record.materialName}}</span>
             <span slot="cultivation" slot-scope="text, record" class="line-sp-sm" :title="record.cultivation">{{record.cultivation}}</span>
-            <span slot="landowner" slot-scope="text, record" class="line-sp-sm" :title="record.landowner">{{record.landowner}}</span>
+            <span slot="landowner" slot-scope="text, record" class="line-sp" :title="record.landowner">{{record.landowner}}</span>
             <span slot="submitTime" slot-scope="text, record" class="line-sp" :title="record.submitTime">{{record.submitTime}}</span>
             <span slot="status" slot-scope="text, record" class="line-sp-sm">
               <a-switch checkedChildren="启用" unCheckedChildren="禁用" :defaultChecked="switchStatus(record.status)" @change="(e) => handleSwitchClick(e, record)"/>
@@ -115,7 +115,7 @@ const columns = [
   { title: '资料名称', key: 'materialName', scopedSlots: { customRender: 'materialName' }, width: 200 },
   { title: '栽培作物', key: 'cultivation', scopedSlots: { customRender: 'cultivation' }, width: 100 },
   { title: '状态', key: 'status', scopedSlots: { customRender: 'status' }, width: 100 },
-  { title: '土地所有人', key: 'landowner', scopedSlots: { customRender: 'landowner' }, width: 100 },
+  { title: '土地所有人', key: 'landowner', scopedSlots: { customRender: 'landowner' }, width: 200 },
   { title: '提交时间', key: 'submitTime', scopedSlots: { customRender: 'submitTime' }, width: 200 },
   { title: '操作', key: 'operation', scopedSlots: { customRender: 'operation' }, width: 200, fixed: 'right', align: 'center' }
 ]
@@ -151,7 +151,6 @@ export default {
       form: this.$form.createForm(this, { name: 'productAction' }),
       farmingTypes,
       crumbsArr: [
-        { name: '当前位置', back: false, path: '' },
         { name: '生产管理', back: false, path: '' },
         { name: '生产资料', back: false, path: '' }
       ],

@@ -93,10 +93,10 @@ export function setRule (data) {
 }
 
 // 删除预警规则
-export function deleteRule (id) {
+export function deleteRule (indicatorId) {
   return axios({
-    url: `/produce/produce/monitor/rule/removeWarning?blockLandId=${id}`,
-    method: 'GET'
+    url: `/produce/produce/monitor/rule/removeWarning/${indicatorId}`,
+    method: 'DELETE'
   })
 }
 
@@ -410,5 +410,14 @@ export function getCurrentUserInfo () {
   return axios({
     url: '/produce/enterprise/material/company',
     method: 'GET'
+  })
+}
+
+// 上传图片
+export function uploadImage(data) {
+  return axios({
+    url: '/produce/oss/fileUpload',
+    method: 'POST',
+    data: data
   })
 }

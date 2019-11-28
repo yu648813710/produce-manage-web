@@ -24,7 +24,6 @@ const router = new Router({
   routes: ConstantRoute
 })
 router.beforeEach((to, form, next) => {
-  console.log(DynamicRoute)
   NProgress.start()
   to.meta &&
     (typeof to.meta.name !== 'undefined' &&
@@ -46,7 +45,11 @@ router.beforeEach((to, form, next) => {
             let MainRoute = DynamicRoute.find(v => v.path === '/')
             MainRoute.children.push(...routes)
             router.addRoutes(DynamicRoute)
-            next({ ...to })
+            if (to.path === '/') {
+              next(store.getters.ShowRouter[0].path)
+            } else {
+              next({ ...to })
+            }
           }).catch(res => {
             console.log(res)
           })

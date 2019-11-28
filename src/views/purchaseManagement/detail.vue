@@ -50,10 +50,9 @@ export default {
     return {
       list,
       crumbsArr: [
-        { name: '当前位置', back: false, path: '' },
         { name: '数据管理', back: false, path: '' },
-        { name: '采购管理', back: false, path: '' },
-        { name: '详情', back: false, path: '' }
+        { name: '采购管理', back: true, path: '/purchaseManagement' },
+        { name: '采购管理详情', back: false, path: '' }
       ],
       bizId: this.$route.query.bizId
     }

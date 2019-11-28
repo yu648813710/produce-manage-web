@@ -15,9 +15,10 @@
         <a-row :gutter="24" type="flex">
           <a-col :span="8">
             <a-form-item
-              label="地块名称:"
-              :label-col="{ span: 6 }"
-              :wrapper-col="{ span: 18 }"
+              label="地块名称"
+              :colon="false"
+              :label-col="{ span: 24 }"
+              :wrapper-col="{ span: 24 }"
             >
               <a-input
                 autocomplete="off"
@@ -73,7 +74,7 @@
                 >
                 <span
                   style="color:#1890ff; cursor: pointer"
-                  @click="shwoDeteleModal(record.blockLandId)"
+                  @click="shwoDeteleModal(record)"
                   >删除</span
                 >
               </div>
@@ -185,6 +186,7 @@ export default {
       deteleVisible: false,
       baseLandData: [],
       blockLandData: [],
+      indicatorId: '',
       formInputVal: {
         user: '', // 负责人
         temperatureInf: '', // 起始温度
@@ -203,11 +205,6 @@ export default {
       },
       blockLandId: '',
       crumbsArr: [
-        {
-          name: '当前位置',
-          back: false,
-          path: ''
-        },
         {
           name: '生产管理',
           back: false,
@@ -240,9 +237,10 @@ export default {
       this.ruleForm = ruleForm
     },
     // 显示删除弹窗
-    shwoDeteleModal(id) {
+    shwoDeteleModal(record) {
+      this.indicatorId = record.indicatorId
+      console.log('record: ',record)
       this.deteleVisible = true
-      this.blockLandId = id
     },
     // 消失删除弹窗
     deteleHandleCancel() {
@@ -274,12 +272,16 @@ export default {
         }
         let data = []
         data[0] = {
+          farmType: 'gh',
+          indicatorId: this.indicatorId,
           blockLandId: this.formSelectVal.blockLandId, // 地块id
           indicatorInf: this.formInputVal.temperatureInf, // 指标下限值
           indicatorName: 'temperature', // 默认值为 temperature:温度，dampness:湿度，co2_concentration:二氧化碳浓度
           indicatorSup: this.formInputVal.temperatureSup // 指标上限值
         }
         data[1] = {
+          farmType: 'gh',
+          indicatorId: this.indicatorId,
           blockLandId: this.formSelectVal.blockLandId, // 地块id
           indicatorInf: this.formInputVal.dampnessInf, // 指标下限值
           indicatorName: 'dampness', // 默认值为 temperature:温度，dampness:湿度，co2_concentration:二氧化碳浓度
@@ -366,12 +368,13 @@ export default {
     },
     // 编辑事件
     editRuleEvent(data) {
+      console.log('data: ',data)
       this.showModal()
       this.formInputVal.temperatureInf = data.temperatureInf
       this.formInputVal.temperatureSup = data.temperatureSup
       this.formInputVal.dampnessInf = data.dampnessInf
       this.formInputVal.dampnessSup = data.dampnessSup
-
+      this.indicatorId = data.indicatorId
       this.formSelectVal.baseLandId = data.baseLandId
 
       this.formSelectVal.blockLandId = data.blockLandId
@@ -399,7 +402,7 @@ export default {
     },
     // 删除事件
     deteleHandleOk() {
-      deleteRule(this.blockLandId).then(res => {
+      deleteRule(this.indicatorId).then(res => {
         if (res.code === 200) {
           this.getRuleList()
           this.deteleHandleCancel()

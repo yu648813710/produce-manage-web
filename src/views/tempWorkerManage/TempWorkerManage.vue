@@ -10,17 +10,17 @@
           <a-form :form="searchForm" @submit="searchList">
             <a-row :gutter="40">
               <a-col :span="8">
-                <a-form-item label="临时工姓名">
+                <a-form-item label="临时工姓名" :colon="false">
                   <a-input autocomplete="off" placeholder="请输入" v-model="searchParams.userName"/>
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item label="临时工手机号">
+                <a-form-item label="临时工手机号" :colon="false">
                   <a-input autocomplete="off" placeholder="请输入" v-model="searchParams.phone"/>
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item label="状态">
+                <a-form-item label="状态" :colon="false">
                   <a-select
                     placeholder="请选择"
                     :allowClear="true"
@@ -44,7 +44,7 @@
             </a-row>
             <a-row :gutter="40" v-show="upDownStatue">
               <a-col :span="8">
-                <a-form-item label="是否是贫困户">
+                <a-form-item label="是否是贫困户" :colon="false">
                   <a-select
                     placeholder="请选择"
                     :allowClear="true"
@@ -86,11 +86,12 @@
             :pagination="pagination"
             :loading="loading"
             @change="handleTableChange"
+            :scroll="{ x: 1730 }"
             :style="{marginTop: '50px'}"
             :rowKey="(record, index) => index"
           >
-            <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
-            <span slot="jobStatus" slot-scope="text, record">
+            <span slot="id" slot-scope="text, record, index" class="line-sp-sm">{{index + 1}}</span>
+            <span slot="jobStatus" slot-scope="text, record" class="line-sp-sm">
               <a-switch
                 checkedChildren="在职"
                 unCheckedChildren="离职"
@@ -98,7 +99,14 @@
                 @change="handleChangeStatus(record)"
               />
             </span>
-            <span slot="operation" slot-scope="text, record">
+            <span slot="userName" slot-scope="text, record" class="line-sp">{{record.userName}}</span>
+            <span slot="phone" slot-scope="text, record" class="line-sp">{{record.phone}}</span>
+            <span slot="workTimes" slot-scope="text, record" class="line-sp">{{record.workTimes}}</span>
+            <span slot="payment" slot-scope="text, record" class="line-sp-lg">{{record.payment}}</span>
+            <span slot="gmtCreate" slot-scope="text, record" class="line-sp-lg">{{record.gmtCreate}}</span>
+            <span slot="createUserName" slot-scope="text, record" class="line-sp-sm">{{record.createUserName}}</span>
+            <span slot="povertyStatus" slot-scope="text, record" class="line-sp">{{record.povertyStatus === 'Y' ? '是' : '否'}}</span>
+            <span slot="operation" slot-scope="text, record" class="line-sp">
               <a-button type="link" @click="toDetail(record)">查看</a-button>
               <a-button type="link" @click="handelEdit(record)" style="padding:0;">编辑</a-button>
               <a-button
@@ -475,7 +483,34 @@ export default {
     background: #fff;
     min-height: 360px;
     border-radius: 4px;
-
+    .line-sp-sm {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      width: 100px;
+    }
+    .line-sp-mid {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      width: 150px;
+    }
+    .line-sp {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      width: 200px;
+    }
+    .line-sp-lg {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      width: 250px;
+    }
     .add-button {
       position: absolute;
       right: 24px;

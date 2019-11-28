@@ -10,24 +10,26 @@
           <a-form-item>
             <span v-if="index === 7 || index === 8" slot="label" style="color: red">*<span style="color: #000">{{item.label}}</span></span>
             <span v-else slot="label">{{item.label}}</span>
-            <a-upload
-              v-if="index === (fieldsStep1.length - 1)"
-              :customRequest="selfUpload"
-              :beforeUpload="beforeUpload"
-              listType="picture-card"
-              :fileList="fileList"
-              :showUploadList="true"
-              @preview="handlePreview"
-              @change="handleChange"
-              v-decorator="[`upload_${item.id}`, {
-                rules: item.validators
-              }]"
-            >
-              <div v-if="fileList.length < 5">
-                <a-icon :type="uploadLoading ? 'loading' : 'plus'" />
-                <div class="ant-upload-text">上传</div>
-              </div>
-            </a-upload>
+            <div v-if="index === (fieldsStep1.length - 1)" class="up-div">
+              <a-upload
+                :customRequest="selfUpload"
+                :beforeUpload="beforeUpload"
+                listType="picture-card"
+                :fileList="fileList"
+                :showUploadList="true"
+                @preview="handlePreview"
+                @change="handleChange"
+                v-decorator="[`upload_${item.id}`, {
+                  rules: item.validators
+                }]"
+              >
+                <div v-if="fileList.length < 5">
+                  <a-icon :type="uploadLoading ? 'loading' : 'plus'" />
+                  <div class="ant-upload-text">上传</div>
+                </div>
+              </a-upload>
+              <p style="font-size:12px;color:#ccc;">支持JPG、JPEG、PNG格式，不超过5M</p>
+            </div>
             <span v-else-if="index === 7 || index === 8">
               <a-form-item style="display:inline-block;width:calc(100% - 20px)">
                 <a-input
@@ -65,8 +67,8 @@
 import Vue from 'vue'
 import { Form, Row, Col, Select, Input, Button, Icon, Upload, Modal } from 'ant-design-vue'
 import { fieldsStep1 } from './config'
-import { getCurrentUserInfo } from '@/api/productManage'
-import axios from 'axios'
+import { getCurrentUserInfo, uploadImage } from '@/api/productManage'
+// import axios from 'axios'
 import moment from 'moment'
 Vue.use(Form)
 Vue.use(Row)
@@ -166,13 +168,40 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           let files = []
-          if (values.upload_landTrulyProve.fileList && values.upload_landTrulyProve.fileList.length > 0) {
-            values.upload_landTrulyProve.fileList.forEach(item => {
-              if (item.url && item.url !== null) {
-                files.push(item.url)
-              }
-            })
+          let tempFiles = []
+          let idx = 0
+          if (values.upload_landTrulyProve) {
+            if (values.upload_landTrulyProve.fileList && values.upload_landTrulyProve.fileList.length > 0) {
+              values.upload_landTrulyProve.fileList.forEach(item => {
+                if (item.url && item.url !== null) {
+                  files.push(item.url)
+                  idx += 1
+                  let temp = {
+                    uid: moment(new Date()).format('YYYY-MM-DDhh:mm:ss') + `img-${idx}`,
+                    name: `img-${idx}`,
+                    status: 'done',
+                    url: item.url
+                  }
+                  tempFiles.push(temp)
+                }
+              })
+            } else if (values.upload_landTrulyProve.length > 0) {
+              values.upload_landTrulyProve.forEach(item => {
+                if (item.url && item.url !== null) {
+                  files.push(item.url)
+                  idx += 1
+                  let temp = {
+                    uid: moment(new Date()).format('YYYY-MM-DDhh:mm:ss') + `img-${idx}`,
+                    name: `img-${idx}`,
+                    status: 'done',
+                    url: item.url
+                  }
+                  tempFiles.push(temp)
+                }
+              })
+            }
           }
+          this.fileList = tempFiles
           const params = {
             materialName: values.field_meansName,
             enterpriseName: values.field_companyName || '',
@@ -215,14 +244,19 @@ export default {
       let self = this
       let formData = new FormData()
       formData.append('file', file)
-      axios
-        .post('http://172.21.128.125:9090/produce/oss/fileUpload', formData)
-        .then(res => {
+
+      uploadImage(formData)
+        .then((res) => {
           self.uploadLoading = false
-          if (res.data.success === 'Y') {
+          if (res.success === 'Y') {
             self.fileList[self.fileList.length - 1].status = 'done'
-            self.fileList[self.fileList.length - 1].url = res.data.data
+            self.fileList[self.fileList.length - 1].url = res.data
+            self.$emit('haveUploadImg', res.data)
           }
+        })
+        // eslint-disable-next-line handle-callback-err
+        .catch(err => {
+          self.$emit('haveUploadImg', '')
         })
     },
 
@@ -249,6 +283,10 @@ export default {
   margin-bottom: 10px;
   border-radius: 4px;
   .form-fields {
+    .up-div {
+      display: flex;
+      flex-direction: column;
+    }
     .ant-form-item {
       text-align: left;
     }

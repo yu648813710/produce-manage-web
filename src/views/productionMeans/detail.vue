@@ -12,8 +12,8 @@
             style="padding: 0"
           >
           <div v-if="index === (list.length - 2) || index === (list.length - 1)" :class="index % 2 === 0 ? 'row-img' : 'row-img-sp'">
-            <span><img :src="item.label" alt="img"></span>
-            <span><img :src="item.value" alt="img"></span>
+            <span><img v-if="item.label" :src="item.label" alt="img"></span>
+            <span><img v-if="item.value" :src="item.value" alt="img"></span>
           </div>
           <div v-else :class="index % 2 === 0 ? 'row-item' : 'row-item-sp'">
             <span>{{item.label}}</span>
@@ -36,9 +36,8 @@ Vue.use(Col)
 Vue.use(Layout)
 
 const crumbsArr = [
-  { name: '当前位置', back: false, path: '' },
-  { name: '生产管理', back: false, path: '' },
-  { name: '生产资料详情', back: true, path: '' }
+  { name: '生产管理', back: true, path: '/productionMeans' },
+  { name: '生产资料详情', back: false, path: '' }
 ]
 const list = [
   { id: '000', label: '生产资料编号', value: '-' },
@@ -80,6 +79,7 @@ export default {
       produceMeansDetail(this.$route.query.bizId).then(res => {
         console.log('查询详情：', res)
         if (res && res.success === 'Y') {
+          this.list[0].value = res.data.materialNum
           this.list[1].value = res.data.enterpriseName
           this.list[2].value = res.data.industry
           this.list[3].value = res.data.enterpriseAddress

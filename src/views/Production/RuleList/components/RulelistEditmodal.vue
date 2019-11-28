@@ -16,6 +16,7 @@
           label="车间名称"
           :label-col="{ span: 5 }"
           :wrapper-col="{ span: 16 }"
+          :colon="false"
           >
           <a-input
             v-if="isEdit"
@@ -248,22 +249,25 @@ export default {
         if (!err) {
           let data = [
             {
+              farmType: 'ws',
               blockLandId: this.isEdit ? this.dataEdit.blockLandId : value.shopName,
-              indicatorId: '',
+              indicatorId: this.dataEdit.indicatorId,
               indicatorName: 'temperature',
               indicatorInf: value.temperatureInf,
               indicatorSup: value.temperatureSup
             },
             {
+              farmType: 'ws',
               blockLandId: this.isEdit ? this.dataEdit.blockLandId : value.shopName,
-              indicatorId: '',
+              indicatorId: this.dataEdit.indicatorId,
               indicatorName: 'dampness',
               indicatorInf: value.dampnessInf,
               indicatorSup: value.dampnessSup
             },
             {
+              farmType: 'ws',
               blockLandId: this.isEdit ? this.dataEdit.blockLandId : value.shopName,
-              indicatorId: '',
+              indicatorId: this.dataEdit.indicatorId,
               indicatorName: 'co2_concentration',
               indicatorInf: value.co2ConcentrationInf,
               indicatorSup: value.co2ConcentrationSup

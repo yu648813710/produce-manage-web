@@ -5,7 +5,7 @@ const tableColumns = [
     align: 'center',
     width: 80
   },
-  { title: '农事计划编号', dataIndex: 'farmingNum' },
+  { title: '农事计划编号', dataIndex: 'farmingNum', width: 150 },
   {
     title: '农事操作',
     dataIndex: 'actionName',
@@ -41,7 +41,7 @@ const tableColumns = [
   {
     title: '执行时长',
     dataIndex: 'executeCycle',
-    width: 200
+    width: 180
   },
   {
     title: '任务开始时间',
@@ -61,7 +61,7 @@ const tableColumns = [
   {
     title: '负责人',
     dataIndex: 'assigner',
-    width: 130
+    width: 210
   },
   {
     title: '操作',
@@ -73,11 +73,6 @@ const tableColumns = [
 ]
 
 const crumbsArr = [
-  {
-    name: '当前位置',
-    back: false,
-    path: ''
-  },
   {
     name: '生产管理',
     back: false,

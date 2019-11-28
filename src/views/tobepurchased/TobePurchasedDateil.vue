@@ -43,16 +43,20 @@
             <span class="item-value">{{detail.blockLandName}}</span>
           </a-col>
           <a-col :span="12" class="detail-item">
+            <span class="item-key">农资描述：</span>
+            <span class="item-value">{{detail.materialDesc}}</span>
+          </a-col>
+          <!-- <a-col :span="12" class="detail-item">
             <span class="item-key">用途：</span>
             <span class="item-value">{{detail.materialUsage}}</span>
-          </a-col>
+          </a-col> -->
         </a-row>
-        <a-row :span="24">
+        <!-- <a-row :span="24">
           <a-col :span="24" class="detail-item">
             <span class="item-key">农资描述：</span>
             <span class="item-value">{{detail.materialDesc}}</span>
           </a-col>
-        </a-row>
+        </a-row> -->
       </div>
     </div>
   </div>
@@ -62,6 +66,7 @@ import Vue from 'vue'
 import { Row, Col } from 'ant-design-vue'
 import CrumbsNav from '@/components/crumbsNav/CrumbsNav' // 面包屑
 import { dateilCrumbsArr } from './config.js'
+import { waitpurchasedetail } from '@/api/farmPlan.js'
 Vue.use(Row)
 Vue.use(Col)
 export default {
@@ -71,8 +76,20 @@ export default {
   },
   data () {
     return {
-      detail: this.$route.params,
+      detail: {},
       dateilCrumbsArr
+    }
+  },
+  created() {
+    this.fetchDetail()
+  },
+  methods: {
+    fetchDetail() {
+      waitpurchasedetail(this.$route.params.bizId).then(res => {
+        if (res && res.success === 'Y') {
+          this.detail = res.data
+        }
+      })
     }
   }
 }

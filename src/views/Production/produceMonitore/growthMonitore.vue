@@ -127,7 +127,6 @@ export default {
       ],
       timer: '',
       crumbsArr: [
-        { name: '当前位置', back: false, path: '' },
         { name: '生产管理', back: false, path: '' },
         { name: '生长监控', back: true, path: '/projectCenter' },
         { name: '新增方案', back: false, path: '' }

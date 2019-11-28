@@ -31,11 +31,6 @@ const tableColumns = [
 ]
 const crumbsArr = [
   {
-    name: '当前位置',
-    back: false,
-    path: ''
-  },
-  {
     name: '生产管理',
     back: false,
     path: ''

@@ -75,8 +75,7 @@ const tableDetailColumuns = [
   }
 ]
 const crumbsArr = [
-  { name: '当前位置', back: false, path: '' },
-  { name: '农事计划', back: false, path: '' },
+  { name: '农事计划', back: true, path: '/farmPlan' },
   { name: '农事计划详情', back: false, path: '' }
 ]
 export { tableColumns, tableDetailColumuns, crumbsArr }

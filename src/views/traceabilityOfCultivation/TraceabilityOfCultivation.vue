@@ -10,7 +10,7 @@
           <a-form :form="sreachForm" @submit="searchProductlst">
             <a-row :gutter="40">
               <a-col :span="8">
-                <a-form-item label="商品名称">
+                <a-form-item label="商品名称" :colon="false">
                   <a-input
                     autocomplete="off"
                     placeholder="请输入商品名称"
@@ -19,7 +19,7 @@
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item label="产品品种">
+                <a-form-item label="产品品种" :colon="false">
                   <a-input
                     autocomplete="off"
                     placeholder="请输入产品品种"
@@ -28,7 +28,7 @@
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item label="生产企业">
+                <a-form-item label="生产企业" :colon="false">
                   <a-input
                     autocomplete="off"
                     placeholder="请输入生产企业"
@@ -39,7 +39,7 @@
             </a-row>
             <a-row :gutter="40" v-show="upDownStatue">
               <a-col :span="8">
-                <a-form-item label="生产地">
+                <a-form-item label="生产地" :colon="false">
                   <a-input
                     autocomplete="off"
                     placeholder="请输入生产地"

@@ -10,7 +10,7 @@
           <a-form :form="sreachForm" @submit="sreachTaskItem">
             <a-row :gutter="40">
               <a-col :span="8">
-                <a-form-item label="所属车间">
+                <a-form-item label="所属车间" :colon="false">
                   <a-select
                     placeholder="请选择"
                     :getPopupContainer="triggerNode => {
@@ -31,7 +31,7 @@
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item label="日期范围">
+                <a-form-item label="日期范围" :colon="false">
                   <a-range-picker
                     @change="handleDateChange"
                     :getCalendarContainer="triggerNode => {
@@ -47,7 +47,7 @@
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item label="菌包名称">
+                <a-form-item label="菌包名称" :colon="false">
                   <a-select
                     placeholder="请选择"
                     :getPopupContainer="triggerNode => {
