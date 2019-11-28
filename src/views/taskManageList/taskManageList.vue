@@ -12,7 +12,7 @@
         <a-locale-provider :locale="zhCN">
           <a-table
             class="equipmentTable"
-            :scroll="{ x: 1750 }"
+            :scroll="{ x: 1950 }"
             :rowKey="record => record.instId"
             :columns="columns"
             :dataSource="equipmentList"
