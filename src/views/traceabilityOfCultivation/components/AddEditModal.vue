@@ -156,7 +156,6 @@
               :visible="visible"
               @haveUploadImg="haveUploadImg"
             ></upload-component>
-            <p>支持JPG、JPEG、PNG格式，不超过5M</p>
             <p v-if="!isImgPath" style="color:red;">请上传木耳图片</p>
 					</a-form-item>
 				</a-form>

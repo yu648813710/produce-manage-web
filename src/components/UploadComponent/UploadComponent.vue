@@ -27,6 +27,7 @@ event:
           <div class="ant-upload-text">上传图片</div>
       </div>
     </a-upload>
+    <p style="font-size:12px;color:#ccc;">支持JPG、JPEG、PNG格式，不超过5M</p>
   </div>
 </template>
 

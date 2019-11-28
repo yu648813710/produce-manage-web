@@ -1,10 +1,9 @@
 <!--面包屑组件-->
 <template>
   <div>
-    <a-breadcrumb class="crumpContent">
+    <a-breadcrumb style="text-align: left; height: 40px">
       <div class="backToPath backBtnCtr" @click="backToList()">
         <span v-for="(item, index) in crumbsArr" :key="index">
-<!--          <img v-if="item.back" :src="backIcon" alt="" class="backImg">-->
           <a-icon v-if="item.back" type="left" />
           <span v-if="item.back" class="backText">返回</span>
         </span>
