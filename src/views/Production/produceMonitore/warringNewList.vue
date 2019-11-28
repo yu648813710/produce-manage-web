@@ -97,8 +97,7 @@ Vue.use(Row)
 Vue.use(Col)
 const columns = [
   { title: '序号', scopedSlots: { customRender: 'id' }, align: 'center' },
-  { title: '基地名称', dataIndex: 'baseLandName' },
-  { title: '地块名称', dataIndex: 'blockLandName' },
+  { title: '车间名称', dataIndex: 'blockLandName' },
   { title: '温度℃', dataIndex: 'temperature' },
   { title: 'CO₂浓度', dataIndex: 'co2Concentration' },
   {
