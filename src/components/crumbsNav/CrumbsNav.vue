@@ -9,6 +9,7 @@
           <span v-if="item.back" class="backText">返回</span>
         </span>
       </div>
+      <span>当前位置：</span>
       <a-breadcrumb-item v-for="(item, index) in crumbsArr" :key="index">
         <span
           :class="item.back ? 'backToPath' : ''"

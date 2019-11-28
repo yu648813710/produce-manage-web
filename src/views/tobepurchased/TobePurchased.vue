@@ -13,7 +13,7 @@
           >
             <a-row :gutter="40">
               <a-col :span="8">
-                <a-form-item label="农资名称">
+                <a-form-item label="农资名称" :colon="false">
                   <a-input
                     autocomplete="off"
                     placeholder="请输入农资名称"
@@ -22,7 +22,7 @@
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item label="农事计划编号">
+                <a-form-item label="农事计划编号" :colon="false">
                   <a-input
                     autocomplete="off"
                     placeholder="请输入农事计划编号"
@@ -31,7 +31,7 @@
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item label="所属农事操作">
+                <a-form-item label="所属农事操作" :colon="false">
                   <a-input
                     autocomplete="off"
                     placeholder="请输入所属农事操作"
@@ -42,7 +42,7 @@
             </a-row>
             <a-row :gutter="40" v-show="upDownStatue">
               <a-col :span="8">
-                <a-form-item label="所属周期">
+                <a-form-item label="所属周期" :colon="false">
                   <a-input
                     autocomplete="off"
                     placeholder="请输入所属周期"

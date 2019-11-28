@@ -224,7 +224,6 @@ export default {
       },
       columns,
       crumbsArr: [
-        { name: '当前位置', back: false, path: '' },
         { name: '生产管理', back: false, path: '' },
         { name: '生长监控', back: false, path: '/production/growthMonitore' },
         { name: '地块监控列表', back: false, path: '' }
