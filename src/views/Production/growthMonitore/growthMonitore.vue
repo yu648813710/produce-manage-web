@@ -34,14 +34,14 @@
                 @click="warringDetailList(2)"
               >
                 <router-link :to="{name: 'massifDetail'}"></router-link>
-                <div :title="'新增' + newTemperatureWarring + '条预警'">新增{{newTemperatureWarring}}条预警</div>
+                <div :title="'当前' + newTemperatureWarring + '条预警'">当前{{newTemperatureWarring}}条预警</div>
                 <div>温度预警</div>
               </div>
               <div
                 class="warring2"
                 @click="warringDetailList(1)"
               >
-                <div :title="'新增' + newDampnessWarring + '条预警'">新增{{newDampnessWarring}}条预警</div>
+                <div :title="'当前' + newDampnessWarring + '条预警'">当前{{newDampnessWarring}}条预警</div>
                 <div>湿度预警</div>
               </div>
               <div
@@ -50,7 +50,7 @@
                 @click="warringDetailList(8)"
               >
                 <router-link :to="{name: 'massifDetail'}"></router-link>
-                <div :title="'新增' + co2NewCount + '条预警'">新增{{co2NewCount}}条预警</div>
+                <div :title="'当前' + co2NewCount + '条预警'">当前{{co2NewCount}}条预警</div>
                 <div>二氧化碳预警</div>
               </div>
               <div class="pointLine1"></div>
@@ -164,8 +164,8 @@ export default {
         this.co2NewCount = res.data.co2NewCount ? res.data.co2NewCount : 0 // 新增二氧化碳数量
         this.newDampnessWarring = res.data.dampnessNewCount // 新增湿度数量
         this.warring2 = res.data.dampnessHistoryCount // 历史湿度数量
-        this.ghNewWarring = this.newTemperatureWarring + this.newDampnessWarring
-        this.wsNewWarring = this.newTemperatureWarring + this.newDampnessWarring + this.co2NewCount
+        this.ghNewWarring = res.data.currentDayNewCount
+        this.wsNewWarring = res.data.currentDayNewCount
         this.pieData[1].value = this.historyTemperatureWarring
         this.pieData[0].value = this.historydampnessWarring
         if (this.pieData[2]) {
