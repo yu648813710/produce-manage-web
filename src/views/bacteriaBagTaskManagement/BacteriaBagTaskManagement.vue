@@ -1,11 +1,9 @@
 /**菌包任务管理 */
 <template>
   <div class="about">
-    <a-layout>
-      <div style="padding-top: 16px;padding-left:16px;">
-        <crumbs-nav :crumbs-arr="crumbsArr" />
-      </div>
-      <a-layout-content style="margin: 16px;margin-top:0;">
+    <a-layout style="margin: 10px 16px;">
+      <crumbs-nav :crumbs-arr="crumbsArr" style="padding-bottom: 10px;" />
+      <a-layout-content>
         <div class="search-wrapper">
           <a-form :form="sreachForm" @submit="sreachTaskItem">
             <a-row :gutter="40">
@@ -121,7 +119,7 @@
       </a-layout-content>
     </a-layout>
     <!-- 删除确认框 -->
-    <a-modal title="删除任务" :visible="visible" @ok="handleOk" @cancel="handleCancel">
+    <a-modal title="删除任务" :visible="visible" @ok="handleOk" @cancel="handleCancel" :maskClosable="false">
       <p>是否删除此任务信息？</p>
     </a-modal>
   </div>

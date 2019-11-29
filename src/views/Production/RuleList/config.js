@@ -19,7 +19,7 @@ const tableColumns = [
   {
     title: '负责人',
     dataIndex: 'principalUser',
-    width: 80
+    width: 200
   },
   {
     title: '操作',

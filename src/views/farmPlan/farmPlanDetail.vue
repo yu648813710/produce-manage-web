@@ -3,8 +3,8 @@
 */
 <template>
   <div>
-    <div style="padding-top: 16px;padding-left:16px;">
-      <crumbs-nav :crumbs-arr="crumbsArr" />
+    <div style="margin: 10px 16px">
+      <crumbs-nav :crumbs-arr="crumbsArr" style="margin-bottom: 10px;"/>
     </div>
     <div class="wrapper">
       <div class="title-wrapper">
@@ -98,7 +98,7 @@ import TaskDetailAddTask from './components/TaskDetailAddTask'
 import {
   farmPlanDetail,
   farmPlanDetailList,
-  getLifecycle,
+  getLifecycleByPlanId,
   getFarmingType,
   getCction,
   addFarmPlanTask
@@ -229,7 +229,7 @@ export default {
     },
     // 获取周期
     getLifecycleData() {
-      getLifecycle().then(res => {
+      getLifecycleByPlanId(this.planId).then(res => {
         if (res.success === 'Y') {
           this.addFormData.lifecycleData = res.data
         }

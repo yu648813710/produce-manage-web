@@ -291,10 +291,18 @@ export const getTaskOption = (instId) => {
     method: 'get'
   })
 }
-// 农事计划任务详情 新增临时任务 选择时的周期列表
+// 农事计划任务详情 新增临时任务 选择时的周期列表(暂时不用这个)
 export const getLifecycle = () => {
   return axios({
     url: `/produce/lifecycle/`,
+    method: 'get'
+  })
+}
+
+// 农事计划任务详情 新增临时任务 选择时的周期列表
+export const getLifecycleByPlanId = (planId) => {
+  return axios({
+    url: `/produce/farmPlan/task/breed/${planId}`,
     method: 'get'
   })
 }

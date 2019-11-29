@@ -2,9 +2,9 @@
 <template>
   <div class="about">
     <a-layout>
-      <a-layout-content style="margin: 16px">
+      <a-layout-content style="margin: 10px 16px">
         <!-- 导航 -->
-        <crumbs-nav :crumbs-arr="crumbsArr" />
+        <crumbs-nav :crumbs-arr="crumbsArr" style="margin-bottom: 10px;"/>
         <div class="search-wrapper">
           <div
             class="search-input-box"
@@ -125,8 +125,7 @@
                 name: 'farmPlanDetail',
                 params: { id: record.farmingPlanId }
               }"
-              >查看</router-link
-            >
+              >查看</router-link>
           </a-table>
         </div>
       </a-layout-content>

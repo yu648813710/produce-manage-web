@@ -1,10 +1,13 @@
 <template>
   <a-modal
-    :width="800"
+    :width="1000"
     :maskClosable="false"
     :destroyOnClose="true"
     :confirmLoading="confirmLoading"
-    :maskStyle="{background: 'transparent'}"
+    :bodyStyle="{
+      height: '493px',
+      overflow: 'auto'
+    }"
     v-model="isVisiable"
     @ok="handleOk"
   >

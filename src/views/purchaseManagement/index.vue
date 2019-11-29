@@ -1,7 +1,7 @@
 <template>
   <div class="purchase-management">
-    <a-layout style="margin: 16px;background: #eee;">
-      <MyBreadCrumb :crumbsArr="breadcrumbs"></MyBreadCrumb>
+    <a-layout style="margin: 10px 16px;background: #eee;">
+      <MyBreadCrumb :crumbsArr="breadcrumbs" style="margin-bottom: 10px;"></MyBreadCrumb>
       <div class="search-wrapper">
         <a-form class="form-fields" :form="form" @submit="handleSubmit">
           <a-row :gutter="24">
@@ -78,6 +78,7 @@
       <a-modal
         title="采购金额："
         :visible="visible"
+        :maskClosable="false"
         @ok="handleMoneySubmit"
         :confirmLoading="confirmLoading"
         @cancel="handleCancel"

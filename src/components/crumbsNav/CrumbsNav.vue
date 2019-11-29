@@ -1,7 +1,7 @@
 <!--面包屑组件-->
 <template>
   <div>
-    <a-breadcrumb style="text-align: left; height: 40px">
+    <a-breadcrumb style="text-align: left; height: 18px;line-height: 18px;">
       <div class="backToPath backBtnCtr" @click="backToList()">
         <span v-for="(item, index) in crumbsArr" :key="index">
           <a-icon v-if="item.back" type="left" />

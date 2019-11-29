@@ -1,11 +1,9 @@
 /**生产批次管理*/
 <template>
   <div class="about">
-    <a-layout>
-      <div style="padding-top: 16px;padding-left:16px;">
-        <crumbs-nav :crumbs-arr="crumbsArr" />
-      </div>
-      <a-layout-content style="margin: 16px;margin-top:0;">
+    <a-layout style="margin: 10px 16px;">
+      <crumbs-nav :crumbs-arr="crumbsArr" style="margin-bottom: 10px;"/>
+      <a-layout-content>
         <div class="search-wrapper">
           <a-form
             :form="sreachForm"

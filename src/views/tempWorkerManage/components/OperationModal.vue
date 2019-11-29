@@ -3,8 +3,13 @@
     <a-modal
       :title="title"
       :visible="visible"
-      :width="600"
+      :width="1000"
       @ok="handleOk"
+      :maskClosable="false"
+      :bodyStyle="{
+        height: '380px',
+        overflow: 'auto'
+      }"
       @cancel="handleCancel"
     >
       <p v-if="contentText">{{ contentText }}</p>
@@ -41,19 +46,22 @@
             v-model="data.phone"
           />
         </a-form-item>
-        <a-form-item
-          label="临时工薪酬"
-          :label-col="{ span: 5 }"
-          :wrapper-col="{ span: 16 }"
-          required
-          :validateStatus="validate.payment"
-          :help="validate.payment ? '请输入大于0的数字!' : '' "
-        >
-          <a-input
-            autocomplete="off"
-            placeholder="请输入"
-            v-model="data.payment"
-          />
+        <a-form-item>
+          <a-form-item
+            label="临时工薪酬"
+            :label-col="{ span: 5 }"
+            :wrapper-col="{ span: 18 }"
+            style="display:inline-block;width:calc(100% - 50px)"
+            required
+            :validateStatus="validate.payment"
+            :help="validate.payment ? '请输入大于0的数字!' : '' "
+          >
+            <a-input
+              autocomplete="off"
+              placeholder="请输入"
+              v-model="data.payment"
+            />
+          </a-form-item>元/天
         </a-form-item>
         <a-form-item
           label="是否为贫困户"

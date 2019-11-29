@@ -5,7 +5,7 @@
       :visible="editShow"
       @cancel="hiddenEditTask"
       @ok="editSbumit"
-      :width="750"
+      :width="1000"
       :bodyStyle="{
         height: '380px',
         overflow: 'auto'
@@ -379,9 +379,10 @@ export default {
 <style lang="less" scoped>
 .task-detail {
   /deep/ .ant-modal-body {
-    height: 400px;
+    max-height: 600px;
     overflow: auto;
   }
+  height: 600px;
   .list {
     height: auto;
     overflow: hidden;

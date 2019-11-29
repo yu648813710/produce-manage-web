@@ -4,6 +4,7 @@
     :visible="imgVisible"
     :footer="null"
     @cancel="modalCancel"
+    :maskClosable="false"
     >
     <div class="detail-img-wrapper">
       <img :src="imgUrl" alt="">

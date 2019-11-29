@@ -120,6 +120,7 @@
     title="新增基地"
     v-model="visible"
     @ok="handleOk"
+    :maskClosable="false"
   >
     <div class="form">
       <a-form>

@@ -4,8 +4,9 @@
       title="任务"
       :visible="detailShow"
       @cancel="hiddenDetailTask"
-      :width="750"
+      :width="1000"
       :footer="null"
+      :bodyStyle="{ height: '380px', overflow: 'auto' }"
       :maskClosable="false"
       class="task-detail"
     >

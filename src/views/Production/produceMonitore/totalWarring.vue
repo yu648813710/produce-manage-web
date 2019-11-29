@@ -3,14 +3,15 @@
 */
 <template>
   <div class="wrapper">
-    <a-breadcrumb style="text-align: left; height: 40px">
+    <crumbsNav :crumbsArr="crumbsArr" style="margin-bottom: 10px;"></crumbsNav>
+    <!-- <a-breadcrumb style="text-align: left; height: 40px">
       <a-breadcrumb-item>当前位置：</a-breadcrumb-item>
       <a-breadcrumb-item>生产管理</a-breadcrumb-item>
       <a-breadcrumb-item>
         <router-link :to="{name: 'growthMonitore'}">生长监控</router-link>
       </a-breadcrumb-item>
       <a-breadcrumb-item>大棚监控列表</a-breadcrumb-item>
-    </a-breadcrumb>
+    </a-breadcrumb> -->
     <a-row>
       <a-col :span="18">
         <div class="title-wrapper">
@@ -58,6 +59,8 @@
 import Vue from 'vue'
 import { Table, Row, Col, Steps, Radio, icon, Modal, Button, Input, Select } from 'ant-design-vue'
 import { shiduData } from '@/api/productManage.js'
+import crumbsNav from '@/components/crumbsNav/CrumbsNav'
+
 Vue.use(Row)
 Vue.use(Col)
 Vue.use(Steps)
@@ -71,8 +74,16 @@ Vue.use(Table)
 Vue.use(Row)
 Vue.use(Col)
 export default {
+  components: {
+    crumbsNav
+  },
   data () {
     return {
+      crumbsArr: [
+        { name: '生产管理', back: false, path: '' },
+        { name: '生长监控', back: false, path: '/growthMonitore' },
+        { name: '大棚监控列表', back: false, path: '' }
+      ],
       detail: this.$route.params,
       list: [],
       loading: false,
@@ -142,7 +153,6 @@ export default {
     position: relative;
     padding: 24px 24px 0 24px ;
     background: #fff;
-    margin: 16px;
     border-radius: 4px;
 
     .title-wrapper{

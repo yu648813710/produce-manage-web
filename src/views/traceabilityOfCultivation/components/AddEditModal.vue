@@ -5,8 +5,9 @@
       :visible="visible"
       :isEditObj="isEditObj"
       @ok="handleModalOk"
-			:width="800"
+			:width="1000"
       @cancel="handleModalCancel"
+      :maskClosable="false"
       :destroyOnClose="true"
       >
       <div>

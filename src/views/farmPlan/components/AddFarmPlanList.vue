@@ -35,6 +35,7 @@
       @ok="deleteTask"
       @cancel="hiddenDeleteModal"
       :width="450"
+      :maskClosable="false"
     >
       <p>确认删除此条任务？</p>
     </a-modal>

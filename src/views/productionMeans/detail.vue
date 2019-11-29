@@ -11,14 +11,44 @@
             :span="12"
             style="padding: 0"
           >
-          <div v-if="index === (list.length - 2) || index === (list.length - 1)" :class="index % 2 === 0 ? 'row-img' : 'row-img-sp'">
-            <span><img v-if="item.label" :src="item.label" alt="img"></span>
-            <span><img v-if="item.value" :src="item.value" alt="img"></span>
-          </div>
-          <div v-else :class="index % 2 === 0 ? 'row-item' : 'row-item-sp'">
-            <span>{{item.label}}</span>
-            <span>{{item.value}}</span>
-          </div>
+            <template v-if="pictures.length === 1 && item.id !== '018' && item.id !== '017'">
+              <div v-if="index === (list.length - 3)" :class="index % 2 === 0 ? 'row-img' : 'row-img-sp'">
+                <span>{{item.label}}</span>
+                <span><img v-if="item.value" :src="item.value" alt="img"></span>
+              </div>
+              <div v-else :class="index % 2 === 0 ? 'row-item' : 'row-item-sp'">
+                <span>{{item.label}}</span>
+                <span>{{item.value}}</span>
+              </div>
+            </template>
+            <template v-if="(pictures.length === 2 || pictures.length === 3) && item.id !== '018'">
+              <div v-if="index === (list.length - 3)" :class="index % 2 === 0 ? 'row-img' : 'row-img-sp'">
+                <span>{{item.label}}</span>
+                <span><img v-if="item.value" :src="item.value" alt="img"></span>
+              </div>
+              <div v-else-if="index === (list.length - 2)" :class="index % 2 === 0 ? 'row-img' : 'row-img-sp'">
+                <span><img v-if="item.label" :src="item.label" alt="img"></span>
+                <span><img v-if="item.value" :src="item.value" alt="img"></span>
+              </div>
+              <div v-else :class="index % 2 === 0 ? 'row-item' : 'row-item-sp'">
+                <span>{{item.label}}</span>
+                <span>{{item.value}}</span>
+              </div>
+            </template>
+            <template v-if="pictures.length === 4 || pictures.length === 5">
+              <div v-if="index === (list.length - 3)" :class="index % 2 === 0 ? 'row-img' : 'row-img-sp'">
+                <span>{{item.label}}</span>
+                <span><img v-if="item.value" :src="item.value" alt="img"></span>
+              </div>
+              <div v-else-if="index === (list.length - 2) || index === (list.length - 1)" :class="index % 2 === 0 ? 'row-img' : 'row-img-sp'">
+                <span><img v-if="item.label" :src="item.label" alt="img"></span>
+                <span><img v-if="item.value" :src="item.value" alt="img"></span>
+              </div>
+              <div v-else :class="index % 2 === 0 ? 'row-item' : 'row-item-sp'">
+                <span>{{item.label}}</span>
+                <span>{{item.value}}</span>
+              </div>
+            </template>
           </a-col>
         </a-row>
       </div>
@@ -56,8 +86,9 @@ const list = [
   { id: '013', label: '实际产量', value: null },
   { id: '014', label: '实际销量', value: null },
   { id: '015', label: '销售额', value: null },
-  { id: '016', label: '', value: '' },
-  { id: '017', label: '', value: '' }
+  { id: '016', label: '土地确权证明', value: '' },
+  { id: '017', label: '', value: '' },
+  { id: '018', label: '', value: '' }
 ]
 
 export default {
@@ -68,7 +99,8 @@ export default {
   data() {
     return {
       list,
-      crumbsArr
+      crumbsArr,
+      pictures: []
     }
   },
   created() {
@@ -79,6 +111,7 @@ export default {
       produceMeansDetail(this.$route.query.bizId).then(res => {
         console.log('查询详情：', res)
         if (res && res.success === 'Y') {
+          this.pictures = res.data.landCertificate
           this.list[0].value = res.data.materialNum
           this.list[1].value = res.data.enterpriseName
           this.list[2].value = res.data.industry
@@ -92,10 +125,29 @@ export default {
           this.list[13].value = res.data.realOutput + ' 斤'
           this.list[14].value = res.data.salesVolume + ' 斤'
           this.list[15].value = res.data.salesValue + ' 元'
-          this.list[16].label = res.data.landCertificate[0]
-          this.list[16].value = res.data.landCertificate[1]
-          this.list[17].label = res.data.landCertificate[2]
-          this.list[17].value = res.data.landCertificate[3]
+          if (res.data.landCertificate) {
+            if (res.data.landCertificate.length === 1) {
+              this.list[16].value = res.data.landCertificate[0]
+            } else if (res.data.landCertificate.length === 2) {
+              this.list[16].value = res.data.landCertificate[0]
+              this.list[17].label = res.data.landCertificate[1]
+            } else if (res.data.landCertificate.length === 3) {
+              this.list[16].value = res.data.landCertificate[0]
+              this.list[17].label = res.data.landCertificate[1]
+              this.list[17].value = res.data.landCertificate[2]
+            } else if (res.data.landCertificate.length === 4) {
+              this.list[16].value = res.data.landCertificate[0]
+              this.list[17].label = res.data.landCertificate[1]
+              this.list[17].value = res.data.landCertificate[2]
+              this.list[18].label = res.data.landCertificate[3]
+            } else if (res.data.landCertificate.length === 5) {
+              this.list[16].value = res.data.landCertificate[0]
+              this.list[17].label = res.data.landCertificate[1]
+              this.list[17].value = res.data.landCertificate[2]
+              this.list[18].label = res.data.landCertificate[3]
+              this.list[18].value = res.data.landCertificate[4]
+            }
+          }
         }
       })
     }

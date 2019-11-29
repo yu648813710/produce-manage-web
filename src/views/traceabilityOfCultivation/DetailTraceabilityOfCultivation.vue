@@ -2,11 +2,9 @@
 溯源信息详情
 */
 <template>
-  <div>
+  <div style="margin: 10px 16px;">
     <!-- 面包屑 -->
-    <div style="padding-top: 16px;padding-left:16px;">
-      <crumbs-nav :crumbs-arr="dateilCrumbsArr" />
-    </div>
+    <crumbs-nav :crumbs-arr="dateilCrumbsArr" style="margin-bottom: 10px;"/>
     <!-- 基础信息 -->
     <div class="wrapper">
       <div class="title-wrapper">
@@ -70,12 +68,7 @@
         </a-row>
       </div>
     </div>
-    <detail-img
-      v-if="imgVisible && src"
-      :imgVisible="imgVisible"
-      :imgUrl="src"
-      @modalCancel="modalCancel"
-    ></detail-img>
+    <ImgModal v-if="imgVisible && src" :imgUrl="src" :imgVisible="imgVisible" @modalCancel="modalCancel"/>
   </div>
 </template>
 <script>
@@ -84,7 +77,7 @@ import { Row, Col, Table, Button } from 'ant-design-vue'
 import CrumbsNav from '@/components/crumbsNav/CrumbsNav' // 面包屑
 import { dateilCrumbsArr } from './config.js'
 import { getTracesourceDetail } from '@/api/farmPlan.js'
-import DetailImg from './components/DetailImg.vue'
+import ImgModal from '@/components/ImgModal'
 Vue.use(Row)
 Vue.use(Col)
 Vue.use(Table)
@@ -92,7 +85,7 @@ Vue.use(Button)
 export default {
   components: {
     CrumbsNav,
-    DetailImg
+    ImgModal
   },
   data () {
     return {
@@ -151,7 +144,6 @@ export default {
     position: relative;
     padding: 24px 24px 0 24px ;
     background: #fff;
-    margin: 16px;
     margin-top: 0;
     border-radius: 4px;
     .title-wrapper{

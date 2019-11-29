@@ -1,10 +1,8 @@
 /**临时工详情*/
 <template>
-  <div>
+  <div style="margin: 10px 16px;">
     <!-- 面包屑 -->
-    <div style="padding-top: 16px;padding-left:16px;">
-      <crumbs-nav :crumbs-arr="detailCrumbsArr"/>
-    </div>
+    <crumbs-nav :crumbs-arr="detailCrumbsArr" style="margin-bottom: 10px;"/>
     <!-- 基础信息 -->
     <div class="wrapper">
       <div class="title-wrapper">
@@ -96,6 +94,12 @@
       :visible="visible"
       :footer="null"
       @cancel="closeModal"
+      :width="1000"
+      :bodyStyle="{
+        height: '380px',
+        overflow: 'auto'
+      }"
+      :maskClosable="false"
     >
       <div class="item">
         <p>
@@ -403,7 +407,6 @@ export default {
     position: relative;
     padding: 24px 24px 0 24px;
     background: #fff;
-    margin: 16px;
     margin-top: 0;
     border-radius: 4px;
 

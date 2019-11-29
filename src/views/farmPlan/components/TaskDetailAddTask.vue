@@ -5,7 +5,7 @@
       :visible="addShow"
       @cancel="hiddenAddDetailTask"
       @ok="addTaskSbumit"
-      :width="750"
+      :width="1000"
       :bodyStyle="{
         height:'380px',
         overflow:'auto'

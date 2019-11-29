@@ -8,7 +8,7 @@
       <a-breadcrumb-item>地块预警规则</a-breadcrumb-item>
     </a-breadcrumb>-->
     <!-- 导航 -->
-    <crumbs-nav :crumbs-arr="crumbsArr" />
+    <crumbs-nav :crumbs-arr="crumbsArr" style="margin-bottom: 10px;"/>
     <div class="form">
       <!-- 搜索条件 -->
       <a-form class="searchForm">
@@ -104,6 +104,7 @@
       :visible="deteleVisible"
       @ok="deteleHandleOk"
       :width="500"
+      :maskClosable="false"
       @cancel="deteleHandleCancel"
       >是否删除此条预警？</a-modal
     >
@@ -512,7 +513,7 @@ export default {
 
 <style lang="less" scoped>
 .base {
-  padding: 20px;
+  margin: 10px 16px;
 }
 
 .form {
