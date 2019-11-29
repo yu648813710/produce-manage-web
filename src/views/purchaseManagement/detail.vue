@@ -1,6 +1,6 @@
 <template>
-  <a-layout>
-    <crumbsNav :crumbsArr="crumbsArr" :style="{margin: '16px 16px 0 16px'}"></crumbsNav>
+  <a-layout style="margin: 10px 16px;">
+    <crumbsNav :crumbsArr="crumbsArr" style="margin-bottom: 10px"></crumbsNav>
     <div class="wrapper">
       <div class="title-wrapper">
         <div class="icon"></div>
@@ -87,7 +87,6 @@ export default {
   position: relative;
   padding: 24px 24px 0 24px;
   background: #fff;
-  margin: 0 16px 16px 16px;
   border-radius: 4px;
 
   .title-wrapper {

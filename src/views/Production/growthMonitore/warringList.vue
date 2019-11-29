@@ -2,10 +2,8 @@
 地块监控列表页面
 */
 <template>
-  <div>
-    <div class="crumbCtr">
-      <crumbsNav :crumbsArr="crumbsArr"></crumbsNav>
-    </div>
+  <div style="margin: 10px 16px;">
+    <crumbsNav :crumbsArr="crumbsArr" style="margin-bottom: 10px;"></crumbsNav>
     <div class="wrapper">
       <div class="search-wrapper">
         <a-row>
@@ -460,7 +458,6 @@ export default {
 
   .wrapper {
     position: relative;
-    margin: 16px;
     margin-top: 0px;
     border-radius: 4px;
 

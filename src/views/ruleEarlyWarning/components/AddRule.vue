@@ -4,9 +4,10 @@
       :title="infoAddOrEditType === 'add' ? '新建预警' : '修改预警'"
       :visible="visible"
       @ok="handleOk"
-      :width="600"
+      :width="1000"
       :confirmLoading="confirmLoading"
       @cancel="handleCancel"
+      :maskClosable="false"
     >
       <a-form :form="ruleForm" @submit="handleOk">
         <a-form-item

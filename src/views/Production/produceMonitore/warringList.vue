@@ -4,7 +4,7 @@
 <template>
   <div>
     <div class="crumbCtr">
-      <crumbsNav :crumbsArr="crumbsArr"></crumbsNav>
+      <crumbsNav :crumbsArr="crumbsArr" style="margin-bottom: 10px;"></crumbsNav>
     </div>
     <div class="wrapper">
       <div class="search-wrapper">
@@ -437,7 +437,7 @@ export default {
   }
 
   .crumbCtr {
-    margin: 16px 16px 0 16px;
+    margin: 10px 16px;
   }
 
   .table-wrapper {
@@ -460,7 +460,6 @@ export default {
 
   .wrapper {
     position: relative;
-    margin: 16px;
     margin-top: 0px;
     border-radius: 4px;
 

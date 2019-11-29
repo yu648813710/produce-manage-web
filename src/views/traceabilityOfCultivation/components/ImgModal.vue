@@ -4,6 +4,7 @@
     :visible="visible"
     :width="modalWidth + 50"
     :footer="null"
+    :maskClosable="false"
     @cancel="handleCancel"
     >
     <div class="decodeContent" :style="{width:modalWidth ? modalWidth + 'px' : '240px'}">

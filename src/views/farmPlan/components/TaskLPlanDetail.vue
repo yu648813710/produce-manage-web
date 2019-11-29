@@ -4,8 +4,9 @@
       title="任务"
       :visible="detailShow"
       @cancel="hiddenDetailTask"
-      :width="750"
+      :width="1000"
       :footer="null"
+      :bodyStyle="{ height: '380px', overflow: 'auto' }"
       :maskClosable="false"
       class="task-detail"
     >
@@ -227,7 +228,7 @@
       <!-- 任务不同类型 结束 -->
     </a-modal>
     <!-- 图片弹窗 -->
-    <a-modal :visible="showBigImg" :footer="null" @cancel="closeBigImg">
+    <a-modal :visible="showBigImg" :footer="null" @cancel="closeBigImg" :maskClosable="false">
       <img alt="example" style="width: 100%" :src="imgUrl" />
     </a-modal>
   </div>

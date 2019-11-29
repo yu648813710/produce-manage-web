@@ -1,6 +1,6 @@
 <template>
   <div class="add-means">
-    <MyBreadCrumb :crumbsArr="crumbsArr"></MyBreadCrumb>
+    <MyBreadCrumb :crumbsArr="crumbsArr" style="margin-bottom: 10px;"></MyBreadCrumb>
     <div class="layout">
       <a-steps class="steps" :current="currentStep" size="default">
         <a-step title="生产资料" />
@@ -99,7 +99,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .add-means {
-  margin: 16px;
+  margin: 10px 16px;
   background-color: #eee;
   .layout {
     background-color: #fff;

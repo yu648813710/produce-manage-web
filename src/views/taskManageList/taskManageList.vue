@@ -1,7 +1,7 @@
 <template>
   <div class="green_house">
     <!-- 导航 -->
-    <crumbs-nav :crumbs-arr="crumbsArr" />
+    <crumbs-nav :crumbs-arr="crumbsArr" style="margin-bottom: 10px;"/>
     <!-- 导航 -->
     <!-- 搜索组件 -->
     <search-form :select-data="selectStateData" @searchTask="searchTask" @clearSearch="clearSearch"></search-form>
@@ -46,6 +46,7 @@
       :visible="deleteShow"
       @ok="deleteTask"
       @cancel="hiddenDeleteModal"
+      :maskClosable="false"
       :width="450"
     >
       <p>确认删除此条任务？</p>
@@ -311,7 +312,7 @@ export default {
 
 <style lang="less" scoped>
 .green_house {
-  padding: 20px;
+  padding: 10px 16px;
 }
 .form {
   background-color: white;

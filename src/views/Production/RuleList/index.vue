@@ -4,7 +4,7 @@
 <template>
   <div class="rule-list">
     <!-- 导航 -->
-    <crumbs-nav :crumbs-arr="crumbsArr" />
+    <crumbs-nav :crumbs-arr="crumbsArr" style="margin-bottom: 10px;"/>
     <!-- 搜索 -->
     <div class="search-wrapper" style="margin-bottom: 16px;">
       <a-form :form="sreachForm">
@@ -113,6 +113,7 @@
 			:visible="visibleDelete"
 			@ok="handleDelOk"
 			@cancel="handleDelCancel"
+      :maskClosable="false"
 			>
 			<p>是否删除此预警规则信息？</p>
 		</a-modal>
@@ -333,7 +334,7 @@ export default {
 
 <style lang="less" scoped>
 .rule-list{
-  padding: 20px;
+  margin: 10px 16px;
   .search-wrapper{
     border-radius: 4px;
     background-color: white;

@@ -1,11 +1,9 @@
 /**木耳栽培过程溯源 */
 <template>
   <div class="about">
-    <a-layout>
-      <div style="padding-top: 16px;padding-left:16px;">
-        <crumbs-nav :crumbs-arr="crumbsArr" />
-      </div>
-      <a-layout-content style="margin: 16px;margin-top:0;">
+    <a-layout style="margin: 10px 16px;">
+      <crumbs-nav :crumbs-arr="crumbsArr" style="margin-bottom: 10px;"/>
+      <a-layout-content>
         <div class="search-wrapper">
           <a-form :form="sreachForm" @submit="searchProductlst">
             <a-row :gutter="40">
@@ -127,13 +125,7 @@
       @relationModal="relationModal"
     ></relation-modal>
     <!-- 图片放大模态框 -->
-    <img-modal
-      :visible="imgVisible"
-      :src="imgSrc"
-      :title="imgTitle"
-      :modalWidth="modalWidth"
-      @hideImgModal="hideImgModal"
-    ></img-modal>
+    <ImgModal :imgUrl="imgSrc" :imgVisible="imgVisible" @modalCancel="hideImgModal"/>
     <!-- 打印模态框 -->
     <printing-modal
       :printVisible="printVisible"
@@ -147,7 +139,7 @@ import Vue from 'vue'
 import CrumbsNav from '@/components/crumbsNav/CrumbsNav' // 面包屑
 import AddEditModal from './components/AddEditModal.vue'
 import RelationModal from './components/RelationModal.vue'
-import ImgModal from './components/ImgModal.vue'
+import ImgModal from '@/components/ImgModal'
 import PrintingModal from './components/PrintingModal.vue'
 import {
   Layout,

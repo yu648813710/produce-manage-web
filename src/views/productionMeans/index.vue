@@ -1,6 +1,6 @@
 <template>
-  <div class="prd-means" style="margin: 16px;background: #eee;">
-    <MyBreadCrumb :crumbsArr="crumbsArr"></MyBreadCrumb>
+  <div class="prd-means" style="margin: 10px 16px;background: #eee;">
+    <MyBreadCrumb :crumbsArr="crumbsArr" style="margin-bottom: 10px;"></MyBreadCrumb>
     <a-layout>
       <a-layout-content>
         <div class="search-wrapper">

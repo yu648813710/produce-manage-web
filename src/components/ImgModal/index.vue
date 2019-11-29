@@ -1,9 +1,8 @@
 <template>
   <a-modal
-    :title="''"
     :visible="imgVisible"
-    :footer="null"
     :maskClosable="false"
+    :footer="null"
     @cancel="modalCancel"
     >
     <div class="detail-img-wrapper">
@@ -39,12 +38,9 @@ export default {
 
 <style lang="less" scoped>
 .detail-img-wrapper{
-  width: 470px;
-  height: 250px;
   img{
-    width: 470px;
-    height: 250px;
-    background-size: 100% 100%;
+    width: 100%;
+    background-size: 100%;
   }
 }
 </style>

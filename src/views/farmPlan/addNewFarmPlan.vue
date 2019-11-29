@@ -1,6 +1,7 @@
 <template>
   <div>
-    <a-layout>
+    <a-layout style="margin: 10px 16px">
+      <crumbs-nav :crumbs-arr="crumbsArr" style="margin-bottom: 10px;"/>
       <a-layout-content class="layOutContent">
         <div class="title-wrapper">
           <div class="icon"></div>
@@ -222,6 +223,7 @@ import {
   addFarmPlan
 } from '@/api/farmPlan.js'
 import AddFarmPlanList from './components/AddFarmPlanList'
+import CrumbsNav from '@/components/crumbsNav/CrumbsNav' // 面包屑
 import moment from 'moment'
 import Vue from 'vue'
 import {
@@ -249,11 +251,17 @@ Vue.use(Checkbox)
 export default {
   name: 'baseDetail',
   components: {
-    AddFarmPlanList
+    AddFarmPlanList,
+    CrumbsNav
   },
   watch: {},
   data() {
     return {
+      crumbsArr: [
+        { name: '生产管理', back: false, path: '' },
+        { name: '农事计划', back: true, path: '/farmPlan' },
+        { name: '新增农事计划', back: false, path: '' }
+      ],
       readyOptions: [], // 可选择数据
       checkOptions: [], // 已选择数据
       frameTypeArr: [], // 产品种类渲染数据

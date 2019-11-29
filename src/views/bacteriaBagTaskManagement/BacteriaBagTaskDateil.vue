@@ -2,11 +2,9 @@
 菌包任务管理详情
 */
 <template>
-  <div>
+  <div style="margin: 10px 16px;">
     <!-- 面包屑 -->
-    <div style="padding-top: 16px;padding-left:16px;">
-      <crumbs-nav :crumbs-arr="dateilCrumbsArr" />
-    </div>
+    <crumbs-nav :crumbs-arr="dateilCrumbsArr" style="margin-bottom: 10px;"/>
     <!-- 基础信息 -->
     <div class="wrapper">
       <div class="title-wrapper">
@@ -168,7 +166,6 @@ export default {
     position: relative;
     padding: 24px 24px 0 24px ;
     background: #fff;
-    margin: 16px;
     margin-top: 0;
     border-radius: 4px;
     .title-wrapper{

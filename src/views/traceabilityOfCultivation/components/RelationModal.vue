@@ -5,9 +5,10 @@
       title="关联批次号"
       :visible="visible"
       @ok="handleModalOk"
-			:width="800"
+			:width="1000"
       @cancel="handleModalCancel"
       :destroyOnClose="true"
+      :maskClosable="false"
       >
       <a-form :form="modalForm">
         <a-form-item label="关联批次号" :label-col="{ span: 7 }" :wrapper-col="{ span: 12 }">

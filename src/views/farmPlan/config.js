@@ -71,7 +71,9 @@ const tableDetailColumuns = [
   { title: '负责人', dataIndex: 'assigner', key: 'assigner' },
   {
     title: '操作',
-    scopedSlots: { customRender: 'toDetail' }
+    scopedSlots: { customRender: 'toDetail' },
+    fixed: 'right',
+    align: 'center'
   }
 ]
 const crumbsArr = [
