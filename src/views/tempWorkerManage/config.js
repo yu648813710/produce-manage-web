@@ -17,18 +17,18 @@ const columns = [
   { title: '操作', key: 'operation', scopedSlots: { customRender: 'operation' }, align: 'center', width: 200, fixed: 'right' }
 ]
 const detailColumns = [
-  { title: '序号', scopedSlots: { customRender: 'id' }, key: 'id' },
-  { title: '农事操作', dataIndex: 'actionName', key: 'actionName' },
-  { title: '所属周期', dataIndex: 'cycleName', key: 'cycleName' },
-  { title: '农事类型', dataIndex: 'farmingTypeName', key: 'farmingTypeName' },
+  { title: '序号', scopedSlots: { customRender: 'id' }, key: 'id', widht: 100 },
+  { title: '农事操作', dataIndex: 'actionName', key: 'actionName', widht: 200 },
+  { title: '所属周期', dataIndex: 'cycleName', key: 'cycleName', widht: 100 },
+  { title: '农事类型', dataIndex: 'farmingTypeName', key: 'farmingTypeName', widht: 100 },
   { title: '使用农资', dataIndex: 'useMaterial', scopedSlots: { customRender: 'useMaterial' }, key: 'useMaterial', width: 100 },
-  { title: '状态', dataIndex: 'taskStatusName', key: 'taskStatusName' },
-  { title: '执行时长', scopedSlots: { customRender: 'cycle' }, key: 'cycleEndTime' },
-  { title: '任务开始时间', dataIndex: 'startTime', key: 'startTime' },
-  { title: '任务结束时间', dataIndex: 'endTime', key: 'endTime' },
-  { title: '任务完成时间', scopedSlots: { customRender: 'finishTime' }, key: 'extendData.finishTime' },
-  { title: '负责人', dataIndex: 'assigner', key: 'assigner' },
-  { title: '操作', key: 'operation', scopedSlots: { customRender: 'operation' }, align: 'center' }
+  { title: '状态', dataIndex: 'taskStatusName', key: 'taskStatusName', widht: 100 },
+  { title: '执行时长', scopedSlots: { customRender: 'cycle' }, key: 'cycleEndTime', widht: 200 },
+  { title: '任务开始时间', dataIndex: 'startTime', key: 'startTime', widht: 200 },
+  { title: '任务结束时间', dataIndex: 'endTime', key: 'endTime', widht: 200 },
+  { title: '任务完成时间', scopedSlots: { customRender: 'finishTime' }, key: 'extendData.finishTime', widht: 200 },
+  { title: '负责人', dataIndex: 'assigner', key: 'assigner', widht: 200 },
+  { title: '操作', key: 'operation', scopedSlots: { customRender: 'operation' }, align: 'center', fixed: 'right', width: 100 }
 ]
 const crumbsArr = [
   { name: '生产管理', back: false, path: '' },

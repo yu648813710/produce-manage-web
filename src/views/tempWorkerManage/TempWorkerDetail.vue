@@ -62,6 +62,7 @@
           :dataSource="list"
           :pagination="false"
           :loading="loading"
+          :scroll="{ x: 1800 }"
           :style="{marginTop: '50px'}"
           :rowKey="(record, index) => index"
         >
@@ -187,7 +188,7 @@
         </div>
       </div>
       <!-- 包装 -->
-      <div v-else-if="taskDetail.actionId==='A00023'">
+      <div v-else-if="taskDetail.actionId==='A00024'">
         <div class="item">
           <p>
             <span>包装人：</span>
@@ -214,7 +215,7 @@
         </div>
       </div>
       <!-- 存储 -->
-      <div v-else-if="taskDetail.actionId==='A00024'">
+      <div v-else-if="taskDetail.actionId==='A00025'">
         <div class="item">
           <p>
             <span>存储温度：</span>
@@ -240,7 +241,7 @@
         </div>
       </div>
       <!-- 检测 -->
-      <div v-else-if="taskDetail.actionId==='A00025'">
+      <div v-else-if="taskDetail.actionId==='A00023'">
         <div class="item">
           <p>
             <span>检测人：</span>
