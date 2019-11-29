@@ -1,6 +1,6 @@
 <template>
   <div class="means-detail">
-    <MyBreadCrumb :crumbsArr="crumbsArr"></MyBreadCrumb>
+    <MyBreadCrumb :crumbsArr="crumbsArr" style="margin-bottom: 10px;"></MyBreadCrumb>
     <div class="table-content">
       <p style="font-size:16px;font-weight:bold;line-height:40px;padding-top: 20px;">申请企业基本情况</p>
       <div class="table-content-info">
@@ -14,7 +14,7 @@
             <template v-if="pictures.length === 1 && item.id !== '018' && item.id !== '017'">
               <div v-if="index === (list.length - 3)" :class="index % 2 === 0 ? 'row-img' : 'row-img-sp'">
                 <span>{{item.label}}</span>
-                <span><img v-if="item.value" :src="item.value" alt="img"></span>
+                <span style="cursor: pointer;" @click="openImgModal(item.value)"><img v-if="item.value" :src="item.value" alt="img"></span>
               </div>
               <div v-else :class="index % 2 === 0 ? 'row-item' : 'row-item-sp'">
                 <span>{{item.label}}</span>
@@ -24,11 +24,11 @@
             <template v-if="(pictures.length === 2 || pictures.length === 3) && item.id !== '018'">
               <div v-if="index === (list.length - 3)" :class="index % 2 === 0 ? 'row-img' : 'row-img-sp'">
                 <span>{{item.label}}</span>
-                <span><img v-if="item.value" :src="item.value" alt="img"></span>
+                <span style="cursor: pointer;" @click="openImgModal(item.value)"><img v-if="item.value" :src="item.value" alt="img"></span>
               </div>
               <div v-else-if="index === (list.length - 2)" :class="index % 2 === 0 ? 'row-img' : 'row-img-sp'">
-                <span><img v-if="item.label" :src="item.label" alt="img"></span>
-                <span><img v-if="item.value" :src="item.value" alt="img"></span>
+                <span style="cursor: pointer;" @click="openImgModal(item.label)"><img v-if="item.label" :src="item.label" alt="img"></span>
+                <span style="cursor: pointer;" @click="openImgModal(item.value)"><img v-if="item.value" :src="item.value" alt="img"></span>
               </div>
               <div v-else :class="index % 2 === 0 ? 'row-item' : 'row-item-sp'">
                 <span>{{item.label}}</span>
@@ -38,11 +38,11 @@
             <template v-if="pictures.length === 4 || pictures.length === 5">
               <div v-if="index === (list.length - 3)" :class="index % 2 === 0 ? 'row-img' : 'row-img-sp'">
                 <span>{{item.label}}</span>
-                <span><img v-if="item.value" :src="item.value" alt="img"></span>
+                <span style="cursor: pointer;" @click="openImgModal(item.value)"><img v-if="item.value" :src="item.value" alt="img"></span>
               </div>
               <div v-else-if="index === (list.length - 2) || index === (list.length - 1)" :class="index % 2 === 0 ? 'row-img' : 'row-img-sp'">
-                <span><img v-if="item.label" :src="item.label" alt="img"></span>
-                <span><img v-if="item.value" :src="item.value" alt="img"></span>
+                <span style="cursor: pointer;" @click="openImgModal(item.label)"><img v-if="item.label" :src="item.label" alt="img"></span>
+                <span style="cursor: pointer;" @click="openImgModal(item.value)"><img v-if="item.value" :src="item.value" alt="img"></span>
               </div>
               <div v-else :class="index % 2 === 0 ? 'row-item' : 'row-item-sp'">
                 <span>{{item.label}}</span>
@@ -51,6 +51,7 @@
             </template>
           </a-col>
         </a-row>
+        <ImgModal v-if="imgVisible" :imgUrl="previewSrc" :imgVisible="imgVisible" @modalCancel="modalCancel"/>
       </div>
     </div>
   </div>
@@ -60,6 +61,7 @@ import Vue from 'vue'
 import { Table, Row, Col, Layout } from 'ant-design-vue'
 import { produceMeansDetail } from '@/api/productManage'
 import MyBreadCrumb from '@/components/crumbsNav/CrumbsNav'
+import ImgModal from '@/components/ImgModal'
 Vue.use(Table)
 Vue.use(Row)
 Vue.use(Col)
@@ -94,13 +96,16 @@ const list = [
 export default {
   name: 'productionMeansDetail',
   components: {
-    MyBreadCrumb
+    MyBreadCrumb,
+    ImgModal
   },
   data() {
     return {
       list,
       crumbsArr,
-      pictures: []
+      pictures: [],
+      imgVisible: false,
+      previewSrc: ''
     }
   },
   created() {
@@ -150,13 +155,21 @@ export default {
           }
         }
       })
+    },
+
+    openImgModal(src) {
+      this.imgVisible = true
+      this.previewSrc = src
+    },
+    modalCancel(val) {
+      this.imgVisible = val
     }
   }
 }
 </script>
 <style lang="less" scoped>
 .means-detail {
-  margin: 16px;
+  margin: 10px 16px;
   background-color: #eee;
   display: flex;
   flex-direction: column;

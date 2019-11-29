@@ -26,6 +26,7 @@ const tableColumns = [
     scopedSlots: { customRender: 'operation' },
     key: 'operation',
     align: 'center',
+    fixed: 'right',
     width: 250
   }
 ]

@@ -44,4 +44,8 @@ export default {
 .ant-layout {
   background: none !important;
 }
+
+.ant-modal-footer{
+  border: none !important;
+}
 </style>
