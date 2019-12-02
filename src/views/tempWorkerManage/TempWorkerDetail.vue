@@ -60,8 +60,9 @@
         <a-table
           :columns="detailColumns"
           :dataSource="list"
-          :pagination="false"
+          :pagination="pagination"
           :loading="loading"
+          @change="handleTableChange"
           :scroll="{ x: 1800 }"
           :style="{marginTop: '50px'}"
           :rowKey="(record, index) => index"
@@ -366,6 +367,7 @@ export default {
         .then(res => {
           if (res.success === 'Y') {
             this.list = res.data.records
+            this.pagination.total = (res.data && res.data.total) || 0
           } else {
             this.$message.error(res.message)
           }
@@ -386,6 +388,11 @@ export default {
     handleOpenModal(record) {
       this.visible = true
       this.getTaskDetail(record)
+    },
+    handleTableChange(pagination, filters, sorter) {
+      this.pagination.current = pagination.current
+      this.pagination.pageSize = pagination.pageSize
+      this.getTaskList()
     },
     // 关闭弹窗
     closeModal() {
