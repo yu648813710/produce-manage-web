@@ -18,8 +18,8 @@
     </div>
     <a-form class="form-fields" :form="form" @submit="handleOk">
       <a-row v-if="fields" :gutter="24">
-        <a-col v-for="(item, index) in fields" :key="'field' + item.id">
-          <a-form-item :label-col="{ span: 5 }" :wrapper-col="{ span: 15 }">
+        <a-col v-for="(item, index) in fields" :key="'field' + item.id" :span="12">
+          <a-form-item :colon="false">
             <span v-if="index === 5" slot="label">
               <span :style="{color: 'red'}">*&nbsp;&nbsp;</span>
               <span>{{item.label}}</span>

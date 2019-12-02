@@ -86,11 +86,11 @@
             </span>
             <!-- 木耳图片 -->
             <span slot="productPicture" slot-scope="text, record" @click="showImgModal(record.productPicture, 'url')">
-              <img style="width: 30px;height: 30px" :src="record.productPicture" alt="木耳图片">
+              <img style="width: 50px;height: 50px" :src="record.productPicture" alt="木耳图片">
             </span>
             <!-- 二维码 -->
             <span slot="qrcodeId" slot-scope="text, record" @click="showImgModal(record.qrcodeId, 'base64')">
-              <img style="width: 30px;height: 30px" :src="decode(record.qrcodeId)" alt="">
+              <img style="width: 50px;height: 50px" :src="decode(record.qrcodeId)" alt="">
             </span>
             <span slot="status" slot-scope="text, record">
               <!-- record.status === 'N' ? '禁用' : '启用' @click="triggerSwitch"-->

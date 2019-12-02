@@ -6,10 +6,6 @@
 			@ok="handleDelOk"
 			@cancel="handleDelCancel"
       :maskClosable="false"
-      :bodyStyle="{
-        height: '380px',
-        overflow: 'auto'
-      }"
 			>
 			<p>{{contentText}}</p>
 		</a-modal>

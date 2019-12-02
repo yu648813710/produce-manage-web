@@ -1,10 +1,8 @@
 <!-- eslint-disable -->
 <template>
   <div class="add-task">
-    <a-layout>
-      <div style="padding-top: 16px;padding-left:16px;">
-        <crumbs-nav :crumbs-arr="addTaskCrumbs" />
-      </div>
+    <a-layout style="margin: 10px 16px;">
+      <crumbs-nav :crumbs-arr="addTaskCrumbs" style="padding-bottom: 10px;"/>
       <a-layout-content style="margin: 16px;margin-top:0;">
         <div class="add-task-wrapper">
           <div>

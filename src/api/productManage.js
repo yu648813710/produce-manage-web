@@ -1,4 +1,5 @@
 import { axios } from '@/utils/request'
+import { uploadAxios } from '@/utils/uploadRequest'
 const api = {
   warningList: '/monitor/warning/searchMonitorList/gh/realTime'
 }
@@ -415,7 +416,7 @@ export function getCurrentUserInfo () {
 
 // 上传图片
 export function uploadImage(data) {
-  return axios({
+  return uploadAxios({
     url: '/produce/oss/fileUpload',
     method: 'POST',
     data: data
