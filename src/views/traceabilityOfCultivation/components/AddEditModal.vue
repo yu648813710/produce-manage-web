@@ -11,154 +11,174 @@
       :destroyOnClose="true"
       >
       <div>
-				<a-form :form="modalForm">
-					<a-form-item label="商品名称" :label-col="{ span: 7 }" :wrapper-col="{ span: 12 }">
-            <a-input
-              placeholder="请输入商品名称"
-              autocomplete="off"
-              maxLength="15"
-              v-decorator="[
-                'productName',
-                { rules: [{ required: true, message: '请输入商品名称' },
-                ] },
-              ]"
-            />
-					</a-form-item>
-					<a-form-item label="产品品类" :label-col="{ span: 7 }" :wrapper-col="{ span: 12 }">
-            <a-select
-              placeholder="请选择产品品类"
-              :allowClear="true"
-              :disabled="isEdit"
-              :getPopupContainer="triggerNode => {
-                return triggerNode.parentNode || document.body;
-              }"
-              v-decorator="[
-                'productCategoryCode',
-                { rules: [{ required: true, message: '请选择产品品类' }] },
-              ]"
-              @change="getBreedList"
-            >
-              <a-select-option v-for="item in categoryArray" :key="item.categoryId" :value="item.categoryId">{{item.categoryName}}</a-select-option>
-            </a-select>
-					</a-form-item>
-          <a-form-item label="产品品种" :label-col="{ span: 7 }" :wrapper-col="{ span: 12 }">
-            <a-select
-              placeholder="请选择产品品种"
-              :allowClear="true"
-              :getPopupContainer="triggerNode => {
-                return triggerNode.parentNode || document.body;
-              }"
-              :disabled="isEdit"
-              v-decorator="[
-                'productBreedCode',
-                { rules: [{ required: true, message: '请选择产品品种' }] },
-              ]"
-            >
-              <a-select-option v-for="item in breedArray" :key="item.breedId" :value="item.breedId">{{item.breedName}}</a-select-option>
-            </a-select>
-					</a-form-item>
-					<a-form-item label="生产企业" :label-col="{ span: 7 }" :wrapper-col="{ span: 12 }">
-            <a-input
-              placeholder="请输入生产企业"
-              autocomplete="off"
-              maxLength="15"
-              v-decorator="[
-                'productionCompany',
-                { rules: [{ required: true, message: '请输入生产企业' }] },
-              ]"
-            />
-					</a-form-item>
-          <a-row>
-            <a-col :span="24">
-              <a-form-item label="生产地"  :label-col="{ span: 7 }" :wrapper-col="{ span: 12 }">
-                <a-cascader
-                  placeholder="请选择基地地址"
-                  v-decorator="[
-                  'baseAddress',{
-                    rules: [{ required: true, message: '请选择生产地址' }]
-                  }]"
-                  :options="cityList"
-                  />
-              </a-form-item>
-            </a-col>
-          </a-row>
-          <a-row>
-            <a-col :span="24" style="margin-left: 218px;">
-              <a-form-item :label="''" :label-col="{ span: 7 }" :wrapper-col="{ span: 12 }">
+				<a-form :form="modalForm" class="form-fields">
+          <a-row :gutter="24">
+            <a-col :span="12" class="row-col" >
+              <a-form-item label="商品名称" :colon="false">
                 <a-input
-                  placeholder="请输入具体地址"
+                  placeholder="请输入商品名称"
                   autocomplete="off"
                   maxLength="15"
                   v-decorator="[
-                    'address',
-                    { rules: [{ required: true, message: '请输入具体地址' }] },
+                    'productName',
+                    { rules: [{ required: true, message: '请输入商品名称' },
+                    ] },
                   ]"
                 />
               </a-form-item>
             </a-col>
-          </a-row>
-					<a-form-item label="生产日期" :label-col="{ span: 7 }" :wrapper-col="{ span: 12 }">
-            <a-date-picker
-              format="YYYY-MM-DD"
-              :getCalendarContainer="triggerNode => {
-                return triggerNode.parentNode || document.body;
-              }"
-              :disabledDate="disabledDate"
-              v-decorator="[
-                'productionDate',
-                {
-                  rules: [
-                    {
-                      required: true,
-                      message: '请选择生产日期',
-                    }
-                  ],
-                },
-              ]"
-              @change="datePickerChange" style="width: 100%;"
-            />
-					</a-form-item>
-					<a-form-item label="保质期" class="form-item-label-sty" :label-col="{ span: 7 }" :wrapper-col="{ span: 12 }">
-            <a-row :gutter="0">
-              <a-col :span="22">
-                <a-input-number
-                  placeholder="请输入保质期"
-                  autocomplete="off"
-                  style="width:100%;"
+            <a-col :span="12" class="row-col" >
+              <a-form-item label="产品品类" :colon="false">
+                <a-select
+                  placeholder="请选择产品品类"
+                  :allowClear="true"
+                  :disabled="isEdit"
+                  :getPopupContainer="triggerNode => {
+                    return triggerNode.parentNode || document.body;
+                  }"
                   v-decorator="[
-                    'expiryTime',
-                    { rules: [{ required: true, message: '请输入有效的保质期天数',type: 'number' }] },
+                    'productCategoryCode',
+                    { rules: [{ required: true, message: '请选择产品品类' }] },
+                  ]"
+                  @change="getBreedList"
+                >
+                  <a-select-option v-for="item in categoryArray" :key="item.categoryId" :value="item.categoryId">{{item.categoryName}}</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+            <a-col :span="12" class="row-col" >
+              <a-form-item label="产品品种" :colon="false">
+                <a-select
+                  placeholder="请选择产品品种"
+                  :allowClear="true"
+                  :getPopupContainer="triggerNode => {
+                    return triggerNode.parentNode || document.body;
+                  }"
+                  :disabled="isEdit"
+                  v-decorator="[
+                    'productBreedCode',
+                    { rules: [{ required: true, message: '请选择产品品种' }] },
+                  ]"
+                >
+                  <a-select-option v-for="item in breedArray" :key="item.breedId" :value="item.breedId">{{item.breedName}}</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+            <a-col :span="12" class="row-col" >
+              <a-form-item label="生产企业" :colon="false">
+                <a-input
+                  placeholder="请输入生产企业"
+                  autocomplete="off"
+                  maxLength="15"
+                  v-decorator="[
+                    'productionCompany',
+                    { rules: [{ required: true, message: '请输入生产企业' }] },
                   ]"
                 />
-              </a-col>
-              <a-col :span="2" style="text-align:right;">
-                <span >天</span>
-              </a-col>
-            </a-row>
-					</a-form-item>
-          <a-form-item label="木耳图片" :label-col="{ span: 7 }" :wrapper-col="{ span: 12 }">
-            <a-input
-              style="display: none"
-              v-decorator="[
-                `baseImg`,
-                {
-                  rules: [
+              </a-form-item>
+            </a-col>
+            <a-col :span="12" class="row-col" >
+              <a-row>
+                <a-col :span="24">
+                  <a-form-item label="生产地" :colon="false">
+                    <a-cascader
+                      placeholder="请选择基地地址"
+                      v-decorator="[
+                      'baseAddress',{
+                        rules: [{ required: true, message: '请选择生产地址' }]
+                      }]"
+                      :options="cityList"
+                      />
+                  </a-form-item>
+                </a-col>
+              </a-row>
+            </a-col>
+            <a-col :span="12" class="row-col" >
+              <a-row>
+                <a-col :span="24">
+                  <a-form-item label="具体地址" :colon="false">
+                    <a-input
+                      placeholder="请输入具体地址"
+                      autocomplete="off"
+                      maxLength="15"
+                      v-decorator="[
+                        'address',
+                        { rules: [{ required: true, message: '请输入具体地址' }] },
+                      ]"
+                    />
+                  </a-form-item>
+                </a-col>
+              </a-row>
+            </a-col>
+            <a-col :span="12" class="row-col" >
+              <a-form-item label="生产日期" :colon="false">
+                <a-date-picker
+                  format="YYYY-MM-DD"
+                  :getCalendarContainer="triggerNode => {
+                    return triggerNode.parentNode || document.body;
+                  }"
+                  :disabledDate="disabledDate"
+                  v-decorator="[
+                    'productionDate',
                     {
-                      required: true,
-                      message: '请上传木耳图片'
+                      rules: [
+                        {
+                          required: true,
+                          message: '请选择生产日期',
+                        }
+                      ],
+                    },
+                  ]"
+                  @change="datePickerChange" style="width: 100%;"
+                />
+              </a-form-item>
+            </a-col>
+            <a-col :span="12" class="row-col" >
+              <a-form-item label="保质期" class="form-item-label-sty" :colon="false">
+                <a-row :gutter="0">
+                  <a-col :span="22">
+                    <a-input-number
+                      placeholder="请输入保质期"
+                      autocomplete="off"
+                      style="width:100%;"
+                      v-decorator="[
+                        'expiryTime',
+                        { rules: [{ required: true, message: '请输入有效的保质期天数',type: 'number' }] },
+                      ]"
+                    />
+                  </a-col>
+                  <a-col :span="2" style="text-align:right;">
+                    <span >天</span>
+                  </a-col>
+                </a-row>
+              </a-form-item>
+            </a-col>
+            <a-col :span="12" class="row-col" >
+              <a-form-item label="木耳图片" :colon="false">
+                <a-input
+                  style="display: none"
+                  v-decorator="[
+                    `baseImg`,
+                    {
+                      rules: [
+                        {
+                          required: true,
+                          message: '请上传木耳图片'
+                        }
+                      ]
                     }
-                  ]
-                }
-              ]"
-            />
-            <upload-component
-              :disabled="false"
-              :selfImgUrl="picturePath"
-              :visible="visible"
-              @haveUploadImg="haveUploadImg"
-            ></upload-component>
-            <p v-if="!isImgPath" style="color:red;">请上传木耳图片</p>
-					</a-form-item>
+                  ]"
+                />
+                <upload-component
+                  :disabled="false"
+                  :selfImgUrl="picturePath"
+                  :visible="visible"
+                  @haveUploadImg="haveUploadImg"
+                ></upload-component>
+                <p v-if="!isImgPath" style="color:red;">请上传木耳图片</p>
+              </a-form-item>
+            </a-col>
+          </a-row>
 				</a-form>
 			</div>
     </a-modal>
@@ -375,5 +395,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
+.form-fields {
+  .row-col {
+    // display: flex;
+  }
+}
 </style>

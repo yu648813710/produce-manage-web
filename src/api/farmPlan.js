@@ -1,8 +1,9 @@
 import { axios } from '@/utils/request'
+import { uploadAxios } from '@/utils/uploadRequest'
 // VUE_APP_BASE_API = http://106.38.53.203:12825
 // 上传图片
 export function uploadImage (data) {
-  return axios({
+  return uploadAxios({
     url: '/produce/oss/fileUpload',
     method: 'POST',
     data: data
