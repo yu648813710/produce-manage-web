@@ -26,10 +26,10 @@ const err = (error) => {
       message.error(error.response.message)
     }
     if (error.response.status === 401 && !(data.result && data.result.isLogin)) {
+      store.commit('SET_TOKEN_STATE', true)
       message.error(error.response.message)
     }
   }
-  store.commit('SET_TOKEN_STATE', true)
   store.commit('UPDATE_LOADING', false)
   return Promise.reject(error)
 }
