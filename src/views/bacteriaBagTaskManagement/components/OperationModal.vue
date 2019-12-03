@@ -12,6 +12,7 @@
         height: '380px',
         overflow: 'auto'
       }"
+      :footer="null"
       :maskClosable="false"
       @cancel="handleAddCancel"
     >
