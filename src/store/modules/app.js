@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { USERTOKEN, ROUTES, PARENTROUTES } from '../mutation-types'
+import { USERTOKEN, ROUTES, PARENTROUTES, TOKENSTATE } from '../mutation-types'
 
 const app = {
   state: {
@@ -8,7 +8,9 @@ const app = {
     // 动态路由
     [ROUTES]: null,
     // 父级平台传值的路由
-    [PARENTROUTES]: null
+    [PARENTROUTES]: null,
+    // 权限过期判断
+    [TOKENSTATE]: false
   },
   getters: {
     ParentRouter: state => state[PARENTROUTES],
@@ -22,7 +24,8 @@ const app = {
         }
       )
       return showRouter
-    }
+    },
+    TokenState: state => state[TOKENSTATE]
   },
   mutations: {
     SET_USERTOKEN (state, token) {
@@ -40,6 +43,9 @@ const app = {
       let expires = 7 * 24 * 60 * 60 * 1000
       state[PARENTROUTES] = router
       Vue.ls.set(PARENTROUTES, router, expires)
+    },
+    SET_TOKEN_STATE (state, tokenState) {
+      state[TOKENSTATE] = tokenState
     }
   },
   actions: {

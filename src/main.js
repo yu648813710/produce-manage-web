@@ -76,7 +76,8 @@ let vueData = new Vue({
   render: h => h(App),
   data () {
     return {
-      parentData: ''
+      parentData: '',
+      tokenState: store.getters.TokenState
     }
   },
   watch: {
@@ -87,6 +88,9 @@ let vueData = new Vue({
           this.$router.push('/') // 进入第一条路由
         }) // token
       }
+    },
+    tokenState (val) {
+      console.log('token', val)
     }
   },
   beforeCreate () {
