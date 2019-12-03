@@ -66,6 +66,9 @@
               <span slot="id" slot-scope="text, record, index">{{
                 index + 1
               }}</span>
+              <span slot="baseLandName" class="tableCtr" slot-scope="text, record " :title="record.baseLandName">
+                {{record.baseLandName}}
+              </span>
               <div class="action" slot="operation" slot-scope="record">
                 <span
                   style="color:#1890ff; cursor: pointer; margin-right:10px"
@@ -523,7 +526,13 @@ export default {
 .base {
   margin: 10px 16px;
 }
-
+.tableCtr{
+  width: 100px;
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
 .form {
   border-radius: 4px;
   background-color: white;

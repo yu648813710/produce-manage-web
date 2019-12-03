@@ -76,6 +76,14 @@
           slot="id"
           slot-scope="text, record, index"
         >{{index + 1}}</span>
+        <span
+          slot="blockLandName"
+          class="tableCtr"
+          slot-scope="text, record "
+          :title="record.blockLandName"
+        >
+          {{record.blockLandName}}
+        </span>
         <span slot="temperatureSup" slot-scope="text">
           <!-- {{text}} -->
           <span>温度{{text.temperatureInf}}-{{text.temperatureSup}}℃、</span>
@@ -333,6 +341,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  .tableCtr{
+    width: 100px;
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
 .rule-list{
   margin: 10px 16px;
   .search-wrapper{
