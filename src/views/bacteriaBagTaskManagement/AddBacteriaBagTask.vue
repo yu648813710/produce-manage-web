@@ -236,7 +236,7 @@
                           >{{isEdit ? item.actionName : item.optionName }}</div>
                         </a-form-item>
                       </a-col>
-                      <a-col :span="8">
+                      <a-col :span="10">
                         <a-form-item
                           label="操作时长"
                           :label-col="{ span: 2 }"
@@ -290,7 +290,7 @@
                           </div>
                         </a-form-item>
                       </a-col>
-                      <a-col :span="14">
+                      <a-col :span="12">
                         <a-form-item
                           :label-col="{ span: 2 }"
                           :wrapper-col="{ span: 22 }"
