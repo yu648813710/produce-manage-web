@@ -46,6 +46,7 @@
                 autocomplete="off"
                 placeholder="请输入"
                 v-model="data.phone"
+                :disabled="title === '编辑临时工' ? true : false"
               />
             </a-form-item>
           </a-col>
