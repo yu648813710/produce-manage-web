@@ -107,16 +107,16 @@
   </div>
 </template>
 <script>
-import Vue from "vue";
-import { Row, Col, Table, Button } from "ant-design-vue";
-import CrumbsNav from "@/components/crumbsNav/CrumbsNav"; // 面包屑
-import { dateilCrumbsArr } from "./config.js";
-import { getTracesourceDetail } from "@/api/farmPlan.js";
-import ImgModal from "@/components/ImgModal";
-Vue.use(Row);
-Vue.use(Col);
-Vue.use(Table);
-Vue.use(Button);
+import Vue from 'vue'
+import { Row, Col, Table, Button } from 'ant-design-vue'
+import CrumbsNav from '@/components/crumbsNav/CrumbsNav' // 面包屑
+import { dateilCrumbsArr } from './config.js'
+import { getTracesourceDetail } from '@/api/farmPlan.js'
+import ImgModal from '@/components/ImgModal'
+Vue.use(Row)
+Vue.use(Col)
+Vue.use(Table)
+Vue.use(Button)
 export default {
   components: {
     CrumbsNav,
@@ -125,53 +125,53 @@ export default {
   data() {
     return {
       dateilCrumbsArr,
-      productId: "", // 获取操作详情的id
+      productId: '', // 获取操作详情的id
       detail: {
-        expiryTime: "",
-        filePath: "",
-        mergerAddress: "",
-        productBreed: "",
-        productCategory: "",
-        productName: "",
-        productionCompany: "",
-        productionDate: ""
+        expiryTime: '',
+        filePath: '',
+        mergerAddress: '',
+        productBreed: '',
+        productCategory: '',
+        productName: '',
+        productionCompany: '',
+        productionDate: ''
       }, // 基础信息
       nodeInfoList: [],
       imgVisible: false,
-      src: ""
-    };
+      src: ''
+    }
   },
   created() {
     if (this.$route.query.productId) {
-      this.productId = this.$route.query.productId;
-      this.getTracesourceDetail(this.productId);
+      this.productId = this.$route.query.productId
+      this.getTracesourceDetail(this.productId)
     }
   },
   methods: {
     // 获取详情
     getTracesourceDetail(productId) {
       getTracesourceDetail(productId).then(res => {
-        console.log(res);
-        if (res.success === "Y") {
-          this.detail = (res.data && res.data.productBaseInfo) || {};
-          this.nodeInfoList = (res.data && res.data.nodeInfoList) || [];
+        console.log(res)
+        if (res.success === 'Y') {
+          this.detail = (res.data && res.data.productBaseInfo) || {}
+          this.nodeInfoList = (res.data && res.data.nodeInfoList) || []
         } else {
-          this.$message.error(res.message);
+          this.$message.error(res.message)
         }
-      });
+      })
     },
     decode(base64) {
-      return "data:image/png;base64," + base64;
+      return 'data:image/png;base64,' + base64
     },
     openImgModal(src) {
-      this.imgVisible = true;
-      this.src = src;
+      this.imgVisible = true
+      this.src = src
     },
     modalCancel(val) {
-      this.imgVisible = val;
+      this.imgVisible = val
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .wrapper {
