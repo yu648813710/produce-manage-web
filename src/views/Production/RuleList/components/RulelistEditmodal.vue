@@ -6,6 +6,11 @@
 			:width="width"
       @ok="handleOk"
       @cancel="handleAddCancel"
+      :bodyStyle="{
+        maxHeight: '490px',
+        overflow: 'auto'
+      }"
+      :maskClosable="false"
       >
       <a-form
         :form="ruleForm"

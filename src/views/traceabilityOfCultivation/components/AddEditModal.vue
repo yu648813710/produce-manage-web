@@ -6,6 +6,10 @@
       :isEditObj="isEditObj"
       @ok="handleModalOk"
 			:width="1000"
+      :bodyStyle="{
+        height: '490px',
+        overflow: 'auto'
+      }"
       @cancel="handleModalCancel"
       :maskClosable="false"
       :destroyOnClose="true"

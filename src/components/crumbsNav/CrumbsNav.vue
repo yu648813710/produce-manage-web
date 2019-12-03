@@ -2,8 +2,8 @@
 <template>
   <div>
     <a-breadcrumb style="text-align: left; height: 18px;line-height: 18px;">
-      <div class="backToPath backBtnCtr" @click="backToList()">
-        <span v-for="(item, index) in crumbsArr" :key="index">
+      <div class="backToPath backBtnCtr">
+        <span v-for="(item, index) in crumbsArr" :key="index" @click="backToList(item)">
           <a-icon v-if="item.back" type="left" />
           <span v-if="item.back" class="backText">返回</span>
         </span>
@@ -12,7 +12,7 @@
       <a-breadcrumb-item v-for="(item, index) in crumbsArr" :key="index">
         <span
           :class="item.back ? 'backToPath' : ''"
-          @click="backToList(item.back,item.path)"
+          @click="backToList(item)"
         >{{ item.name }}</span>
       </a-breadcrumb-item>
     </a-breadcrumb>
@@ -48,15 +48,11 @@ export default {
     }
   },
   methods: {
-    backToList() {
-      this.crumbsArr.forEach((item, index) => {
-        if (item.back) {
-          this.$router.push({ path: item.path })
-        }
-      })
-      // if (back) {
-      //   this.$router.push({ path: router })
-      // }
+    backToList(item) {
+      console.log('back-item:', item)
+      if (item.back) {
+        this.$router.push({ path: item.path })
+      }
     }
   }
 }

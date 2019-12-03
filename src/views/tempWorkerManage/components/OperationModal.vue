@@ -7,7 +7,7 @@
       @ok="handleOk"
       :maskClosable="false"
       :bodyStyle="{
-        height: '380px',
+        maxHeight: '490px',
         overflow: 'auto'
       }"
       @cancel="handleCancel"
@@ -18,69 +18,87 @@
         :form="ruleForm"
         @submit="handleOk"
       >
-        <a-form-item
-          label="临时工姓名"
-          :label-col="{ span: 5 }"
-          :wrapper-col="{ span: 16 }"
-          required
-          :validateStatus="validate.userName"
-          :help="validate.userName ? '请输入汉字!' : '' "
-        >
-          <a-input
-            autocomplete="off"
-            placeholder="请输入"
-            v-model="data.userName"
-          />
-        </a-form-item>
-        <a-form-item
-          label="临时工手机号"
-          :label-col="{ span: 5 }"
-          :wrapper-col="{ span: 16 }"
-          required
-          :validateStatus="validate.phone"
-          :help="validate.phone ? '请输入临时工手机号!' : '' "
-        >
-          <a-input
-            autocomplete="off"
-            placeholder="请输入"
-            v-model="data.phone"
-          />
-        </a-form-item>
-        <a-form-item>
-          <a-form-item
-            label="临时工薪酬"
-            :label-col="{ span: 5 }"
-            :wrapper-col="{ span: 18 }"
-            style="display:inline-block;width:calc(100% - 50px)"
-            required
-            :validateStatus="validate.payment"
-            :help="validate.payment ? '请输入大于0的数字!' : '' "
-          >
-            <a-input
-              autocomplete="off"
-              placeholder="请输入"
-              v-model="data.payment"
-            />
-          </a-form-item>元/天
-        </a-form-item>
-        <a-form-item
-          label="是否为贫困户"
-          :label-col="{ span: 5 }"
-          :wrapper-col="{ span: 16 }"
-          required
-          :validateStatus="validate.povertyStatus"
-          :help="validate.povertyStatus ? '请选择是否为贫困户!' : '' "
-        >
-          <a-radio-group name="radioGroup" v-model="data.povertyStatus">
-            <a-radio value="Y">是</a-radio>
-            <a-radio value="N">否</a-radio>
-          </a-radio-group>
-        </a-form-item>
+        <a-row :gutter="24">
+          <a-col :span="12">
+            <a-form-item
+              :label-col="{ span: 7 }" :wrapper-col="{ span: 15 }"
+              label="临时工姓名"
+              required
+              :validateStatus="validate.userName"
+              :help="validate.userName ? '请输入汉字!' : '' "
+            >
+              <a-input
+                autocomplete="off"
+                placeholder="请输入"
+                v-model="data.userName"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item
+              :label-col="{ span: 7 }" :wrapper-col="{ span: 15 }"
+              label="临时工手机号"
+              required
+              :validateStatus="validate.phone"
+              :help="validate.phone ? '请输入临时工手机号!' : '' "
+            >
+              <a-input
+                autocomplete="off"
+                placeholder="请输入"
+                v-model="data.phone"
+                :disabled="title === '编辑临时工' ? true : false"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :span="12" >
+            <a-form-item>
+                  <a-form-item
+                    :label-col="{ span: 7 }" :wrapper-col="{ span: 15 }"
+                    label="临时工薪酬"
+                    required
+                    :validateStatus="validate.payment"
+                    :help="validate.payment ? '请输入大于0的数字!' : '' "
+                    style="display: flex"
+                  >
+                    <a-row :gutter="0">
+                      <a-col :span="20">
+                        <a-input
+                          autocomplete="off"
+                          placeholder="请输入"
+                          v-model="data.payment"
+                        />
+                      </a-col>
+                      <a-col :span="4" style="text-align: right">元/天</a-col>
+                    </a-row>
+                  </a-form-item>
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item
+              :label-col="{ span: 7 }" :wrapper-col="{ span: 15 }"
+              label="是否为贫困户"
+              required
+              :validateStatus="validate.povertyStatus"
+              :help="validate.povertyStatus ? '请选择是否为贫困户!' : '' "
+            >
+              <a-radio-group name="radioGroup" v-model="data.povertyStatus">
+                <a-radio value="Y">是</a-radio>
+                <a-radio value="N">否</a-radio>
+              </a-radio-group>
+            </a-form-item>
+          </a-col>
+        </a-row>
+
       </a-form>
     </a-modal>
   </div>
 </template>
 <script>
+import Vue from 'vue'
+import { Modal, Row, Col } from 'ant-design-vue'
+Vue.use(Modal)
+Vue.use(Row)
+Vue.use(Col)
 export default {
   data() {
     return {

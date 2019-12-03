@@ -104,7 +104,7 @@
     :visible="visible"
     :isEdit="isEdit"
     :dataEdit="dataEdit"
-    :width="800"
+    :width="1000"
     @cancel="handleAddCancel"
     ></rulelist-editmodal>
     <!-- 删除 -->
