@@ -19,7 +19,6 @@ const service = axios.create({
     }
   }
 })
-
 const err = (error) => {
   if (error.response) {
     const data = error.response.data
@@ -30,6 +29,7 @@ const err = (error) => {
       message.error(error.response.message)
     }
   }
+  store.commit('SET_TOKEN_STATE', true)
   store.commit('UPDATE_LOADING', false)
   return Promise.reject(error)
 }
