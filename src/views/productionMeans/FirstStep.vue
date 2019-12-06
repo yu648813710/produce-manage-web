@@ -19,6 +19,7 @@
                 :showUploadList="true"
                 @preview="handlePreview"
                 @change="handleChange"
+                accept=".png,.jpg,.jpeg"
                 v-decorator="[`upload_${item.id}`, {
                   rules: item.validators
                 }]"
@@ -231,10 +232,12 @@ export default {
     beforeUpload(file) {
       const isJPG = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg'
       if (!isJPG) {
+        this.fileList.splice(this.fileList.length - 1, 1)
         this.$message.error('请上传jpg、jpeg或png格式的图片')
       }
       const isLt2M = file.size / 1024 / 1024 < 2
       if (!isLt2M) {
+        this.fileList.splice(this.fileList.length - 1, 1)
         this.$message.error('图片大小不能超过5M')
       }
       return isJPG && isLt2M
@@ -277,6 +280,9 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+/deep/ .ant-upload-list-item-info {
+  display: flex;
+}
 .first-step {
   padding: 24px;
   background: #fff;
