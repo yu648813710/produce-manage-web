@@ -125,6 +125,7 @@
       :validate="validate"
       @confirm="handleOk"
       @cancel="handleCancel"
+      ref="operation"
     />
   </div>
 </template>
@@ -196,7 +197,7 @@ export default {
       searchForm: this.$form.createForm(this),
       title: '',
       visible: false,
-      contentText: '',
+      contentText: '确定删除该临时工？',
       tempWorkerId: '',
       searchParams: {
         userName: '',
@@ -313,7 +314,7 @@ export default {
     // 控制模态框开关
     closeModal() {
       this.visible = false
-      this.contentText = ''
+      this.contentText = '确定删除该临时工？'
       this.form = {
         userName: '',
         phone: '',
@@ -329,12 +330,14 @@ export default {
     },
     // 点击新增
     handleAdd() {
+      this.$refs.operation.setModalWidth(1000)
       this.visible = true
       this.title = '新增临时工'
       this.modalType = 'add'
     },
     // 点击编辑
     handelEdit(record) {
+      this.$refs.operation.setModalWidth(1000)
       this.visible = true
       this.title = '编辑临时工'
       this.modalType = 'edit'
@@ -348,6 +351,7 @@ export default {
     },
     // 点击删除
     handelDelete(record) {
+      this.$refs.operation.setModalWidth(400)
       this.tempWorkerId = record.tempWorkerId
       this.visible = true
       this.title = '确定删除'
