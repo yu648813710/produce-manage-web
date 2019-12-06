@@ -119,7 +119,7 @@ export default {
     beforeUpload(file) {
       const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
       if (!isJPG) {
-        this.$message.error('请上传 jpg 或 png 格式的图片')
+        this.$message.error('请上传jpg、jpge或png格式的图片')
       }
       const isLt2M = file.size / 1024 / 1024 < 5
       if (!isLt2M) {
