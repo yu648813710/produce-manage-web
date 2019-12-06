@@ -97,7 +97,8 @@ export default {
       fileList: [],
       uploadLoading: false,
       previewVisible: false,
-      previewImage: ''
+      previewImage: '',
+      isUploadSuccess: false
     }
   },
   created() {
@@ -230,16 +231,15 @@ export default {
 
     // 上传文件之前的钩子
     beforeUpload(file) {
-      const isJPG = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg'
+      const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg')
       if (!isJPG) {
-        this.fileList.splice(this.fileList.length - 1, 1)
         this.$message.error('请上传jpg、jpeg或png格式的图片')
       }
-      const isLt2M = file.size / 1024 / 1024 < 2
+      const isLt2M = (file.size / 1024 / 1024 < 5)
       if (!isLt2M) {
-        this.fileList.splice(this.fileList.length - 1, 1)
         this.$message.error('图片大小不能超过5M')
       }
+      this.isUploadSuccess = isJPG && isLt2M
       return isJPG && isLt2M
     },
 
@@ -271,7 +271,12 @@ export default {
       this.previewVisible = true
     },
     handleChange(file) {
-      this.fileList = file.fileList
+      if (this.isUploadSuccess) {
+        this.uploadLoading = false
+        console.log(file)
+        this.fileList = file.fileList
+        return
+      }
       if (file.file.status === 'uploading') {
         this.uploadLoading = true
       }
