@@ -3,7 +3,7 @@
     <a-modal
       :title="title"
       :visible="visible"
-      :width="1000"
+      :width="modalWidth"
       @ok="handleOk"
       :maskClosable="false"
       :bodyStyle="{
@@ -12,9 +12,9 @@
       }"
       @cancel="handleCancel"
     >
-      <p v-if="contentText">{{ contentText }}</p>
+      <p v-if="contentText && modalWidth === 400">{{ contentText }}</p>
       <a-form
-        v-else
+        v-else-if="modalWidth === 1000"
         :form="ruleForm"
         @submit="handleOk"
       >
@@ -102,7 +102,8 @@ Vue.use(Col)
 export default {
   data() {
     return {
-      ruleForm: this.$form.createForm(this)
+      ruleForm: this.$form.createForm(this),
+      modalWidth: 1000
     }
   },
   props: {
@@ -153,6 +154,9 @@ export default {
     },
     handleCancel() {
       this.$emit('cancel', this.ruleForm)
+    },
+    setModalWidth(w) {
+      this.modalWidth = w
     }
   }
 }

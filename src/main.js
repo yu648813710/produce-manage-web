@@ -87,10 +87,36 @@ let vueData = new Vue({
           this.$router.push('/') // 进入第一条路由
         }) // token
       }
+    },
+    tokenState (val) {
+      if (val) {
+        this.sendParentTokenStateMassage()
+      }
+    }
+  },
+  computed: {
+    tokenState () {
+      return store.getters.TokenState
     }
   },
   beforeCreate () {
     sendParentMassage()
+  },
+  methods: {
+    // 给父级发通知权限过期
+    sendParentTokenStateMassage () {
+      let tokenState = 'tokenStateFalse'
+      let origin = window.location.origin
+      let port = window.location.origin.split(':')[2]
+      let parentOrigin
+      if (port === '8081') {
+        // 本地开发
+        parentOrigin = `${window.location.origin.split(':')[0]}:${window.location.origin.split(':')[1]}:8080`
+      } else {
+        parentOrigin = `${origin}/common/`
+      }
+      sendIframeMassage(window, { tokenState }, parentOrigin)
+    }
   }
 }).$mount('#app')
 // 注册接受 父级 消息事件

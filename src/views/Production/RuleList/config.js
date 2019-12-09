@@ -8,7 +8,8 @@ const tableColumns = [
   {
     title: '车间名称',
     dataIndex: 'blockLandName',
-    width: 200
+    width: 200,
+    scopedSlots: { customRender: 'blockLandName' },
   },
   {
     title: '监测指标',

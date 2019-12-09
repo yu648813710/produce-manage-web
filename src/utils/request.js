@@ -19,7 +19,6 @@ const service = axios.create({
     }
   }
 })
-
 const err = (error) => {
   if (error.response) {
     const data = error.response.data
@@ -27,6 +26,7 @@ const err = (error) => {
       message.error(error.response.message)
     }
     if (error.response.status === 401 && !(data.result && data.result.isLogin)) {
+      store.commit('SET_TOKEN_STATE', true)
       message.error(error.response.message)
     }
   }
