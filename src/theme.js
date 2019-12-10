@@ -7,7 +7,19 @@ const themeAction = {
       cache.chalk = import('./styles/theme-green/index.useable.less')
     }
     return cache.chalk
-  }
+  },
+  red() {
+    if (!cache.chalk) {
+      cache.chalk = import('./styles/theme-red/index.useable.less')
+    }
+    return cache.chalk
+  },
+  blue() {
+    if (!cache.chalk) {
+      cache.chalk = import('./styles/theme-blue/index.useable.less')
+    }
+    return cache.chalk
+  },
 }
 let current = null
 async function setTheme(theme) {
