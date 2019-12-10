@@ -132,6 +132,18 @@
       :decodeImg="decodeImg"
       @printHideModal="printHideModal"
     ></printing-modal>
+    <a-modal
+      :visible="qrCodeVisible"
+      title="溯源二维码"
+      :maskClosable="false"
+      :footer="null"
+      :width="248"
+      @cancel="qrCodeModalCancel"
+    >
+      <div class="detail-img-wrapper">
+        <img :src="qrCodeSrc" alt="">
+      </div>
+    </a-modal>
   </div>
 </template>
 <script>
@@ -212,7 +224,9 @@ export default {
       printVisible: false, // 打印模态框
       decodeImg: '',
       modalWidth: 240,
-      productId: ''
+      productId: '',
+      qrCodeVisible: false,
+      qrCodeSrc: ''
     }
   },
   created() {
@@ -307,12 +321,11 @@ export default {
         this.imgSrc = url
         this.imgTitle = '木耳图片'
         this.modalWidth = 400
+        this.imgVisible = true
       } else {
-        this.imgSrc = this.decode(url)
-        this.imgTitle = '溯源二维码'
-        this.modalWidth = 240
+        this.qrCodeSrc = this.decode(url)
+        this.qrCodeVisible = true
       }
-      this.imgVisible = true
     },
     // 影藏图片模态框
     hideImgModal (val) {
@@ -369,6 +382,10 @@ export default {
       this.pagination.current = data.pageNo
       this.pagination.pageSize = data.pageSize
       this.getList(data)
+    },
+
+    qrCodeModalCancel() {
+      this.qrCodeVisible = false
     }
   }
 }
@@ -416,5 +433,12 @@ export default {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+.detail-img-wrapper{
+  img{
+    width: 200px;
+    height:200px;
+    background-size: 100%;
+  }
 }
 </style>
