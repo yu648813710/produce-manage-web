@@ -133,7 +133,7 @@
   <!-- 引入less.js文件（放在最后） -->
   <script src="./less.min.js"></script>
   <script>
-  let temp = window.localStorage.getItem('pro__skin');
+  let temp = JSON.parse(window.sessionStorage.getItem('pro__skin')).value;
   console.log('pro__skin: ', temp)
   let loadingDom = document.getElementsByClassName('loading-dot')[0].childNodes
   console.log('loadingDom:', loadingDom)
