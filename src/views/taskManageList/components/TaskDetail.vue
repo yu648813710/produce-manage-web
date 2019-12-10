@@ -162,8 +162,8 @@
               <p>
                 <span>检测人：</span>
                 {{
-                  detailData.extendData.userName
-                    ? detailData.extendData.userName
+                  detailData.extendData.verifyUserName
+                    ? detailData.extendData.verifyUserName
                     : '--'
                 }}
               </p>
