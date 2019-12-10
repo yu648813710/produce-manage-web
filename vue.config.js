@@ -11,20 +11,22 @@ module.exports = {
     ]
     if (VUE_APP_EXCUTION !== 'fn') {
       // 如果是生产环境打包，那就压缩处理
-      plugins.push(new CompressionWebpackPlugin({
-        algorithm: 'gzip',
-        test: new RegExp('\\.(' + productionGzipExtensions.join('|') + ')$'),
-        threshold: 10240,
-        minRatio: 0.8
-      }))
+      plugins.push(
+        new CompressionWebpackPlugin({
+          algorithm: 'gzip',
+          test: new RegExp('\\.(' + productionGzipExtensions.join('|') + ')$'),
+          threshold: 10240,
+          minRatio: 0.8
+        })
+      )
     }
     config.plugins = [...config.plugins, ...plugins]
 
     // 配置打包
     config.optimization = {
       splitChunks: {
-        minSize: 1000000, // 模块大于 1m 会被抽离到公共模块
-        maxSize: 2000000, // 单个文件最大的size 2m
+        minSize: 100000, // 模块大于 1m 会被抽离到公共模块
+        maxSize: 200000, // 单个文件最大的size 2m
         minChunks: 2, // 模块出现 2 次就会被抽离到公共模块
         maxAsyncRequests: 5, // 异步模块，一次最多只能被加载5个
         maxInitialRequests: 3, // 入口模块最多只能加载3个
@@ -49,7 +51,7 @@ module.exports = {
       }
     }
   },
-  chainWebpack: (config) => {
+  chainWebpack: config => {
     // 打包分析插件
     if (process.env.VUE_APP_IS_ANALYZER === true) {
       config
