@@ -65,7 +65,7 @@
             <a-row slot="operation" slot-scope="text, record" class="line-sp">
               <span class="delete" @click="handleCopy(record)">拷贝</span>
               <span class="delete viw" @click="handleDetail(record)">查看</span>
-              <span class="delete" @click="handleDelete(record)">删除</span>
+              <span v-if="record.status === 'N'" class="delete" @click="handleDelete(record)">删除</span>
             </a-row>
           </a-table>
         </div>
