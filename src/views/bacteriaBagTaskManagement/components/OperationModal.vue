@@ -66,8 +66,8 @@
 
             <a-col :span="12">
               <span class="item-key">出库数量：</span>
-              <span class="item-value">{{ commonData.extendData && commonData.extendData.amount ? commonData.extendData.amount : ''}}
-                {{commonData.extendData && commonData.extendData.unitName ? commonData.extendData.unitName : ''}}</span>
+              <span class="item-value">{{ commonData.extendData && commonData.extendData.productionAmount ? commonData.extendData.productionAmount.amount : '-'}}
+                {{commonData.extendData && commonData.extendData.productionAmount ? commonData.extendData.productionAmount.unitName : '-'}}</span>
             </a-col>
 
             <a-col :span="12">
@@ -79,31 +79,31 @@
               <span class="item-key">规格：</span>
               <span class="item-value">
                 {{ commonData.extendData && commonData.extendData.Specification && commonData.extendData.Specification.high}}
-                {{commonData.extendData && commonData.extendData.Specification && commonData.extendData.Specification.unitName ? commonData.extendData.Specification.unitName  : ''}}
+                {{commonData.extendData && commonData.extendData.Specification && commonData.extendData.Specification.unitName ? commonData.extendData.Specification.unitName  : '-'}}
                 * {{ commonData.extendData && commonData.extendData.Specification && commonData.extendData.Specification.diameter}}
-                {{commonData.extendData && commonData.extendData.Specification && commonData.extendData.Specification.unitName ? commonData.extendData.Specification.unitName  : ''}}
+                {{commonData.extendData && commonData.extendData.Specification && commonData.extendData.Specification.unitName ? commonData.extendData.Specification.unitName  : '-'}}
               </span>
             </a-col>
           </template>
           <template v-if="commonData.actionId === 'J008'">
             <a-col :span="12">
               <span class="item-key">检验时间：</span>
-              <span class="item-value">{{ commonData.extendData && commonData.extendData.verifyTime ? commonData.extendData.verifyTime : ''}}</span>
+              <span class="item-value">{{ commonData.extendData && commonData.extendData.verifyTime ? commonData.extendData.verifyTime : '--'}}</span>
             </a-col>
 
             <a-col :span="12">
               <span class="item-key">检验人员：</span>
-              <span class="item-value">{{ commonData.extendData && commonData.extendData.userName ? commonData.extendData.userName : ''}}</span>
+              <span class="item-value">{{ commonData.extendData && commonData.extendData.userName ? commonData.extendData.userName : '--'}}</span>
             </a-col>
 
             <a-col :span="12">
               <span class="item-key">检验机构：</span>
-              <span class="item-value">{{ commonData.extendData && commonData.extendData.verifyOrganization ? commonData.extendData.verifyOrganization : ''}}</span>
+              <span class="item-value">{{ commonData.extendData && commonData.extendData.verifyOrganization ? commonData.extendData.verifyOrganization : '--'}}</span>
             </a-col>
 
             <a-col :span="12">
               <span class="item-key">检验结果：</span>
-              <span class="item-value">{{ commonData.extendData && commonData.extendData.vefiyResult ? commonData.extendData.vefiyResult : ''}}</span>
+              <span class="item-value">{{ commonData.extendData && commonData.extendData.vefiyResult ? commonData.extendData.vefiyResult : '--'}}</span>
             </a-col>
           </template>
 
