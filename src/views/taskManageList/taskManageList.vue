@@ -203,6 +203,7 @@ export default {
         }
         this.hiddenDeleteModal()
         this.tipMessage(res.success, res.message)
+        this.pagination.current = this.utils.checkDelData(this.equipmentList, this.pagination.current)
         this.getTaskManageList(
           this.pagination.current,
           this.pagination.pageSize

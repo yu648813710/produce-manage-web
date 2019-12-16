@@ -321,7 +321,7 @@ export default {
               let data = {
                 inputContent: '',
                 principalUser: '',
-                pageNo: 1,
+                pageNo: this.utils.checkDelData(this.list, this.pagination.current),
                 pageSize: 10
               }
               this.getTableList(data)

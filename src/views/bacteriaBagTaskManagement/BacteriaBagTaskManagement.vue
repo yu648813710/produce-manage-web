@@ -307,7 +307,7 @@ export default {
         this.visible = false
         if (res.success === 'Y') {
           let data = {
-            pageNo: 1,
+            pageNo: this.utils.checkDelData(this.list, this.pagination.current),
             pageSize: 10
           }
           this.getList(data)
