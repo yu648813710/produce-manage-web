@@ -90,4 +90,11 @@ export default {
   }
 }
 
+export function checkDelData(list, pageNo) {
+  if (list.length === 1 && pageNo !== 1) {
+    return pageNo - 1
+  }
+  return pageNo
+}
+
 export const domTitle = '农业大脑'
