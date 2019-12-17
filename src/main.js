@@ -89,6 +89,22 @@ let vueData = new Vue({
   watch: {
     parentData (val) {
       if (val.iframeDataType === 'loginMessage') {
+        let skinType
+        switch (val.skinType) {
+          case 'blue':
+            skinType = '#1890FF'
+            break
+          case 'red':
+            skinType = '#FF0000'
+            break
+          case 'green':
+            skinType = '#7DB133'
+            break
+        }
+        window.less.modifyVars({
+          '@primary-color': skinType
+        })
+        setTheme(val.skinType)
         store.commit('SET_PARENT_ROUTER', val.iframeRouterData) // 父级传权限路由
         store.dispatch('Login', val.token).then(res => {
           this.$router.push('/') // 进入第一条路由
