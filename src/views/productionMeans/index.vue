@@ -65,7 +65,7 @@
             <a-row slot="operation" slot-scope="text, record" class="line-sp">
               <span class="delete" @click="handleCopy(record)">拷贝</span>
               <span class="delete viw" @click="handleDetail(record)">查看</span>
-              <span class="delete" @click="handleDelete(record)">删除</span>
+              <span v-if="record.status === 'N'" class="delete" @click="handleDelete(record)">删除</span>
             </a-row>
           </a-table>
         </div>
@@ -163,8 +163,8 @@ export default {
   methods: {
     fetchList (params) {
       let postData = {
-        pageNo: this.pageNo,
-        pageSize: this.pageSize,
+        pageNo: this.pagination.current,
+        pageSize: this.pagination.pageSize,
         ...params
       }
       produceMeansList(postData).then(res => {
@@ -232,6 +232,7 @@ export default {
     handleReset () {
       this.form.resetFields()
       this.pageNo = 1
+      this.pagination.current = 1
       this.fetchParams = {}
       this.fetchList(this.fetchParams)
     },
@@ -251,6 +252,7 @@ export default {
         if (res && res.success === 'Y') {
           this.$message.success(res.message)
           this.isDeleteVisible = false
+          this.pagination.current = this.utils.checkDelData(this.list, this.pagination.current)
           this.fetchList(this.fetchParams)
           return
         }

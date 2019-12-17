@@ -68,7 +68,7 @@
 import Vue from 'vue'
 import { Form, Row, Col, Select, Input, Button, Icon, Upload, Modal } from 'ant-design-vue'
 import { fieldsStep1 } from './config'
-import { getCurrentUserInfo, uploadImage } from '@/api/productManage'
+import { getCurrentUserInfo, uploadImage, getUserDataDetail } from '@/api/productManage'
 // import axios from 'axios'
 import moment from 'moment'
 Vue.use(Form)
@@ -136,6 +136,7 @@ export default {
     } else {
       console.log('断言：此处 === null时，逻辑正常:', this.info)
       this.fetchCurrentUserInfo()
+      this.fetchUserDataDetail()
     }
   },
   mounted() {
@@ -148,14 +149,34 @@ export default {
       e.preventDefault()
     },
 
+    fetchUserDataDetail() {
+      let self = this
+      getUserDataDetail().then(res => {
+        console.log('个人信息:', res)
+        if (res && res.success === 'Y') {
+          let addressObj = {
+            provinceName: res.data.provinceName ? res.data.provinceName + ' ' : ' ',
+            cityName: res.data.cityName ? res.data.cityName + ' ' : ' ',
+            areaName: res.data.areaName ? res.data.areaName + ' ' : ' ',
+            businessAddress: res.data.businessAddress ? res.data.businessAddress + ' ' : ' '
+          }
+          self.form.setFieldsValue({
+            field_companyAddress: addressObj.provinceName + addressObj.cityName + addressObj.areaName + addressObj.businessAddress
+          })
+        }
+      })
+    },
+
     fetchCurrentUserInfo() {
       let self = this
       getCurrentUserInfo().then(res => {
         if (res && res.success === 'Y') {
+          console.log('nnnnnnnnnres:', res)
           self.$nextTick(() => {
             self.form.setFieldsValue({
               field_companyName: res.data.companyName,
               field_belongIndustry: res.data.industry
+              // field_companyAddress: self.info.enterpriseAddress,
             })
           })
         }

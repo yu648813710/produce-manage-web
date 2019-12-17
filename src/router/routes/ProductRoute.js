@@ -235,7 +235,7 @@ export default {
         nodeNo: 'TempWorkerManage'
       }
     },
-    {
+    /* {
       path: '/productionMeans',
       name: 'productionMeans',
       hidden: false,
@@ -267,7 +267,7 @@ export default {
         icon: '',
         nodeNo: 'productionMeans'
       }
-    },
+    }, */
     {
       path: 'growth',
       name: 'growth',

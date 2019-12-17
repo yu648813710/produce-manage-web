@@ -422,3 +422,12 @@ export function uploadImage(data) {
     data: data
   })
 }
+
+export const getUserDataDetail = () => {
+  return axios(
+    {
+      url: `/platform/user/detail`,
+      method: 'POST'
+    }
+  )
+}
