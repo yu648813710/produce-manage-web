@@ -1,10 +1,8 @@
-/**
-农事计划详情页面
-*/
+/** 农事计划详情页面 */
 <template>
   <div>
     <div style="margin: 10px 16px">
-      <crumbs-nav :crumbs-arr="crumbsArr" style="margin-bottom: 10px;"/>
+      <crumbs-nav :crumbs-arr="crumbsArr" style="margin-bottom: 10px;" />
     </div>
     <div class="wrapper">
       <div class="title-wrapper">
@@ -15,35 +13,55 @@
         <a-row>
           <a-col :span="12" class="detail-item">
             <span class="item-key">农事计划编号：</span>
-            <span class="item-value">{{detail.farmingNum}}</span>
+            <span class="item-value">{{ detail.farmingNum }}</span>
           </a-col>
           <a-col :span="12" class="detail-item" v-if="detail.productValue">
             <span class="item-key">种植作物：</span>
-            <span class="item-value">{{detail.productValue.productName}}</span>
+            <span class="item-value">
+              {{
+              detail.productValue.productName
+              }}
+            </span>
           </a-col>
           <a-col :span="12" class="detail-item" v-if="detail.solutionValue">
             <span class="item-key">种植方案：</span>
-            <span class="item-value">{{detail.solutionValue.solutionName}}</span>
+            <span class="item-value">
+              {{
+              detail.solutionValue.solutionName
+              }}
+            </span>
           </a-col>
           <a-col :span="12" class="detail-item" v-if="detail.solutionValue">
             <span class="item-key">企业名称：</span>
-            <span class="item-value">{{detail.companyName}}</span>
+            <span class="item-value">{{ detail.companyName }}</span>
           </a-col>
           <a-col :span="12" class="detail-item" v-if="detail.baseLandValue">
             <span class="item-key">种植基地：</span>
-            <span class="item-value">{{detail.baseLandValue.baseLandName}}</span>
+            <span class="item-value">
+              {{
+              detail.baseLandValue.baseLandName
+              }}
+            </span>
           </a-col>
           <a-col :span="12" v-if="detail.blockLandValue" class="detail-item">
             <span class="item-key">种植地块：</span>
-            <span class="item-value">{{detail.blockLandValue.landName}}</span>
+            <span class="item-value">{{ detail.blockLandValue.landName }}</span>
           </a-col>
           <a-col :span="12" class="detail-item">
             <span class="item-key">计划开始时间：</span>
-            <span class="item-value">{{detail.planStartTime}}</span>
+            <span class="item-value">{{ detail.planStartTime }}</span>
           </a-col>
           <a-col :span="12" class="detail-item">
             <span class="item-key">生长周期：</span>
-            <span class="item-value">{{detail.cycleName}}</span>
+            <span class="item-value">{{ detail.cycleName }}</span>
+          </a-col>
+          <a-col :span="12" class="detail-item">
+            <span class="item-key">出库批次号：</span>
+            <span class="item-value">{{ detail.seedValue.deliveryCode }}</span>
+          </a-col>
+          <a-col :span="12" class="detail-item">
+            <span class="item-key">菌包数量：</span>
+            <span class="item-value">{{ detail.seedValue.seedName }}</span>
           </a-col>
         </a-row>
       </div>
@@ -61,13 +79,17 @@
           :columns="columns"
           :dataSource="listData.records"
           :pagination="pagination"
-          :style="{marginTop: '50px'}"
+          :style="{ marginTop: '50px' }"
           :rowKey="record => record.instId"
-          :scroll="{x:1200}"
+          :scroll="{ x: 1200 }"
           @change="setPageList"
         >
-          <span slot="instId" slot-scope="text, record, index">{{index+1}}</span>
-          <div class="text-overflow" slot="useMatetial" :title="text" slot-scope="text">{{text}}</div>
+          <span slot="instId" slot-scope="text, record, index">
+            {{
+            index + 1
+            }}
+          </span>
+          <div class="text-overflow" slot="useMatetial" :title="text" slot-scope="text">{{ text }}</div>
           <a slot="toDetail" slot-scope="text, record" @click="showPlanDetail(record.instId)">查看</a>
         </a-table>
       </div>
