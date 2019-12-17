@@ -8,7 +8,7 @@
       </a-steps>
       <div class="content-forms">
         <div class="tag">
-          <span style="color: #3C8CFF">┃</span>
+          <span class="title-icon">┃</span>
           <span style="font-weight: bold">{{currentStep === 0 ? '生产资料' : '生产能力'}}</span>
         </div>
         <template v-if="$route.query.tag === 'new'">

@@ -71,12 +71,10 @@
               </span>
               <div class="action" slot="operation" slot-scope="record">
                 <span
-                  style="color:#1890ff; cursor: pointer; margin-right:10px"
                   @click="editRuleEvent(record)"
                   >编辑</span
                 >
                 <span
-                  style="color:#1890ff; cursor: pointer"
                   @click="shwoDeteleModal(record)"
                   >删除</span
                 >

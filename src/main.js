@@ -32,6 +32,11 @@ import 'echarts/lib/chart/bar'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/chart/pie'
+
+import setTheme from './theme'
+// 使用主题
+// setTheme('green')
+
 import * as utils from './utils/domUtil'
 Vue.use(Print) // 注册
 Vue.use(scroll)
