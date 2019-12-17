@@ -38,12 +38,17 @@
       box-sizing: border-box
     }
 
+    /*.loading-dot-green {*/
+    /*  background-color: #7DB133;*/
+    /*}*/
+    /*.loading-dot-blue {*/
+    /*  background-color: #1890FF;*/
+    /*}*/
     .loading-dot i {
       width: 22px;
       height: 22px;
       position: absolute;
       display: block;
-      background-color: #1890ff;
       border-radius: 100%;
       transform: scale(.75);
       transform-origin: 50% 50%;
@@ -110,6 +115,14 @@
     <strong>We're sorry but vue-antd-pro doesn't work properly without JavaScript enabled. Please enable it to
       continue.</strong>
   </noscript>
+  <!-- 引入提取的color.less文件 -->
+  <link rel="stylesheet/less" type="text/css" href="./color.less" />
+  <script>
+      window.less = {
+          async: false,
+          env: 'production'//production  development
+      };
+  </script>
   <div id="app">
     <div id="loading-mask">
       <div class="loading-wrapper">
@@ -117,6 +130,30 @@
       </div>
     </div>
   </div>
+  <!-- 引入less.js文件（放在最后） -->
+  <script src="./less.min.js"></script>
+  <script>
+  let temp = JSON.parse(window.sessionStorage.getItem('pro__skin')).value;
+  console.log('pro__skin: ', temp)
+  let loadingDom = document.getElementsByClassName('loading-dot')[0].childNodes
+  console.log('loadingDom:', loadingDom)
+  let skinType
+  switch (temp) {
+    case 'blue':
+      skinType = '#1890FF'
+      break
+    case 'red':
+      skinType = '#FF0000'
+      break
+    case 'green':
+      skinType = '#7DB133'
+      break
+  }
+  console.log('skinType', skinType)
+  for (let i=0; i<loadingDom.length;i++){
+    loadingDom[i].style.backgroundColor = skinType
+  }
+  </script>
   <!-- built files will be auto injected -->
 </body>
 
