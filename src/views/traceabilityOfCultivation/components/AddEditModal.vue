@@ -158,6 +158,26 @@
               </a-form-item>
             </a-col>
             <a-col :span="12" class="row-col" >
+              <a-form-item label="单价" class="form-item-label-sty" :colon="false">
+                <a-row :gutter="0">
+                  <a-col :span="22">
+                    <a-input
+                      placeholder="请输入单价"
+                      autocomplete="off"
+                      style="width:100%;"
+                      v-decorator="[
+                        'simplePrice',
+                        { rules: [{ required: true, validator: validatorSimplePrice }] },
+                      ]"
+                    />
+                  </a-col>
+                  <a-col :span="2" style="text-align:right;">
+                    <span >元</span>
+                  </a-col>
+                </a-row>
+              </a-form-item>
+            </a-col>
+            <a-col :span="12" class="row-col" >
               <a-form-item label="木耳图片" :colon="false">
                 <a-input
                   style="display: none"
@@ -203,6 +223,17 @@ Vue.use(Input)
 Vue.use(Select)
 Vue.use(DatePicker)
 Vue.use(InputNumber)
+
+const validatorSimplePrice = (rule, value, callback) => {
+  let regex = /^[0-9]+(.[0-9]{1,2})?$/
+  if (!value || JSON.stringify(value).length === 0) {
+    callback(new Error('请输入单价'))
+  } else if (!regex.test(value)) {
+    callback(new Error('请输入数字(精确到角分)'))
+  }
+  callback()
+}
+
 export default {
   components: {
     uploadComponent
@@ -237,7 +268,8 @@ export default {
       breedArray: [], // 品种
       productionDate: '', // 日期
       picturePath: '', // 图片地址
-      isImgPath: true // 校验是否上传了图片
+      isImgPath: true, // 校验是否上传了图片
+      validatorSimplePrice
     }
   },
   created() {
@@ -250,6 +282,7 @@ export default {
         this.getBreedList(this.isEditObj.productCategoryCode)
       }
       this.$nextTick(() => {
+        console.log('bbbbbbbbb:', this.isEditObj)
         this.modalForm.setFieldsValue({
           productName: this.isEditObj.productName, // '产品名称',
           productCategoryCode: this.isEditObj.productCategoryCode, // '品类id',
@@ -264,7 +297,8 @@ export default {
           address: this.isEditObj.address, // '地址(某某村)'
           productionDate: moment(this.isEditObj.productionDate || '', 'YYYY-MM-DD'), // '2019-11-05', // 生产日期
           baseImg: this.isEditObj.productPicture,
-          expiryTime: Number(this.isEditObj.expiryTime) // '保质期',
+          expiryTime: Number(this.isEditObj.expiryTime), // '保质期',
+          simplePrice: this.isEditObj.price // 单价
         })
         this.productionDate = this.isEditObj.productionDate
         this.picturePath = this.isEditObj.productPicture
@@ -345,6 +379,8 @@ export default {
               address: values.address, // '地址(某某村)'
               productionDate: this.productionDate, // '2019-11-05', // 生产日期
               expiryTime: values.expiryTime, // '保质期',
+              price: values.simplePrice, // 单价
+              priceUnitName: '元',
               productPicture: this.picturePath // '产品图片',
             }
             if (this.isEdit) {
