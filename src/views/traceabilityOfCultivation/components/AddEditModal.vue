@@ -166,8 +166,8 @@
                       autocomplete="off"
                       style="width:100%;"
                       v-decorator="[
-                        'simplePrice',
-                        { rules: [{ required: true, validator: validatorSimplePrice }] },
+                        'price',
+                        { rules: [{ required: true, validator: validatorPrice }] },
                       ]"
                     />
                   </a-col>
@@ -224,7 +224,7 @@ Vue.use(Select)
 Vue.use(DatePicker)
 Vue.use(InputNumber)
 
-const validatorSimplePrice = (rule, value, callback) => {
+const validatorPrice = (rule, value, callback) => {
   let regex = /^[0-9]+(.[0-9]{1,2})?$/
   if (!value || JSON.stringify(value).length === 0) {
     callback(new Error('请输入单价'))
@@ -269,7 +269,7 @@ export default {
       productionDate: '', // 日期
       picturePath: '', // 图片地址
       isImgPath: true, // 校验是否上传了图片
-      validatorSimplePrice
+      validatorPrice
     }
   },
   created() {
@@ -298,7 +298,7 @@ export default {
           productionDate: moment(this.isEditObj.productionDate || '', 'YYYY-MM-DD'), // '2019-11-05', // 生产日期
           baseImg: this.isEditObj.productPicture,
           expiryTime: Number(this.isEditObj.expiryTime), // '保质期',
-          simplePrice: this.isEditObj.price // 单价
+          price: this.isEditObj.price // 单价
         })
         this.productionDate = this.isEditObj.productionDate
         this.picturePath = this.isEditObj.productPicture
@@ -379,7 +379,7 @@ export default {
               address: values.address, // '地址(某某村)'
               productionDate: this.productionDate, // '2019-11-05', // 生产日期
               expiryTime: values.expiryTime, // '保质期',
-              price: values.simplePrice, // 单价
+              price: values.price, // 单价
               priceUnitName: '元',
               productPicture: this.picturePath // '产品图片',
             }
