@@ -127,6 +127,14 @@
               : '--'
               }}{{detailData.extendData.weightUnitName}}
             </p>
+            <p>
+              <span>包装事件：</span>
+              {{
+              detailData.extendData.packTime
+              ? detailData.extendData.packTime
+              : '--'
+              }}
+            </p>
           </div>
         </template>
         <!-- 包装 -->

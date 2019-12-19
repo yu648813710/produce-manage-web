@@ -213,6 +213,14 @@
         </div>
         <div class="item">
           <p>
+            <span>包装事件：</span>
+            {{
+            taskDetail.extendData.packTime
+            ? taskDetail.extendData.packTime
+            : '--'
+            }}
+          </p>
+          <p>
             <span>任务图片：</span>
             <span class="item-value" v-if="taskDetail.extendData && taskDetail.extendData.filePath">
               <img
