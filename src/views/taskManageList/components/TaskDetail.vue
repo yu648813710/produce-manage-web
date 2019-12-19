@@ -132,7 +132,7 @@
                 }}{{detailData.extendData.weightUnitName}}
               </p>
               <p>
-                <span>包装事件：</span>
+                <span>包装时间：</span>
                 {{
                 detailData.extendData.packTime
                 ? detailData.extendData.packTime
