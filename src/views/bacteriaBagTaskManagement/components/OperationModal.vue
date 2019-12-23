@@ -93,7 +93,7 @@
 
             <a-col :span="12">
               <span class="item-key">检验人员：</span>
-              <span class="item-value">{{ commonData.extendData && commonData.extendData.userName ? commonData.extendData.userName : '--'}}</span>
+              <span class="item-value">{{ commonData.extendData && commonData.extendData.verifyUserName ? commonData.extendData.verifyUserName : '--'}}</span>
             </a-col>
 
             <a-col :span="12">

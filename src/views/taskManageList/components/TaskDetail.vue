@@ -84,9 +84,9 @@
             <p>
               <span>任务完成时间：</span>
               {{
-                detailData.extendData.finishTime
-                  ? detailData.extendData.finishTime
-                  : '--'
+              detailData.extendData.finishTime
+              ? detailData.extendData.finishTime
+              : '--'
               }}
             </p>
             <p>
@@ -108,18 +108,36 @@
               <p>
                 <span>包装人：</span>
                 {{
-                  detailData.extendData.packUser
-                    ? detailData.extendData.packUser
-                    : '--'
+                detailData.extendData.packUser
+                ? detailData.extendData.packUser
+                : '--'
                 }}
               </p>
               <p>
                 <span>包装规格：</span>
                 {{
-                  detailData.extendData.packWeight
-                    ? detailData.extendData.packWeight
-                    : '--'
-                }}{{ detailData.extendData.packUnitName }}
+                detailData.extendData.packUnitName
+                ? detailData.extendData.packUnitName
+                : '--'
+                }}
+              </p>
+            </div>
+            <div class="item">
+              <p>
+                <span>重量：</span>
+                {{
+                detailData.extendData.packWeight
+                ? detailData.extendData.packWeight
+                : '--'
+                }}{{detailData.extendData.weightUnitName}}
+              </p>
+              <p>
+                <span>包装时间：</span>
+                {{
+                detailData.extendData.packTime
+                ? detailData.extendData.packTime
+                : '--'
+                }}
               </p>
             </div>
           </template>
@@ -130,27 +148,23 @@
               <p>
                 <span>采收人：</span>
                 {{
-                  detailData.extendData.pickUser
-                    ? detailData.extendData.pickUser
-                    : '--'
+                detailData.extendData.pickUser
+                ? detailData.extendData.pickUser
+                : '--'
                 }}
               </p>
               <p>
                 <span>采收重量：</span>
-                {{
-                  detailData.extendData.weight
-                    ? detailData.extendData.weight
-                    : '--'
-                }}{{ detailData.extendData.unitName }}
+                {{detailData.extendData && detailData.extendData.weight ? detailData.extendData.weight + '斤' : '' }}
               </p>
             </div>
             <div class="item">
               <p>
                 <span>采收时间：</span>
                 {{
-                  detailData.extendData.pickTime
-                    ? detailData.extendData.pickTime
-                    : '--'
+                detailData.extendData.pickTime
+                ? detailData.extendData.pickTime
+                : '--'
                 }}
               </p>
             </div>
@@ -162,17 +176,17 @@
               <p>
                 <span>检测人：</span>
                 {{
-                  detailData.extendData.verifyUserName
-                    ? detailData.extendData.verifyUserName
-                    : '--'
+                detailData.extendData.verifyUserName
+                ? detailData.extendData.verifyUserName
+                : '--'
                 }}
               </p>
               <p>
                 <span>检测时间：</span>
                 {{
-                  detailData.extendData.verifyTime
-                    ? detailData.extendData.verifyTime
-                    : '--'
+                detailData.extendData.verifyTime
+                ? detailData.extendData.verifyTime
+                : '--'
                 }}
               </p>
             </div>
@@ -180,17 +194,17 @@
               <p>
                 <span>检测机构：</span>
                 {{
-                  detailData.extendData.verifyOrganization
-                    ? detailData.extendData.verifyOrganization
-                    : '--'
+                detailData.extendData.verifyOrganization
+                ? detailData.extendData.verifyOrganization
+                : '--'
                 }}
               </p>
               <p>
                 <span>检测结果：</span>
                 {{
-                  detailData.extendData.vefiyResult
-                    ? detailData.extendData.vefiyResult
-                    : '--'
+                detailData.extendData.vefiyResult
+                ? detailData.extendData.vefiyResult
+                : '--'
                 }}
               </p>
             </div>
@@ -202,17 +216,17 @@
               <p>
                 <span>存储周期：</span>
                 {{
-                  detailData.extendData.cycle
-                    ? detailData.extendData.cycle
-                    : '--'
+                detailData.extendData.cycle
+                ? detailData.extendData.cycle
+                : '--'
                 }}月
               </p>
               <p>
                 <span>存储温度：</span>
                 {{
-                  detailData.extendData.temperature
-                    ? detailData.extendData.temperature
-                    : '--'
+                detailData.extendData.temperature
+                ? detailData.extendData.temperature
+                : '--'
                 }}℃
               </p>
             </div>
@@ -220,9 +234,9 @@
               <p>
                 <span>存储湿度：</span>
                 {{
-                  detailData.extendData.humidity
-                    ? detailData.extendData.humidity
-                    : '--'
+                detailData.extendData.humidity
+                ? detailData.extendData.humidity
+                : '--'
                 }}%
               </p>
             </div>

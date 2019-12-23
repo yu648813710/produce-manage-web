@@ -71,12 +71,10 @@
               </span>
               <div class="action" slot="operation" slot-scope="record">
                 <span
-                  style="color:#1890ff; cursor: pointer; margin-right:10px"
                   @click="editRuleEvent(record)"
                   >编辑</span
                 >
                 <span
-                  style="color:#1890ff; cursor: pointer"
                   @click="shwoDeteleModal(record)"
                   >删除</span
                 >
@@ -243,7 +241,7 @@ export default {
     // 显示删除弹窗
     shwoDeteleModal(record) {
       this.indicatorId = record.indicatorId
-      console.log('record: ',record)
+      console.log('record: ', record)
       this.deteleVisible = true
     },
     // 消失删除弹窗
@@ -372,7 +370,7 @@ export default {
     },
     // 编辑事件
     editRuleEvent(data) {
-      console.log('data: ',data)
+      console.log('data: ', data)
       this.showModal()
       this.formInputVal.temperatureInf = data.temperatureInf
       this.formInputVal.temperatureSup = data.temperatureSup
@@ -408,6 +406,7 @@ export default {
     deteleHandleOk() {
       deleteRule(this.indicatorId).then(res => {
         if (res.code === 200) {
+          this.pagination.current = this.utils.checkDelData(this.equipmentList, this.pagination.current)
           this.getRuleList()
           this.deteleHandleCancel()
           this.tipMessage(res.success, res.message)

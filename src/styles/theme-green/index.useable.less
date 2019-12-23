@@ -1,0 +1,69 @@
+@import "../theme/variables.less";
+
+
+// 修改菜单主题色
+.header{
+  .nav{
+    .fl{
+      .top-nav{
+        span{
+          &:hover,
+          &.active {
+            color: @primary-color !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+// 面包屑
+.backToPath{
+  &:hover{
+    color: @primary-color !important;
+  }
+}
+
+// 详情页title icon色
+.title-wrapper{
+  .icon{
+    background: @primary-color !important;
+  }
+}
+
+.title-icon{
+  color: @primary-color !important;
+}
+
+// 表格缺陷页
+.ant-table-placeholder{
+  background-size: auto !important;
+  height: auto;
+}
+
+// 滚动条
+*::-webkit-scrollbar-thumb{
+  background: @primary-color;
+}
+
+.ant-table-tbody{
+  .operation-box span{
+    color: @primary-color !important;
+  }
+
+  .preview{
+    color: @primary-color !important;
+  }
+
+  .delete{
+    color: @primary-color !important;
+  }
+
+  .action{
+    span{
+      color: @primary-color !important;
+      cursor: pointer !important;
+      margin-right:10px !important;
+    }
+  }
+}

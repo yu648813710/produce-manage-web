@@ -291,6 +291,8 @@ export default {
         if (res.success === 'Y') {
           this.$message.success(res.message)
           this.closeModal()
+          this.pagination.current = this.utils.checkDelData(this.list, this.pagination.current)
+          this.getList()
         } else {
           this.$message.error(res.message)
         }

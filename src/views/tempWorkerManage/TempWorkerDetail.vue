@@ -2,7 +2,7 @@
 <template>
   <div style="margin: 10px 16px;">
     <!-- 面包屑 -->
-    <crumbs-nav :crumbs-arr="detailCrumbsArr" style="margin-bottom: 10px;"/>
+    <crumbs-nav :crumbs-arr="detailCrumbsArr" style="margin-bottom: 10px;" />
     <!-- 基础信息 -->
     <div class="wrapper">
       <div class="title-wrapper">
@@ -68,18 +68,11 @@
           :rowKey="(record, index) => index"
         >
           <span slot="id" slot-scope="text, record, index">{{index + 1}}</span>
-          <span
-            slot="useMaterial"
-            class="use-material"
-            slot-scope="text"
-            :title="text"
-          >{{text}}</span>
+          <span slot="useMaterial" class="use-material" slot-scope="text" :title="text">{{text}}</span>
           <span
             slot="finishTime"
             slot-scope="record"
-          >
-            {{record.extendData ? record.extendData.finishTime.substring(0, 10) : record.finishTime}}
-          </span>
+          >{{record.extendData ? record.extendData.finishTime.substring(0, 10) : record.finishTime}}</span>
           <span
             slot="cycle"
             slot-scope="text,record"
@@ -162,7 +155,7 @@
           <span>用途：</span>
           {{taskDetail.taskUse}}
         </p>
-      </div> -->
+      </div>-->
       <!-- 采收 -->
       <div v-if="taskDetail.actionId==='A00020'">
         <div class="item">
@@ -178,13 +171,19 @@
         <div class="item">
           <p>
             <span>采收重量：</span>
-            {{taskDetail.extendData && taskDetail.extendData.weight ? taskDetail.extendData.weight + 'kg' : '' }}
+            {{taskDetail.extendData && taskDetail.extendData.weight ? taskDetail.extendData.weight + '斤' : '' }}
           </p>
           <p>
             <span>任务图片：</span>
             <span class="item-value" v-if="taskDetail.extendData && taskDetail.extendData.filePath">
-                <img v-for="(item, index) in taskDetail.extendData.filePath" :key="index" :src="item" alt="" @click="openImgModal(item)">
-              </span>
+              <img
+                v-for="(item, index) in taskDetail.extendData.filePath"
+                :key="index"
+                :src="item"
+                alt
+                @click="openImgModal(item)"
+              />
+            </span>
           </p>
         </div>
       </div>
@@ -203,15 +202,27 @@
         <div class="item">
           <p>
             <span>包装规格：</span>
-            {{taskDetail.extendData && taskDetail.extendData.packWeight ? taskDetail.extendData.packWeight + 'kg/' +
-            taskDetail.extendData.packUnitName: ''
+            {{taskDetail.extendData && taskDetail.extendData.packUnitName ? taskDetail.extendData.packUnitName: '--'
             }}
           </p>
           <p>
+            <span>重量：</span>
+            {{taskDetail.extendData && taskDetail.extendData.packWeight ? taskDetail.extendData.packWeight : '--'
+            }}{{taskDetail.extendData.weightUnitName}}
+          </p>
+        </div>
+        <div class="item">
+          <p>
             <span>任务图片：</span>
             <span class="item-value" v-if="taskDetail.extendData && taskDetail.extendData.filePath">
-                <img v-for="(item, index) in taskDetail.extendData.filePath" :key="index" :src="item" alt="" @click="openImgModal(item)">
-              </span>
+              <img
+                v-for="(item, index) in taskDetail.extendData.filePath"
+                :key="index"
+                :src="item"
+                alt
+                @click="openImgModal(item)"
+              />
+            </span>
           </p>
         </div>
       </div>
@@ -236,8 +247,14 @@
           <p>
             <span>任务图片：</span>
             <span class="item-value" v-if="taskDetail.extendData && taskDetail.extendData.filePath">
-                <img v-for="(item, index) in taskDetail.extendData.filePath" :key="index" :src="item" alt="" @click="openImgModal(item)">
-              </span>
+              <img
+                v-for="(item, index) in taskDetail.extendData.filePath"
+                :key="index"
+                :src="item"
+                alt
+                @click="openImgModal(item)"
+              />
+            </span>
           </p>
         </div>
       </div>
@@ -269,8 +286,14 @@
           <p>
             <span>任务图片：</span>
             <span class="item-value" v-if="taskDetail.extendData && taskDetail.extendData.filePath">
-                <img v-for="(item, index) in taskDetail.extendData.filePath" :key="index" :src="item" alt="" @click="openImgModal(item)">
-              </span>
+              <img
+                v-for="(item, index) in taskDetail.extendData.filePath"
+                :key="index"
+                :src="item"
+                alt
+                @click="openImgModal(item)"
+              />
+            </span>
           </p>
         </div>
       </div>
@@ -278,7 +301,13 @@
         <p>
           <span>任务图片：</span>
           <span class="item-value" v-if="taskDetail.extendData && taskDetail.extendData.filePath">
-            <img v-for="(item, index) in taskDetail.extendData.filePath" :key="index" :src="item" alt="" @click="openImgModal(item)">
+            <img
+              v-for="(item, index) in taskDetail.extendData.filePath"
+              :key="index"
+              :src="item"
+              alt
+              @click="openImgModal(item)"
+            />
           </span>
         </p>
       </div>
@@ -296,7 +325,11 @@ import Vue from 'vue'
 import { Row, Col, Table, Button, Modal } from 'ant-design-vue'
 import CrumbsNav from '@/components/crumbsNav/CrumbsNav' // 面包屑
 import { detailCrumbsArr, detailColumns } from './config.js'
-import { detailTempWorker, getTaskList, detailTask } from '@/api/productManage.js'
+import {
+  detailTempWorker,
+  getTaskList,
+  detailTask
+} from '@/api/productManage.js'
 import DetailImg from './components/DetailImg.vue'
 
 Vue.use(Row)
@@ -354,7 +387,8 @@ export default {
           } else {
             this.$message.error(res.message)
           }
-        }).catch()
+        })
+        .catch()
     },
     // 获取任务列表
     getTaskList() {
@@ -371,7 +405,8 @@ export default {
           } else {
             this.$message.error(res.message)
           }
-        }).catch()
+        })
+        .catch()
     },
     // 获取任务详情
     getTaskDetail(record) {
@@ -382,7 +417,8 @@ export default {
           } else {
             this.$message.error(res.message)
           }
-        }).catch()
+        })
+        .catch()
     },
     // 打开弹窗
     handleOpenModal(record) {
@@ -411,108 +447,108 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-  .wrapper {
-    position: relative;
-    padding: 24px 24px 0 24px;
-    background: #fff;
-    margin-top: 0;
-    border-radius: 4px;
+.wrapper {
+  position: relative;
+  padding: 24px 24px 0 24px;
+  background: #fff;
+  margin-top: 0;
+  border-radius: 4px;
 
-    .title-wrapper {
-      position: absolute;
-      left: 24px;
+  .title-wrapper {
+    position: absolute;
+    left: 24px;
 
-      .title-text {
-        font-size: 16px;
-        color: #333;
-        line-height: 22px;
-        margin-left: 8px;
-      }
-
-      .icon {
-        width: 2px;
-        height: 14px;
-        background: rgba(60, 140, 255, 1);
-        border-radius: 1px;
-        display: inline-block;
-      }
+    .title-text {
+      font-size: 16px;
+      color: #333;
+      line-height: 22px;
+      margin-left: 8px;
     }
 
-    .detail-wrapper {
-      margin-top: 50px;
-      text-align: left;
-
-      .detail-item {
-        display: flex;
-        margin-bottom: 32px;
-
-        .item-key {
-          font-size: 14px;
-          font-weight: 400;
-          color: #999;
-        }
-
-        .item-value {
-          color: #000;
-          font-size: 14px;
-          margin-left: 10px;
-
-          img {
-            width: 80px;
-            height: 80px;
-          }
-        }
-      }
-
-      .use-material {
-        width: 140px;
-        display: inline-block;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-      }
+    .icon {
+      width: 2px;
+      height: 14px;
+      background: rgba(60, 140, 255, 1);
+      border-radius: 1px;
+      display: inline-block;
     }
   }
 
-  .item {
-    height: auto;
-    overflow: hidden;
+  .detail-wrapper {
+    margin-top: 50px;
+    text-align: left;
 
-    p {
-      width: 48%;
-      float: left;
-      margin-right: 4%;
+    .detail-item {
+      display: flex;
+      margin-bottom: 32px;
 
-      &:nth-child(2) {
-        margin-right: 0%;
-      }
-
-      span {
+      .item-key {
+        font-size: 14px;
+        font-weight: 400;
         color: #999;
       }
 
-      color: #333;
-      line-height: 36px;
-
-      img {
-        width: 72px;
-        height: 72px;
-        background-size: 100% 100%;
+      .item-value {
+        color: #000;
+        font-size: 14px;
         margin-left: 10px;
+
+        img {
+          width: 80px;
+          height: 80px;
+        }
       }
     }
 
-    div {
-      /*width: 48%;*/
-      /*float: left;*/
-      /*margin-right: 4%;*/
-
-      img {
-        width: 72px;
-        height: 72px;
-        background-size: 100% 100%;
-        margin-left: 10px;
-      }
+    .use-material {
+      width: 140px;
+      display: inline-block;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
     }
   }
+}
+
+.item {
+  height: auto;
+  overflow: hidden;
+
+  p {
+    width: 48%;
+    float: left;
+    margin-right: 4%;
+
+    &:nth-child(2) {
+      margin-right: 0%;
+    }
+
+    span {
+      color: #999;
+    }
+
+    color: #333;
+    line-height: 36px;
+
+    img {
+      width: 72px;
+      height: 72px;
+      background-size: 100% 100%;
+      margin-left: 10px;
+    }
+  }
+
+  div {
+    /*width: 48%;*/
+    /*float: left;*/
+    /*margin-right: 4%;*/
+
+    img {
+      width: 72px;
+      height: 72px;
+      background-size: 100% 100%;
+      margin-left: 10px;
+    }
+  }
+}
 </style>

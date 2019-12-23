@@ -1,3 +1,4 @@
+/* eslint-disable */
 const cityList = [
   {
     'value': 110000,
@@ -16680,4 +16681,5 @@ const cityList = [
     ]
   }
 ]
+/* eslint-disable */
 export default cityList
