@@ -35,6 +35,9 @@ export default {
 .ant-table-fixed-columns-in-body {
   visibility: initial !important;
 }
+/*#nprogress .bar{*/
+/*  background: #7DB133 !important;*/
+/*}*/
 .ant-empty-image {
   display: none;
 }
