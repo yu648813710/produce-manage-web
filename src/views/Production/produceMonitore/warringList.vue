@@ -17,7 +17,7 @@
             <a-row>
               <a-col :span="8">
                 <a-form-item
-                  label="地块名称"
+                  label="车间名称"
                   :label-col="{ span: 24 }"
                   :wrapper-col="{ span: 20 }"
                 >
