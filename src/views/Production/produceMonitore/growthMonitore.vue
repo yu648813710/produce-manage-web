@@ -1,5 +1,5 @@
 /**
-周期列表页面
+生产监控页面
 */
 <template>
   <div class="about">
@@ -76,18 +76,18 @@
           ></div>
         </div>
         <div class="staticEchart">
-          <div class="staticLabel">基地详情</div>
+          <div class="staticLabel">车间详情</div>
           <div class="staticTotal">
             <div class="staticNum">
-              <span>大棚数量</span>
+              <span>车间数量</span>
               <span>使用中</span>
               <span>{{inUseHouse}}</span>
             </div>
-            <div class="staticNum">
-              <span>露天地块</span>
-              <span>使用中</span>
-              <span>{{inUseMassif}}</span>
-            </div>
+<!--            <div class="staticNum">-->
+<!--              <span>露天地块</span>-->
+<!--              <span>使用中</span>-->
+<!--              <span>{{inUseMassif}}</span>-->
+<!--            </div>-->
           </div>
         </div>
       </div>
@@ -157,7 +157,7 @@ export default {
       growthData(type).then(res => {
         this.totalWarring = res.data.alarmHistoryTotal
         this.inUseMassif = res.data.landOpenAirCount // 地块数量
-        this.inUseHouse = res.data.landGreenhousesCount // 大棚数量
+        this.inUseHouse = res.data.workshopCount // 车间数量
         this.historyTemperatureWarring = res.data.temperatureHistoryCount // 历史温度数量
         this.historydampnessWarring = res.data.dampnessHistoryCount // 历史湿度数量
         this.newTemperatureWarring = res.data.temperatureNewCount // 新增温度数量

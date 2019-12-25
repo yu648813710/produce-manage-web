@@ -110,7 +110,7 @@
             <a-form-item label="农事描述" :wrapper-col="{span:24}">
               <a-input
                 placeholder="请输入农事描述"
-                v-decorator="['taskDescription', { rules: [{ required: true,message: '描述不能超过50字符',validator:validatorTaskDescription}] }]"
+                v-decorator="['taskDescription', { rules: [{ required: false,message: '描述不能超过50字符',validator:validatorTaskDescription}] }]"
               ></a-input>
             </a-form-item>
           </a-col>
