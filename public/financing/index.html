@@ -96,7 +96,7 @@ window.onload = function() {
 };
 download=()=>{
   let ajax = new XMLHttpRequest();
-  ajax.open('get','http://106.38.53.203:12825/finance/app/download/investment');
+  ajax.open('get', window.location.origin + '/finance/app/download/investment');
   ajax.send();
   ajax.onreadystatechange = function () {
     if (ajax.readyState === 4 && ajax.status === 200) {
