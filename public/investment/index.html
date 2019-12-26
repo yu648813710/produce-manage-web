@@ -1,4 +1,4 @@
-<!--融资APP-->
+<!--投资APP-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,7 +20,6 @@
       height: 100%;
       width: 100%;
     }
-
     .wrapper {
       align-items: center;
       flex-direction: column;
@@ -75,8 +74,9 @@
 <img src="modal.png" style="position: fixed;width: 100%;height: 100vh" id="modal"/>
 <div class="wrapper" style="height: 50%">
   <div class="logo"><img src="logo.png" style="height: 63px;margin: 13.5px"/></div>
-  <div class="name">科投金融</div>
+  <div class="name">科技投资</div>
 </div>
+
 <div class="wrapper" style="justify-content: center;">
   <div class="tip">如果未开始下载，请手动下载</div>
   <div class="button" onclick="download()">点击下载</div>
@@ -94,18 +94,18 @@ window.onload = function() {
     img.style.cssText = 'display: none';
   }
 };
-download = () => {
+download=()=>{
   let ajax = new XMLHttpRequest();
-  ajax.open('get', window.location.origin + '/finance/app/download/financing');
+  ajax.open('get', window.location.origin + '/finance/app/download/investment');
   ajax.send();
-  ajax.onreadystatechange = function() {
+  ajax.onreadystatechange = function () {
     if (ajax.readyState === 4 && ajax.status === 200) {
-      let res = JSON.parse(ajax.responseText);
+      let res = JSON.parse(ajax.responseText)
       if (res.code === 200 && res.success === 'Y') {
-        window.location.href = res.data;
+        window.location.href = res.data
       }
     }
-  };
-};
+  }
+}
 </script>
 </html>
