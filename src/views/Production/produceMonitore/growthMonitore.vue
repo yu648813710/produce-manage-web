@@ -8,7 +8,7 @@
         <div class="titleLeft"></div>
       </a-col>
       <a-col :span="8">
-        <div class="marketTitle">柞水木耳种植基地监控总览</div>
+        <div class="marketTitle">柞水木耳种植基地气象总览</div>
       </a-col>
       <a-col :span="8">
         <div class="titleRight"></div>
