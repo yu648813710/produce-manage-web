@@ -273,7 +273,7 @@ export default {
       name: 'growth',
       component: () => import('@/views/Production/index.vue'),
       meta: {
-        name: '生长监控',
+        name: '气象总览',
         icon: '',
         nodeNo: 'growth'
       },
@@ -282,19 +282,19 @@ export default {
           path: 'growthMonitore',
           name: 'growthMonitore',
           component: () => import('@/views/Production/growthMonitore/growthMonitore.vue'),
-          meta: { name: '生长监控大屏', icon: '' }
+          meta: { name: '气象总览大屏', icon: '' }
         },
         {
           path: 'growthWarringList',
           name: 'growthWarringList',
           component: () => import('@/views/Production/growthMonitore/warringList.vue'),
-          meta: { name: '生长监控预警汇总列表', icon: '', parentMenuName: 'growthMonitore' }
+          meta: { name: '气象总览预警汇总列表', icon: '', parentMenuName: 'growthMonitore' }
         },
         {
           path: 'growthWarringnewlist',
           name: 'growthWarringnewlist',
           component: () => import('@/views/Production/growthMonitore/warringNewList.vue'),
-          meta: { name: '生长监控预警列表', icon: '', parentMenuName: 'growthMonitore' }
+          meta: { name: '气象总览预警列表', icon: '', parentMenuName: 'growthMonitore' }
         },
         {
           path: '/RuleMonitoringList',
@@ -309,7 +309,7 @@ export default {
       name: 'production',
       component: () => import('@/views/Production/index.vue'),
       meta: {
-        name: '生产监控',
+        name: '气象总览',
         icon: '',
         nodeNo: 'production'
       },
@@ -318,19 +318,19 @@ export default {
           path: 'produceMonitore',
           name: 'produceMonitore',
           component: () => import('@/views/Production/produceMonitore/growthMonitore.vue'),
-          meta: { name: '生产监控大屏', icon: '' }
+          meta: { name: '气象总览大屏', icon: '' }
         },
         {
           path: 'warringList',
           name: 'warringList',
           component: () => import('@/views/Production/produceMonitore/warringList.vue'),
-          meta: { name: '生产监控预警汇总列表', icon: '', parentMenuName: 'growthMonitore' }
+          meta: { name: '气象总览预警汇总列表', icon: '', parentMenuName: 'growthMonitore' }
         },
         {
           path: 'warringnewlist',
           name: 'warringnewlist',
           component: () => import('@/views/Production/produceMonitore/warringNewList.vue'),
-          meta: { name: '生产监控预警列表', icon: '', parentMenuName: 'growthMonitore' }
+          meta: { name: '气象总览预警列表', icon: '', parentMenuName: 'growthMonitore' }
         },
         {
           path: 'rulelist',

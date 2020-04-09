@@ -8,7 +8,7 @@
         <div class="titleLeft"></div>
       </a-col>
       <a-col :span="8">
-        <div class="marketTitle">柞水木耳种植基地监控总览</div>
+        <div class="marketTitle">柞水木耳种植基地气象总览</div>
       </a-col>
       <a-col :span="8">
         <div class="titleRight"></div>
@@ -128,7 +128,7 @@ export default {
       timer: '',
       crumbsArr: [
         { name: '生产管理', back: false, path: '' },
-        { name: '生长监控', back: true, path: '/projectCenter' },
+        { name: '气象总览', back: true, path: '/projectCenter' },
         { name: '新增方案', back: false, path: '' }
       ]
     }

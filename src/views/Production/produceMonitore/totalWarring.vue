@@ -81,7 +81,7 @@ export default {
     return {
       crumbsArr: [
         { name: '生产管理', back: false, path: '' },
-        { name: '生长监控', back: false, path: '/growthMonitore' },
+        { name: '气象总览', back: false, path: '/growthMonitore' },
         { name: '大棚监控列表', back: false, path: '' }
       ],
       detail: this.$route.params,
