@@ -1,6 +1,6 @@
 <template>
-  <div class="prd-means" style="margin: 10px 16px;background: #eee;">
-    <MyBreadCrumb :crumbsArr="crumbsArr" style="margin-bottom: 10px;"></MyBreadCrumb>
+  <div class="prd-means">
+    <MyBreadCrumb :crumbsArr="crumbsArr"></MyBreadCrumb>
     <a-layout>
       <a-layout-content>
         <div class="search-wrapper">
@@ -49,7 +49,6 @@
             :style="{marginTop: '50px'}"
             :rowKey="e => e.materialNum"
             :pagination="pagination"
-            :loading="loading"
             :scroll="{ x: 1200 }"
             @change="handlePage"
           >
@@ -151,8 +150,9 @@ export default {
       form: this.$form.createForm(this, { name: 'productAction' }),
       farmingTypes,
       crumbsArr: [
-        { name: '生产管理', back: false, path: '' },
-        { name: '生产资料', back: false, path: '' }
+        { name: '当前位置', back: false, path: '' },
+        { name: '金融管理', back: false, path: '' },
+        { name: '生产管理', back: false, path: '' }
       ],
       fetchParams: {},
       isDeleteVisible: false,
@@ -163,8 +163,8 @@ export default {
   methods: {
     fetchList (params) {
       let postData = {
-        pageNo: this.pagination.current,
-        pageSize: this.pagination.pageSize,
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
         ...params
       }
       produceMeansList(postData).then(res => {
@@ -232,7 +232,6 @@ export default {
     handleReset () {
       this.form.resetFields()
       this.pageNo = 1
-      this.pagination.current = 1
       this.fetchParams = {}
       this.fetchList(this.fetchParams)
     },
@@ -253,6 +252,8 @@ export default {
           this.$message.success(res.message)
           this.isDeleteVisible = false
           this.pagination.current = this.utils.checkDelData(this.list, this.pagination.current)
+          this.pageNo = this.pagination.current
+          this.pageSize = this.pagination.pageSize
           this.fetchList(this.fetchParams)
           return
         }
@@ -277,6 +278,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .prd-means {
+  padding: 0px 16px 16px 16px;
   .search-wrapper {
     padding: 24px;
     background: #fff;
@@ -294,7 +296,6 @@ export default {
   background: #fff;
   margin-bottom: 10px;
   border-radius: 4px;
-
   .search-input-wrapper {
     position: relative;
     margin-bottom: 24px;
