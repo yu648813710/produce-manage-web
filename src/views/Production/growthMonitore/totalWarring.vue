@@ -7,7 +7,7 @@
       <a-breadcrumb-item>当前位置：</a-breadcrumb-item>
       <a-breadcrumb-item>生产管理</a-breadcrumb-item>
       <a-breadcrumb-item>
-        <router-link :to="{name: 'growthMonitore'}">生长监控</router-link>
+        <router-link :to="{name: 'growthMonitore'}">气象总览</router-link>
       </a-breadcrumb-item>
       <a-breadcrumb-item>大棚监控列表</a-breadcrumb-item>
     </a-breadcrumb>

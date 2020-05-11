@@ -9,7 +9,7 @@
             <a-row>
               <a-col :span="8">
                 <a-form-item
-                  label="地块名称"
+                  label="车间名称"
                   :label-col="{ span: 24 }"
                   :wrapper-col="{ span: 20 }"
                 >
@@ -190,7 +190,7 @@ export default {
       columns,
       crumbsArr: [
         { name: '生产管理', back: false, path: '' },
-        { name: '生长监控', back: false, path: '/production/growthMonitore' },
+        { name: '气象总览', back: false, path: '/production/growthMonitore' },
         { name: '地块监控列表', back: false, path: '' }
       ]
     }
