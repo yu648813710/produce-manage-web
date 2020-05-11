@@ -48,6 +48,12 @@ export default {
   components: { SideMenu },
   computed: {
     ...mapState(['loading'])
+  },
+  methods: {
+    copyRightClick () {
+      // 备案号: 陕ICP备19021305号-1
+      window.open('http://www.beian.miit.gov.cn')
+    }
   }
 }
 </script>
