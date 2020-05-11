@@ -14,6 +14,9 @@
     </div>
     <div class="content">
       <router-view></router-view>
+      <div style="height: 50px;line-height: 50px;">
+        <span class="copy-right" @click="copyRightClick">陕ICP备19021305号-1</span>
+      </div>
     </div>
   </div>
 </template>
@@ -26,12 +29,12 @@ import { mapState } from 'vuex' // mapActions, mapMutations
 Vue.use(Spin)
 export default {
   name: 'Root',
-  data() {
+  data () {
     return {
       success: 'success'
     }
   },
-  mounted() {
+  mounted () {
     /**
      * description: 全局提示配置项
      * params: top(距离顶部距离)、maxCount(提示最大可展示*个)、duration(关闭时间)
@@ -87,6 +90,11 @@ export default {
     flex: 1;
     height: 100%;
     overflow: auto;
+    .copy-right {
+      cursor: pointer;
+      line-height: 100%;
+      color: #a1a1a1;
+    }
   }
 }
 </style>
