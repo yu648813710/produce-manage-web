@@ -14,9 +14,9 @@
     </div>
     <div class="content">
       <router-view></router-view>
-      <div style="height: 50px;line-height: 50px;">
-        <span class="copy-right" @click="copyRightClick">陕ICP备19021305号-1</span>
-      </div>
+    </div>
+    <div class="copy-btm">
+      <span class="copy-right" @click="copyRightClick">陕ICP备19021305号-1</span>
     </div>
   </div>
 </template>
@@ -96,11 +96,22 @@ export default {
     flex: 1;
     height: 100%;
     overflow: auto;
-    .copy-right {
-      cursor: pointer;
-      line-height: 100%;
-      color: #a1a1a1;
-    }
+  }
+  .copy-btm {
+    height: 30px;
+    line-height: 30px;
+    width: calc(100% - 240px);
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    background-color: #eee;
+    z-index: 999;
+  }
+  .copy-right {
+    cursor: pointer;
+    line-height: 100%;
+    color: #a1a1a1;
+    font-size: 12px;
   }
 }
 </style>
