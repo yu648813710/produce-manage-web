@@ -8,7 +8,7 @@
       </a-steps>
       <div class="content-forms">
         <div class="tag">
-          <span class="title-icon">┃</span>
+          <span class="title-green">┃</span>
           <span style="font-weight: bold">{{currentStep === 0 ? '生产资料' : '生产能力'}}</span>
         </div>
         <template v-if="$route.query.tag === 'new'">
@@ -49,6 +49,8 @@ export default {
   data() {
     return {
       crumbsArr: [
+        { name: '当前位置', back: false, path: '' },
+        { name: '金融管理', back: false, path: '' },
         { name: '生产管理', back: false, path: '' },
         { name: '生产资料', back: true, path: '/productionMeans' },
         { name: '新增生产资料', back: false, path: '' }

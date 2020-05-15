@@ -269,6 +269,39 @@ export default {
       }
     }, */
     {
+      path: '/productionMeans',
+      name: 'productionMeans',
+      hidden: false,
+      component: () => import('@/views/productionMeans'),
+      meta: {
+        name: '生产资料管理',
+        icon: '',
+        nodeNo: 'productionMeans'
+      }
+    },
+    {
+      path: '/addMeans',
+      name: 'addMeans',
+      hidden: true,
+      component: () => import('@/views/productionMeans/addMeans'),
+      meta: {
+        name: '新增生产资料',
+        icon: '',
+        nodeNo: 'productionMeans'
+      }
+    },
+    {
+      path: '/productionMeansDetail',
+      name: 'producitonMeansDetail',
+      hidden: true,
+      component: () => import('@/views/productionMeans/detail'),
+      meta: {
+        name: '生产资料详情',
+        icon: '',
+        nodeNo: 'productionMeans'
+      }
+    },
+    {
       path: 'growth',
       name: 'growth',
       component: () => import('@/views/Production/index.vue'),
