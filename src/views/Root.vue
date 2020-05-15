@@ -15,6 +15,9 @@
     <div class="content">
       <router-view></router-view>
     </div>
+    <div class="copy-btm">
+      <span class="copy-right" @click="copyRightClick">陕ICP备19021305号-1</span>
+    </div>
   </div>
 </template>
 
@@ -26,12 +29,12 @@ import { mapState } from 'vuex' // mapActions, mapMutations
 Vue.use(Spin)
 export default {
   name: 'Root',
-  data() {
+  data () {
     return {
       success: 'success'
     }
   },
-  mounted() {
+  mounted () {
     /**
      * description: 全局提示配置项
      * params: top(距离顶部距离)、maxCount(提示最大可展示*个)、duration(关闭时间)
@@ -45,6 +48,12 @@ export default {
   components: { SideMenu },
   computed: {
     ...mapState(['loading'])
+  },
+  methods: {
+    copyRightClick () {
+      // 备案号: 陕ICP备19021305号-1
+      window.open('http://www.beian.miit.gov.cn')
+    }
   }
 }
 </script>
@@ -87,6 +96,22 @@ export default {
     flex: 1;
     height: 100%;
     overflow: auto;
+  }
+  .copy-btm {
+    height: 30px;
+    line-height: 30px;
+    width: calc(100% - 240px);
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    background-color: #eee;
+    z-index: 999;
+  }
+  .copy-right {
+    cursor: pointer;
+    line-height: 100%;
+    color: #a1a1a1;
+    font-size: 12px;
   }
 }
 </style>
