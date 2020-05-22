@@ -96,6 +96,7 @@ export default {
     flex: 1;
     height: 100%;
     overflow: auto;
+    padding-bottom: 30px;
   }
   .copy-btm {
     height: 30px;
