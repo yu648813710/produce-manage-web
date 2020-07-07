@@ -106,7 +106,7 @@
           <template v-if="detailData.extendData.packWeight">
             <div class="item">
               <p>
-                <span>包装人：</span>
+                <span>包装负责人：</span>
                 {{
                 detailData.extendData.packUser
                 ? detailData.extendData.packUser
@@ -114,23 +114,33 @@
                 }}
               </p>
               <p>
-                <span>包装规格：</span>
+                <span>包装批次：</span>
                 {{
-                detailData.extendData.packUnitName
-                ? detailData.extendData.packUnitName
+                detailData.extendData.packNo
+                ? detailData.extendData.packNo
                 : '--'
                 }}
               </p>
             </div>
             <div class="item">
               <p>
-                <span>重量：</span>
+                <span>包装地点：</span>
+                {{
+                detailData.extendData.packAddr
+                ? detailData.extendData.packAddr
+                : '--'
+                }}
+              </p>
+              <p>
+                <span>包装规格：</span>
                 {{
                 detailData.extendData.packWeight
-                ? detailData.extendData.packWeight
+                ? detailData.extendData.packWeight+'g'
                 : '--'
-                }}{{detailData.extendData.weightUnitName}}
+                }}
               </p>
+            </div>
+            <div class="item">
               <p>
                 <span>包装时间：</span>
                 {{
@@ -146,7 +156,7 @@
           <template v-if="detailData.extendData.pickTime">
             <div class="item">
               <p>
-                <span>采收人：</span>
+                <span>采收负责人：</span>
                 {{
                 detailData.extendData.pickUser
                 ? detailData.extendData.pickUser
@@ -154,8 +164,8 @@
                 }}
               </p>
               <p>
-                <span>采收重量：</span>
-                {{detailData.extendData && detailData.extendData.weight ? detailData.extendData.weight + '斤' : '' }}
+                <span>采收数量：</span>
+                {{detailData.extendData && detailData.extendData.weight ? detailData.extendData.weight + 'kg' : '' }}
               </p>
             </div>
             <div class="item">
@@ -211,28 +221,54 @@
           </template>
           <!-- 完成检测 -->
           <!-- 完成存储 -->
-          <template v-if="detailData.extendData.cycle">
+          <template v-if="detailData.extendData.cycleAddr">
             <div class="item">
               <p>
-                <span>存储周期：</span>
+                <span>仓储地点：</span>
                 {{
-                detailData.extendData.cycle
-                ? detailData.extendData.cycle
+                detailData.extendData.cycleAddr
+                ? detailData.extendData.cycleAddr
                 : '--'
-                }}月
+                }}
               </p>
               <p>
-                <span>存储温度：</span>
+                <span>入库时间：</span>
+                {{
+                detailData.extendData.publicDate
+                ? detailData.extendData.publicDate
+                : '--'
+                }}
+              </p>
+            </div>
+            <div class="item">
+              <p>
+                <span>出库时间：</span>
+                {{
+                detailData.extendData.outTime
+                ? detailData.extendData.outTime
+                : '--'
+                }}
+              </p>
+              <p>
+                <span>仓储负责人：</span>
+                {{
+                detailData.extendData.cycleUser
+                ? detailData.extendData.cycleUser
+                : '--'
+                }}
+              </p>
+            </div>
+            <div class="item">
+              <p>
+                <span>仓储温度：</span>
                 {{
                 detailData.extendData.temperature
                 ? detailData.extendData.temperature
                 : '--'
                 }}℃
               </p>
-            </div>
-            <div class="item">
               <p>
-                <span>存储湿度：</span>
+                <span>仓储湿度：</span>
                 {{
                 detailData.extendData.humidity
                 ? detailData.extendData.humidity
