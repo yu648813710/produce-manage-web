@@ -38,7 +38,7 @@ const crumbsArr = [
     path: ''
   },
   {
-    name: '生产监控',
+    name: '气象总览',
     back: false,
     path: ''
   },

@@ -213,7 +213,7 @@ export default {
           path: ''
         },
         {
-          name: '生长监测',
+          name: '气象总览',
           back: false,
           path: ''
         },

@@ -51,6 +51,7 @@
             <a-auto-complete
               v-else-if="index === 0"
               :allowClear="true"
+              :getPopupContainer="triggerNode => triggerNode.parentNode || document.body"
               @search="handleSearchFarmingNum"
               @select="handleSelectFarmingNum"
               :filterOption="filterOption"

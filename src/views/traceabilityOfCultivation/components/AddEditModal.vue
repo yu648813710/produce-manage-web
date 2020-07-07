@@ -92,7 +92,8 @@
                         rules: [{ required: true, message: '请选择生产地址' }]
                       }]"
                       :options="cityList"
-                      />
+                      :getPopupContainer="triggerNode => triggerNode.parentNode"
+                    />
                   </a-form-item>
                 </a-col>
               </a-row>
@@ -175,6 +176,19 @@
                     <span >元</span>
                   </a-col>
                 </a-row>
+              </a-form-item>
+            </a-col>
+            <a-col :span="12" class="row-col" >
+              <a-form-item label="联系方式" :colon="false">
+                <a-input
+                  placeholder="请输入联系方式"
+                  autocomplete="off"
+                  maxLength="30"
+                  v-decorator="[
+                    'phone',
+                    { rules: [{ required: true, message: '请输入联系方式' }] },
+                  ]"
+                />
               </a-form-item>
             </a-col>
             <a-col :span="12" class="row-col" >
@@ -298,7 +312,8 @@ export default {
           productionDate: moment(this.isEditObj.productionDate || '', 'YYYY-MM-DD'), // '2019-11-05', // 生产日期
           baseImg: this.isEditObj.productPicture,
           expiryTime: Number(this.isEditObj.expiryTime), // '保质期',
-          price: this.isEditObj.price // 单价
+          price: this.isEditObj.price, // 单价
+          phone: this.isEditObj.phone // 单价
         })
         this.productionDate = this.isEditObj.productionDate
         this.picturePath = this.isEditObj.productPicture
@@ -380,6 +395,7 @@ export default {
               productionDate: this.productionDate, // '2019-11-05', // 生产日期
               expiryTime: values.expiryTime, // '保质期',
               price: values.price, // 单价
+              phone: values.phone, // 联系方式
               priceUnitName: '元',
               productPicture: this.picturePath // '产品图片',
             }
@@ -435,6 +451,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  /deep/ .ant-form-explain{
+    float: left;
+  }
 .form-fields {
   .row-col {
     // display: flex;

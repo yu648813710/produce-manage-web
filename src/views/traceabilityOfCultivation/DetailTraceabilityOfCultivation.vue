@@ -40,6 +40,10 @@
             <span class="item-value">{{ detail.expiryTime }} 天</span>
           </a-col>
           <a-col :span="8" class="detail-item">
+            <span class="item-key">联系方式：</span>
+            <span class="item-value">{{ detail.phone }}</span>
+          </a-col>
+          <a-col :span="8" class="detail-item">
             <span class="item-key">木耳图片：</span>
             <span class="item-value">
               <img
