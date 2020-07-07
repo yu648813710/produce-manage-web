@@ -9,8 +9,10 @@ import { VueAxios } from './utils/request'
 import config from '@/config/defaultSettings'
 import { USERTOKEN } from '@/store/mutation-types'
 import scroll from 'vue-seamless-scroll'
-import Print from '@/plugs/print'
+// import Print from '@/plugs/print'
 import echarts from 'echarts'
+
+import Print from 'vue-print-nb'
 
 // base library
 import { message, Icon, LocaleProvider, InputNumber } from 'ant-design-vue'
@@ -38,8 +40,9 @@ import setTheme from './theme'
 // setTheme('green')
 
 import * as utils from './utils/domUtil'
-Vue.use(Print) // 注册
+// Vue.use(Print) // 注册
 Vue.use(scroll)
+Vue.use(Print) // 打印
 Vue.prototype.$echarts = echarts
 Vue.prototype.utils = utils
 moment.locale('zh-cn')

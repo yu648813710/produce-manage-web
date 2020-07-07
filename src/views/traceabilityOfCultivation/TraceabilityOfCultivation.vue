@@ -97,7 +97,7 @@
               <a-switch checkedChildren="启用" unCheckedChildren="禁用" :checked="record.status === 'Y'" @change="(val) => triggerSwitch(val, record.productId)" />
             </span>
             <span slot="operation" slot-scope="text, record">
-              <a-button type="link" @click="showPrintModal(record.qrcodeId)">打印</a-button>
+              <a-button type="link" @click="showPrintModal(record, record.qrcodeId)">打印</a-button>
               <a-button type="link"  style="padding:0;" @click="openDetail(record.productId)">查看</a-button>
               <span v-if="record.status === 'N'">
                 <a-button type="link" @click="handleOpenEdit(record)">编辑商品</a-button>
@@ -129,6 +129,7 @@
     <!-- 打印模态框 -->
     <printing-modal
       :printVisible="printVisible"
+      :lineData="lineData"
       :decodeImg="decodeImg"
       @printHideModal="printHideModal"
     ></printing-modal>
@@ -226,6 +227,7 @@ export default {
       modalWidth: 240,
       productId: '',
       qrCodeVisible: false,
+      lineData: {},
       qrCodeSrc: ''
     }
   },
@@ -332,7 +334,8 @@ export default {
       this.imgVisible = val
     },
     // 打印模态框打开
-    showPrintModal(qrcodeId) {
+    showPrintModal(record, qrcodeId) {
+      this.lineData = record
       this.decodeImg = this.decode(qrcodeId)
       this.printVisible = true
     },
