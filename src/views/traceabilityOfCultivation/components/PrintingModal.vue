@@ -19,11 +19,11 @@
               <div class="printContent" id="printMe">
                 <div class="produceName">
                   <div class="label">产品名称：</div>
-                  <div class="value">{{lineData.productName}}</div>
+                  <div class="value mg_2">{{lineData.productName}}</div>
                 </div>
                 <div class="produceName">
                   <div class="label">产品名称：</div>
-                  <div class="value">{{lineData.productName}}</div>
+                  <div class="value mg_2">{{lineData.productName}}</div>
                 </div>
                 <div class="produceCompany">
                   <div class="label">生产企业：</div>
@@ -47,25 +47,25 @@
                 </div>
                 <div class="producePhone">
                   <div class="label">联系方式：</div>
-                  <div class="value" style="display: inline-block;width: 135px;">
+                  <div class="value" style="display: inline-block;width: 140px;">
                     {{lineData.phone}}
                   </div>
                 </div>
                 <div class="producePhone">
                   <div class="label">联系方式：</div>
-                  <div class="value" style="display: inline-block;width: 135px;">
+                  <div class="value" style="display: inline-block;width: 140px;">
                     {{lineData.phone}}
                   </div>
                 </div>
                 <div class="produceCreatDate">
                   <div class="label">生成日期：</div>
-                  <div class="value" style="display: inline-block;width: 135px;">
+                  <div class="value" style="display: inline-block;width: 140px;">
                     {{lineData.productionDate}}
                   </div>
                 </div>
                 <div class="produceCreatDate">
                   <div class="label">生成日期：</div>
-                  <div class="value" style="display: inline-block;width: 135px;">
+                  <div class="value" style="display: inline-block;width: 140px;">
                     {{lineData.productionDate}}
                   </div>
                 </div>
@@ -98,47 +98,47 @@
             </div>
             <div class="previewLocation">
               <span class="label2" style="display: inline-block;margin-top: -3px">产地：</span>
-              <span class="value2" style="display: inline-block;width: 156px;margin-top: -5px">
+              <span class="value2" style="display: inline-block;width: 140px;margin-top: -5px">
                     {{lineData.mergerAddress}}
                   </span>
             </div>
             <div class="previewLocation">
               <span class="label2" style="display: inline-block;margin-top: -3px">产地：</span>
-              <span class="value2" style="display: inline-block;width: 156px;margin-top: -5px">
+              <span class="value2" style="display: inline-block;width: 140px;margin-top: -5px">
                     {{lineData.mergerAddress}}
                   </span>
             </div>
             <div class="previewPhone">
               <span class="label2">联系方式：</span>
-              <span class="value2" style="display: inline-block;width: 120px;">
+              <span class="value2" style="display: inline-block;width: 140px;">
                     {{lineData.phone}}
                   </span>
             </div>
             <div class="previewPhone">
               <span class="label2">联系方式：</span>
-              <span class="value2" style="display: inline-block;width: 120px;">
+              <span class="value2" style="display: inline-block;width: 140px;">
                     {{lineData.phone}}
                   </span>
             </div>
             <div class="previewCreatDate">
               <span class="label2">生成日期：</span>
-              <span class="value2" style="display: inline-block;width: 120px;">
+              <span class="value2" style="display: inline-block;width: 140px;">
                    {{lineData.productionDate}}
                   </span>
             </div>
             <div class="previewCreatDate">
               <span class="label2">生成日期：</span>
-              <span class="value2" style="display: inline-block;width: 120px;">
+              <span class="value2" style="display: inline-block;width: 140px;">
                     {{lineData.productionDate}}
                   </span>
             </div>
             <img
-              style="width: 131px;height: 130px;position: absolute;bottom: 42px;right: 42px"
+              style="width: 131px;height: 130px;position: absolute;bottom: 40px;right: 40px"
               :src="decodeImg"
               alt=""
             />
             <img
-              style="width: 131px;height: 130px;position: absolute;bottom: 42px;right: 42px"
+              style="width: 131px;height: 130px;position: absolute;bottom: 40px;right: 40px"
               :src="decodeImg"
               alt=""
             />
@@ -238,7 +238,7 @@ export default {
   .previewContent div {
     position: absolute;
     font-size: 18px;
-    font-weight: bold;
+    /*font-weight: bold;*/
     left: 37px;
     height: 10px;
   }
@@ -270,6 +270,9 @@ export default {
     top: 175px;
     height: 72px !important;
   }
+  .previewLocation .value2, .previewPhone .value2, .previewCreatDate .value2 {
+    font-size: 15px !important;
+  }
   .previewPhone {
     top: 242px;
   }
@@ -288,7 +291,7 @@ export default {
     align-items: flex-start;
   }
   .printContent div {
-    font-weight: bold;
+    /*font-weight: bold;*/
   }
   .produceName {
     transform: scale(0.333);
@@ -304,9 +307,10 @@ export default {
     top: 54px;
     height: 66px;
   }
-  .produceLocation .value, .producePhone .value {
+  .produceLocation .value, .producePhone .value, .produceCreatDate .value {
     flex: none !important;
-    width: 190px;
+    width: 135px;
+    font-size: 15px;
   }
   .producePhone {
     transform: scale(0.333);
@@ -316,9 +320,12 @@ export default {
     transform: scale(0.333);
     top: 117px;
   }
+  .mg_2 {
+    margin-top: -2px;
+  }
   .label {
     width: 90px;
-    font-size: 16px;
+    font-size: 12px;
   }
   .value {
     flex: 1;
