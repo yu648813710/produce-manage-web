@@ -183,7 +183,7 @@
                 <a-input
                   placeholder="请输入联系方式"
                   autocomplete="off"
-                  maxLength="30"
+                  maxLength="16"
                   v-decorator="[
                     'phone',
                     { rules: [{ required: true, message: '请输入联系方式' }] },
