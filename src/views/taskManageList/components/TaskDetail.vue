@@ -135,7 +135,7 @@
                 <span>包装规格：</span>
                 {{
                 detailData.extendData.packWeight
-                ? detailData.extendData.packWeight+'g'
+                ? detailData.extendData.packWeight
                 : '--'
                 }}
               </p>
@@ -165,7 +165,7 @@
               </p>
               <p>
                 <span>采收数量：</span>
-                {{detailData.extendData && detailData.extendData.weight ? detailData.extendData.weight + 'kg' : '' }}
+                {{detailData.extendData && detailData.extendData.weight ? detailData.extendData.weight : '' }}
               </p>
             </div>
             <div class="item">
@@ -265,7 +265,7 @@
                 detailData.extendData.temperature
                 ? detailData.extendData.temperature
                 : '--'
-                }}℃
+                }}
               </p>
               <p>
                 <span>仓储湿度：</span>
@@ -273,7 +273,7 @@
                 detailData.extendData.humidity
                 ? detailData.extendData.humidity
                 : '--'
-                }}%
+                }}
               </p>
             </div>
           </template>
