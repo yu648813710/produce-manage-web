@@ -10,7 +10,7 @@
         <span class="title-text">产品基础信息</span>
       </div>
       <div class="detail-wrapper">
-        <a-row>
+        <a-row :span="24">
           <a-col :span="8" class="detail-item">
             <span class="item-key">产品名称：</span>
             <span class="item-value">{{ detail.productName }}</span>
@@ -43,7 +43,7 @@
             <span class="item-key">联系方式：</span>
             <span class="item-value">{{ detail.phone }}</span>
           </a-col>
-          <a-col :span="8" class="detail-item">
+          <a-col :span="8" class="detail-item" :style="{ height: '80px' }">
             <span class="item-key">木耳图片：</span>
             <span class="item-value">
               <img
@@ -72,6 +72,7 @@
             :span="8"
             class="detail-item"
             v-for="(item, index) in card.infos"
+            :style="index === card.infos.length - 1 ? { height: '80px' } : ''"
             :key="index"
           >
             <span class="item-key">{{ item.fieldLabel }}：</span>
@@ -206,8 +207,10 @@ export default {
     text-align: left;
     .detail-item {
       display: flex;
-      margin-bottom: 32px;
+      height: 46px;
+      /*margin-bottom: 32px;*/
       .item-key {
+        white-space: nowrap;
         font-size: 14px;
         font-weight: 400;
         color: #999;

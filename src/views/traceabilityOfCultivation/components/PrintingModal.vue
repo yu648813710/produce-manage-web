@@ -174,7 +174,7 @@ export default {
       required: true
     },
     lineData: {
-      type: Boolean,
+      type: Object,
       default: () => {},
     },
     decodeImg: {
