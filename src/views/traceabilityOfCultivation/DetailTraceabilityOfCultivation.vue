@@ -98,7 +98,7 @@
                 />
               </span>
             </template>
-            <span class="item-value" v-else>{{ item.value }}</span>
+            <span class="item-value" v-else :title="item.field === 'jizhi' ? item.value : ''">{{ item.value }}</span>
           </a-col>
         </a-row>
       </div>
@@ -218,6 +218,14 @@ export default {
       .item-value {
         color: #000;
         font-size: 14px;
+        line-height: 15px;
+        display: -webkit-box;
+        overflow: hidden;
+        white-space: normal !important;
+        text-overflow: ellipsis;
+        word-wrap: break-word;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
         margin-left: 10px;
         img {
           width: 80px;
