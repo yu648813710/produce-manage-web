@@ -187,6 +187,7 @@ export default {
   background-color: white;
   padding: 27px 15px 21px 15px;
   position: relative;
+  text-align: left;
   .search-box {
     height: auto;
     overflow: hidden;
