@@ -1,6 +1,6 @@
 <template>
   <div class="prd-means">
-    <MyBreadCrumb :crumbsArr="crumbsArr"></MyBreadCrumb>
+    <MyBreadCrumb :crumbsArr="crumbsArr" class="p-10"></MyBreadCrumb>
     <a-layout>
       <a-layout-content>
         <div class="search-wrapper">
@@ -150,7 +150,7 @@ export default {
       form: this.$form.createForm(this, { name: 'productAction' }),
       farmingTypes,
       crumbsArr: [
-        { name: '当前位置', back: false, path: '' },
+        { name: '生产管理', back: false, path: '' },
         { name: '生产资料管理', back: false, path: '' }
       ],
       fetchParams: {},
@@ -345,5 +345,8 @@ export default {
   .viw  {
     margin: 0 10px;
   }
+}
+.p-10{
+  padding: 10px 0;
 }
 </style>
