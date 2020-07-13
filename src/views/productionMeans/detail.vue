@@ -68,10 +68,8 @@ Vue.use(Col)
 Vue.use(Layout)
 
 const crumbsArr = [
-  { name: '当前位置', back: false, path: '' },
-  { name: '金融管理', back: false, path: '' },
-  { name: '生产管理', back: true, path: '/productionMeans' },
-  { name: '生产资料详情', back: false, path: '' }
+  { name: '生产资料管理', back: true, path: '/productionMeans' },
+  { name: '生产资料管理详情', back: false, path: '' }
 ]
 const list = [
   { id: '000', label: '生产资料编号', value: '-' },
