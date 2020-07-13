@@ -77,8 +77,8 @@
             </span>
             <!-- 生产地 -->
             <span slot="address" slot-scope="text, record" class="tableLineCtr"
-              :title="record.provinceName + record.cityName + record.areaName + record.townName + record.address">
-              {{record.provinceName}}{{record.cityName}}{{record.areaName}}{{record.townName}}{{record.address}}
+              :title="record.mergerAddress">
+              {{record.mergerAddress}}
             </span>
             <!-- 生产企业 -->
             <span slot="productionCompany" slot-scope="text, record" class="tableLineCtr" :title="record.productionCompany">
