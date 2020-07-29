@@ -50,7 +50,7 @@
                   </div>
                   <div class="produceCreatDate">
                     <div class="label">
-                      生成日期：
+                      生产日期：
                     </div>
                     <div class="value" style="display: inline-block;width: 115px;">
                       {{lineData.productionDate}}
@@ -84,7 +84,7 @@
                     </div>
                   </div>
                   <div class="produceCreatDate">
-                    <div class="label">生成日期：</div>
+                    <div class="label">生产日期：</div>
                     <div class="value" style="display: inline-block;width: 115px;">
                       {{lineData.productionDate}}
                     </div>
@@ -122,7 +122,7 @@
                   </span>
             </div>
             <div class="previewCreatDate">
-              <span class="label2">生成日期：</span>
+              <span class="label2">生产日期：</span>
               <span class="value2" style="display: inline-block;width: 140px;">
                    {{lineData.productionDate}}
                   </span>
