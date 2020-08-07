@@ -61,7 +61,7 @@
           </a-col>
           <a-col :span="12" class="detail-item">
             <span class="item-key">菌包数量：</span>
-            <span class="item-value">{{ detail.seedValue.seedName }}</span>
+            <span class="item-value">{{ detail.seedValue.seedNum }}</span>
           </a-col>
         </a-row>
       </div>
